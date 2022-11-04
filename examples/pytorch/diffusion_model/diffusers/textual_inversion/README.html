@@ -92,20 +92,19 @@ The <code class="docutils literal notranslate"><span class="pre">textual_inversi
 </pre></div>
 </div>
 <p>If you have already cloned the repo, then you won’t need to go through these steps.</p>
-<br><p>Now let’s get our dataset. We just use one picture of nezha which is a screen shot from the <code class="docutils literal notranslate"><span class="pre">52'51</span></code> of the <code class="docutils literal notranslate"><span class="pre">Nezha:</span> <span class="pre">Birth</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Demon</span> <span class="pre">Child</span></code> movie, and save it to the <code class="docutils literal notranslate"><span class="pre">./nezha</span></code> directory. The picture show below:</p>
-<p><img alt="nezha" src="../../../../../_images/1.jpg" /></p>
-<div class="section" id="finetune-with-cpu-using-ipex">
+<br><p>Now let’s get our dataset. We just use one picture which is from the huggingface datasets <a class="reference external" href="https://huggingface.co/sd-concepts-library/youtooz-candy">sd-concepts-library/youtooz-candy</a>, and save it to the <code class="docutils literal notranslate"><span class="pre">./youtooz_candy</span></code> directory. The picture show below:</p>
+<img src="./youtooz_candy/1.jpeg" width = "200" height = "200" alt="youtooz-candy" align=center /><div class="section" id="finetune-with-cpu-using-ipex">
 <h3>finetune with CPU using IPEX<a class="headerlink" href="#finetune-with-cpu-using-ipex" title="Permalink to this headline">¶</a></h3>
 <p>The following script shows how to use CPU with BF16</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">MODEL_NAME</span><span class="o">=</span><span class="s2">&quot;CompVis/stable-diffusion-v1-4&quot;</span>
-<span class="nb">export</span> <span class="nv">DATA_DIR</span><span class="o">=</span><span class="s2">&quot;./nezha&quot;</span>
+<span class="nb">export</span> <span class="nv">DATA_DIR</span><span class="o">=</span><span class="s2">&quot;./youtooz_candy&quot;</span>
 
 <span class="c1"># add use_bf16</span>
 python textual_inversion_ipex.py <span class="se">\</span>
   --pretrained_model_name_or_path<span class="o">=</span><span class="nv">$MODEL_NAME</span> <span class="se">\</span>
   --train_data_dir<span class="o">=</span><span class="nv">$DATA_DIR</span> <span class="se">\</span>
   --learnable_property<span class="o">=</span><span class="s2">&quot;object&quot;</span> <span class="se">\</span>
-  --placeholder_token<span class="o">=</span><span class="s2">&quot;nezha&quot;</span> --initializer_token<span class="o">=</span><span class="s2">&quot;cartoon&quot;</span> <span class="se">\</span>
+  --placeholder_token<span class="o">=</span><span class="s2">&quot;youtooz_candy&quot;</span> --initializer_token<span class="o">=</span><span class="s2">&quot;toy&quot;</span> <span class="se">\</span>
   --resolution<span class="o">=</span><span class="m">512</span> <span class="se">\</span>
   --train_batch_size<span class="o">=</span><span class="m">1</span> <span class="se">\</span>
   --gradient_accumulation_steps<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
@@ -114,7 +113,7 @@ python textual_inversion_ipex.py <span class="se">\</span>
   --learning_rate<span class="o">=</span><span class="m">5</span>.0e-04 --scale_lr <span class="se">\</span>
   --lr_scheduler<span class="o">=</span><span class="s2">&quot;constant&quot;</span> <span class="se">\</span>
   --lr_warmup_steps<span class="o">=</span><span class="m">0</span> <span class="se">\</span>
-  --output_dir<span class="o">=</span><span class="s2">&quot;nezha_output&quot;</span>
+  --output_dir<span class="o">=</span><span class="s2">&quot;youtooz_candy_model&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -126,13 +125,13 @@ python textual_inversion_ipex.py <span class="se">\</span>
 </div>
 <p>And launch the training using</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">MODEL_NAME</span><span class="o">=</span><span class="s2">&quot;CompVis/stable-diffusion-v1-4&quot;</span>
-<span class="nb">export</span> <span class="nv">DATA_DIR</span><span class="o">=</span><span class="s2">&quot;./nezha&quot;</span>
+<span class="nb">export</span> <span class="nv">DATA_DIR</span><span class="o">=</span><span class="s2">&quot;./youtooz_candy&quot;</span>
 
 accelerate launch textual_inversion.py <span class="se">\</span>
   --pretrained_model_name_or_path<span class="o">=</span><span class="nv">$MODEL_NAME</span> <span class="se">\</span>
   --train_data_dir<span class="o">=</span><span class="nv">$DATA_DIR</span> <span class="se">\</span>
   --learnable_property<span class="o">=</span><span class="s2">&quot;object&quot;</span> <span class="se">\</span>
-  --placeholder_token<span class="o">=</span><span class="s2">&quot;nezha&quot;</span> --initializer_token<span class="o">=</span><span class="s2">&quot;cartoon&quot;</span> <span class="se">\</span>
+  --placeholder_token<span class="o">=</span><span class="s2">&quot;youtooz_candy&quot;</span> --initializer_token<span class="o">=</span><span class="s2">&quot;toy&quot;</span> <span class="se">\</span>
   --resolution<span class="o">=</span><span class="m">512</span> <span class="se">\</span>
   --train_batch_size<span class="o">=</span><span class="m">1</span> <span class="se">\</span>
   --gradient_accumulation_steps<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
@@ -140,7 +139,7 @@ accelerate launch textual_inversion.py <span class="se">\</span>
   --learning_rate<span class="o">=</span><span class="m">5</span>.0e-04 --scale_lr <span class="se">\</span>
   --lr_scheduler<span class="o">=</span><span class="s2">&quot;constant&quot;</span> <span class="se">\</span>
   --lr_warmup_steps<span class="o">=</span><span class="m">0</span> <span class="se">\</span>
-  --output_dir<span class="o">=</span><span class="s2">&quot;nezha_output&quot;</span>
+  --output_dir<span class="o">=</span><span class="s2">&quot;youtooz_candy_model&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -151,7 +150,7 @@ accelerate launch textual_inversion.py <span class="se">\</span>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">diffusers</span> <span class="kn">import</span> <span class="n">StableDiffusionPipeline</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 
-<span class="n">model_id</span> <span class="o">=</span> <span class="s2">&quot;nezha_output&quot;</span>
+<span class="n">model_id</span> <span class="o">=</span> <span class="s2">&quot;youtooz_candy_model&quot;</span>
 
 <span class="c1"># use cpu (FP32 by default; low precision coming soon)</span>
 <span class="n">pipe</span> <span class="o">=</span> <span class="n">StableDiffusionPipeline</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
@@ -159,16 +158,15 @@ accelerate launch textual_inversion.py <span class="se">\</span>
 <span class="c1"># use gpu</span>
 <span class="c1">#pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16).to(&quot;cuda&quot;)</span>
 
-<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;a graffiti in a wall with a nezha on it&quot;</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;a graffiti in a wall with a youtooz_candy on it&quot;</span>
 
 <span class="n">image</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">num_inference_steps</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">guidance_scale</span><span class="o">=</span><span class="mf">7.5</span><span class="p">)</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./graffiti.png&quot;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./generated_images/graffiti.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Here is a sample image generated by the fine-tuned model:</p>
-<p><img alt="nezha" src="../../../../../_images/graffiti.png" /></p>
-</div>
+<img src="./generated_images/graffiti.png" width = "200" height = "200" alt="youtooz-candy" align=center /></div>
 </div>
 
 
