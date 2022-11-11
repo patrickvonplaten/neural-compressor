@@ -386,7 +386,7 @@ Choose the checkpoint where the corresponding dataset is most similar (or identi
 </div>
 <div class="section" id="initialization">
 <h3>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h3>
-<p>We use <a class="reference external" href="https://github.com/intel/neural-compressor/blob/71b056b53015e05b7ab9289d31edaf4200dca628/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/seq2seq-distillation/make_student.py">make_student.py</a> to copy alternating layers from the teacher, and save the resulting model to disk</p>
+<p>We use <a class="reference external" href="https://github.com/intel/neural-compressor/blob/ffa9a39cbc19da60a1ff71c88eb57759bcc3e4fa/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/seq2seq-distillation/make_student.py">make_student.py</a> to copy alternating layers from the teacher, and save the resulting model to disk</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python make_student.py facebook/bart-large-xsum --save_path dbart_xsum_12_3  -e <span class="m">12</span> -d <span class="m">3</span>
 </pre></div>
 </div>
@@ -482,9 +482,9 @@ cp xsum/test* all_pl
 <ul class="simple">
 <li><p>In this method, we use try to enforce that the student and teacher produce similar encoder_outputs, logits, and hidden_states using <code class="docutils literal notranslate"><span class="pre">SummarizationDistiller</span></code>.</p></li>
 <li><p>This method was used for <code class="docutils literal notranslate"><span class="pre">sshleifer/distilbart-xsum-12-6</span></code>, <code class="docutils literal notranslate"><span class="pre">6-6</span></code>, and <code class="docutils literal notranslate"><span class="pre">9-6</span></code> checkpoints were produced.</p></li>
-<li><p>You must use <a class="reference external" href="https://github.com/intel/neural-compressor/blob/71b056b53015e05b7ab9289d31edaf4200dca628/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/seq2seq-distillation/distillation.py"><code class="docutils literal notranslate"><span class="pre">distillation.py</span></code></a>. Note that this command initializes the student for you.</p></li>
+<li><p>You must use <a class="reference external" href="https://github.com/intel/neural-compressor/blob/ffa9a39cbc19da60a1ff71c88eb57759bcc3e4fa/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/seq2seq-distillation/distillation.py"><code class="docutils literal notranslate"><span class="pre">distillation.py</span></code></a>. Note that this command initializes the student for you.</p></li>
 </ul>
-<p>The command that produced <code class="docutils literal notranslate"><span class="pre">sshleifer/distilbart-xsum-12-6</span></code> is at <a class="reference external" href="https://github.com/intel/neural-compressor/blob/71b056b53015e05b7ab9289d31edaf4200dca628/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/seq2seq-distillation/train_distilbart_xsum.sh">./train_distilbart_xsum.sh</a></p>
+<p>The command that produced <code class="docutils literal notranslate"><span class="pre">sshleifer/distilbart-xsum-12-6</span></code> is at <a class="reference external" href="https://github.com/intel/neural-compressor/blob/ffa9a39cbc19da60a1ff71c88eb57759bcc3e4fa/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/seq2seq-distillation/train_distilbart_xsum.sh">./train_distilbart_xsum.sh</a></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./train_distilbart_xsum.sh --logger_name wandb --gpus <span class="m">1</span>
 </pre></div>
 </div>
