@@ -47,9 +47,9 @@
 <li class="toctree-l3"><a class="reference internal" href="transform.html">Transform</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dataset.html">Dataset</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Metrics</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#how-to-use-metrics">How to use Metrics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#multi-metrics-support">Multi-metrics support</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#built-in-metric-support-list">Built-in metric support list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#supported-built-in-metric-matrix">Supported Built-in Metric Matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-start-with-metrics">Get Start with Metrics</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference external" href="https://software.intel.com/content/www/us/en/develop/documentation/get-started-with-ai-linux/top.html">Intel oneAPI AI Analytics Toolkit Get Started Guide</a></li>
@@ -93,87 +93,26 @@
              
   <div class="section" id="metrics">
 <h1>Metrics<a class="headerlink" href="#metrics" title="Permalink to this headline">¶</a></h1>
-<p>In terms of evaluating the performance of a specific model, we should have general metrics to measure the performance of different models. Different frameworks always have their own Metric module but with different features and APIs. Neural Compressor Metrics supports code-free configuration through a yaml file, with built-in metrics, so that Neural Compressor can achieve performance and accuracy without code changes from the user. In special cases, users can also register their own metric classes through below method.</p>
-<div class="section" id="how-to-use-metrics">
-<h2>How to use Metrics<a class="headerlink" href="#how-to-use-metrics" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="config-built-in-metric-in-a-yaml-file">
-<h3>Config built-in metric in a yaml file<a class="headerlink" href="#config-built-in-metric-in-a-yaml-file" title="Permalink to this headline">¶</a></h3>
-<p>Users can specify an Neural Compressor built-in metric such as shown below:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span>
-  <span class="nt">accuracy</span><span class="p">:</span>
-    <span class="nt">metric</span><span class="p">:</span>
-      <span class="nt">topk</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="config-custom-metric-in-code">
-<h3>Config custom metric in code<a class="headerlink" href="#config-custom-metric-in-code" title="Permalink to this headline">¶</a></h3>
-<p>Users can also register their own metric as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Metric</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># init code here</span>
-
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
-        <span class="c1"># add preds and labels to storage</span>
-
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># clear preds and labels storage</span>
-
-    <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># calculate accuracy</span>
-        <span class="k">return</span> <span class="n">accuracy</span>
-</pre></div>
-</div>
-<p>The result() function returns a higher-is-better scalar to reflect model accuracy on an evaluation dataset.</p>
-<p>After defining the metric class, users can initialize it and pass it to quantizer:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-<span class="kn">from</span> <span class="nn">neural_compressor.quantization</span> <span class="kn">import</span> <span class="n">Quantization</span>
-<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">)</span>
-<span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">graph</span>
-<span class="n">quantizer</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">NewMetric</span><span class="p">()</span>
-<span class="n">quantizer</span><span class="o">.</span><span class="n">calib_dataloader</span> <span class="o">=</span> <span class="n">dataloader</span>
-<span class="n">q_model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="multi-metrics-support">
-<h2>Multi-metrics support<a class="headerlink" href="#multi-metrics-support" title="Permalink to this headline">¶</a></h2>
-<p>In some cases, users want to use more than one metric to evaluate the performance of a specific model and they can realize it with multi_metrics of Neural Compressor. Currently multi_metrics supports built-in metrics.</p>
-<div class="section" id="usage">
-<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
-<p>There are two usages for multi_metrics of Neural Compressor:</p>
-<ol class="simple">
-<li><p>Evaluate performance of a model with metrics one by one</p></li>
+<ol>
+<li><p><a class="reference external" href="#introduction">Introduction</a></p></li>
+<li><p><a class="reference external" href="#supported-built-in-metric-matrix">Supported Built-in Metric Matrix</a></p>
+<p>2.1. <a class="reference external" href="#tensorflow">TensorFlow</a></p>
+<p>2.2. <a class="reference external" href="#pytorch">PyTorch</a></p>
+<p>2.3. <a class="reference external" href="#mxnet">MxNet</a></p>
+<p>2.4. <a class="reference external" href="#onnxrt">ONNXRT</a></p>
+</li>
+<li><p><a class="reference external" href="#get-start-with-metrics">Get Start with Metrics</a></p>
+<p>3.1. <a class="reference external" href="#support-single-metric-and-multi-metrics">Support Single-metric and Multi-metrics</a></p>
+<p>3.2. <a class="reference external" href="#build-custom-metric-with-python-api">Build Custom Metric with Python API</a></p>
+</li>
 </ol>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span>
-  <span class="nt">accuracy</span><span class="p">:</span>
-    <span class="nt">multi_metrics</span><span class="p">:</span>
-      <span class="nt">topk</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
-      <span class="nt">MSE</span><span class="p">:</span>
-        <span class="nt">compare_label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
-      <span class="nt">higher_is_better</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span> <span class="nv">False</span><span class="p p-Indicator">]</span> <span class="c1"># length of higher_is_better should be equal to num of metric, default is True</span>
-</pre></div>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>In terms of evaluating the performance of a specific model, we should have general metrics to measure the performance of different models. Different frameworks always have their own Metric module but with different APIs and parameters. Neural Compressor Metrics supports code-free configuration through a yaml file, with built-in metrics, so that Neural Compressor can achieve performance and accuracy without code changes from the user. In special cases, users can also register their own metric classes through <a class="reference external" href="#build-custom-metric-in-code">building custom metric in code</a>.</p>
 </div>
-<ol class="simple">
-<li><p>Evaluate performance of a model with weighted metric results</p></li>
-</ol>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span>
-  <span class="nt">accuracy</span><span class="p">:</span>
-    <span class="nt">multi_metrics</span><span class="p">:</span>
-      <span class="nt">topk</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
-      <span class="nt">MSE</span><span class="p">:</span>
-        <span class="nt">compare_label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
-      <span class="nt">weight</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.5</span><span class="p p-Indicator">,</span> <span class="nv">0.5</span><span class="p p-Indicator">]</span> <span class="c1"># length of weight should be equal to num of metric</span>
-      <span class="nt">higher_is_better</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span> <span class="nv">False</span><span class="p p-Indicator">]</span> <span class="c1"># length of higher_is_better should be equal to num of metric, default is True</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="built-in-metric-support-list">
-<h2>Built-in metric support list<a class="headerlink" href="#built-in-metric-support-list" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="supported-built-in-metric-matrix">
+<h2>Supported Built-in Metric Matrix<a class="headerlink" href="#supported-built-in-metric-matrix" title="Permalink to this headline">¶</a></h2>
 <p>Neural Compressor supports some built-in metrics that are popularly used in industry.</p>
-<p>Refer to <a class="reference external" href="https://github.com/intel/neural-compressor/tree/ffa9a39cbc19da60a1ff71c88eb57759bcc3e4fa/examples/helloworld/tf_example1">this HelloWorld example</a> on how to config a built-in metric.</p>
 <div class="section" id="tensorflow">
 <h3>TensorFlow<a class="headerlink" href="#tensorflow" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="docutils">
@@ -507,6 +446,76 @@
 </tr>
 </tbody>
 </table></div>
+</div>
+<div class="section" id="get-start-with-metrics">
+<h2>Get Start with Metrics<a class="headerlink" href="#get-start-with-metrics" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="support-single-metric-and-multi-metrics">
+<h3>Support Single-metric and Multi-metrics<a class="headerlink" href="#support-single-metric-and-multi-metrics" title="Permalink to this headline">¶</a></h3>
+<p>Users can specify an Neural Compressor built-in metric such as shown below:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span>
+  <span class="nt">accuracy</span><span class="p">:</span>
+    <span class="nt">metric</span><span class="p">:</span>
+      <span class="nt">topk</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+</div>
+<p>In some cases, users want to use more than one metric to evaluate the performance of a specific model and they can realize it with multi_metrics of Neural Compressor. Currently multi_metrics supports built-in metrics.</p>
+<p>There are two usages for multi_metrics of Neural Compressor:</p>
+<ol class="simple">
+<li><p>Evaluate performance of a model with metrics one by one</p></li>
+</ol>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span>
+  <span class="nt">accuracy</span><span class="p">:</span>
+    <span class="nt">multi_metrics</span><span class="p">:</span>
+      <span class="nt">topk</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+      <span class="nt">MSE</span><span class="p">:</span>
+        <span class="nt">compare_label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+      <span class="nt">higher_is_better</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span> <span class="nv">False</span><span class="p p-Indicator">]</span> <span class="c1"># length of higher_is_better should be equal to num of metric, default is True</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Evaluate performance of a model with weighted metric results</p></li>
+</ol>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span>
+  <span class="nt">accuracy</span><span class="p">:</span>
+    <span class="nt">multi_metrics</span><span class="p">:</span>
+      <span class="nt">topk</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+      <span class="nt">MSE</span><span class="p">:</span>
+        <span class="nt">compare_label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+      <span class="nt">weight</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.5</span><span class="p p-Indicator">,</span> <span class="nv">0.5</span><span class="p p-Indicator">]</span> <span class="c1"># length of weight should be equal to num of metric</span>
+      <span class="nt">higher_is_better</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span> <span class="nv">False</span><span class="p p-Indicator">]</span> <span class="c1"># length of higher_is_better should be equal to num of metric, default is True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="build-custom-metric-with-python-api">
+<h3>Build Custom Metric with Python API<a class="headerlink" href="#build-custom-metric-with-python-api" title="Permalink to this headline">¶</a></h3>
+<p>Please refer to <a class="reference external" href="https://github.com/intel/neural-compressor/tree/84fc7f322a36d55e134070df1e0a986eab9680d8/docs/../neural_compressor/experimental/metric">Metrics code</a>, users can also register their own metric as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NewMetric</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># init code here</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="c1"># add preds and labels to storage</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># clear preds and labels storage</span>
+
+    <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># calculate accuracy</span>
+        <span class="k">return</span> <span class="n">accuracy</span>
+</pre></div>
+</div>
+<p>The result() function returns a higher-is-better scalar to reflect model accuracy on an evaluation dataset.</p>
+<p>After defining the metric class, users can initialize it and pass it to quantizer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">from</span> <span class="nn">neural_compressor.quantization</span> <span class="kn">import</span> <span class="n">Quantization</span>
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">)</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">graph</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">NewMetric</span><span class="p">()</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">calib_dataloader</span> <span class="o">=</span> <span class="n">dataloader</span>
+<span class="n">q_model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 

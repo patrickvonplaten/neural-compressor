@@ -120,7 +120,7 @@ tuning phase stops when the <code class="docutils literal notranslate"><span cla
 </div>
 <div class="section" id="configurations">
 <h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
-<p>Detailed configuration templates can be found <a class="reference external" href="https://github.com/intel/neural-compressor/tree/ffa9a39cbc19da60a1ff71c88eb57759bcc3e4fa/docs/../neural_compressor/template">here</a>.</p>
+<p>Detailed configuration templates can be found <a class="reference external" href="https://github.com/intel/neural-compressor/tree/84fc7f322a36d55e134070df1e0a986eab9680d8/docs/../neural_compressor/template">here</a>.</p>
 <div class="section" id="model-specific-configurations">
 <h3>Model-specific configurations<a class="headerlink" href="#model-specific-configurations" title="Permalink to this headline">¶</a></h3>
 <p>For model-specific configurations, users can set the quantization approach.
@@ -434,7 +434,7 @@ and registering this strategy by <code class="docutils literal notranslate"><spa
 <p>The <code class="docutils literal notranslate"><span class="pre">next_tune_cfg</span></code> function is used to yield the next tune configuration according to some algorithm or strategy. <code class="docutils literal notranslate"><span class="pre">TuneStrategy</span></code> base class will traverse
 all the tuning space till a quantization configuration meets pre-defined accuracy criterion.</p>
 <p>If the traverse behavior of <code class="docutils literal notranslate"><span class="pre">TuneStrategy</span></code> base class does not meet new strategy requirement, it could re-implement <code class="docutils literal notranslate"><span class="pre">traverse</span></code> function with self own logic.
-An example like this is under <a class="reference external" href="https://github.com/intel/neural-compressor/blob/ffa9a39cbc19da60a1ff71c88eb57759bcc3e4fa/docs/../neural_compressor/strategy/strategy.py">TPE Strategy</a>.</p>
+An example like this is under <a class="reference external" href="https://github.com/intel/neural-compressor/blob/84fc7f322a36d55e134070df1e0a986eab9680d8/docs/../neural_compressor/strategy/strategy.py">TPE Strategy</a>.</p>
 </div>
 </div>
 

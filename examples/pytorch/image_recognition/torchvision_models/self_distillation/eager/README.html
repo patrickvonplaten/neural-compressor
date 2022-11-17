@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prepare requirements &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../" src="../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Prepare requirements</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../_sources/examples/pytorch/image_recognition/torchvision_models/self_distillation/eager/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p>Details <strong>TBD</strong></p>
+<div class="section" id="prepare-requirements">
+<h1>Prepare requirements<a class="headerlink" href="#prepare-requirements" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-self-distillation">
+<h1>Run self distillation<a class="headerlink" href="#run-self-distillation" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash run_distillation.sh --topology<span class="o">=(</span>resnet18<span class="p">|</span>resnet34<span class="p">|</span>resnet50<span class="p">|</span>resnet101<span class="o">)</span> --config<span class="o">=</span>conf.yaml --output_model<span class="o">=</span>path/to/output_model --dataset_location<span class="o">=</span>path/to/dataset --use_cpu<span class="o">=(</span><span class="m">0</span><span class="p">|</span><span class="m">1</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cifar100-benchmark">
+<h1>CIFAR100 benchmark<a class="headerlink" href="#cifar100-benchmark" title="Permalink to this headline">¶</a></h1>
+<p>https://github.com/weiaicunzai/pytorch-cifar100</p>
+</div>
+<div class="section" id="paper">
+<h1>Paper:<a class="headerlink" href="#paper" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://openaccess.thecvf.com/content_ICCV_2019/html/Zhang_Be_Your_Own_Teacher_Improve_the_Performance_of_Convolutional_Neural_ICCV_2019_paper.html">Be Your Own Teacher: Improve the Performance of Convolutional Neural Networks via Self Distillation</a></p>
+<p><a class="reference external" href="https://ieeexplore.ieee.org/document/9381661">Self-Distillation: Towards Efficient and Compact Neural Networks</a></p>
+</div>
+<div class="section" id="our-results-in-cifar100">
+<h1>Our results in CIFAR100<a class="headerlink" href="#our-results-in-cifar100" title="Permalink to this headline">¶</a></h1>
+<p>| model    | Baseline | Classifier1 | Classifier2 | Classifier3 | Classifier4 | Ensemble |
+| :——: | :——-:| :———: | :———: | :———: | :———: | :——: |
+| Resnet50 |  80.88   |    82.06    |   83.64     |    83.85    |    83.41    |  85.10   |</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -187,7 +187,7 @@ python distill.py --loss_weights <span class="m">0</span>.1 <span class="m">0</s
 <li><p>Add QuantStub and DeQuantStub for all quantizable ops.</p></li>
 <li><p>Fuse possible patterns, such as Conv + Relu and Conv + BN + Relu.</p></li>
 </ol>
-<p>It’s intrinsic limitation of PyTorch quantization imperative path. No way to develop a code to automatically do that.(Please refer <a class="reference external" href="https://github.com/intel/neural-compressor/blob/ffa9a39cbc19da60a1ff71c88eb57759bcc3e4fa/examples/pytorch/nlp/blendcnn/quantization/ptq/eager/./models.py">sample code</a>)</p>
+<p>It’s intrinsic limitation of PyTorch quantization imperative path. No way to develop a code to automatically do that.(Please refer <a class="reference external" href="https://github.com/intel/neural-compressor/blob/84fc7f322a36d55e134070df1e0a986eab9680d8/examples/pytorch/nlp/blendcnn/quantization/ptq/eager/./models.py">sample code</a>)</p>
 </div>
 <div class="section" id="code-update">
 <h3>code update<a class="headerlink" href="#code-update" title="Permalink to this headline">¶</a></h3>
@@ -201,7 +201,7 @@ python distill.py --loss_weights <span class="m">0</span>.1 <span class="m">0</s
 <span class="n">q_model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The quantizer.fit() function will return a best quantized model during timeout constrain.(Please refer <a class="reference external" href="https://github.com/intel/neural-compressor/blob/ffa9a39cbc19da60a1ff71c88eb57759bcc3e4fa/examples/pytorch/nlp/blendcnn/quantization/ptq/eager/./classify.py">sample code</a>)</p>
+<p>The quantizer.fit() function will return a best quantized model during timeout constrain.(Please refer <a class="reference external" href="https://github.com/intel/neural-compressor/blob/84fc7f322a36d55e134070df1e0a986eab9680d8/examples/pytorch/nlp/blendcnn/quantization/ptq/eager/./classify.py">sample code</a>)</p>
 </div>
 </div>
 </div>
