@@ -227,8 +227,24 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" class="pytorch-article">
               
-  <div class="section" id="module-neural_compressor.experimental.nas">
-<span id="nas"></span><h1>NAS<a class="headerlink" href="#module-neural_compressor.experimental.nas" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="nas">
+<h1>NAS<a class="headerlink" href="#nas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="package-contents">
+<h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../autoapi/neural_compressor/experimental/nas/nas/index.html#module-neural_compressor.experimental.nas.nas" title="neural_compressor.experimental.nas.nas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nas</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -243,172 +259,6 @@
 </tr>
 </tbody>
 </table>
-<div class="section" id="package-contents">
-<h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.BasicNAS" title="neural_compressor.experimental.nas.BasicNAS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BasicNAS</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param conf_fname</dt>
-<dd class="field-odd"><p>The path to the YAML configuration file.</p>
-</dd>
-</dl>
-</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS" title="neural_compressor.experimental.nas.DyNAS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DyNAS</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param conf_fname_or_obj</dt>
-<dd class="field-odd"><p>The path to the YAML configuration file or the object of NASConfig.</p>
-</dd>
-</dl>
-</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.NAS" title="neural_compressor.experimental.nas.NAS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NAS</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py class">
-<dt id="neural_compressor.experimental.nas.BasicNAS">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.</span></code><code class="sig-name descname"><span class="pre">BasicNAS</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_builder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.BasicNAS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../../../autoapi/neural_compressor/experimental/nas/nas/index.html#neural_compressor.experimental.nas.nas.NASBase" title="neural_compressor.experimental.nas.nas.NASBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.nas.NASBase</span></code></a>, <a class="reference internal" href="../../../autoapi/neural_compressor/experimental/component/index.html#neural_compressor.experimental.component.Component" title="neural_compressor.experimental.component.Component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.experimental.component.Component</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>conf_fname</strong> (<em>string</em>) – The path to the YAML configuration file.</p></li>
-<li><p><strong>search_space</strong> (<em>dict</em>) – A dictionary for defining the search space.</p></li>
-<li><p><strong>model_builder</strong> (<em>function obj</em>) – A function to build model instance with the specified
-model architecture parameters.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.BasicNAS.execute">
-<code class="sig-name descname"><span class="pre">execute</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.BasicNAS.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the dataloader and train/eval functions from yaml config.
-Component base class provides default function to initialize dataloaders and functions
-from user config. And for derived classes(Pruning, Quantization, etc.), an override
-function is required.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.BasicNAS.estimate">
-<code class="sig-name descname"><span class="pre">estimate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.BasicNAS.estimate" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Estimate performance of the model.</dt><dd><p>Depends on specific NAS algorithm. Here we use train and evaluate.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Evaluated metrics of the model.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.BasicNAS.init_by_cfg">
-<code class="sig-name descname"><span class="pre">init_by_cfg</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.BasicNAS.init_by_cfg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.BasicNAS.pre_process">
-<code class="sig-name descname"><span class="pre">pre_process</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.BasicNAS.pre_process" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the dataloader and train/eval functions from yaml config.
-Component base class provides default function to initialize dataloaders and functions
-from user config. And for derived classes(Pruning, Quantization, etc.), an override
-function is required.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.BasicNAS.__repr__">
-<code class="sig-name descname"><span class="pre">__repr__</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.BasicNAS.__repr__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return repr(self).</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="neural_compressor.experimental.nas.DyNAS">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.</span></code><code class="sig-name descname"><span class="pre">DyNAS</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.DyNAS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../../../autoapi/neural_compressor/experimental/nas/nas/index.html#neural_compressor.experimental.nas.nas.NASBase" title="neural_compressor.experimental.nas.nas.NASBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.nas.NASBase</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>conf_fname_or_obj</strong> (<em>string</em><em> or </em><em>obj</em>) – The path to the YAML configuration file or the object of NASConfig.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.DyNAS.estimate">
-<code class="sig-name descname"><span class="pre">estimate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">individual</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.DyNAS.estimate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimate performance of the model. Depends on specific NAS algorithm.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Evaluated metrics of the model.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.DyNAS.init_for_search">
-<code class="sig-name descname"><span class="pre">init_for_search</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.DyNAS.init_for_search" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.DyNAS.search">
-<code class="sig-name descname"><span class="pre">search</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.DyNAS.search" title="Permalink to this definition">¶</a></dt>
-<dd><p>NAS search process.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Best model architecture found in search process.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.DyNAS.select_model_arch">
-<code class="sig-name descname"><span class="pre">select_model_arch</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.DyNAS.select_model_arch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Propose architecture of the model based on search algorithm for next search iteration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Model architecture description.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.DyNAS.create_acc_predictor">
-<code class="sig-name descname"><span class="pre">create_acc_predictor</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.DyNAS.create_acc_predictor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.DyNAS.create_macs_predictor">
-<code class="sig-name descname"><span class="pre">create_macs_predictor</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.DyNAS.create_macs_predictor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.DyNAS.create_latency_predictor">
-<code class="sig-name descname"><span class="pre">create_latency_predictor</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.DyNAS.create_latency_predictor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="neural_compressor.experimental.nas.DyNAS.init_cfg">
-<code class="sig-name descname"><span class="pre">init_cfg</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.DyNAS.init_cfg" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="neural_compressor.experimental.nas.NAS">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.</span></code><code class="sig-name descname"><span class="pre">NAS</span></code><a class="headerlink" href="#neural_compressor.experimental.nas.NAS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-</div>
 </div>
 </div>
 
@@ -448,32 +298,8 @@ function is required.</p>
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#">NAS</a><ul>
-<li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a><ul>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.BasicNAS">BasicNAS</a><ul>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.BasicNAS.execute">execute</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.BasicNAS.estimate">estimate</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.BasicNAS.init_by_cfg">init_by_cfg</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.BasicNAS.pre_process">pre_process</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.BasicNAS.__repr__">__repr__</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS">DyNAS</a><ul>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS.estimate">estimate</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS.init_for_search">init_for_search</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS.search">search</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS.select_model_arch">select_model_arch</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS.create_acc_predictor">create_acc_predictor</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS.create_macs_predictor">create_macs_predictor</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS.create_latency_predictor">create_latency_predictor</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.DyNAS.init_cfg">init_cfg</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#neural_compressor.experimental.nas.NAS">NAS</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#package-contents">Package Contents</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
 </ul>
 </li>
 </ul>
