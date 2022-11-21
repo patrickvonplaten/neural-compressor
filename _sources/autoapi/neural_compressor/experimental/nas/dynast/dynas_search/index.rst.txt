@@ -1,0 +1,56 @@
+:orphan:
+
+:py:mod:`neural_compressor.experimental.nas.dynast.dynas_search`
+================================================================
+
+.. py:module:: neural_compressor.experimental.nas.dynast.dynas_search
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager
+   neural_compressor.experimental.nas.dynast.dynas_search.ProblemMultiObjective
+
+
+
+
+.. py:class:: SearchAlgoManager(algorithm: str = 'nsga2', seed: int = 0, verbose: bool = False, engine: str = 'pymoo')
+
+   Manages the search parameters for the DyNAS-T single/multi-objective search.
+
+   :param algorithm: string
+                     Define a multi-objective search algorithm.
+   :param seed: int
+                Seed value for pymoo search.
+   :param verbose: Boolean
+                   Verbosity option
+   :param engine: string
+                  Support different engine types (e.g. pymoo, optuna, etc.)
+
+   .. py:method:: run_search(problem: pymoo.core.problem.Problem, save_history=False) -> pymoo.core.result.Result
+
+      Starts the search process for the algorithm and problem class that have
+      been previously defined.
+
+
+
+.. py:class:: ProblemMultiObjective(evaluation_interface: neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface, param_count: int, param_upperbound: list)
+
+   Bases: :py:obj:`pymoo.core.problem.Problem`
+
+   Interface between the user-defined evaluation interface and the SearchAlgoManager.
+
+   :param evaluation_interface: Class
+                                Class that handles the objective measurement call from the supernet.
+   :param param_count: int
+                       Number variables in the search space (e.g., OFA MobileNetV3 has 45)
+   :param param_upperbound: array
+                            The upper int array that defines how many options each design variable has.
+
+

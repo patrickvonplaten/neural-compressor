@@ -1,0 +1,40 @@
+:orphan:
+
+:py:mod:`neural_compressor.experimental.data.filters.coco_filter`
+=================================================================
+
+.. py:module:: neural_compressor.experimental.data.filters.coco_filter
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.experimental.data.filters.coco_filter.LabelBalanceCOCORecordFilter
+   neural_compressor.experimental.data.filters.coco_filter.LabelBalanceCOCORawFilter
+
+
+
+
+.. py:class:: LabelBalanceCOCORecordFilter(size=1)
+
+   Bases: :py:obj:`neural_compressor.experimental.data.filters.filter.Filter`
+
+   The base class for transform. __call__ method is needed when write user specific transform
+
+
+
+
+.. py:class:: LabelBalanceCOCORawFilter(size=1)
+
+   Bases: :py:obj:`neural_compressor.experimental.data.filters.filter.Filter`
+
+   The base class for transform. __call__ method is needed when write user specific transform
+
+
+
+

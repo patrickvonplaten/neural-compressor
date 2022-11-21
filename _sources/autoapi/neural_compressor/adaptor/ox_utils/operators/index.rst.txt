@@ -1,0 +1,12 @@
+:orphan:
+
+:py:mod:`neural_compressor.adaptor.ox_utils.operators`
+======================================================
+
+.. py:module:: neural_compressor.adaptor.ox_utils.operators
+
+
+Package Contents
+----------------
+
+

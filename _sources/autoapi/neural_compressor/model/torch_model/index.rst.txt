@@ -1,0 +1,193 @@
+:orphan:
+
+:py:mod:`neural_compressor.model.torch_model`
+=============================================
+
+.. py:module:: neural_compressor.model.torch_model
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.model.torch_model.PyTorchBaseModel
+   neural_compressor.model.torch_model.PyTorchModel
+   neural_compressor.model.torch_model.PyTorchFXModel
+   neural_compressor.model.torch_model.PyTorchIpexModel
+
+
+
+
+.. py:class:: PyTorchBaseModel(model, **kwargs)
+
+   Bases: :py:obj:`torch`, :py:obj:`neural_compressor.model.base_model.BaseModel`
+
+   base class of all neural_compressor.model, will play graph role
+
+   .. py:property:: model
+
+      Getter to model
+
+   .. py:method:: framework()
+
+      abstract method of model framework
+
+
+   .. py:method:: get_all_weight_names()
+
+      Get weight names
+
+      Args:
+
+      :returns: list of weight names
+      :rtype: names (list)
+
+
+   .. py:method:: get_weight(tensor_name)
+
+      Get weight value
+
+      :param tensor_name: weight name
+      :type tensor_name: string
+
+      :returns: weight tensor
+      :rtype: (tensor)
+
+
+   .. py:method:: update_weights(tensor_name, new_tensor)
+
+      Update weight value
+
+      :param tensor_name: weight name
+      :type tensor_name: string
+      :param new_tensor: weight value
+      :type new_tensor: ndarray
+
+      Returns:
+
+
+
+   .. py:method:: update_gradient(grad_name, new_grad)
+
+      Update grad value
+
+      :param grad_name: grad name
+      :type grad_name: string
+      :param new_grad: grad value
+      :type new_grad: ndarray
+
+      Returns:
+
+
+
+   .. py:method:: prune_weights_(tensor_name, mask)
+
+      Prune weight in place according to tensor_name with mask
+
+      :param tensor_name: weight name
+      :type tensor_name: string
+      :param mask: pruning mask
+      :type mask: tensor
+
+      Returns:
+
+
+
+   .. py:method:: get_inputs(input_name=None)
+
+      Get inputs of model
+
+      :param input_name: name of input tensor
+
+      :returns: input tensor
+      :rtype: tensor
+
+
+   .. py:method:: get_gradient(input_tensor)
+
+      Get gradients of specific tensor
+
+      :param input_tensor: weight name or a tensor
+      :type input_tensor: string or tensor
+
+      :returns: gradient tensor array
+      :rtype: (ndarray)
+
+
+   .. py:method:: report_sparsity()
+
+      Get sparsity of the model
+
+      Args:
+
+      :returns: DataFrame of sparsity of each weight
+                total_sparsity (float): total sparsity of model
+      :rtype: df (DataFrame)
+
+
+
+.. py:class:: PyTorchModel(model, **kwargs)
+
+   Bases: :py:obj:`PyTorchBaseModel`
+
+   Build PyTorchModel object
+
+   :param model: model path
+   :type model: pytorch model
+
+   .. py:property:: graph_info
+
+      'conv2d'}
+
+      :type: return {Node
+
+      :type: Node_type} like {'conv0'
+
+   .. py:method:: save(root=None)
+
+      abstract method of model saving
+
+
+   .. py:method:: export(save_path: str, input, target_model_type: str = 'ONNX', quant_mode: str = 'QDQ', opset_version: int = 14, *args, **kwargs)
+
+      abstract method of model convertion to ONNX
+
+
+
+.. py:class:: PyTorchFXModel(model, **kwargs)
+
+   Bases: :py:obj:`PyTorchModel`
+
+   Build PyTorchFXModel object
+
+   :param model: model path
+   :type model: onnx model
+
+
+.. py:class:: PyTorchIpexModel(model, **kwargs)
+
+   Bases: :py:obj:`PyTorchBaseModel`
+
+   Build PyTorchIpexModel object
+
+   :param model: model path
+   :type model: onnx model
+
+   .. py:property:: graph_info
+
+      'conv2d'}
+
+      :type: return {Node
+
+      :type: Node_type} like {'conv0'
+
+   .. py:method:: save(root=None)
+
+      abstract method of model saving
+
+
+

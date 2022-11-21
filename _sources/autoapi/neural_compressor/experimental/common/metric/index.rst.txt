@@ -1,0 +1,29 @@
+:orphan:
+
+:py:mod:`neural_compressor.experimental.common.metric`
+======================================================
+
+.. py:module:: neural_compressor.experimental.common.metric
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.experimental.common.metric.Metric
+
+
+
+
+.. py:class:: Metric(metric_cls, name='user_metric', **kwargs)
+
+   Bases: :py:obj:`object`
+
+   common Metric just collect the infos to construct a Metric
+
+
+
