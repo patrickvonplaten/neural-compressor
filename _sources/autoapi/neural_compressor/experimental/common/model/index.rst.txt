@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.experimental.common.model`
 =====================================================
 
 .. py:module:: neural_compressor.experimental.common.model
+
+.. autoapi-nested-parse::
+
+   common Model just collects the information to construct a Model.
+
 
 
 Module Contents
@@ -23,7 +26,6 @@ Classes
 
    Bases: :py:obj:`object`
 
-   common Model just collect the infos to construct a Model
-
+   A wrapper of the information needed to construct a Model.
 
 

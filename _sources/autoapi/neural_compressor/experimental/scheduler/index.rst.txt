@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.experimental.scheduler`
 ==================================================
 
 .. py:module:: neural_compressor.experimental.scheduler
+
+.. autoapi-nested-parse::
+
+   Scheduler class.
+
 
 
 Module Contents
@@ -65,13 +68,19 @@ Classes
       opt_model.save()
 
 
+   .. py:property:: model
+
+      Getter of model.
+
+      :returns: The model used in the Scheduler process.
+
    .. py:property:: train_func
 
-      not support get train_func
+      Do not support get train_func.
 
    .. py:property:: eval_func
 
-      not support get eval_func
+      Do not support get eval_func.
 
    .. py:method:: append(*args)
 
@@ -110,15 +119,16 @@ Classes
    .. py:method:: combine(*args)
 
       Combine neural_compressor components into a new component.
+
       :param args: Components to be combined together. Input Component should be
       :type args: Component
       :param supported in Neural Compressor and pass the sanity check during combine. The illegal combination:
       :param (e.g. Components uses different frameworks) returns an error.:
 
-       Returns:
-           Combined Component: The return component is created as base Component class.
-           It syncs input components configuration and creates dataloaders/functions
-           accordingly.
+      :returns: The return component is created as base Component class.
+                It syncs input components configuration and creates dataloaders/functions
+                accordingly.
+      :rtype: Combined Component
 
 
 

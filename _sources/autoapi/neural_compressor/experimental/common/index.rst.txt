@@ -13,6 +13,9 @@ Submodules
    :maxdepth: 1
 
    criterion/index.rst
+   dataloader/index.rst
+   metric/index.rst
+   model/index.rst
    optimizer/index.rst
    postprocess/index.rst
 
@@ -45,20 +48,19 @@ Functions
 
    Bases: :py:obj:`object`
 
-   common Model just collect the infos to construct a Model
-
+   A wrapper of the information needed to construct a Model.
 
 
 .. py:class:: DataLoader(dataset, batch_size=1, collate_fn=None, last_batch='rollover', sampler=None, batch_sampler=None, num_workers=0, pin_memory=False, shuffle=False, distributed=False)
 
    Bases: :py:obj:`object`
 
-   This class is just a wrapper of the information needed to build a dataloader,
-   it can't yield batched data and only in this Quantization/Benchmark object's
-   setter method a 'real' calib_dataloader will be created,
-   the reason is we have to know the framework info
-   and only after the Quantization/Benchmark object created then
-   framework infomation can be known. Future we will support
+   A wrapper of the information needed to construct a dataloader.
+
+   This class can't yield batched data and only in this Quantization/Benchmark
+   object's setter method a 'real' calib_dataloader will be created, the reason
+   is we have to know the framework info and only after the Quantization/Benchmark
+   object created then framework infomation can be known. Future we will support
    creating iterable dataloader from neural_compressor.experimental.common.DataLoader
 
 
@@ -74,7 +76,10 @@ Functions
 
    Bases: :py:obj:`object`
 
-   common Metric just collect the infos to construct a Metric
+   A wrapper of the information needed to construct a Metric.
 
+   The metric class should take the outputs of the model as the metric's inputs,
+   neural_compressor built-in metric always take (predictions, labels) as inputs, it's
+   recommended to design metric_cls to take (predictions, labels) as inputs.
 
 

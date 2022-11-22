@@ -223,6 +223,7 @@
               
   <div class="section" id="module-neural_compressor.experimental.scheduler">
 <span id="neural-compressor-experimental-scheduler"></span><h1><a class="reference internal" href="#module-neural_compressor.experimental.scheduler" title="neural_compressor.experimental.scheduler"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.scheduler</span></code></a><a class="headerlink" href="#module-neural_compressor.experimental.scheduler" title="Permalink to this headline">¶</a></h1>
+<p>Scheduler class.</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="classes">
@@ -314,19 +315,24 @@ Training and Pruning, being None for other cases.</p></li>
 <dl class="py method">
 <dt id="neural_compressor.experimental.scheduler.Scheduler.combine">
 <code class="sig-name descname"><span class="pre">combine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.scheduler.Scheduler.combine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combine neural_compressor components into a new component.
-:param args: Components to be combined together. Input Component should be
-:type args: Component
-:param supported in Neural Compressor and pass the sanity check during combine. The illegal combination:
-:param (e.g. Components uses different frameworks) returns an error.:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Returns:</dt><dd><p>Combined Component: The return component is created as base Component class.
+<dd><p>Combine neural_compressor components into a new component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference internal" href="../component/index.html#neural_compressor.experimental.component.Component" title="neural_compressor.experimental.component.Component"><em>Component</em></a>) – Components to be combined together. Input Component should be</p></li>
+<li><p><strong>in Neural Compressor and pass the sanity check during combine. The illegal combination</strong> (<em>supported</em>) – </p></li>
+<li><p><strong>Components uses different frameworks</strong><strong>) </strong><strong>returns an error.</strong> (<em>(</em><em>e.g.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The return component is created as base Component class.
 It syncs input components configuration and creates dataloaders/functions
 accordingly.</p>
 </dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Combined Component</p>
+</dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 </dd></dl>

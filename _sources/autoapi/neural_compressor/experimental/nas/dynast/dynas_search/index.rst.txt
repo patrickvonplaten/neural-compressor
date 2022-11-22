@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.experimental.nas.dynast.dynas_search`
 ================================================================
 
 .. py:module:: neural_compressor.experimental.nas.dynast.dynas_search
+
+.. autoapi-nested-parse::
+
+   DyNAS search algorithm class.
+
 
 
 Module Contents
@@ -22,21 +25,30 @@ Classes
 
 .. py:class:: SearchAlgoManager(algorithm: str = 'nsga2', seed: int = 0, verbose: bool = False, engine: str = 'pymoo')
 
-   Manages the search parameters for the DyNAS-T single/multi-objective search.
+   Manage the search parameters for the DyNAS-T single/multi-objective search.
 
-   :param algorithm: string
-                     Define a multi-objective search algorithm.
-   :param seed: int
-                Seed value for pymoo search.
-   :param verbose: Boolean
-                   Verbosity option
-   :param engine: string
-                  Support different engine types (e.g. pymoo, optuna, etc.)
+   :param algorithm: Define a multi-objective search algorithm.
+   :type algorithm: string
+   :param seed: Seed value for pymoo search.
+   :type seed: int
+   :param verbose: Verbosity option.
+   :type verbose: Boolean
+   :param engine: Support different engine types (e.g. pymoo, optuna, etc.).
+   :type engine: string
+
+   .. py:method:: configure_nsga2(population: int = 50, num_evals: int = 1000, warm_pop: numpy.ndarray = None, crossover_prob: float = 0.9, crossover_eta: float = 15.0, mutation_prob: float = 0.02, mutation_eta: float = 20.0) -> None
+
+      Configure the NSGA2 algorithm.
+
+
+   .. py:method:: configure_age(population: int = 50, num_evals: int = 1000, warm_pop: numpy.ndarray = None, crossover_prob: float = 0.9, crossover_eta: float = 15.0, mutation_prob: float = 0.02, mutation_eta: float = 20.0) -> None
+
+      Configure the AGE algorithm.
+
 
    .. py:method:: run_search(problem: pymoo.core.problem.Problem, save_history=False) -> pymoo.core.result.Result
 
-      Starts the search process for the algorithm and problem class that have
-      been previously defined.
+      Start the search process for the algorithm and problem class that have been previously defined.
 
 
 
@@ -46,11 +58,11 @@ Classes
 
    Interface between the user-defined evaluation interface and the SearchAlgoManager.
 
-   :param evaluation_interface: Class
-                                Class that handles the objective measurement call from the supernet.
-   :param param_count: int
-                       Number variables in the search space (e.g., OFA MobileNetV3 has 45)
-   :param param_upperbound: array
-                            The upper int array that defines how many options each design variable has.
+   :param evaluation_interface: Class that handles the objective measurement call from the supernet.
+   :type evaluation_interface: Class
+   :param param_count: Number variables in the search space (e.g., OFA MobileNetV3 has 45).
+   :type param_count: int
+   :param param_upperbound: The upper int array that defines how many options each design variable has.
+   :type param_upperbound: array
 
 

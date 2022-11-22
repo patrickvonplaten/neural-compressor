@@ -12,6 +12,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   mxnet_dataloader/index.rst
    pytorch_dataloader/index.rst
    tensorflow_dataloader/index.rst
 

@@ -223,6 +223,7 @@
               
   <div class="section" id="module-neural_compressor.experimental.nas.dynas">
 <span id="neural-compressor-experimental-nas-dynas"></span><h1><a class="reference internal" href="#module-neural_compressor.experimental.nas.dynas" title="neural_compressor.experimental.nas.dynas"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.dynas</span></code></a><a class="headerlink" href="#module-neural_compressor.experimental.nas.dynas" title="Permalink to this headline">¶</a></h1>
+<p>DyNAS approach class.</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="classes">
@@ -234,12 +235,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS" title="neural_compressor.experimental.nas.dynas.DyNAS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DyNAS</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param conf_fname_or_obj</dt>
-<dd class="field-odd"><p>The path to the YAML configuration file or the object of NASConfig.</p>
-</dd>
-</dl>
-</p></td>
+<td><p>DyNAS approach.</p></td>
 </tr>
 </tbody>
 </table>
@@ -247,6 +243,8 @@
 <dt id="neural_compressor.experimental.nas.dynas.DyNAS">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.dynas.</span></code><code class="sig-name descname"><span class="pre">DyNAS</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynas.DyNAS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../nas/index.html#neural_compressor.experimental.nas.nas.NASBase" title="neural_compressor.experimental.nas.nas.NASBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.nas.NASBase</span></code></a></p>
+<p>DyNAS approach.</p>
+<p>Defining the pipeline for DyNAS approach.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>conf_fname_or_obj</strong> (<em>string</em><em> or </em><em>obj</em>) – The path to the YAML configuration file or the object of NASConfig.</p>
@@ -255,7 +253,7 @@
 <dl class="py method">
 <dt id="neural_compressor.experimental.nas.dynas.DyNAS.estimate">
 <code class="sig-name descname"><span class="pre">estimate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">individual</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynas.DyNAS.estimate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimate performance of the model. Depends on specific NAS algorithm.</p>
+<dd><p>Estimate performance of the model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Evaluated metrics of the model.</p>
@@ -264,12 +262,18 @@
 </dd></dl>
 
 <dl class="py method">
+<dt id="neural_compressor.experimental.nas.dynas.DyNAS.init_for_search">
+<code class="sig-name descname"><span class="pre">init_for_search</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynas.DyNAS.init_for_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the search configuration.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="neural_compressor.experimental.nas.dynas.DyNAS.search">
 <code class="sig-name descname"><span class="pre">search</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynas.DyNAS.search" title="Permalink to this definition">¶</a></dt>
-<dd><p>NAS search process.</p>
+<dd><p>Execute the search process.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Best model architecture found in search process.</p>
+<dd class="field-odd"><p>Best model architectures found in the search process.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -277,12 +281,31 @@
 <dl class="py method">
 <dt id="neural_compressor.experimental.nas.dynas.DyNAS.select_model_arch">
 <code class="sig-name descname"><span class="pre">select_model_arch</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynas.DyNAS.select_model_arch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Propose architecture of the model based on search algorithm for next search iteration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Model architecture description.</p>
-</dd>
-</dl>
+<dd><p>Select the model architecture.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.dynas.DyNAS.create_acc_predictor">
+<code class="sig-name descname"><span class="pre">create_acc_predictor</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynas.DyNAS.create_acc_predictor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the accuracy predictor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.dynas.DyNAS.create_macs_predictor">
+<code class="sig-name descname"><span class="pre">create_macs_predictor</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynas.DyNAS.create_macs_predictor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the MACs predictor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.dynas.DyNAS.create_latency_predictor">
+<code class="sig-name descname"><span class="pre">create_latency_predictor</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynas.DyNAS.create_latency_predictor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the latency predictor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.dynas.DyNAS.init_cfg">
+<code class="sig-name descname"><span class="pre">init_cfg</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynas.DyNAS.init_cfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the configuration.</p>
 </dd></dl>
 
 </dd></dl>
@@ -322,8 +345,13 @@
 <li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS">DyNAS</a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS.estimate">estimate</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS.init_for_search">init_for_search</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS.search">search</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS.select_model_arch">select_model_arch</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS.create_acc_predictor">create_acc_predictor</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS.create_macs_predictor">create_macs_predictor</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS.create_latency_predictor">create_latency_predictor</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynas.DyNAS.init_cfg">init_cfg</a></li>
 </ul>
 </li>
 </ul>

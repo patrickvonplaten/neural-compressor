@@ -223,6 +223,7 @@
               
   <div class="section" id="module-neural_compressor.experimental.nas.basic_nas">
 <span id="neural-compressor-experimental-nas-basic-nas"></span><h1><a class="reference internal" href="#module-neural_compressor.experimental.nas.basic_nas" title="neural_compressor.experimental.nas.basic_nas"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.basic_nas</span></code></a><a class="headerlink" href="#module-neural_compressor.experimental.nas.basic_nas" title="Permalink to this headline">¶</a></h1>
+<p>Basic NAS approach class.</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="classes">
@@ -234,12 +235,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS" title="neural_compressor.experimental.nas.basic_nas.BasicNAS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BasicNAS</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param conf_fname</dt>
-<dd class="field-odd"><p>The path to the YAML configuration file.</p>
-</dd>
-</dl>
-</p></td>
+<td><p>Basic NAS approach.</p></td>
 </tr>
 </tbody>
 </table>
@@ -247,6 +243,8 @@
 <dt id="neural_compressor.experimental.nas.basic_nas.BasicNAS">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.basic_nas.</span></code><code class="sig-name descname"><span class="pre">BasicNAS</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_builder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../nas/index.html#neural_compressor.experimental.nas.nas.NASBase" title="neural_compressor.experimental.nas.nas.NASBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.nas.NASBase</span></code></a>, <a class="reference internal" href="../../component/index.html#neural_compressor.experimental.component.Component" title="neural_compressor.experimental.component.Component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.experimental.component.Component</span></code></a></p>
+<p>Basic NAS approach.</p>
+<p>Defining the pipeline for basic NAS approach.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -260,19 +258,19 @@ model architecture parameters.</p></li>
 <dl class="py method">
 <dt id="neural_compressor.experimental.nas.basic_nas.BasicNAS.execute">
 <code class="sig-name descname"><span class="pre">execute</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the dataloader and train/eval functions from yaml config.
-Component base class provides default function to initialize dataloaders and functions
-from user config. And for derived classes(Pruning, Quantization, etc.), an override
-function is required.</p>
+<dd><p>Execute the search process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Best model architectures found in the search process.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="neural_compressor.experimental.nas.basic_nas.BasicNAS.estimate">
 <code class="sig-name descname"><span class="pre">estimate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS.estimate" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Estimate performance of the model.</dt><dd><p>Depends on specific NAS algorithm. Here we use train and evaluate.</p>
-</dd>
-</dl>
+<dd><p>Estimate performance of the model.</p>
+<p>Depends on specific NAS algorithm. Here we use train and evaluate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Evaluated metrics of the model.</p>
@@ -281,12 +279,15 @@ function is required.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="neural_compressor.experimental.nas.basic_nas.BasicNAS.init_by_cfg">
+<code class="sig-name descname"><span class="pre">init_by_cfg</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS.init_by_cfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the configuration.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="neural_compressor.experimental.nas.basic_nas.BasicNAS.pre_process">
 <code class="sig-name descname"><span class="pre">pre_process</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS.pre_process" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the dataloader and train/eval functions from yaml config.
-Component base class provides default function to initialize dataloaders and functions
-from user config. And for derived classes(Pruning, Quantization, etc.), an override
-function is required.</p>
+<dd><p>Initialize the train and evaluation settings.</p>
 </dd></dl>
 
 </dd></dl>
@@ -327,6 +328,7 @@ function is required.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS">BasicNAS</a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS.execute">execute</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS.estimate">estimate</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS.init_by_cfg">init_by_cfg</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.basic_nas.BasicNAS.pre_process">pre_process</a></li>
 </ul>
 </li>

@@ -16,6 +16,7 @@ Subpackages
    :maxdepth: 3
 
    metric/index.rst
+   nas/index.rst
    pruning_recipes/index.rst
    pytorch_pruner/index.rst
 
@@ -27,11 +28,13 @@ Submodules
    :maxdepth: 1
 
    benchmark/index.rst
+   distillation/index.rst
    graph_optimization/index.rst
    mixed_precision/index.rst
    model_conversion/index.rst
    pruning/index.rst
    quantization/index.rst
+   scheduler/index.rst
 
 
 Package Contents
@@ -485,46 +488,127 @@ Attributes
 
    Bases: :py:obj:`neural_compressor.experimental.component.Component`
 
+   Distillation class derived from Component class.
+
+   Distillation class abstracted the pipeline of knowledge distillation,
+   transfer the knowledge of the teacher model to the student model.
+
    :param conf_fname_or_obj: The path to the YAML configuration file or
-                             DistillationConf containing accuracy goal, distillation objective and related
+                             Distillation_Conf containing accuracy goal, distillation objective and related
                              dataloaders etc.
    :type conf_fname_or_obj: string or obj
 
+   .. attribute:: _epoch_ran
+
+      A integer indicating how much epochs ran.
+
+   .. attribute:: eval_frequency
+
+      The frequency for doing evaluation of the student model
+      in terms of epoch.
+
+   .. attribute:: best_score
+
+      The best metric of the student model in the training.
+
+   .. attribute:: best_model
+
+      The best student model found in the training.
+
+   .. py:property:: criterion
+
+      Getter of criterion.
+
+      :returns: The criterion used in the distillation process.
+
+   .. py:property:: optimizer
+
+      Getter of optimizer.
+
+      :returns: The optimizer used in the distillation process.
+
    .. py:property:: teacher_model
 
-      Getter of model in neural_compressor.model
+      Getter of the teacher model.
+
+      :returns: The teacher model used in the distillation process.
 
    .. py:property:: student_model
 
-      Getter of model in neural_compressor.model
+      Getter of the student model.
+
+      :returns: The student model used in the distillation process.
 
    .. py:property:: train_cfg
 
-      Getter of model in neural_compressor.model
+      Getter of the train configuration.
+
+      :returns: The train configuration used in the distillation process.
 
    .. py:property:: evaluation_distributed
 
-      Getter to know whether need distributed evaluation dataloader
+      Getter to know whether need distributed evaluation dataloader.
 
    .. py:property:: train_distributed
 
-      Getter to know whether need distributed training dataloader
+      Getter to know whether need distributed training dataloader.
+
+   .. py:method:: on_post_forward(input, teacher_output=None)
+
+      Set or compute output of teacher model.
+
+      Deprecated.
+
+
+   .. py:method:: init_train_cfg()
+
+      Initialize the training configuration.
+
+
+   .. py:method:: create_criterion()
+
+      Create the criterion for training.
+
+
+   .. py:method:: create_optimizer()
+
+      Create the optimizer for training.
+
 
    .. py:method:: pre_process()
 
-      Initialize the dataloader and train/eval functions from yaml config.
-      Component base class provides default function to initialize dataloaders and functions
-      from user config. And for derived classes(Pruning, Quantization, etc.), an override
-      function is required.
+      Preprocessing before the disillation pipeline.
+
+      Initialize necessary parts for distillation pipeline.
 
 
    .. py:method:: execute()
 
-      Initialize the dataloader and train/eval functions from yaml config.
-      Component base class provides default function to initialize dataloaders and functions
-      from user config. And for derived classes(Pruning, Quantization, etc.), an override
-      function is required.
+      Do distillation pipeline.
+
+      First train the student model with the teacher model, after training,
+      evaluating the best student model if any.
+
+      :returns: Best distilled model found.
 
 
+   .. py:method:: generate_hooks()
+
+      Register hooks for distillation.
+
+      Register necessary hooks for distillation pipeline.
+
+
+
+.. py:class:: NAS
+
+   Bases: :py:obj:`object`
+
+   Create object of different NAS approaches.
+
+   :param conf_fname_or_obj: The path to the YAML configuration file or the object of NASConfig.
+   :type conf_fname_or_obj: string or obj
+
+   :returns: An object of specified NAS approach.
 
 

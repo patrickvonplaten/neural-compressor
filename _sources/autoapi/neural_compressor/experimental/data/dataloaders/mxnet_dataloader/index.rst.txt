@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.experimental.data.dataloaders.mxnet_dataloader`
 ==========================================================================
 
 .. py:module:: neural_compressor.experimental.data.dataloaders.mxnet_dataloader
+
+.. autoapi-nested-parse::
+
+   MXNet Dataloader implementation.
+
 
 
 Module Contents
@@ -23,9 +26,6 @@ Classes
 
    Bases: :py:obj:`neural_compressor.experimental.data.dataloaders.base_dataloader.BaseDataLoader`
 
-   Base class for all DataLoaders. _generate_dataloader is needed to create a dataloader object
-   from the general params like batch_size and sampler. The dynamic batching is just to
-   generate a new dataloader by setting batch_size and last_batch.
-
+   Subclass of BaseDataLoader.
 
 

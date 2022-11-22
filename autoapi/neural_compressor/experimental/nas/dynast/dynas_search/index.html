@@ -223,6 +223,7 @@
               
   <div class="section" id="module-neural_compressor.experimental.nas.dynast.dynas_search">
 <span id="neural-compressor-experimental-nas-dynast-dynas-search"></span><h1><a class="reference internal" href="#module-neural_compressor.experimental.nas.dynast.dynas_search" title="neural_compressor.experimental.nas.dynast.dynas_search"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_search</span></code></a><a class="headerlink" href="#module-neural_compressor.experimental.nas.dynast.dynas_search" title="Permalink to this headline">¶</a></h1>
+<p>DyNAS search algorithm class.</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="classes">
@@ -234,7 +235,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager" title="neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SearchAlgoManager</span></code></a></p></td>
-<td><p>Manages the search parameters for the DyNAS-T single/multi-objective search.</p></td>
+<td><p>Manage the search parameters for the DyNAS-T single/multi-objective search.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_search.ProblemMultiObjective" title="neural_compressor.experimental.nas.dynast.dynas_search.ProblemMultiObjective"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProblemMultiObjective</span></code></a></p></td>
 <td><p>Interface between the user-defined evaluation interface and the SearchAlgoManager.</p></td>
@@ -244,26 +245,33 @@
 <dl class="py class">
 <dt id="neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_search.</span></code><code class="sig-name descname"><span class="pre">SearchAlgoManager</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'nsga2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'pymoo'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Manages the search parameters for the DyNAS-T single/multi-objective search.</p>
+<dd><p>Manage the search parameters for the DyNAS-T single/multi-objective search.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>algorithm</strong> – string
-Define a multi-objective search algorithm.</p></li>
-<li><p><strong>seed</strong> – int
-Seed value for pymoo search.</p></li>
-<li><p><strong>verbose</strong> – Boolean
-Verbosity option</p></li>
-<li><p><strong>engine</strong> – string
-Support different engine types (e.g. pymoo, optuna, etc.)</p></li>
+<li><p><strong>algorithm</strong> (<em>string</em>) – Define a multi-objective search algorithm.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) – Seed value for pymoo search.</p></li>
+<li><p><strong>verbose</strong> (<em>Boolean</em>) – Verbosity option.</p></li>
+<li><p><strong>engine</strong> (<em>string</em>) – Support different engine types (e.g. pymoo, optuna, etc.).</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
+<dt id="neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager.configure_nsga2">
+<code class="sig-name descname"><span class="pre">configure_nsga2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_evals</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warm_pop</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_prob</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_eta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_prob</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_eta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">20.0</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager.configure_nsga2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the NSGA2 algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager.configure_age">
+<code class="sig-name descname"><span class="pre">configure_age</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_evals</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warm_pop</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_prob</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_eta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_prob</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_eta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">20.0</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager.configure_age" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the AGE algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager.run_search">
 <code class="sig-name descname"><span class="pre">run_search</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pymoo.core.problem.Problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pymoo.core.result.Result</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager.run_search" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts the search process for the algorithm and problem class that have
-been previously defined.</p>
+<dd><p>Start the search process for the algorithm and problem class that have been previously defined.</p>
 </dd></dl>
 
 </dd></dl>
@@ -276,12 +284,9 @@ been previously defined.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>evaluation_interface</strong> – Class
-Class that handles the objective measurement call from the supernet.</p></li>
-<li><p><strong>param_count</strong> – int
-Number variables in the search space (e.g., OFA MobileNetV3 has 45)</p></li>
-<li><p><strong>param_upperbound</strong> – array
-The upper int array that defines how many options each design variable has.</p></li>
+<li><p><strong>evaluation_interface</strong> (<em>Class</em>) – Class that handles the objective measurement call from the supernet.</p></li>
+<li><p><strong>param_count</strong> (<em>int</em>) – Number variables in the search space (e.g., OFA MobileNetV3 has 45).</p></li>
+<li><p><strong>param_upperbound</strong> (<em>array</em>) – The upper int array that defines how many options each design variable has.</p></li>
 </ul>
 </dd>
 </dl>
@@ -321,6 +326,8 @@ The upper int array that defines how many options each design variable has.</p><
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager">SearchAlgoManager</a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager.configure_nsga2">configure_nsga2</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager.configure_age">configure_age</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_search.SearchAlgoManager.run_search">run_search</a></li>
 </ul>
 </li>

@@ -223,6 +223,7 @@
               
   <div class="section" id="module-neural_compressor.experimental.nas.nas_utils">
 <span id="neural-compressor-experimental-nas-nas-utils"></span><h1><a class="reference internal" href="#module-neural_compressor.experimental.nas.nas_utils" title="neural_compressor.experimental.nas.nas_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.nas_utils</span></code></a><a class="headerlink" href="#module-neural_compressor.experimental.nas.nas_utils" title="Permalink to this headline">¶</a></h1>
+<p>Common methods for NAS.</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="functions">
@@ -234,9 +235,12 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.nas_utils.nas_registry" title="neural_compressor.experimental.nas.nas_utils.nas_registry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nas_registry</span></code></a>(nas_method)</p></td>
-<td><p>The class decorator used to register all NAS subclasses.</p></td>
+<td><p>Decorate the NAS subclasses.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.nas_utils.find_pareto_front" title="neural_compressor.experimental.nas.nas_utils.find_pareto_front"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_pareto_front</span></code></a>(metrics)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.nas_utils.create_search_space_pool" title="neural_compressor.experimental.nas.nas_utils.create_search_space_pool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_search_space_pool</span></code></a>(search_space[, idx])</p></td>
+<td><p>Create all the samples from the search space.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.nas_utils.find_pareto_front" title="neural_compressor.experimental.nas.nas_utils.find_pareto_front"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_pareto_front</span></code></a>(metrics)</p></td>
 <td><p>Find the pareto front points, assuming all metrics are “higher is better”.</p></td>
 </tr>
 </tbody>
@@ -244,15 +248,34 @@
 <dl class="py function">
 <dt id="neural_compressor.experimental.nas.nas_utils.nas_registry">
 <code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.nas_utils.</span></code><code class="sig-name descname"><span class="pre">nas_registry</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nas_method</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.nas_utils.nas_registry" title="Permalink to this definition">¶</a></dt>
-<dd><p>The class decorator used to register all NAS subclasses.
-:param nas_method: The string of supported NAS Method.
-:type nas_method: str</p>
+<dd><p>Decorate the NAS subclasses.</p>
+<p>The class decorator used to register all NAS subclasses.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The class of register.</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nas_method</strong> (<em>str</em>) – The string of supported NAS Method.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>cls</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The class of register.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cls</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neural_compressor.experimental.nas.nas_utils.create_search_space_pool">
+<code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.nas_utils.</span></code><code class="sig-name descname"><span class="pre">create_search_space_pool</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.nas_utils.create_search_space_pool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create all the samples from the search space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>search_space</strong> (<em>dict</em>) – A dict defining the search space.</p></li>
+<li><p><strong>idx</strong> (<em>int</em>) – An index for indicating which key of search_space to enumerate.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of all the samples from the search space.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -263,7 +286,7 @@
 <dd><p>Find the pareto front points, assuming all metrics are “higher is better”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>metrics</strong> – An (n_points, n_metrics) array</p>
+<dd class="field-odd"><p><strong>metrics</strong> (<em>numpy array</em><em> or </em><em>list</em>) – An (n_points, n_metrics) array.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>An array of indices of pareto front points.
@@ -306,6 +329,7 @@ It is a (n_pareto_points, ) integer array of indices.</p>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.nas_utils.nas_registry">nas_registry</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.nas_utils.create_search_space_pool">create_search_space_pool</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.nas_utils.find_pareto_front">find_pareto_front</a></li>
 </ul>
 </li>

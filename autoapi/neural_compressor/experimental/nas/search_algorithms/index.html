@@ -223,6 +223,153 @@
               
   <div class="section" id="module-neural_compressor.experimental.nas.search_algorithms">
 <span id="neural-compressor-experimental-nas-search-algorithms"></span><h1><a class="reference internal" href="#module-neural_compressor.experimental.nas.search_algorithms" title="neural_compressor.experimental.nas.search_algorithms"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.search_algorithms</span></code></a><a class="headerlink" href="#module-neural_compressor.experimental.nas.search_algorithms" title="Permalink to this headline">¶</a></h1>
+<p>Search algorithms for NAS.</p>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.Searcher" title="neural_compressor.experimental.nas.search_algorithms.Searcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Searcher</span></code></a></p></td>
+<td><p>Base class for defining the common methods of different search algorithms.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.GridSearcher" title="neural_compressor.experimental.nas.search_algorithms.GridSearcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GridSearcher</span></code></a></p></td>
+<td><p>Grid search.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.RandomSearcher" title="neural_compressor.experimental.nas.search_algorithms.RandomSearcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomSearcher</span></code></a></p></td>
+<td><p>Random search.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher" title="neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BayesianOptimizationSearcher</span></code></a></p></td>
+<td><p>Bayesian Optimization.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt id="neural_compressor.experimental.nas.search_algorithms.Searcher">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.search_algorithms.</span></code><code class="sig-name descname"><span class="pre">Searcher</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.Searcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for defining the common methods of different search algorithms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_space</strong> (<em>dict</em>) – A dictionary for defining the search space.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.search_algorithms.Searcher.suggest">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">suggest</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.Searcher.suggest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suggest the model architecture.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.search_algorithms.Searcher.get_feedback">
+<code class="sig-name descname"><span class="pre">get_feedback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.Searcher.get_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metric feedback for the search algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.search_algorithms.Searcher.params_vec2params_dict">
+<code class="sig-name descname"><span class="pre">params_vec2params_dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">para_vec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.Searcher.params_vec2params_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the parameters vector to parameters dictionary.</p>
+<p>Where parameters vector and parameters dictionary both define the model architecture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Parameters dictionary defining the model architecture.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="neural_compressor.experimental.nas.search_algorithms.GridSearcher">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.search_algorithms.</span></code><code class="sig-name descname"><span class="pre">GridSearcher</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.GridSearcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.Searcher" title="neural_compressor.experimental.nas.search_algorithms.Searcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Searcher</span></code></a></p>
+<p>Grid search.</p>
+<p>Search the whole search space exhaustively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_space</strong> (<em>dict</em>) – A dictionary for defining the search space.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.search_algorithms.GridSearcher.suggest">
+<code class="sig-name descname"><span class="pre">suggest</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.GridSearcher.suggest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suggest the model architecture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The model architecture.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="neural_compressor.experimental.nas.search_algorithms.RandomSearcher">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.search_algorithms.</span></code><code class="sig-name descname"><span class="pre">RandomSearcher</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.RandomSearcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.Searcher" title="neural_compressor.experimental.nas.search_algorithms.Searcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Searcher</span></code></a></p>
+<p>Random search.</p>
+<p>Search the whole search space randomly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_space</strong> (<em>dict</em>) – A dictionary for defining the search space.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.search_algorithms.RandomSearcher.suggest">
+<code class="sig-name descname"><span class="pre">suggest</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.RandomSearcher.suggest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suggest the model architecture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The model architecture.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.search_algorithms.</span></code><code class="sig-name descname"><span class="pre">BayesianOptimizationSearcher</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.Searcher" title="neural_compressor.experimental.nas.search_algorithms.Searcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Searcher</span></code></a></p>
+<p>Bayesian Optimization.</p>
+<p>Search the search space with Bayesian Optimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_space</strong> (<em>dict</em>) – A dictionary for defining the search space.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher.suggest">
+<code class="sig-name descname"><span class="pre">suggest</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher.suggest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suggest the model architecture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The model architecture.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher.get_feedback">
+<code class="sig-name descname"><span class="pre">get_feedback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher.get_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metric feedback and register this metric.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher.indices2params_vec">
+<code class="sig-name descname"><span class="pre">indices2params_vec</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher.indices2params_vec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert indices to parameters vector.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
 </div>
 
 
@@ -251,7 +398,35 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.search_algorithms</span></code></a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.nas.search_algorithms</span></code></a><ul>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.Searcher">Searcher</a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.Searcher.suggest">suggest</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.Searcher.get_feedback">get_feedback</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.Searcher.params_vec2params_dict">params_vec2params_dict</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.GridSearcher">GridSearcher</a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.GridSearcher.suggest">suggest</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.RandomSearcher">RandomSearcher</a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.RandomSearcher.suggest">suggest</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher">BayesianOptimizationSearcher</a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher.suggest">suggest</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher.get_feedback">get_feedback</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.search_algorithms.BayesianOptimizationSearcher.indices2params_vec">indices2params_vec</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             </div>

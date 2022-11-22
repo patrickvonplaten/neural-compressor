@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.experimental.nas.basic_nas`
 ======================================================
 
 .. py:module:: neural_compressor.experimental.nas.basic_nas
+
+.. autoapi-nested-parse::
+
+   Basic NAS approach class.
+
 
 
 Module Contents
@@ -23,6 +26,10 @@ Classes
 
    Bases: :py:obj:`neural_compressor.experimental.nas.nas.NASBase`, :py:obj:`neural_compressor.experimental.component.Component`
 
+   Basic NAS approach.
+
+   Defining the pipeline for basic NAS approach.
+
    :param conf_fname: The path to the YAML configuration file.
    :type conf_fname: string
    :param search_space: A dictionary for defining the search space.
@@ -33,26 +40,28 @@ Classes
 
    .. py:method:: execute()
 
-      Initialize the dataloader and train/eval functions from yaml config.
-      Component base class provides default function to initialize dataloaders and functions
-      from user config. And for derived classes(Pruning, Quantization, etc.), an override
-      function is required.
+      Execute the search process.
+
+      :returns: Best model architectures found in the search process.
 
 
    .. py:method:: estimate(model)
 
       Estimate performance of the model.
-         Depends on specific NAS algorithm. Here we use train and evaluate.
+
+      Depends on specific NAS algorithm. Here we use train and evaluate.
 
       :returns: Evaluated metrics of the model.
 
 
+   .. py:method:: init_by_cfg(conf_fname_or_obj)
+
+      Initialize the configuration.
+
+
    .. py:method:: pre_process()
 
-      Initialize the dataloader and train/eval functions from yaml config.
-      Component base class provides default function to initialize dataloaders and functions
-      from user config. And for derived classes(Pruning, Quantization, etc.), an override
-      function is required.
+      Initialize the train and evaluation settings.
 
 
 
