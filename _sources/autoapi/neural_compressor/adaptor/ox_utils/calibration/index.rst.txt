@@ -1,0 +1,86 @@
+:orphan:
+
+:py:mod:`neural_compressor.adaptor.ox_utils.calibration`
+========================================================
+
+.. py:module:: neural_compressor.adaptor.ox_utils.calibration
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment
+
+
+
+
+.. py:class:: ONNXRTAugment(model_wrapper, dataloader, dump_op_types, black_nodes=[], white_nodes=[], iterations=[])
+
+   augment input model to dump tensor or for calibration
+
+   .. py:method:: augment_graph(activation_only=False, weight_only=False)
+
+      Adds nodes to all quantization_candidates op type nodes in
+      model and ensures their outputs are stored as part of the graph output
+      :param activation_only(bool): whether to dump activation tensor only
+      :param weight_only(bool): whether to dump weight_only
+      :return: augmented ONNX model
+
+
+   .. py:method:: get_intermediate_outputs(calib_mode=None)
+
+      Gather intermediate model outputs after running inference
+      :return: dictionary mapping: {node output tensor names: node output tensor }
+
+
+   .. py:method:: dump_calibration(calib_mode='naive')
+
+      Gather calibration params for quantization
+      parameter calib_mode: type 'naive' gives (Min, Max) pairs
+                          for each intermediate model output across
+                          test data sets, where the first element is
+                          a minimum of all values and the
+                          second element is a maximum of all values;
+      :return: dictionary mapping: {added node names: (ReduceMin, ReduceMax) pairs }
+
+
+   .. py:method:: calculate_quantization_params(quantization_thresholds)
+
+          Given quantization thresholds, calculate the quantization params.
+      :param quantization_thresholds:
+          Dictionary specifying the min and max values for outputs of conv and matmul nodes.
+          The quantization_thresholds should be specified in the following format:
+              {
+                  "param_name": [min, max]
+              }
+          example:
+              {
+                  'Conv_3:0': [np.float32(0), np.float32(0.5)],
+                  'Conv_4:0': [np.float32(1), np.float32(3.5)]
+              }
+      :return: Dictionary containing the zero point and
+                scale values for outputs of conv and matmul nodes.
+          The dictionary format is
+              {
+                  "param_name": [zero_point, scale]
+              }
+
+
+   .. py:method:: calculate_scale_zeropoint(last_node, next_node, rmin, rmax)
+
+       Given the source and destination node of tensor,                  return calculated zero point and scales.
+
+      :param last_node: the source of the tensor
+      :param next_node: the destination of the tensor
+      :param rmin: min threshold of the tensor
+      :param rmax: max threshold of the tensor
+      :return (List): zero_point and scale
+
+
+
+

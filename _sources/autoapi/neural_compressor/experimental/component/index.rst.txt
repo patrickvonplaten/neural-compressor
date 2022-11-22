@@ -1,0 +1,121 @@
+:orphan:
+
+:py:mod:`neural_compressor.experimental.component`
+==================================================
+
+.. py:module:: neural_compressor.experimental.component
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.experimental.component.Component
+
+
+
+
+.. py:class:: Component(conf_fname_or_obj=None, combination=None)
+
+   Bases: :py:obj:`object`
+
+   This is base class of Neural Compressor Component
+
+
+   .. py:property:: train_func
+
+      not support get train_func
+
+   .. py:property:: eval_func
+
+      not support get eval_func
+
+   .. py:property:: train_dataloader
+
+      Getter to train dataloader
+
+   .. py:property:: eval_dataloader
+
+      Getter to eval dataloader
+
+   .. py:property:: model
+
+      Getter of model in neural_compressor.model
+
+   .. py:method:: pre_process()
+
+      Initialize the dataloader and train/eval functions from yaml config.
+      Component base class provides default function to initialize dataloaders and functions
+      from user config. And for derived classes(Pruning, Quantization, etc.), an override
+      function is required.
+
+
+   .. py:method:: execute()
+
+      Initialize the dataloader and train/eval functions from yaml config.
+      Component base class provides default function to initialize dataloaders and functions
+      from user config. And for derived classes(Pruning, Quantization, etc.), an override
+      function is required.
+
+
+   .. py:method:: on_train_begin(dataloader=None)
+
+      called before the beginning of epochs
+
+
+   .. py:method:: on_train_end()
+
+      called after the end of epochs
+
+
+   .. py:method:: pre_epoch_begin(dataloader=None)
+
+      called before the beginning of epochs
+
+
+   .. py:method:: post_epoch_end()
+
+      called after the end of epochs
+
+
+   .. py:method:: on_epoch_begin(epoch)
+
+      called on the beginning of epochs
+
+
+   .. py:method:: on_step_begin(batch_id)
+
+      called on the beginning of batches
+
+
+   .. py:method:: on_after_compute_loss(input, student_output, student_loss, teacher_output=None)
+
+      called on the end of loss computation
+
+
+   .. py:method:: on_before_optimizer_step()
+
+      called on the end of backward
+
+
+   .. py:method:: on_step_end()
+
+      called on the end of batches
+
+
+   .. py:method:: on_epoch_end()
+
+      called on the end of epochs
+
+
+   .. py:method:: register_hook(scope, hook, input_args=None, input_kwargs=None)
+
+      register hook for component. input_args and input_kwargs are reserved for user
+      registered hooks.
+
+
+

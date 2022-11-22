@@ -1,0 +1,80 @@
+:orphan:
+
+:py:mod:`neural_compressor.experimental.common`
+===============================================
+
+.. py:module:: neural_compressor.experimental.common
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   criterion/index.rst
+   optimizer/index.rst
+   postprocess/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.experimental.common.Model
+   neural_compressor.experimental.common.DataLoader
+   neural_compressor.experimental.common.Postprocess
+   neural_compressor.experimental.common.Metric
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.experimental.common._generate_common_dataloader
+
+
+
+.. py:class:: Model
+
+   Bases: :py:obj:`object`
+
+   common Model just collect the infos to construct a Model
+
+
+
+.. py:class:: DataLoader(dataset, batch_size=1, collate_fn=None, last_batch='rollover', sampler=None, batch_sampler=None, num_workers=0, pin_memory=False, shuffle=False, distributed=False)
+
+   Bases: :py:obj:`object`
+
+   This class is just a wrapper of the information needed to build a dataloader,
+   it can't yield batched data and only in this Quantization/Benchmark object's
+   setter method a 'real' calib_dataloader will be created,
+   the reason is we have to know the framework info
+   and only after the Quantization/Benchmark object created then
+   framework infomation can be known. Future we will support
+   creating iterable dataloader from neural_compressor.experimental.common.DataLoader
+
+
+
+.. py:class:: Postprocess(postprocess_cls, name='user_postprocess', **kwargs)
+
+   Bases: :py:obj:`object`
+
+   Just collect the infos to construct a Postprocess.
+
+
+.. py:class:: Metric(metric_cls, name='user_metric', **kwargs)
+
+   Bases: :py:obj:`object`
+
+   common Metric just collect the infos to construct a Metric
+
+
+

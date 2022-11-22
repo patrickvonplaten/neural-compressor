@@ -1,0 +1,36 @@
+:orphan:
+
+:py:mod:`neural_compressor.conf.pythonic_config`
+================================================
+
+.. py:module:: neural_compressor.conf.pythonic_config
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.conf.pythonic_config.DistillationConfig
+
+
+
+
+.. py:class:: DistillationConfig(teacher_model, criterion=criterion, optimizer={'SGD': {'learning_rate': 0.0001}})
+
+   Config of distillation.
+
+   :param teacher_model: Teacher model for distillation. Defaults to None.
+   :type teacher_model: Callable
+   :param features: Teacher features for distillation, features and teacher_model are alternative.
+                    Defaults to None.
+   :type features: optional
+   :param criterion: Distillation loss configure.
+   :type criterion: Callable, optional
+   :param optimizer: Optimizer configure.
+   :type optimizer: dictionary, optional
+
+

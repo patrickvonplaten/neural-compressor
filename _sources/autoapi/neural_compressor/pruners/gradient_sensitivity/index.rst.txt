@@ -1,0 +1,8 @@
+:orphan:
+
+:py:mod:`neural_compressor.pruners.gradient_sensitivity`
+========================================================
+
+.. py:module:: neural_compressor.pruners.gradient_sensitivity
+
+

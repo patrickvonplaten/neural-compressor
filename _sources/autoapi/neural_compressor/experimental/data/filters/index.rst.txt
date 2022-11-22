@@ -1,0 +1,56 @@
+:orphan:
+
+:py:mod:`neural_compressor.experimental.data.filters`
+=====================================================
+
+.. py:module:: neural_compressor.experimental.data.filters
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.experimental.data.filters.FILTERS
+   neural_compressor.experimental.data.filters.Filter
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.experimental.data.filters.filter_registry
+
+
+
+
+.. py:class:: Filter
+
+   Bases: :py:obj:`object`
+
+   The base class for transform. __call__ method is needed when write user specific transform
+
+
+
+
+.. py:function:: filter_registry(filter_type, framework)
+
+   The class decorator used to register all transform subclasses.
+
+
+   :param filter_type: fILTER registration name
+   :type filter_type: str
+   :param framework: support 4 framework including 'tensorflow', 'pytorch', 'mxnet', 'onnxrt'
+   :type framework: str
+   :param cls: The class of register.
+   :type cls: class
+
+   :returns: The class of register.
+   :rtype: cls
+
+

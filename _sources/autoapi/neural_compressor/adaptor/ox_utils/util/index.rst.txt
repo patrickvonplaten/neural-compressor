@@ -1,0 +1,134 @@
+:orphan:
+
+:py:mod:`neural_compressor.adaptor.ox_utils.util`
+=================================================
+
+.. py:module:: neural_compressor.adaptor.ox_utils.util
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.adaptor.ox_utils.util.QuantType
+   neural_compressor.adaptor.ox_utils.util.QuantizedValue
+   neural_compressor.adaptor.ox_utils.util.QuantizedInitializer
+   neural_compressor.adaptor.ox_utils.util.QuantizationMode
+   neural_compressor.adaptor.ox_utils.util.QuantizedValueType
+   neural_compressor.adaptor.ox_utils.util.QuantFormat
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.adaptor.ox_utils.util.cast_tensor
+   neural_compressor.adaptor.ox_utils.util.quantize_data_with_scale_zero
+   neural_compressor.adaptor.ox_utils.util.quantize_data
+   neural_compressor.adaptor.ox_utils.util.attribute_to_kwarg
+   neural_compressor.adaptor.ox_utils.util.find_by_name
+
+
+
+.. py:class:: QuantType
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+
+.. py:function:: cast_tensor(tensor, dtype)
+
+   Convert tensor float to target dtype.
+       param tensor: TensorProto object
+       return tensor_target_dtype: converted TensorProto object
+
+
+.. py:function:: quantize_data_with_scale_zero(data, qType, scheme, scale, zero_point)
+
+   :parameter data: data to quantize
+   :parameter qType: data type to quantize to. Supported types UINT8 and INT8
+   :parameter scheme: sym or asym quantization.
+   :parameter scale: computed scale of quantized data
+   :parameter zero_point: computed zero point of quantized data
+   :return: quantized weights
+   To pack weights, we compute a linear transformation
+       - when data type == uint8 mode, from [rmin, rmax] -> [0, 2^{b-1}] and
+       - when data type == int8, from [-m , m] -> [-(2^{b-1}-1), 2^{b-1}-1] where
+           m = max(abs(rmin), abs(rmax))
+
+
+.. py:function:: quantize_data(data, quantize_range, qType, scheme)
+
+   :parameter data: data to quantize
+   :parameter quantize_range: list of data to weight pack.
+   :parameter qType: data type to quantize to. Supported types UINT8 and INT8
+   :param scheme: sym or asym quantization.
+   :return: minimum, maximum, zero point, scale, and quantized weights
+   To pack weights, we compute a linear transformation
+       - when data type == uint8 mode, from [rmin, rmax] -> [0, 2^{b-1}] and
+       - when data type == int8, from [-m , m] -> [-(2^{b-1}-1), 2^{b-1}-1] where
+           m = max(abs(rmin), abs(rmax))
+   and add necessary intermediate nodes to trasnform quantized weight to full weight
+   using the equation r = S(q-z), where
+       r: real original value
+       q: quantized value
+       S: scale
+       z: zero point
+
+
+.. py:class:: QuantizedValue(name, new_quantized_name, scale_name, zero_point_name, quantized_value_type, axis=None, qType=QuantType.QUInt8)
+
+   Represents a linearly quantized value (input\output\intializer)
+
+
+.. py:class:: QuantizedInitializer(name, initializer, rmins, rmaxs, zero_points, scales, data=[], quantized_data=[], axis=None, qType=QuantType.QUInt8)
+
+   Represents a linearly quantized weight input from ONNX operators
+
+
+.. py:class:: QuantizationMode
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+
+.. py:class:: QuantizedValueType
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+
+.. py:class:: QuantFormat
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+
+.. py:function:: attribute_to_kwarg(attribute)
+
+   Convert attribute to kwarg format for use with onnx.helper.make_node.
+
+
+.. py:function:: find_by_name(name, item_list)
+
+   Helper function to find item by name in a list.
+
+
