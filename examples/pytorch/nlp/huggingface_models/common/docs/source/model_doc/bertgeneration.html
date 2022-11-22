@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BertGeneration &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">BertGeneration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/bertgeneration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="bertgeneration">
+<h1>BertGeneration<a class="headerlink" href="#bertgeneration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The BertGeneration model is a BERT model that can be leveraged for sequence-to-sequence tasks using
+<code class="xref py py-class docutils literal notranslate"><span class="pre">EncoderDecoderModel</span></code> as proposed in <a class="reference external" href="https://arxiv.org/abs/1907.12461">Leveraging Pre-trained Checkpoints for Sequence Generation
+Tasks</a> by Sascha Rothe, Shashi Narayan, Aliaksei Severyn.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>Unsupervised pretraining of large neural models has recently revolutionized Natural Language Processing. By
+warm-starting from the publicly released checkpoints, NLP practitioners have pushed the state-of-the-art on multiple
+benchmarks while saving significant amounts of compute time. So far the focus has been mainly on the Natural Language
+Understanding tasks. In this paper, we demonstrate the efficacy of pre-trained checkpoints for Sequence Generation. We
+developed a Transformer-based sequence-to-sequence model that is compatible with publicly available pre-trained BERT,
+GPT-2 and RoBERTa checkpoints and conducted an extensive empirical study on the utility of initializing our model, both
+encoder and decoder, with these checkpoints. Our models result in new state-of-the-art results on Machine Translation,
+Text Summarization, Sentence Splitting, and Sentence Fusion.</em></p>
+<p>Usage:</p>
+<ul class="simple">
+<li><p>The model can be used in combination with the <code class="xref py py-class docutils literal notranslate"><span class="pre">EncoderDecoderModel</span></code> to leverage two pretrained
+BERT checkpoints for subsequent fine-tuning.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># leverage checkpoints for Bert2Bert model...</span>
+<span class="c1"># use BERT&#39;s cls token as BOS token and sep token as EOS token</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">BertGenerationEncoder</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-large-uncased&quot;</span><span class="p">,</span> <span class="n">bos_token_id</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span> <span class="n">eos_token_id</span><span class="o">=</span><span class="mi">102</span><span class="p">)</span>
+<span class="c1"># add cross attention layers and use BERT&#39;s cls token as BOS token and sep token as EOS token</span>
+<span class="n">decoder</span> <span class="o">=</span> <span class="n">BertGenerationDecoder</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-large-uncased&quot;</span><span class="p">,</span> <span class="n">add_cross_attention</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_decoder</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bos_token_id</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span> <span class="n">eos_token_id</span><span class="o">=</span><span class="mi">102</span><span class="p">)</span>
+<span class="n">bert2bert</span> <span class="o">=</span> <span class="n">EncoderDecoderModel</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">encoder</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">decoder</span><span class="p">)</span>
+
+<span class="c1"># create tokenizer...</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-large-uncased&quot;</span><span class="p">)</span>
+
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s1">&#39;This is a long article to summarize&#39;</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s1">&#39;This is a short summary&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+
+<span class="c1"># train...</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">bert2bert</span><span class="p">(</span><span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">decoder_input_ids</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">loss</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Pretrained <code class="xref py py-class docutils literal notranslate"><span class="pre">EncoderDecoderModel</span></code> are also directly available in the model hub, e.g.,</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate sentence fusion model</span>
+<span class="n">sentence_fuser</span> <span class="o">=</span> <span class="n">EncoderDecoderModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;google/roberta2roberta_L-24_discofuse&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;google/roberta2roberta_L-24_discofuse&quot;</span><span class="p">)</span>
+
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s1">&#39;This is the first sentence. This is the second sentence.&#39;</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">sentence_fuser</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>Tips:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">BertGenerationEncoder</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">BertGenerationDecoder</span></code> should be used in
+combination with <code class="xref py py-class docutils literal notranslate"><span class="pre">EncoderDecoder</span></code>.</p></li>
+<li><p>For summarization, sentence splitting, sentence fusion and translation, no special tokens are required for the input.
+Therefore, no EOS token should be added to the end of the input.</p></li>
+</ul>
+<p>The original code can be found <a class="reference external" href="https://tfhub.dev/s?module-type=text-generation&amp;subtype=module,placeholder">here</a>.</p>
+</div>
+<div class="section" id="bertgenerationconfig">
+<h2>BertGenerationConfig<a class="headerlink" href="#bertgenerationconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bertgenerationtokenizer">
+<h2>BertGenerationTokenizer<a class="headerlink" href="#bertgenerationtokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bertgenerationencoder">
+<h2>BertGenerationEncoder<a class="headerlink" href="#bertgenerationencoder" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bertgenerationdecoder">
+<h2>BertGenerationDecoder<a class="headerlink" href="#bertgenerationdecoder" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

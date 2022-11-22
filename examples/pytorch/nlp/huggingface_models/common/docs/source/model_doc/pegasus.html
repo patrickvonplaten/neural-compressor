@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pegasus &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Pegasus</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/pegasus.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="pegasus">
+<h1>Pegasus<a class="headerlink" href="#pegasus" title="Permalink to this headline">¶</a></h1>
+<p><strong>DISCLAIMER:</strong> If you see something strange, file a <a class="reference external" href="https://github.com/huggingface/transformers/issues/new?assignees=sshleifer&amp;labels=&amp;template=bug-report.md&amp;title">Github Issue</a>
+and assign &#64;patrickvonplaten.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The Pegasus model was proposed in <a class="reference external" href="https://arxiv.org/pdf/1912.08777.pdf">PEGASUS: Pre-training with Extracted Gap-sentences for Abstractive Summarization</a> by Jingqing Zhang, Yao Zhao, Mohammad Saleh and Peter J. Liu on Dec 18, 2019.</p>
+<p>According to the abstract,</p>
+<ul class="simple">
+<li><p>Pegasus’ pretraining task is intentionally similar to summarization: important sentences are removed/masked from an
+input document and are generated together as one output sequence from the remaining sentences, similar to an
+extractive summary.</p></li>
+<li><p>Pegasus achieves SOTA summarization performance on all 12 downstream tasks, as measured by ROUGE and human eval.</p></li>
+</ul>
+<p>The Authors’ code can be found <a class="reference external" href="https://github.com/google-research/pegasus">here</a>.</p>
+</div>
+<div class="section" id="checkpoints">
+<h2>Checkpoints<a class="headerlink" href="#checkpoints" title="Permalink to this headline">¶</a></h2>
+<p>All the <a class="reference external" href="https://huggingface.co/models?search=pegasus">checkpoints</a> are fine-tuned for summarization, besides
+<cite>pegasus-large</cite>, whence the other checkpoints are fine-tuned:</p>
+<ul class="simple">
+<li><p>Each checkpoint is 2.2 GB on disk and 568M parameters.</p></li>
+<li><p>FP16 is not supported (help/ideas on this appreciated!).</p></li>
+<li><p>Summarizing xsum in fp32 takes about 400ms/sample, with default parameters on a v100 GPU.</p></li>
+<li><p>Full replication results and correctly pre-processed data can be found in this <a class="reference external" href="https://github.com/huggingface/transformers/issues/6844#issue-689259666">Issue</a>.</p></li>
+<li><p><a class="reference external" href="https://huggingface.co/models?search=distill-pegasus">Distilled checkpoints</a> are described in this <a class="reference external" href="https://arxiv.org/abs/2010.13002">paper</a>.</p></li>
+</ul>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a href="#id1"><span class="problematic" id="id2">:prefix_link:`Script &lt;examples/seq2seq/finetune_pegasus_xsum.sh&gt;`</span></a> to fine-tune pegasus on the XSUM dataset. Data
+download instructions at <a href="#id3"><span class="problematic" id="id4">:prefix_link:`examples/seq2seq/ &lt;examples/seq2seq/README.md&gt;`</span></a>.</p></li>
+<li><p>FP16 is not supported (help/ideas on this appreciated!).</p></li>
+<li><p>The adafactor optimizer is recommended for pegasus fine-tuning.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="implementation-notes">
+<h2>Implementation Notes<a class="headerlink" href="#implementation-notes" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>All models are transformer encoder-decoders with 16 layers in each component.</p></li>
+<li><p>The implementation is completely inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">BartForConditionalGeneration</span></code></p></li>
+<li><p>Some key configuration differences:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>static, sinusoidal position embeddings</p></li>
+<li><p>the model starts generating with pad_token_id (which has 0 token_embedding) as the prefix.</p></li>
+<li><p>more beams are used (<code class="xref py py-obj docutils literal notranslate"><span class="pre">num_beams=8</span></code>)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>All pretrained pegasus checkpoints are the same besides three attributes: <code class="xref py py-obj docutils literal notranslate"><span class="pre">tokenizer.model_max_length</span></code> (maximum
+input size), <code class="xref py py-obj docutils literal notranslate"><span class="pre">max_length</span></code> (the maximum number of tokens to generate) and <code class="xref py py-obj docutils literal notranslate"><span class="pre">length_penalty</span></code>.</p></li>
+<li><p>The code to convert checkpoints trained in the author’s <a class="reference external" href="https://github.com/google-research/pegasus">repo</a> can be
+found in <code class="docutils literal notranslate"><span class="pre">convert_pegasus_tf_to_pytorch.py</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="usage-example">
+<h2>Usage Example<a class="headerlink" href="#usage-example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">PegasusForConditionalGeneration</span><span class="p">,</span> <span class="n">PegasusTokenizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">src_text</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="sd">&quot;&quot;&quot; PG&amp;E stated it scheduled the blackouts in response to forecasts for high winds amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow.&quot;&quot;&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;google/pegasus-xsum&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">PegasusTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">PegasusForConditionalGeneration</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">src_text</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch_device</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">translated</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">batch</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tgt_text</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">translated</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">tgt_text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;California&#39;s largest electricity provider has turned off power to hundreds of thousands of customers.&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pegasusconfig">
+<h2>PegasusConfig<a class="headerlink" href="#pegasusconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pegasustokenizer">
+<h2>PegasusTokenizer<a class="headerlink" href="#pegasustokenizer" title="Permalink to this headline">¶</a></h2>
+<p>warning: <code class="docutils literal notranslate"><span class="pre">add_tokens</span></code> does not work at the moment.</p>
+</div>
+<div class="section" id="pegasustokenizerfast">
+<h2>PegasusTokenizerFast<a class="headerlink" href="#pegasustokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pegasusmodel">
+<h2>PegasusModel<a class="headerlink" href="#pegasusmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pegasusforconditionalgeneration">
+<h2>PegasusForConditionalGeneration<a class="headerlink" href="#pegasusforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pegasusforcausallm">
+<h2>PegasusForCausalLM<a class="headerlink" href="#pegasusforcausallm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfpegasusmodel">
+<h2>TFPegasusModel<a class="headerlink" href="#tfpegasusmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfpegasusforconditionalgeneration">
+<h2>TFPegasusForConditionalGeneration<a class="headerlink" href="#tfpegasusforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LED &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">LED</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/led.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="led">
+<h1>LED<a class="headerlink" href="#led" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The LED model was proposed in <a class="reference external" href="https://arxiv.org/abs/2004.05150">Longformer: The Long-Document Transformer</a> by Iz
+Beltagy, Matthew E. Peters, Arman Cohan.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>Transformer-based models are unable to process long sequences due to their self-attention operation, which scales
+quadratically with the sequence length. To address this limitation, we introduce the Longformer with an attention
+mechanism that scales linearly with sequence length, making it easy to process documents of thousands of tokens or
+longer. Longformer’s attention mechanism is a drop-in replacement for the standard self-attention and combines a local
+windowed attention with a task motivated global attention. Following prior work on long-sequence transformers, we
+evaluate Longformer on character-level language modeling and achieve state-of-the-art results on text8 and enwik8. In
+contrast to most prior work, we also pretrain Longformer and finetune it on a variety of downstream tasks. Our
+pretrained Longformer consistently outperforms RoBERTa on long document tasks and sets new state-of-the-art results on
+WikiHop and TriviaQA. We finally introduce the Longformer-Encoder-Decoder (LED), a Longformer variant for supporting
+long document generative sequence-to-sequence tasks, and demonstrate its effectiveness on the arXiv summarization
+dataset.</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">LEDForConditionalGeneration</span></code> is an extension of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">BartForConditionalGeneration</span></code> exchanging the traditional <em>self-attention</em> layer with
+<em>Longformer</em>’s <em>chunked self-attention</em> layer. <code class="xref py py-class docutils literal notranslate"><span class="pre">LEDTokenizer</span></code> is an alias of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">BartTokenizer</span></code>.</p></li>
+<li><p>LED works very well on long-range <em>sequence-to-sequence</em> tasks where the <code class="docutils literal notranslate"><span class="pre">input_ids</span></code> largely exceed a length of
+1024 tokens.</p></li>
+<li><p>LED pads the <code class="docutils literal notranslate"><span class="pre">input_ids</span></code> to be a multiple of <code class="docutils literal notranslate"><span class="pre">config.attention_window</span></code> if required. Therefore a small speed-up is
+gained, when <code class="xref py py-class docutils literal notranslate"><span class="pre">LEDTokenizer</span></code> is used with the <code class="docutils literal notranslate"><span class="pre">pad_to_multiple_of</span></code> argument.</p></li>
+<li><p>LED makes use of <em>global attention</em> by means of the <code class="docutils literal notranslate"><span class="pre">global_attention_mask</span></code> (see
+<code class="xref py py-class docutils literal notranslate"><span class="pre">LongformerModel</span></code>). For summarization, it is advised to put <em>global attention</em> only on the first
+<code class="docutils literal notranslate"><span class="pre">&lt;s&gt;</span></code> token. For question answering, it is advised to put <em>global attention</em> on all tokens of the question.</p></li>
+<li><p>To fine-tune LED on all 16384, it is necessary to enable <em>gradient checkpointing</em> by setting
+<code class="docutils literal notranslate"><span class="pre">config.gradient_checkpointing</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p></li>
+<li><p>A notebook showing how to evaluate LED, can be accessed <a class="reference external" href="https://colab.research.google.com/drive/12INTTR6n64TzS4RrXZxMSXfrOd9Xzamo?usp=sharing">here</a>.</p></li>
+<li><p>A notebook showing how to fine-tune LED, can be accessed <a class="reference external" href="https://colab.research.google.com/drive/12LjJazBl7Gam0XBPy_y0CTOJZeZ34c2v?usp=sharing">here</a>.</p></li>
+</ul>
+</div>
+<div class="section" id="ledconfig">
+<h2>LEDConfig<a class="headerlink" href="#ledconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ledtokenizer">
+<h2>LEDTokenizer<a class="headerlink" href="#ledtokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ledtokenizerfast">
+<h2>LEDTokenizerFast<a class="headerlink" href="#ledtokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="led-specific-outputs">
+<h2>LED specific outputs<a class="headerlink" href="#led-specific-outputs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ledmodel">
+<h2>LEDModel<a class="headerlink" href="#ledmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ledforconditionalgeneration">
+<h2>LEDForConditionalGeneration<a class="headerlink" href="#ledforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ledforsequenceclassification">
+<h2>LEDForSequenceClassification<a class="headerlink" href="#ledforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ledforquestionanswering">
+<h2>LEDForQuestionAnswering<a class="headerlink" href="#ledforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfledmodel">
+<h2>TFLEDModel<a class="headerlink" href="#tfledmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfledforconditionalgeneration">
+<h2>TFLEDForConditionalGeneration<a class="headerlink" href="#tfledforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

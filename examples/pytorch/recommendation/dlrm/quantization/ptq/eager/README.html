@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/recommendation/dlrm/quantization/ptq/eager/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document is used to list steps of reproducing PyTorch DLRM tuning zoo result. and original DLRM README is in <a class="reference external" href="https://github.com/facebookresearch/dlrm/blob/master/README.md">DLRM README</a></p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<ol class="simple">
+<li><p>PyTorch quantization implementation in imperative path has limitation on automatically execution.
+It requires to manually add QuantStub and DequantStub for quantizable ops, it also requires to manually do fusion operation.
+Intel® Neural Compressor has no capability to solve this framework limitation. Intel® Neural Compressor supposes user have done these two steps before invoking Intel® Neural Compressor interface.
+For details, please refer to https://pytorch.org/docs/stable/quantization.html</p></li>
+<li><p>Please  ensure your PC have &gt;370G memory to run DLRM</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="prerequisite">
+<h1>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Recommend python 3.6 or higher version.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install dependency</span>
+<span class="nb">cd</span> examples/pytorch/recommendation/dlrm/quantization/ptq/eager
+pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-dataset">
+<h2>2. Prepare Dataset<a class="headerlink" href="#prepare-dataset" title="Permalink to this headline">¶</a></h2>
+<p>The code supports interface with the <a class="reference external" href="https://labs.criteo.com/2013/12/download-terabyte-click-logs/">Criteo Terabyte Dataset</a></p>
+<ol class="simple">
+<li><p>download the raw data files day_0.gz, …,day_23.gz and unzip them.</p></li>
+<li><p>Specify the location of the unzipped text files day_0, …,day_23, using –raw-data-file=&lt;path/day&gt; (the day number will be appended automatically), please refer “Run” command.</p></li>
+</ol>
+</div>
+<div class="section" id="prepare-pretrained-model">
+<h2>3. Prepare pretrained model<a class="headerlink" href="#prepare-pretrained-model" title="Permalink to this headline">¶</a></h2>
+<p>Download the DLRM PyTorch weights (<code class="docutils literal notranslate"><span class="pre">tb00_40M.pt</span></code>, 90GB) from the
+<a class="reference external" href="https://github.com/mlcommons/inference/tree/master/recommendation/dlrm/pytorch#more-information-about-the-model-weights">MLPerf repo</a></p>
+</div>
+</div>
+<div class="section" id="run">
+<h1>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tune-with-inc">
+<h2>tune with INC<a class="headerlink" href="#tune-with-inc" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/recommendation/dlrm/quantization/ptq/eager
+bash run_tuning.sh --input_model<span class="o">=</span><span class="s2">&quot;/path/of/pretrained/model&quot;</span> --dataset_location<span class="o">=</span><span class="s2">&quot;/path/of/dataset&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="benchmark">
+<h2>benchmark<a class="headerlink" href="#benchmark" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash run_benchmark.sh --input_model<span class="o">=</span><span class="s2">&quot;/path/of/pretrained/model&quot;</span> --dataset_location<span class="o">=</span><span class="s2">&quot;/path/of/dataset&quot;</span> --mode<span class="o">=</span>accuracy --int8<span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="examples-of-enabling-intel-neural-compressor">
+<h1>Examples of enabling Intel® Neural Compressor<a class="headerlink" href="#examples-of-enabling-intel-neural-compressor" title="Permalink to this headline">¶</a></h1>
+<p>This is a tutorial of how to enable DLRM model with Intel® Neural Compressor.</p>
+</div>
+<div class="section" id="user-code-analysis">
+<h1>User Code Analysis<a class="headerlink" href="#user-code-analysis" title="Permalink to this headline">¶</a></h1>
+<p>Intel® Neural Compressor supports two usages:</p>
+<ol class="simple">
+<li><p>User specifies fp32 ‘model’, calibration dataset ‘q_dataloader’, evaluation dataset “eval_dataloader” and metrics in tuning.metrics field of model-specific yaml config file.</p></li>
+<li><p>User specifies fp32 ‘model’, calibration dataset ‘q_dataloader’ and a custom “eval_func” which encapsulates the evaluation dataset and metrics by itself.</p></li>
+</ol>
+<p>Here we use the second use case.</p>
+<div class="section" id="write-yaml-config-file">
+<h2>Write Yaml config file<a class="headerlink" href="#write-yaml-config-file" title="Permalink to this headline">¶</a></h2>
+<p>In examples directory, there is conf.yaml. We could remove most of the items and only keep mandatory item for tuning.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dlrm</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pytorch</span>
+
+<span class="nt">device</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cpu</span>
+
+<span class="nt">tuning</span><span class="p">:</span>
+  <span class="nt">accuracy_criterion</span><span class="p">:</span>
+    <span class="nt">relative</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+  <span class="nt">exit_policy</span><span class="p">:</span>
+    <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+  <span class="nt">random_seed</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">9527</span>
+</pre></div>
+</div>
+<p>Here we set accuracy target as tolerating 0.01 relative accuracy loss of baseline. The default tuning strategy is basic strategy. The timeout 0 means early stop as well as a tuning config meet accuracy target.</p>
+<blockquote>
+<div><p><strong>Note</strong> : Intel® Neural Compressor does NOT support “mse” tuning strategy for pytorch framework</p>
+</div></blockquote>
+</div>
+<div class="section" id="prepare">
+<h2>prepare<a class="headerlink" href="#prepare" title="Permalink to this headline">¶</a></h2>
+<p>PyTorch quantization requires two manual steps:</p>
+<ol class="simple">
+<li><p>Add QuantStub and DeQuantStub for all quantizable ops.</p></li>
+<li><p>Fuse possible patterns, such as Linear + Relu.</p></li>
+</ol>
+<p>It’s intrinsic limitation of PyTorch quantization imperative path. No way to develop a code to automatically do that.
+The related code changes please refer to examples/pytorch/recommendation/dlrm/quantization/ptq/eager/dlrm_s_pytorch_tune.py.</p>
+</div>
+<div class="section" id="code-update">
+<h2>code update<a class="headerlink" href="#code-update" title="Permalink to this headline">¶</a></h2>
+<p>After prepare step is done, we just need update run_squad_tune.py and run_glue_tune.py like below</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DLRM_DataLoader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loader</span> <span class="o">=</span> <span class="n">loader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">batch_size</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">lS_o_test</span><span class="p">,</span> <span class="n">lS_i_test</span><span class="p">,</span> <span class="n">T</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">lS_o_test</span><span class="p">,</span> <span class="n">lS_i_test</span><span class="p">),</span> <span class="n">T</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eval_dataloader</span> <span class="o">=</span> <span class="n">DLRM_DataLoader</span><span class="p">(</span><span class="n">test_ld</span><span class="p">)</span>
+<span class="n">fuse_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dlrm</span><span class="o">.</span><span class="n">bot_l</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">fuse_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s2">&quot;bot_l.</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s2">&quot;bot_l.</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+<span class="n">dlrm</span> <span class="o">=</span> <span class="n">fuse_modules</span><span class="p">(</span><span class="n">dlrm</span><span class="p">,</span> <span class="n">fuse_list</span><span class="p">)</span>
+<span class="n">fuse_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dlrm</span><span class="o">.</span><span class="n">top_l</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">fuse_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s2">&quot;top_l.</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s2">&quot;top_l.</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+<span class="n">dlrm</span> <span class="o">=</span> <span class="n">fuse_modules</span><span class="p">(</span><span class="n">dlrm</span><span class="p">,</span> <span class="n">fuse_list</span><span class="p">)</span>
+<span class="n">dlrm</span><span class="o">.</span><span class="n">bot_l</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QuantStub</span><span class="p">())</span>
+<span class="n">dlrm</span><span class="o">.</span><span class="n">bot_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DeQuantStub</span><span class="p">())</span>
+<span class="n">dlrm</span><span class="o">.</span><span class="n">top_l</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QuantStub</span><span class="p">())</span>
+<span class="n">dlrm</span><span class="o">.</span><span class="n">top_l</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dlrm</span><span class="o">.</span><span class="n">top_l</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">DeQuantStub</span><span class="p">())</span>
+<span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span><span class="p">,</span> <span class="n">common</span>
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="s2">&quot;./conf.yaml&quot;</span><span class="p">)</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">dlrm</span><span class="p">)</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">calib_dataloader</span> <span class="o">=</span> <span class="n">eval_dataloader</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">eval_func</span> <span class="o">=</span> <span class="n">eval_func</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dataset conversion instructions &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../../" src="../../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Dataset conversion instructions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../../_sources/examples/pytorch/image_recognition/3d-unet/quantization/ptq/eager/nnUnet/documentation/dataset_conversion.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="dataset-conversion-instructions">
+<h1>Dataset conversion instructions<a class="headerlink" href="#dataset-conversion-instructions" title="Permalink to this headline">¶</a></h1>
+<p>nnU-Net requires the raw data to be brought into a specific format so that it know how to read and interpret it. This
+format closely, but not entirely, follows the format used by the
+<a class="reference external" href="http://medicaldecathlon.com/">Medical Segmentation Decathlon</a> (MSD).</p>
+<p>The entry point to nnU-Net is the nnUNet_raw_data_base folder (which the user needs to specify when installing nnU-Net!).
+Each segmentation dataset is stored as a separate ‘Task’. Tasks are associated with a task ID, a three digit integer
+(this is different from the MSD!) and
+a task name (which you can freely choose): Task005_Prostate has ‘Prostate’ as task name and the task id is 5. Tasks are stored in the
+nnUNet_raw_data_base/nnUNet_raw_data folder like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>nnUNet_raw_data_base/nnUNet_raw_data/
+├── Task001_BrainTumour
+├── Task002_Heart
+├── Task003_Liver
+├── Task004_Hippocampus
+├── Task005_Prostate
+├── ...
+</pre></div>
+</div>
+<p>Within each task folder, the following structure is expected:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Task001_BrainTumour/
+├── dataset.json
+├── imagesTr
+├── (imagesTs)
+└── labelsTr
+</pre></div>
+</div>
+<p><strong>Please make your custom task ids start at 100 to ensure that there will be no conflicts with downloaded pretrained models!!!</strong></p>
+<p>imagesTr contains the images belonging to the training cases. nnU-Net will run pipeline configuration, training with
+cross-validation, as well as finding postprocesing and the best ensemble on this data. imagesTs (optional) contains the
+images that belong to the
+test cases , labelsTr the images with the ground truth segmentation maps for the training cases. dataset.json contains
+metadata of the dataset.</p>
+<p>Each training case is associated with an identifier = a unique name for that case. This identifier is used by nnU-Net to
+recognize which label file belongs to which image. <strong>All images (including labels) must be 3D nifti files (.nii.gz)!</strong></p>
+<p>The image files can have any scalar pixel type. The label files must contain segmentation maps that contain consecutive integers,
+starting with 0: 0, 1, 2, 3, … num_labels. 0 is considered background. Each class then has its own associated integer
+value.
+Images may have multiple modalities. This is especially often the case for medical images. Modalities are very much
+like color channels in photos (three color channels: red, green blue), but can be much more diverse: CT, different types
+or MRI, and many other. Imaging modalities are identified by nnU-Net by their suffix: a four-digit integer at the end
+of the filename. Imaging files must therefore follow the following naming convention: case_identifier_XXXX.nii.gz.
+Hereby, XXXX is the modality identifier. What modalities these identifiers belong to is specified in the dataset.json
+file (see below). Label files are saved as case_identifier.nii.gz</p>
+<p>This naming scheme results in the following folder structure. It is the responsibility of the user to bring their
+data into this format!</p>
+<p>Here is an example for the first Task of the MSD: BrainTumour. Each image has four modalities: FLAIR (0000),
+T1w (0001), T1gd (0002) and T2w (0003). Note that the imagesTs folder is optional and does not have to be present.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>nnUNet_raw_data_base/nnUNet_raw_data/Task001_BrainTumour/
+├── dataset.json
+├── imagesTr
+│   ├── BRATS_001_0000.nii.gz
+│   ├── BRATS_001_0001.nii.gz
+│   ├── BRATS_001_0002.nii.gz
+│   ├── BRATS_001_0003.nii.gz
+│   ├── BRATS_002_0000.nii.gz
+│   ├── BRATS_002_0001.nii.gz
+│   ├── BRATS_002_0002.nii.gz
+│   ├── BRATS_002_0003.nii.gz
+│   ├── BRATS_003_0000.nii.gz
+│   ├── BRATS_003_0001.nii.gz
+│   ├── BRATS_003_0002.nii.gz
+│   ├── BRATS_003_0003.nii.gz
+│   ├── BRATS_004_0000.nii.gz
+│   ├── BRATS_004_0001.nii.gz
+│   ├── BRATS_004_0002.nii.gz
+│   ├── BRATS_004_0003.nii.gz
+│   ├── ...
+├── imagesTs
+│   ├── BRATS_485_0000.nii.gz
+│   ├── BRATS_485_0001.nii.gz
+│   ├── BRATS_485_0002.nii.gz
+│   ├── BRATS_485_0003.nii.gz
+│   ├── BRATS_486_0000.nii.gz
+│   ├── BRATS_486_0001.nii.gz
+│   ├── BRATS_486_0002.nii.gz
+│   ├── BRATS_486_0003.nii.gz
+│   ├── BRATS_487_0000.nii.gz
+│   ├── BRATS_487_0001.nii.gz
+│   ├── BRATS_487_0002.nii.gz
+│   ├── BRATS_487_0003.nii.gz
+│   ├── BRATS_488_0000.nii.gz
+│   ├── BRATS_488_0001.nii.gz
+│   ├── BRATS_488_0002.nii.gz
+│   ├── BRATS_488_0003.nii.gz
+│   ├── BRATS_489_0000.nii.gz
+│   ├── BRATS_489_0001.nii.gz
+│   ├── BRATS_489_0002.nii.gz
+│   ├── BRATS_489_0003.nii.gz
+│   ├── ...
+└── labelsTr
+    ├── BRATS_001.nii.gz
+    ├── BRATS_002.nii.gz
+    ├── BRATS_003.nii.gz
+    ├── BRATS_004.nii.gz
+    ├── ...
+</pre></div>
+</div>
+<p>Here is another example of the second task of the MSD, which has only one modality:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>nnUNet_raw_data_base/nnUNet_raw_data/Task002_Heart/
+├── dataset.json
+├── imagesTr
+│   ├── la_003_0000.nii.gz
+│   ├── la_004_0000.nii.gz
+│   ├── ...
+├── imagesTs
+│   ├── la_001_0000.nii.gz
+│   ├── la_002_0000.nii.gz
+│   ├── ...
+└── labelsTr
+    ├── la_003.nii.gz
+    ├── la_004.nii.gz
+    ├── ...
+</pre></div>
+</div>
+<p>For each training case, all images must have the same geometry to ensure that their pixel arrays are aligned. Also
+make sure that all your data is co-registered!</p>
+<p>The dataset.json file used by nnU-Net is identical to the ones used by the MSD. For your custom tasks you need to create
+them as well and thereby exactly follow the same structure. <a class="reference external" href="https://drive.google.com/drive/folders/1HqEgzS8BV2c7xYNrZdEAnrHk7osJJ--2">This</a>
+is where you can download the MSD data for reference.</p>
+<p>Here is the content of the dataset.json from the Prostate task:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> 
+ <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;PROSTATE&quot;</span><span class="p">,</span> 
+ <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Prostate transitional zone and peripheral zone segmentation&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;reference&quot;</span><span class="p">:</span> <span class="s2">&quot;Radboud University, Nijmegen Medical Centre&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;licence&quot;</span><span class="p">:</span><span class="s2">&quot;CC-BY-SA 4.0&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;relase&quot;</span><span class="p">:</span><span class="s2">&quot;1.0 04/05/2018&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;tensorImageSize&quot;</span><span class="p">:</span> <span class="s2">&quot;4D&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;modality&quot;</span><span class="p">:</span> <span class="p">{</span> 
+   <span class="s2">&quot;0&quot;</span><span class="p">:</span> <span class="s2">&quot;T2&quot;</span><span class="p">,</span> 
+   <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="s2">&quot;ADC&quot;</span>
+ <span class="p">},</span> 
+ <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="p">{</span> 
+   <span class="s2">&quot;0&quot;</span><span class="p">:</span> <span class="s2">&quot;background&quot;</span><span class="p">,</span> 
+   <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="s2">&quot;PZ&quot;</span><span class="p">,</span> 
+   <span class="s2">&quot;2&quot;</span><span class="p">:</span> <span class="s2">&quot;TZ&quot;</span>
+ <span class="p">},</span> 
+ <span class="s2">&quot;numTraining&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> 
+ <span class="s2">&quot;numTest&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+ <span class="s2">&quot;training&quot;</span><span class="p">:[{</span><span class="s2">&quot;image&quot;</span><span class="p">:</span><span class="s2">&quot;./imagesTr/prostate_16.nii.gz&quot;</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;./labelsTr/prostate_16.nii.gz&quot;</span><span class="p">},{</span><span class="s2">&quot;image&quot;</span><span class="p">:</span><span class="s2">&quot;./imagesTr/prostate_04.nii.gz&quot;</span><span class="p">,</span><span class="s2">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;./labelsTr/prostate_04.nii.gz&quot;</span><span class="p">},</span><span class="o">...</span><span class="p">],</span> 
+ <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;./imagesTs/prostate_08.nii.gz&quot;</span><span class="p">,</span><span class="s2">&quot;./imagesTs/prostate_22.nii.gz&quot;</span><span class="p">,</span><span class="s2">&quot;./imagesTs/prostate_30.nii.gz&quot;</span><span class="p">,</span><span class="o">...</span><span class="p">]</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that we truncated the “training” and “test” lists for clarity. You need to specify all the cases in there. If you
+don’t have test images (imagesTs does not exist) you can leave “test” blank: <code class="docutils literal notranslate"><span class="pre">&quot;test&quot;:</span> <span class="pre">[]</span></code>.</p>
+<p>Please also have a look at the python files located <a class="reference external" href="https://github.com/intel/neural-compressor/tree/58946fb79d4fe903f438976ea53721b8629d9dd7/examples/pytorch/image_recognition/3d-unet/quantization/ptq/eager/nnUnet/documentation/../nnunet/dataset_conversion">here</a>. They show how we created our
+custom dataset.jsons for a range of public datasets.</p>
+<div class="section" id="how-to-use-decathlon-datasets">
+<h2>How to use decathlon datasets<a class="headerlink" href="#how-to-use-decathlon-datasets" title="Permalink to this headline">¶</a></h2>
+<p>The previous release of nnU-Net allowed users to either start with 4D or 3D niftis. This resulted in some confusion,
+however, because some users would not know where they should save their data. We therefore dropped support for the 4D
+niftis used by the MSD. Instead, we provide a utility that converts the MSD datasets into the format specified above:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nnUNet_convert_decathlon_task -i FOLDER_TO_TASK_AS_DOWNLOADED_FROM_MSD -p NUM_PROCESSES
+</pre></div>
+</div>
+<p>FOLDER_TO_TASK_AS_DOWNLOADED_FROM_MSD needs to point to the downloaded task folder (such as Task05_Prostate, note the
+2-digit task id!). The converted Task will be saved under the same name in nnUNet_raw_data_base/nnUNet_raw_data
+(but with a 3 digit identifier). You can overwrite the task id of the converted task by using the <code class="docutils literal notranslate"><span class="pre">-output_task_id</span></code> option.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

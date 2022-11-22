@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XLM-RoBERTa &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">XLM-RoBERTa</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/xlmroberta.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="xlm-roberta">
+<h1>XLM-RoBERTa<a class="headerlink" href="#xlm-roberta" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The XLM-RoBERTa model was proposed in <a class="reference external" href="https://arxiv.org/abs/1911.02116">Unsupervised Cross-lingual Representation Learning at Scale</a> by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume
+Wenzek, Francisco Guzmán, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov. It is based on Facebook’s
+RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl
+data.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>This paper shows that pretraining multilingual language models at scale leads to significant performance gains for a
+wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one hundred
+languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R, significantly
+outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on
+XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs particularly well on
+low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over the previous XLM model. We
+also present a detailed empirical evaluation of the key factors that are required to achieve these gains, including the
+trade-offs between (1) positive transfer and capacity dilution and (2) the performance of high and low resource
+languages at scale. Finally, we show, for the first time, the possibility of multilingual modeling without sacrificing
+per-language performance; XLM-Ris very competitive with strong monolingual models on the GLUE and XNLI benchmarks. We
+will make XLM-R code, data, and models publicly available.</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM multilingual models, it does
+not require <code class="xref py py-obj docutils literal notranslate"><span class="pre">lang</span></code> tensors to understand which language is used, and should be able to determine the correct
+language from the input ids.</p></li>
+<li><p>This implementation is the same as RoBERTa. Refer to the <a class="reference internal" href="roberta.html"><span class="doc">documentation of RoBERTa</span></a> for usage examples
+as well as the information relative to the inputs and outputs.</p></li>
+</ul>
+<p>The original code can be found <a class="reference external" href="https://github.com/pytorch/fairseq/tree/master/examples/xlmr">here</a>.</p>
+</div>
+<div class="section" id="xlmrobertaconfig">
+<h2>XLMRobertaConfig<a class="headerlink" href="#xlmrobertaconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="xlmrobertatokenizer">
+<h2>XLMRobertaTokenizer<a class="headerlink" href="#xlmrobertatokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="xlmrobertatokenizerfast">
+<h2>XLMRobertaTokenizerFast<a class="headerlink" href="#xlmrobertatokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="xlmrobertamodel">
+<h2>XLMRobertaModel<a class="headerlink" href="#xlmrobertamodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="xlmrobertaforcausallm">
+<h2>XLMRobertaForCausalLM<a class="headerlink" href="#xlmrobertaforcausallm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="xlmrobertaformaskedlm">
+<h2>XLMRobertaForMaskedLM<a class="headerlink" href="#xlmrobertaformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="xlmrobertaforsequenceclassification">
+<h2>XLMRobertaForSequenceClassification<a class="headerlink" href="#xlmrobertaforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="xlmrobertaformultiplechoice">
+<h2>XLMRobertaForMultipleChoice<a class="headerlink" href="#xlmrobertaformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="xlmrobertafortokenclassification">
+<h2>XLMRobertaForTokenClassification<a class="headerlink" href="#xlmrobertafortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="xlmrobertaforquestionanswering">
+<h2>XLMRobertaForQuestionAnswering<a class="headerlink" href="#xlmrobertaforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfxlmrobertamodel">
+<h2>TFXLMRobertaModel<a class="headerlink" href="#tfxlmrobertamodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfxlmrobertaformaskedlm">
+<h2>TFXLMRobertaForMaskedLM<a class="headerlink" href="#tfxlmrobertaformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfxlmrobertaforsequenceclassification">
+<h2>TFXLMRobertaForSequenceClassification<a class="headerlink" href="#tfxlmrobertaforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfxlmrobertaformultiplechoice">
+<h2>TFXLMRobertaForMultipleChoice<a class="headerlink" href="#tfxlmrobertaformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfxlmrobertafortokenclassification">
+<h2>TFXLMRobertaForTokenClassification<a class="headerlink" href="#tfxlmrobertafortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfxlmrobertaforquestionanswering">
+<h2>TFXLMRobertaForQuestionAnswering<a class="headerlink" href="#tfxlmrobertaforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

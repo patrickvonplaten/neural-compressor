@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example: inference with pretrained nnU-Net models &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../../" src="../../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Example: inference with pretrained nnU-Net models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../../_sources/examples/pytorch/image_recognition/3d-unet/quantization/ptq/eager/nnUnet/documentation/inference_example_Prostate.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="example-inference-with-pretrained-nnu-net-models">
+<h1>Example: inference with pretrained nnU-Net models<a class="headerlink" href="#example-inference-with-pretrained-nnu-net-models" title="Permalink to this headline">¶</a></h1>
+<p>This is a step-by-step example on how to run inference with pretrained nnU-Net models on the Prostate dataset of the
+Medical Segmentation Decathlon.</p>
+<ol>
+<li><p>Install nnU-Net by following the instructions <a class="reference external" href="../readme.html#installation">here</a>. Make sure to set all relevant paths,
+also see <a class="reference internal" href="setting_up_paths.html"><span class="doc">here</span></a>. This step is necessary so that nnU-Net knows where to store trained models.</p></li>
+<li><p>Download the Prostate dataset of the Medical Segmentation Decathlon from
+<a class="reference external" href="https://drive.google.com/drive/folders/1HqEgzS8BV2c7xYNrZdEAnrHk7osJJ--2">here</a>. Then extract the archive to a
+destination of your choice.</p></li>
+<li><p>We selected the Prostate dataset for this example because we have a utility script that converts the test data into
+the correct format.</p>
+<p>Decathlon data come as 4D niftis. This is not compatible with nnU-Net (see dataset format specified
+<a class="reference internal" href="dataset_conversion.html"><span class="doc">here</span></a>). Convert the Prostate dataset into the correct format with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nnUNet_convert_decathlon_task -i /xxx/Task05_Prostate
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">Task05_Prostate</span></code> must be the folder that has the three ‘imagesTr’, ‘labelsTr’, ‘imagesTs’ subfolders!
+The converted dataset can be found in <code class="docutils literal notranslate"><span class="pre">$nnUNet_raw_data_base/nnUNet_raw_data</span></code> ($nnUNet_raw_data_base is the folder for
+raw data that you specified during installation)</p>
+</li>
+<li><p>Download the pretrained model using this command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nnUNet_download_pretrained_model Task005_Prostate
+</pre></div>
+</div>
+</li>
+<li><p>The prostate dataset requires two image modalities as input. This is very much liKE RGB images have three color channels.
+nnU-Net recognizes modalities by the file ending: a single test case of the prostate dataset therefore consists of two files
+<code class="docutils literal notranslate"><span class="pre">case_0000.nii.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">case_0001.nii.gz</span></code>. Each of these files is a 3D image. The file ending with 0000.nii.gz must
+always contain the T2 image and 0001.nii.gz the ADC image. Whenever you are using pretrained models, you can use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nnUNet_print_pretrained_model_info Task005_Prostate
+</pre></div>
+</div>
+<p>to obtain information on which modality needs to get which number. The output for Prostate is the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">Prostate</span> <span class="n">Segmentation</span><span class="o">.</span> 
+ <span class="n">Segmentation</span> <span class="n">targets</span> <span class="n">are</span> <span class="n">peripheral</span> <span class="ow">and</span> <span class="n">central</span> <span class="n">zone</span><span class="p">,</span> 
+ <span class="nb">input</span> <span class="n">modalities</span> <span class="n">are</span> <span class="mi">0</span><span class="p">:</span> <span class="n">T2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">ADC</span><span class="o">.</span> 
+ <span class="n">Also</span> <span class="n">see</span> <span class="n">Medical</span> <span class="n">Segmentation</span> <span class="n">Decathlon</span><span class="p">,</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">medicaldecathlon</span><span class="o">.</span><span class="n">com</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p>The script we ran in 3) automatically converted the test data for us and stored them in
+<code class="docutils literal notranslate"><span class="pre">$nnUNet_raw_data_base/nnUNet_raw_data/Task005_Prostate/imagesTs</span></code>. Note that you need to to this conversion yourself when
+using other than Medcial Segmentation Decathlon datasets. No worries. Doing this is easy (often as simple as appending
+a _0000 to the file name if only one input modality is required). Instructions can be found here <a class="reference internal" href="data_format_inference.html"><span class="doc">here</span></a>.</p></li>
+<li><p>You can now predict the Prostate test cases with the pretrained model. We exemplarily use the 3D full resolution U-Net here:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nnUNet_predict -i <span class="nv">$nnUNet_raw_data_base</span>/nnUNet_raw_data/Task005_Prostate/imagesTs/ -o OUTPUT_DIRECTORY -t <span class="m">5</span> -m 3d_fullres
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">5</span></code> specifies the task with id 5 (which corresponds to the Prostate dataset). You can also give the full
+task name <code class="docutils literal notranslate"><span class="pre">Task005_Prostate</span></code>. <code class="docutils literal notranslate"><span class="pre">OUTPUT_DIRECTORY</span></code> is where the resulting segmentations are saved.</p>
+</li>
+<li><p>If you want to use an ensemble for inference, you need to run the following commands:</p>
+<p>Prediction with 3d full resolution U-Net (this command is a little different than the one above).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nnUNet_predict -i <span class="nv">$nnUNet_raw_data_base</span>/nnUNet_raw_data/Task005_Prostate/imagesTs/ -o OUTPUT_DIRECTORY_3D -t <span class="m">5</span> --save_npz -m 3d_fullres
+</pre></div>
+</div>
+<p>Prediction with 2D U-Net</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nnUNet_predict -i <span class="nv">$nnUNet_raw_data_base</span>/nnUNet_raw_data/Task005_Prostate/imagesTs/ -o OUTPUT_DIRECTORY_2D -t <span class="m">5</span> --save_npz -m 2d
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--save_npz</span></code> will tell nnU-Net to also store the softmax probabilities for ensembling.</p>
+<p>You can then merge the predictions with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nnUNet_ensemble -f OUTPUT_DIRECTORY_3D OUTPUT_DIRECTORY_2D -o OUTPUT_FOLDER_ENSEMBLE -pp POSTPROCESSING_FILE
+</pre></div>
+</div>
+<p>This will merge the predictions from <code class="docutils literal notranslate"><span class="pre">OUTPUT_DIRECTORY_2D</span></code> and <code class="docutils literal notranslate"><span class="pre">OUTPUT_DIRECTORY_3D</span></code>. <code class="docutils literal notranslate"><span class="pre">-pp</span> <span class="pre">POSTPROCESSING_FILE</span></code>
+(optional!) is a file that gives nnU-Net information on how to postprocess the ensemble. These files were also
+downloaded as part of the pretrained model weights and are located at <code class="docutils literal notranslate"><span class="pre">RESULTS_FOLDER/nnUNet/ensembles/</span> <span class="pre">Task005_Prostate/ensemble_2d__nnUNetTrainerV2__nnUNetPlansv2.1--3d_fullres__nnUNetTrainerV2__nnUNetPlansv2.1/postprocessing.json</span></code>.
+We will make the postprocessing files more accessible in a future (soon!) release.</p>
+</li>
+</ol>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

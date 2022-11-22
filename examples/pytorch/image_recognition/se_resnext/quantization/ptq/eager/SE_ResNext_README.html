@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pretrained models for Pytorch (Work in progress) &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Pretrained models for Pytorch (Work in progress)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/image_recognition/se_resnext/quantization/ptq/eager/SE_ResNext_README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="pretrained-models-for-pytorch-work-in-progress">
+<h1>Pretrained models for Pytorch (Work in progress)<a class="headerlink" href="#pretrained-models-for-pytorch-work-in-progress" title="Permalink to this headline">¶</a></h1>
+<p>The goal of this repo is:</p>
+<ul class="simple">
+<li><p>to help to reproduce research papers results (transfer learning setups for instance),</p></li>
+<li><p>to access pretrained ConvNets with a unique interface/API inspired by torchvision.</p></li>
+</ul>
+<p><a href="https://travis-ci.org/Cadene/pretrained-models.pytorch"><img src="https://api.travis-ci.org/Cadene/pretrained-models.pytorch.svg?branch=master"/></a></p>
+<p>News:</p>
+<ul class="simple">
+<li><p>27/10/2018: Fix compatibility issues, Add tests, Add travis</p></li>
+<li><p>04/06/2018: <a class="reference external" href="https://github.com/CUHK-MMLAB/polynet">PolyNet</a> and <a class="reference external" href="https://arxiv.org/abs/1712.00559">PNASNet-5-Large</a> thanks to <a class="reference external" href="https://github.com/creafz">Alex Parinov</a></p></li>
+<li><p>16/04/2018: <a class="reference external" href="https://github.com/hujie-frank/SENet">SE-ResNet* and SE-ResNeXt*</a> thanks to <a class="reference external" href="https://github.com/creafz">Alex Parinov</a></p></li>
+<li><p>09/04/2018: <a class="reference external" href="https://github.com/hujie-frank/SENet">SENet154</a> thanks to <a class="reference external" href="https://github.com/creafz">Alex Parinov</a></p></li>
+<li><p>22/03/2018: CaffeResNet101 (good for localization with FasterRCNN)</p></li>
+<li><p>21/03/2018: NASNet Mobile thanks to <a class="reference external" href="https://github.com/veronikayurchuk">Veronika Yurchuk</a> and <a class="reference external" href="https://github.com/DagnyT">Anastasiia</a></p></li>
+<li><p>25/01/2018: DualPathNetworks thanks to <a class="reference external" href="https://github.com/rwightman/pytorch-dpn-pretrained">Ross Wightman</a>, Xception thanks to <a class="reference external" href="https://github.com/tstandley/Xception-PyTorch">T Standley</a>, improved TransformImage API</p></li>
+<li><p>13/01/2018: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pretrainedmodels</span></code>, <code class="docutils literal notranslate"><span class="pre">pretrainedmodels.model_names</span></code>, <code class="docutils literal notranslate"><span class="pre">pretrainedmodels.pretrained_settings</span></code></p></li>
+<li><p>12/01/2018: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p></li>
+<li><p>08/12/2017: update data url (/!\ <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> is needed)</p></li>
+<li><p>30/11/2017: improve API (<code class="docutils literal notranslate"><span class="pre">model.features(input)</span></code>, <code class="docutils literal notranslate"><span class="pre">model.logits(features)</span></code>, <code class="docutils literal notranslate"><span class="pre">model.forward(input)</span></code>, <code class="docutils literal notranslate"><span class="pre">model.last_linear</span></code>)</p></li>
+<li><p>16/11/2017: nasnet-a-large pretrained model ported by T. Durand and R. Cadene</p></li>
+<li><p>22/07/2017: torchvision pretrained models</p></li>
+<li><p>22/07/2017: momentum in inceptionv4 and inceptionresnetv2 to 0.1</p></li>
+<li><p>17/07/2017: model.input_range attribute</p></li>
+<li><p>17/07/2017: BNInception pretrained on Imagenet</p></li>
+</ul>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#installation">Installation</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#quick-examples">Quick examples</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#few-use-cases">Few use cases</a></p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#compute-imagenet-logits">Compute imagenet logits</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#compute-imagenet-validation-metrics">Compute imagenet validation metrics</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#evaluation-on-imagenet">Evaluation on ImageNet</a></p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#accuracy-on-validation-set">Accuracy on valset</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#reproducing-results">Reproducing results</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#documentation">Documentation</a></p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#available-models">Available models</a></p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">AlexNet</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#bninception">BNInception</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#caffe-resnet">CaffeResNet101</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">DenseNet121</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">DenseNet161</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">DenseNet169</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">DenseNet201</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">DenseNet201</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet68</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet92</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet98</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet107</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet113</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#facebook-resnet">FBResNet152</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#inception">InceptionResNetV2</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#inception">InceptionV3</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#inception">InceptionV4</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#nasnet">NASNet-A-Large</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#nasnet">NASNet-A-Mobile</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#pnasnet">PNASNet-5-Large</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#polynet">PolyNet</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#resnext">ResNeXt101_32x4d</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#resnext">ResNeXt101_64x4d</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">ResNet101</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">ResNet152</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">ResNet18</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">ResNet34</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">ResNet50</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#senet">SENet154</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNet50</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNet101</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNet152</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNeXt50_32x4d</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNeXt101_32x4d</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">SqueezeNet1_0</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">SqueezeNet1_1</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG11</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG13</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG16</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG19</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG11_BN</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG13_BN</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG16_BN</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG19_BN</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#xception">Xception</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#model-api">Model API</a></p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#modelinput_size">model.input_size</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#modelinput_space">model.input_space</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#modelinput_range">model.input_range</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#modelmean">model.mean</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#modelstd">model.std</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#modelfeatures">model.features</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#modellogits">model.logits</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#modelforward">model.forward</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#reproducing">Reproducing porting</a></p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#hand-porting-of-resnet152">ResNet*</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#automatic-porting-of-resnext">ResNeXt*</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#hand-porting-of-inceptionv4-and-inceptionresnetv2">Inception*</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p><a class="reference external" href="https://www.continuum.io/downloads">python3 with anaconda</a></p></li>
+<li><p><a class="reference external" href="http://pytorch.org">pytorch with/out CUDA</a></p></li>
+</ol>
+<div class="section" id="install-from-pip">
+<h3>Install from pip<a class="headerlink" href="#install-from-pip" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pretrainedmodels</span></code></p></li>
+</ol>
+</div>
+<div class="section" id="install-from-repo">
+<h3>Install from repo<a class="headerlink" href="#install-from-repo" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/Cadene/pretrained-models.pytorch.git</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">pretrained-models.pytorch</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="quick-examples">
+<h2>Quick examples<a class="headerlink" href="#quick-examples" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>To import <code class="docutils literal notranslate"><span class="pre">pretrainedmodels</span></code>:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pretrainedmodels</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>To print the available pretrained models:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">pretrainedmodels</span><span class="o">.</span><span class="n">model_names</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="s1">&#39;fbresnet152&#39;</span><span class="p">,</span> <span class="s1">&#39;bninception&#39;</span><span class="p">,</span> <span class="s1">&#39;resnext101_32x4d&#39;</span><span class="p">,</span> <span class="s1">&#39;resnext101_64x4d&#39;</span><span class="p">,</span> <span class="s1">&#39;inceptionv4&#39;</span><span class="p">,</span> <span class="s1">&#39;inceptionresnetv2&#39;</span><span class="p">,</span> <span class="s1">&#39;alexnet&#39;</span><span class="p">,</span> <span class="s1">&#39;densenet121&#39;</span><span class="p">,</span> <span class="s1">&#39;densenet169&#39;</span><span class="p">,</span> <span class="s1">&#39;densenet201&#39;</span><span class="p">,</span> <span class="s1">&#39;densenet161&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet18&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet34&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet50&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet101&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet152&#39;</span><span class="p">,</span> <span class="s1">&#39;inceptionv3&#39;</span><span class="p">,</span> <span class="s1">&#39;squeezenet1_0&#39;</span><span class="p">,</span> <span class="s1">&#39;squeezenet1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg11&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg11_bn&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg13&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg13_bn&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg16&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg16_bn&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg19_bn&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg19&#39;</span><span class="p">,</span> <span class="s1">&#39;nasnetalarge&#39;</span><span class="p">,</span> <span class="s1">&#39;nasnetamobile&#39;</span><span class="p">,</span> <span class="s1">&#39;cafferesnet101&#39;</span><span class="p">,</span> <span class="s1">&#39;senet154&#39;</span><span class="p">,</span>  <span class="s1">&#39;se_resnet50&#39;</span><span class="p">,</span> <span class="s1">&#39;se_resnet101&#39;</span><span class="p">,</span> <span class="s1">&#39;se_resnet152&#39;</span><span class="p">,</span> <span class="s1">&#39;se_resnext50_32x4d&#39;</span><span class="p">,</span> <span class="s1">&#39;se_resnext101_32x4d&#39;</span><span class="p">,</span> <span class="s1">&#39;cafferesnet101&#39;</span><span class="p">,</span> <span class="s1">&#39;polynet&#39;</span><span class="p">,</span> <span class="s1">&#39;pnasnet5large&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>To print the available pretrained settings for a chosen model:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">pretrainedmodels</span><span class="o">.</span><span class="n">pretrained_settings</span><span class="p">[</span><span class="s1">&#39;nasnetalarge&#39;</span><span class="p">])</span>
+<span class="o">&gt;</span> <span class="p">{</span><span class="s1">&#39;imagenet&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;http://data.lip6.fr/cadene/pretrainedmodels/nasnetalarge-a1897284.pth&#39;</span><span class="p">,</span> <span class="s1">&#39;input_space&#39;</span><span class="p">:</span> <span class="s1">&#39;RGB&#39;</span><span class="p">,</span> <span class="s1">&#39;input_size&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">331</span><span class="p">,</span> <span class="mi">331</span><span class="p">],</span> <span class="s1">&#39;input_range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="s1">&#39;num_classes&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">},</span> <span class="s1">&#39;imagenet+background&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;http://data.lip6.fr/cadene/pretrainedmodels/nasnetalarge-a1897284.pth&#39;</span><span class="p">,</span> <span class="s1">&#39;input_space&#39;</span><span class="p">:</span> <span class="s1">&#39;RGB&#39;</span><span class="p">,</span> <span class="s1">&#39;input_size&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">331</span><span class="p">,</span> <span class="mi">331</span><span class="p">],</span> <span class="s1">&#39;input_range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="s1">&#39;num_classes&#39;</span><span class="p">:</span> <span class="mi">1001</span><span class="p">}}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>To load a pretrained models from imagenet:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;nasnetalarge&#39;</span> <span class="c1"># could be fbresnet152 or inceptionresnetv2</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pretrainedmodels</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">model_name</span><span class="p">](</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Note</strong>: By default, models will be downloaded to your <code class="docutils literal notranslate"><span class="pre">$HOME/.torch</span></code> folder. You can modify this behavior using the <code class="docutils literal notranslate"><span class="pre">$TORCH_HOME</span></code> variable as follow: <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">TORCH_HOME=&quot;/local/pretrainedmodels&quot;</span></code></p>
+<ul class="simple">
+<li><p>To load an image and do a complete forward pass:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">pretrainedmodels.utils</span> <span class="kn">as</span> <span class="nn">utils</span>
+
+<span class="n">load_img</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">LoadImage</span><span class="p">()</span>
+
+<span class="c1"># transformations depending on the model</span>
+<span class="c1"># rescale, center crop, normalize, and others (ex: ToBGR, ToRange255)</span>
+<span class="n">tf_img</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">TransformImage</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> 
+
+<span class="n">path_img</span> <span class="o">=</span> <span class="s1">&#39;data/cat.jpg&#39;</span>
+
+<span class="n">input_img</span> <span class="o">=</span> <span class="n">load_img</span><span class="p">(</span><span class="n">path_img</span><span class="p">)</span>
+<span class="n">input_tensor</span> <span class="o">=</span> <span class="n">tf_img</span><span class="p">(</span><span class="n">input_img</span><span class="p">)</span>         <span class="c1"># 3x400x225 -&gt; 3x299x299 size may differ</span>
+<span class="n">input_tensor</span> <span class="o">=</span> <span class="n">input_tensor</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 3x299x299 -&gt; 1x3x299x299</span>
+<span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">,</span>
+    <span class="n">requires_grad</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">output_logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> <span class="c1"># 1x1000</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>To extract features (beware this API is not available for all networks):</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output_features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> <span class="c1"># 1x14x14x2048 size may differ</span>
+<span class="n">output_logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">logits</span><span class="p">(</span><span class="n">output_features</span><span class="p">)</span> <span class="c1"># 1x1000</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="few-use-cases">
+<h2>Few use cases<a class="headerlink" href="#few-use-cases" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="compute-imagenet-logits">
+<h3>Compute imagenet logits<a class="headerlink" href="#compute-imagenet-logits" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>See <a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch/blob/master/examples/imagenet_logits.py">examples/imagenet_logits.py</a> to compute logits of classes appearance over a single image with a pretrained model on imagenet.</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ python examples/imagenet_logits.py -h
+&gt; nasnetalarge, resnet152, inceptionresnetv2, inceptionv4, ...
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ python examples/imagenet_logits.py -a nasnetalarge --path_img data/cat.jpg
+&gt; &#39;nasnetalarge&#39;: data/cat.jpg&#39; is a &#39;tiger cat&#39; 
+</pre></div>
+</div>
+</div>
+<div class="section" id="compute-imagenet-evaluation-metrics">
+<h3>Compute imagenet evaluation metrics<a class="headerlink" href="#compute-imagenet-evaluation-metrics" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>See <a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch/blob/master/examples/imagenet_eval.py">examples/imagenet_eval.py</a> to evaluate pretrained models on imagenet valset.</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ python examples/imagenet_eval.py /local/common-data/imagenet_2012/images -a nasnetalarge -b <span class="m">20</span> -e
+&gt; * Acc@1 <span class="m">82</span>.693, Acc@5 <span class="m">96</span>.13
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="evaluation-on-imagenet">
+<h2>Evaluation on imagenet<a class="headerlink" href="#evaluation-on-imagenet" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="accuracy-on-validation-set-single-model">
+<h3>Accuracy on validation set (single model)<a class="headerlink" href="#accuracy-on-validation-set-single-model" title="Permalink to this headline">¶</a></h3>
+<p>Results were obtained using (center cropped) images of the same size than during the training process.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Model</th>
+<th>Version</th>
+<th>Acc@1</th>
+<th>Acc@5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PNASNet-5-Large</td>
+<td><a href="https://github.com/tensorflow/models/tree/master/research/slim">Tensorflow</a></td>
+<td>82.858</td>
+<td>96.182</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#pnasnet">PNASNet-5-Large</a></td>
+<td>Our porting</td>
+<td>82.736</td>
+<td>95.992</td>
+</tr>
+<tr>
+<td>NASNet-A-Large</td>
+<td><a href="https://github.com/tensorflow/models/tree/master/research/slim">Tensorflow</a></td>
+<td>82.693</td>
+<td>96.163</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#nasnet">NASNet-A-Large</a></td>
+<td>Our porting</td>
+<td>82.566</td>
+<td>96.086</td>
+</tr>
+<tr>
+<td>SENet154</td>
+<td><a href="https://github.com/hujie-frank/SENet">Caffe</a></td>
+<td>81.32</td>
+<td>95.53</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#senet">SENet154</a></td>
+<td>Our porting</td>
+<td>81.304</td>
+<td>95.498</td>
+</tr>
+<tr>
+<td>PolyNet</td>
+<td><a href="https://github.com/CUHK-MMLAB/polynet">Caffe</a></td>
+<td>81.29</td>
+<td>95.75</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#polynet">PolyNet</a></td>
+<td>Our porting</td>
+<td>81.002</td>
+<td>95.624</td>
+</tr>
+<tr>
+<td>InceptionResNetV2</td>
+<td><a href="https://github.com/tensorflow/models/tree/master/slim">Tensorflow</a></td>
+<td>80.4</td>
+<td>95.3</td>
+</tr>
+<tr>
+<td>InceptionV4</td>
+<td><a href="https://github.com/tensorflow/models/tree/master/slim">Tensorflow</a></td>
+<td>80.2</td>
+<td>95.3</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNeXt101_32x4d</a></td>
+<td>Our porting</td>
+<td>80.236</td>
+<td>95.028</td>
+</tr>
+<tr>
+<td>SE-ResNeXt101_32x4d</td>
+<td><a href="https://github.com/hujie-frank/SENet">Caffe</a></td>
+<td>80.19</td>
+<td>95.04</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#inception">InceptionResNetV2</a></td>
+<td>Our porting</td>
+<td>80.170</td>
+<td>95.234</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#inception">InceptionV4</a></td>
+<td>Our porting</td>
+<td>80.062</td>
+<td>94.926</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet107_5k</a></td>
+<td>Our porting</td>
+<td>79.746</td>
+<td>94.684</td>
+</tr>
+<tr>
+<td>ResNeXt101_64x4d</td>
+<td><a href="https://github.com/facebookresearch/ResNeXt">Torch7</a></td>
+<td>79.6</td>
+<td>94.7</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet131</a></td>
+<td>Our porting</td>
+<td>79.432</td>
+<td>94.574</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet92_5k</a></td>
+<td>Our porting</td>
+<td>79.400</td>
+<td>94.620</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet98</a></td>
+<td>Our porting</td>
+<td>79.224</td>
+<td>94.488</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNeXt50_32x4d</a></td>
+<td>Our porting</td>
+<td>79.076</td>
+<td>94.434</td>
+</tr>
+<tr>
+<td>SE-ResNeXt50_32x4d</td>
+<td><a href="https://github.com/hujie-frank/SENet">Caffe</a></td>
+<td>79.03</td>
+<td>94.46</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#xception">Xception</a></td>
+<td><a href="https://github.com/keras-team/keras/blob/master/keras/applications/xception.py">Keras</a></td>
+<td>79.000</td>
+<td>94.500</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#resnext">ResNeXt101_64x4d</a></td>
+<td>Our porting</td>
+<td>78.956</td>
+<td>94.252</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#xception">Xception</a></td>
+<td>Our porting</td>
+<td>78.888</td>
+<td>94.292</td>
+</tr>
+<tr>
+<td>ResNeXt101_32x4d</td>
+<td><a href="https://github.com/facebookresearch/ResNeXt">Torch7</a></td>
+<td>78.8</td>
+<td>94.4</td>
+</tr>
+<tr>
+<td>SE-ResNet152</td>
+<td><a href="https://github.com/hujie-frank/SENet">Caffe</a></td>
+<td>78.66</td>
+<td>94.46</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNet152</a></td>
+<td>Our porting</td>
+<td>78.658</td>
+<td>94.374</td>
+</tr>
+<tr>
+<td>ResNet152</td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>78.428</td>
+<td>94.110</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNet101</a></td>
+<td>Our porting</td>
+<td>78.396</td>
+<td>94.258</td>
+</tr>
+<tr>
+<td>SE-ResNet101</td>
+<td><a href="https://github.com/hujie-frank/SENet">Caffe</a></td>
+<td>78.25</td>
+<td>94.28</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#resnext">ResNeXt101_32x4d</a></td>
+<td>Our porting</td>
+<td>78.188</td>
+<td>93.886</td>
+</tr>
+<tr>
+<td>FBResNet152</td>
+<td><a href="https://github.com/facebook/fb.resnet.torch">Torch7</a></td>
+<td>77.84</td>
+<td>93.84</td>
+</tr>
+<tr>
+<td>SE-ResNet50</td>
+<td><a href="https://github.com/hujie-frank/SENet">Caffe</a></td>
+<td>77.63</td>
+<td>93.64</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#senet">SE-ResNet50</a></td>
+<td>Our porting</td>
+<td>77.636</td>
+<td>93.752</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">DenseNet161</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>77.560</td>
+<td>93.798</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">ResNet101</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>77.438</td>
+<td>93.672</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#facebook-resnet">FBResNet152</a></td>
+<td>Our porting</td>
+<td>77.386</td>
+<td>93.594</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#inception">InceptionV3</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>77.294</td>
+<td>93.454</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">DenseNet201</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>77.152</td>
+<td>93.548</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet68b_5k</a></td>
+<td>Our porting</td>
+<td>77.034</td>
+<td>93.590</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#caffe-resnet">CaffeResnet101</a></td>
+<td><a href="https://github.com/KaimingHe/deep-residual-networks">Caffe</a></td>
+<td>76.400</td>
+<td>92.900</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#caffe-resnet">CaffeResnet101</a></td>
+<td>Our porting</td>
+<td>76.200</td>
+<td>92.766</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">DenseNet169</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>76.026</td>
+<td>92.992</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">ResNet50</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>76.002</td>
+<td>92.980</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#dualpathnetworks">DualPathNet68</a></td>
+<td>Our porting</td>
+<td>75.868</td>
+<td>92.774</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">DenseNet121</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>74.646</td>
+<td>92.136</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG19_BN</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>74.266</td>
+<td>92.066</td>
+</tr>
+<tr>
+<td>NASNet-A-Mobile</td>
+<td><a href="https://github.com/tensorflow/models/tree/master/research/slim">Tensorflow</a></td>
+<td>74.0</td>
+<td>91.6</td>
+</tr>
+<tr>
+<td><a href="https://github.com/veronikayurchuk/pretrained-models.pytorch/blob/master/pretrainedmodels/models/nasnet_mobile.py">NASNet-A-Mobile</a></td>
+<td>Our porting</td>
+<td>74.080</td>
+<td>91.740</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">ResNet34</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>73.554</td>
+<td>91.456</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#bninception">BNInception</a></td>
+<td>Our porting</td>
+<td>73.524</td>
+<td>91.562</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG16_BN</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>73.518</td>
+<td>91.608</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG19</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>72.080</td>
+<td>90.822</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG16</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>71.636</td>
+<td>90.354</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG13_BN</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>71.508</td>
+<td>90.494</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG11_BN</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>70.452</td>
+<td>89.818</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">ResNet18</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>70.142</td>
+<td>89.274</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG13</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>69.662</td>
+<td>89.264</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">VGG11</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>68.970</td>
+<td>88.746</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">SqueezeNet1_1</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>58.250</td>
+<td>80.800</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">SqueezeNet1_0</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>58.108</td>
+<td>80.428</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Cadene/pretrained-models.pytorch#torchvision">Alexnet</a></td>
+<td><a href="https://github.com/pytorch/vision#models">Pytorch</a></td>
+<td>56.432</td>
+<td>79.194</td>
+</tr>
+</tbody>
+</table><p>Notes:</p>
+<ul class="simple">
+<li><p>the Pytorch version of ResNet152 is not a porting of the Torch7 but has been retrained by facebook.</p></li>
+<li><p>For the PolyNet evaluation each image was resized to 378x378 without preserving the aspect ratio and then the central 331×331 patch from the resulting image was used.</p></li>
+</ul>
+<p>Beware, the accuracy reported here is not always representative of the transferable capacity of the network on other tasks and datasets. You must try them all! :P</p>
+</div>
+<div class="section" id="reproducing-results">
+<h3>Reproducing results<a class="headerlink" href="#reproducing-results" title="Permalink to this headline">¶</a></h3>
+<p>Please see <a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#compute-imagenet-validation-metrics">Compute imagenet validation metrics</a></p>
+</div>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="available-models">
+<h3>Available models<a class="headerlink" href="#available-models" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="nasnet">
+<h4>NASNet*<a class="headerlink" href="#nasnet" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/tensorflow/models/tree/master/research/slim">TensorFlow Slim repo</a></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nasnetalarge(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nasnetalarge(num_classes=1001,</span> <span class="pre">pretrained='imagenet+background')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nasnetamobile(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="facebook-resnet">
+<h4>FaceBook ResNet*<a class="headerlink" href="#facebook-resnet" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/facebook/fb.resnet.torch">Torch7 repo of FaceBook</a></p>
+<p>There are a bit different from the ResNet* of torchvision. ResNet152 is currently the only one available.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fbresnet152(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="caffe-resnet">
+<h4>Caffe ResNet*<a class="headerlink" href="#caffe-resnet" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/KaimingHe/deep-residual-networks">Caffe repo of KaimingHe</a></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cafferesnet101(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="inception">
+<h4>Inception*<a class="headerlink" href="#inception" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/tensorflow/models/tree/master/slim">TensorFlow Slim repo</a> and <a class="reference external" href="https://github.com/pytorch/vision/tree/master/torchvision">Pytorch/Vision repo</a> for <code class="docutils literal notranslate"><span class="pre">inceptionv3</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">inceptionresnetv2(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inceptionresnetv2(num_classes=1001,</span> <span class="pre">pretrained='imagenet+background')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inceptionv4(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inceptionv4(num_classes=1001,</span> <span class="pre">pretrained='imagenet+background')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inceptionv3(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="bninception">
+<h4>BNInception<a class="headerlink" href="#bninception" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/Cadene/tensorflow-model-zoo.torch/pull/2">Trained with Caffe</a> by <a class="reference external" href="http://yjxiong.me">Xiong Yuanjun</a></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bninception(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="resnext">
+<h4>ResNeXt*<a class="headerlink" href="#resnext" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/facebookresearch/ResNeXt">ResNeXt repo of FaceBook</a></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">resnext101_32x4d(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resnext101_62x4d(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="dualpathnetworks">
+<h4>DualPathNetworks<a class="headerlink" href="#dualpathnetworks" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/cypw/DPNs">MXNET repo of Chen Yunpeng</a></p>
+<p>The porting has been made possible by <a class="reference external" href="http://rwightman.com">Ross Wightman</a> in his <a class="reference external" href="https://github.com/rwightman/pytorch-dpn-pretrained">PyTorch repo</a>.</p>
+<p>As you can see <a class="reference external" href="https://github.com/rwightman/pytorch-dpn-pretrained">here</a> DualPathNetworks allows you to try different scales. The default one in this repo is 0.875 meaning that the original input size is 256 before croping to 224.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dpn68(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpn98(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpn131(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpn68b(num_classes=1000,</span> <span class="pre">pretrained='imagenet+5k')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpn92(num_classes=1000,</span> <span class="pre">pretrained='imagenet+5k')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpn107(num_classes=1000,</span> <span class="pre">pretrained='imagenet+5k')</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">'imagenet+5k'</span></code> means that the network has been pretrained on imagenet5k before being finetuned on imagenet1k.</p>
+</div>
+<div class="section" id="xception">
+<h4>Xception<a class="headerlink" href="#xception" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/keras-team/keras/blob/master/keras/applications/xception.py">Keras repo</a></p>
+<p>The porting has been made possible by <a class="reference external" href="https://github.com/tstandley/Xception-PyTorch">T Standley</a>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xception(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="senet">
+<h4>SENet*<a class="headerlink" href="#senet" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/hujie-frank/SENet">Caffe repo of Jie Hu</a></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">senet154(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">se_resnet50(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">se_resnet101(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">se_resnet152(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">se_resnext50_32x4d(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">se_resnext101_32x4d(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="pnasnet">
+<h4>PNASNet*<a class="headerlink" href="#pnasnet" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/tensorflow/models/tree/master/research/slim">TensorFlow Slim repo</a></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pnasnet5large(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pnasnet5large(num_classes=1001,</span> <span class="pre">pretrained='imagenet+background')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="polynet">
+<h4>PolyNet<a class="headerlink" href="#polynet" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/CUHK-MMLAB/polynet">Caffe repo of the CUHK Multimedia Lab</a></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">polynet(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="torchvision">
+<h4>TorchVision<a class="headerlink" href="#torchvision" title="Permalink to this headline">¶</a></h4>
+<p>Source: <a class="reference external" href="https://github.com/pytorch/vision/tree/master/torchvision">Pytorch/Vision repo</a></p>
+<p>(<code class="docutils literal notranslate"><span class="pre">inceptionv3</span></code> included in <a class="reference external" href="https://github.com/Cadene/pretrained-models.pytorch#inception">Inception*</a>)</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">resnet18(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resnet34(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resnet50(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resnet101(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resnet152(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">densenet121(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">densenet161(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">densenet169(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">densenet201(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">squeezenet1_0(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">squeezenet1_1(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alexnet(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vgg11(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vgg13(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vgg16(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vgg19(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vgg11_bn(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vgg13_bn(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vgg16_bn(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vgg19_bn(num_classes=1000,</span> <span class="pre">pretrained='imagenet')</span></code></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="model-api">
+<h3>Model API<a class="headerlink" href="#model-api" title="Permalink to this headline">¶</a></h3>
+<p>Once a pretrained model has been loaded, you can use it that way.</p>
+<p><strong>Important note</strong>: All image must be loaded using <code class="docutils literal notranslate"><span class="pre">PIL</span></code> which scales the pixel values between 0 and 1.</p>
+<div class="section" id="model-input-size">
+<h4><code class="docutils literal notranslate"><span class="pre">model.input_size</span></code><a class="headerlink" href="#model-input-size" title="Permalink to this headline">¶</a></h4>
+<p>Attribute of type <code class="docutils literal notranslate"><span class="pre">list</span></code> composed of 3 numbers:</p>
+<ul class="simple">
+<li><p>number of color channels,</p></li>
+<li><p>height of the input image,</p></li>
+<li><p>width of the input image.</p></li>
+</ul>
+<p>Example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">299,</span> <span class="pre">299]</span></code> for inception* networks,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">224,</span> <span class="pre">224]</span></code> for resnet* networks.</p></li>
+</ul>
+</div>
+<div class="section" id="model-input-space">
+<h4><code class="docutils literal notranslate"><span class="pre">model.input_space</span></code><a class="headerlink" href="#model-input-space" title="Permalink to this headline">¶</a></h4>
+<p>Attribute of type <code class="docutils literal notranslate"><span class="pre">str</span></code> representating the color space of the image. Can be <code class="docutils literal notranslate"><span class="pre">RGB</span></code> or <code class="docutils literal notranslate"><span class="pre">BGR</span></code>.</p>
+</div>
+<div class="section" id="model-input-range">
+<h4><code class="docutils literal notranslate"><span class="pre">model.input_range</span></code><a class="headerlink" href="#model-input-range" title="Permalink to this headline">¶</a></h4>
+<p>Attribute of type <code class="docutils literal notranslate"><span class="pre">list</span></code> composed of 2 numbers:</p>
+<ul class="simple">
+<li><p>min pixel value,</p></li>
+<li><p>max pixel value.</p></li>
+</ul>
+<p>Example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code> for resnet* and inception* networks,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">255]</span></code> for bninception network.</p></li>
+</ul>
+</div>
+<div class="section" id="model-mean">
+<h4><code class="docutils literal notranslate"><span class="pre">model.mean</span></code><a class="headerlink" href="#model-mean" title="Permalink to this headline">¶</a></h4>
+<p>Attribute of type <code class="docutils literal notranslate"><span class="pre">list</span></code> composed of 3 numbers which are used to normalize the input image (substrate “color-channel-wise”).</p>
+<p>Example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[0.5,</span> <span class="pre">0.5,</span> <span class="pre">0.5]</span></code> for inception* networks,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[0.485,</span> <span class="pre">0.456,</span> <span class="pre">0.406]</span></code> for resnet* networks.</p></li>
+</ul>
+</div>
+<div class="section" id="model-std">
+<h4><code class="docutils literal notranslate"><span class="pre">model.std</span></code><a class="headerlink" href="#model-std" title="Permalink to this headline">¶</a></h4>
+<p>Attribute of type <code class="docutils literal notranslate"><span class="pre">list</span></code> composed of 3 numbers which are used to normalize the input image (divide “color-channel-wise”).</p>
+<p>Example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[0.5,</span> <span class="pre">0.5,</span> <span class="pre">0.5]</span></code> for inception* networks,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[0.229,</span> <span class="pre">0.224,</span> <span class="pre">0.225]</span></code> for resnet* networks.</p></li>
+</ul>
+</div>
+<div class="section" id="model-features">
+<h4><code class="docutils literal notranslate"><span class="pre">model.features</span></code><a class="headerlink" href="#model-features" title="Permalink to this headline">¶</a></h4>
+<p>/!\ work in progress (may not be available)</p>
+<p>Method which is used to extract the features from the image.</p>
+<p>Example when the model is loaded using <code class="docutils literal notranslate"><span class="pre">fbresnet152</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">input_224</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>            <span class="c1"># (1,3,224,224)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="n">input_224</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>               <span class="c1"># (1,2048,1,1)</span>
+
+<span class="c1"># print(input_448.size())          # (1,3,448,448)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="n">input_448</span><span class="p">)</span>
+<span class="c1"># print(output.size())             # (1,2048,7,7)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="model-logits">
+<h4><code class="docutils literal notranslate"><span class="pre">model.logits</span></code><a class="headerlink" href="#model-logits" title="Permalink to this headline">¶</a></h4>
+<p>/!\ work in progress (may not be available)</p>
+<p>Method which is used to classify the features from the image.</p>
+<p>Example when the model is loaded using <code class="docutils literal notranslate"><span class="pre">fbresnet152</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="n">input_224</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>               <span class="c1"># (1,2048, 1, 1)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">logits</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>               <span class="c1"># (1,1000)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="model-forward">
+<h4><code class="docutils literal notranslate"><span class="pre">model.forward</span></code><a class="headerlink" href="#model-forward" title="Permalink to this headline">¶</a></h4>
+<p>Method used to call <code class="docutils literal notranslate"><span class="pre">model.features</span></code> and <code class="docutils literal notranslate"><span class="pre">model.logits</span></code>. It can be overwritten as desired.</p>
+<p><strong>Note</strong>: A good practice is to use <code class="docutils literal notranslate"><span class="pre">model.__call__</span></code> as your function of choice to forward an input to your model. See the example bellow.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Without model.__call__</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">input_224</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>      <span class="c1"># (1,1000)</span>
+
+<span class="c1"># With model.__call__</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_224</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>      <span class="c1"># (1,1000)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="model-last-linear">
+<h4><code class="docutils literal notranslate"><span class="pre">model.last_linear</span></code><a class="headerlink" href="#model-last-linear" title="Permalink to this headline">¶</a></h4>
+<p>Attribute of type <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code>. This module is the last one to be called during the forward pass.</p>
+<ul class="simple">
+<li><p>Can be replaced by an adapted <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code> for fine tuning.</p></li>
+<li><p>Can be replaced by <code class="docutils literal notranslate"><span class="pre">pretrained.utils.Identity</span></code> for features extraction.</p></li>
+</ul>
+<p>Example when the model is loaded using <code class="docutils literal notranslate"><span class="pre">fbresnet152</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">input_224</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>            <span class="c1"># (1,3,224,224)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="n">input_224</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>               <span class="c1"># (1,2048,1,1)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">logits</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>               <span class="c1"># (1,1000)</span>
+
+<span class="c1"># fine tuning</span>
+<span class="n">dim_feats</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">last_linear</span><span class="o">.</span><span class="n">in_features</span> <span class="c1"># =2048</span>
+<span class="n">nb_classes</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">model</span><span class="o">.</span><span class="n">last_linear</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim_feats</span><span class="p">,</span> <span class="n">nb_classes</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_224</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>               <span class="c1"># (1,4)</span>
+
+<span class="c1"># features extraction</span>
+<span class="n">model</span><span class="o">.</span><span class="n">last_linear</span> <span class="o">=</span> <span class="n">pretrained</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_224</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>               <span class="c1"># (1,2048)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="reproducing">
+<h2>Reproducing<a class="headerlink" href="#reproducing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hand-porting-of-resnet152">
+<h3>Hand porting of ResNet152<a class="headerlink" href="#hand-porting-of-resnet152" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>th pretrainedmodels/fbresnet/resnet152_dump.lua
+python pretrainedmodels/fbresnet/resnet152_load.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="automatic-porting-of-resnext">
+<h3>Automatic porting of ResNeXt<a class="headerlink" href="#automatic-porting-of-resnext" title="Permalink to this headline">¶</a></h3>
+<p>https://github.com/clcarwin/convert_torch_to_pytorch</p>
+</div>
+<div class="section" id="hand-porting-of-nasnet-inceptionv4-and-inceptionresnetv2">
+<h3>Hand porting of NASNet, InceptionV4 and InceptionResNetV2<a class="headerlink" href="#hand-porting-of-nasnet-inceptionv4-and-inceptionresnetv2" title="Permalink to this headline">¶</a></h3>
+<p>https://github.com/Cadene/tensorflow-model-zoo.torch</p>
+</div>
+</div>
+<div class="section" id="acknowledgement">
+<h2>Acknowledgement<a class="headerlink" href="#acknowledgement" title="Permalink to this headline">¶</a></h2>
+<p>Thanks to the deep learning community and especially to the contributors of the pytorch ecosystem.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

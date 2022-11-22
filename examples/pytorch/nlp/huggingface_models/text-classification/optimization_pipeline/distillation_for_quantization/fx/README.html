@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/text-classification/optimization_pipeline/distillation_for_quantization/fx/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document is used to illustrate how to run the distillation for quantization examples.
+<br>
+These examples will take a NLP model fine tuned on the down stream task, use its copy as a teacher model, and do distillation during the process of quantization aware training.
+<br>
+For more informations of this algorithm, please refer to the paper <a class="reference external" href="https://arxiv.org/abs/2206.01861">ZeroQuant: Efficient and Affordable Post-Training Quantization for Large-Scale Transformers</a></p>
+</div>
+<div class="section" id="prerequisite">
+<h1>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="python-version">
+<h2>Python Version<a class="headerlink" href="#python-version" title="Permalink to this headline">¶</a></h2>
+<p>Recommend python 3.7 or higher version.</p>
+</div>
+<div class="section" id="install-dependency">
+<h2>Install dependency<a class="headerlink" href="#install-dependency" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="start-running-neural-compressor-implementation-of-distillation-for-quantization">
+<h1>Start running neural_compressor implementation of distillation for quantization<a class="headerlink" href="#start-running-neural-compressor-implementation-of-distillation-for-quantization" title="Permalink to this headline">¶</a></h1>
+<p>Below are example NLP tasks of distillation for quantization to quantize the fine tuned BERT model on the specific tasks.
+<br>
+It requires the pre-trained task specific model such as <code class="docutils literal notranslate"><span class="pre">yoshitomo-matsubara/bert-base-uncased-sst2</span></code> from yoshitomo-matsubara Huggingface portal as the teacher model for distillation, as well as for quantization.
+<br>
+The distillation configuration is specified in yaml file i.e. distillation.yaml, the quantization aware training configuration is specified in yaml file i.e. qat.yaml.</p>
+<div class="section" id="sst-2-task">
+<h2>SST-2 task<a class="headerlink" href="#sst-2-task" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_glue_no_trainer.py --task_name sst2 --model_name_or_path yoshitomo-matsubara/bert-base-uncased-sst2 --teacher_model_name_or_path yoshitomo-matsubara/bert-base-uncased-sst2 --batch_size <span class="m">32</span> --do_eval --do_quantization --do_distillation --pad_to_max_length --num_train_epochs <span class="m">9</span> --output_dir /path/to/output_dir
+</pre></div>
+</div>
+</div>
+<div class="section" id="mnli-task">
+<h2>MNLI task<a class="headerlink" href="#mnli-task" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_glue_no_trainer.py --task_name mnli --model_name_or_path yoshitomo-matsubara/bert-base-uncased-mnli --teacher_model_name_or_path yoshitomo-matsubara/bert-base-uncased-mnli --batch_size <span class="m">32</span> --do_eval --do_quantization --do_distillation --pad_to_max_length --num_train_epochs <span class="m">9</span> --output_dir /path/to/output_dir
+</pre></div>
+</div>
+</div>
+<div class="section" id="qqp-task">
+<h2>QQP task<a class="headerlink" href="#qqp-task" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_glue_no_trainer.py --task_name qqp --model_name_or_path yoshitomo-matsubara/bert-base-uncased-qqp --teacher_model_name_or_path yoshitomo-matsubara/bert-base-uncased-qqp --batch_size <span class="m">32</span> --do_eval --do_quantization --do_distillation --pad_to_max_length --num_train_epochs <span class="m">9</span> --output_dir /path/to/output_dir
+</pre></div>
+</div>
+</div>
+<div class="section" id="qnli-task">
+<h2>QNLI task<a class="headerlink" href="#qnli-task" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_glue_no_trainer.py --task_name qnli --model_name_or_path yoshitomo-matsubara/bert-base-uncased-qnli --teacher_model_name_or_path yoshitomo-matsubara/bert-base-uncased-qnli --batch_size <span class="m">32</span> --do_eval --do_quantization --do_distillation --pad_to_max_length --num_train_epochs <span class="m">9</span> --output_dir /path/to/output_dir
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="results">
+<h1>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h1>
+<p>We listed the results on 4 distillation for quantization experiments, for comparison, we also listed the results of QAT as well as the baselie metrics of the FP32 model. These experiments use a fine-tuned BERT-Base model on the 4 GLUE task (SST-2, QNLI, QQP and MNLI), data in the column of FP32 is the metrics of the 4 fine-tuned BERT-Base model, data in the column of INT8 (QAT) is the metrics of the 4 INT8 BERT-Base model from QAT process, data in the column of INT8 (Distillation for Quantization) is the metrics of the 4 INT8 BERT-Base model from distillation for quantization process.
+|               |    FP32        |           INT8 (QAT)     |  INT8 (Distillation for Quantization) |
+|—————|—————-|————————–|————————–|
+|  SST-2 (ACC)  |     92.48%     |         91.90%           |          92.01%          |
+|  QNLI (ACC)   |     91.58%     |         89.49%           |          90.33%          |
+|  QQP (ACC/F1) | 90.95%/87.83%  |       89.60%/86.56%      |        91.07%/87.91%     |
+|  MNLI (ACC)   |     84.20%     |         78.67%           |          84.42%          |</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

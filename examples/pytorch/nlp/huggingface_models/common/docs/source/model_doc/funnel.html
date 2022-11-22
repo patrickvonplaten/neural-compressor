@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funnel Transformer &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Funnel Transformer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/funnel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="funnel-transformer">
+<h1>Funnel Transformer<a class="headerlink" href="#funnel-transformer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The Funnel Transformer model was proposed in the paper <a class="reference external" href="https://arxiv.org/abs/2006.03236">Funnel-Transformer: Filtering out Sequential Redundancy for
+Efficient Language Processing</a>. It is a bidirectional transformer model, like
+BERT, but with a pooling operation after each block of layers, a bit like in traditional convolutional neural networks
+(CNN) in computer vision.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>With the success of language pretraining, it is highly desirable to develop more efficient architectures of good
+scalability that can exploit the abundant unlabeled data at a lower cost. To improve the efficiency, we examine the
+much-overlooked redundancy in maintaining a full-length token-level presentation, especially for tasks that only
+require a single-vector presentation of the sequence. With this intuition, we propose Funnel-Transformer which
+gradually compresses the sequence of hidden states to a shorter one and hence reduces the computation cost. More
+importantly, by re-investing the saved FLOPs from length reduction in constructing a deeper or wider model, we further
+improve the model capacity. In addition, to perform token-level predictions as required by common pretraining
+objectives, Funnel-Transformer is able to recover a deep representation for each token from the reduced hidden sequence
+via a decoder. Empirically, with comparable or fewer FLOPs, Funnel-Transformer outperforms the standard Transformer on
+a wide variety of sequence-level prediction tasks, including text classification, language understanding, and reading
+comprehension.</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>Since Funnel Transformer uses pooling, the sequence length of the hidden states changes after each block of layers.
+The base model therefore has a final sequence length that is a quarter of the original one. This model can be used
+directly for tasks that just require a sentence summary (like sequence classification or multiple choice). For other
+tasks, the full model is used; this full model has a decoder that upsamples the final hidden states to the same
+sequence length as the input.</p></li>
+<li><p>The Funnel Transformer checkpoints are all available with a full version and a base version. The first ones should be
+used for <code class="xref py py-class docutils literal notranslate"><span class="pre">FunnelModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">FunnelForPreTraining</span></code>,
+<code class="xref py py-class docutils literal notranslate"><span class="pre">FunnelForMaskedLM</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">FunnelForTokenClassification</span></code> and
+class:<cite>~transformers.FunnelForQuestionAnswering</cite>. The second ones should be used for
+<code class="xref py py-class docutils literal notranslate"><span class="pre">FunnelBaseModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">FunnelForSequenceClassification</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">FunnelForMultipleChoice</span></code>.</p></li>
+</ul>
+<p>The original code can be found <a class="reference external" href="https://github.com/laiguokun/Funnel-Transformer">here</a>.</p>
+</div>
+<div class="section" id="funnelconfig">
+<h2>FunnelConfig<a class="headerlink" href="#funnelconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funneltokenizer">
+<h2>FunnelTokenizer<a class="headerlink" href="#funneltokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funneltokenizerfast">
+<h2>FunnelTokenizerFast<a class="headerlink" href="#funneltokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funnel-specific-outputs">
+<h2>Funnel specific outputs<a class="headerlink" href="#funnel-specific-outputs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funnelbasemodel">
+<h2>FunnelBaseModel<a class="headerlink" href="#funnelbasemodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funnelmodel">
+<h2>FunnelModel<a class="headerlink" href="#funnelmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funnelmodelforpretraining">
+<h2>FunnelModelForPreTraining<a class="headerlink" href="#funnelmodelforpretraining" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funnelformaskedlm">
+<h2>FunnelForMaskedLM<a class="headerlink" href="#funnelformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funnelforsequenceclassification">
+<h2>FunnelForSequenceClassification<a class="headerlink" href="#funnelforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funnelformultiplechoice">
+<h2>FunnelForMultipleChoice<a class="headerlink" href="#funnelformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funnelfortokenclassification">
+<h2>FunnelForTokenClassification<a class="headerlink" href="#funnelfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="funnelforquestionanswering">
+<h2>FunnelForQuestionAnswering<a class="headerlink" href="#funnelforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tffunnelbasemodel">
+<h2>TFFunnelBaseModel<a class="headerlink" href="#tffunnelbasemodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tffunnelmodel">
+<h2>TFFunnelModel<a class="headerlink" href="#tffunnelmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tffunnelmodelforpretraining">
+<h2>TFFunnelModelForPreTraining<a class="headerlink" href="#tffunnelmodelforpretraining" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tffunnelformaskedlm">
+<h2>TFFunnelForMaskedLM<a class="headerlink" href="#tffunnelformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tffunnelforsequenceclassification">
+<h2>TFFunnelForSequenceClassification<a class="headerlink" href="#tffunnelforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tffunnelformultiplechoice">
+<h2>TFFunnelForMultipleChoice<a class="headerlink" href="#tffunnelformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tffunnelfortokenclassification">
+<h2>TFFunnelForTokenClassification<a class="headerlink" href="#tffunnelfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tffunnelforquestionanswering">
+<h2>TFFunnelForQuestionAnswering<a class="headerlink" href="#tffunnelforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

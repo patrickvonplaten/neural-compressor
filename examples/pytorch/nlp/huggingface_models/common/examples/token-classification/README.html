@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Token classification &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Token classification</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/token-classification/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!---
+Copyright 2020 The HuggingFace Team. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--><div class="section" id="token-classification">
+<h1>Token classification<a class="headerlink" href="#token-classification" title="Permalink to this headline">¶</a></h1>
+<p>Fine-tuning the library models for token classification task such as Named Entity Recognition (NER) or Parts-of-speech
+tagging (POS). The main scrip <code class="docutils literal notranslate"><span class="pre">run_ner.py</span></code> leverages the 🤗 Datasets library and the Trainer API. You can easily
+customize it to your needs if you need extra processing on your datasets.</p>
+<p>It will either run on a datasets hosted on our <a class="reference external" href="https://huggingface.co/datasets">hub</a> or with your own text files for
+training and validation.</p>
+<p>The following example fine-tunes BERT on CoNLL-2003:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_ner.py <span class="se">\</span>
+  --model_name_or_path bert-base-uncased <span class="se">\</span>
+  --dataset_name conll2003 <span class="se">\</span>
+  --output_dir /tmp/test-ner <span class="se">\</span>
+  --do_train <span class="se">\</span>
+  --do_eval
+</pre></div>
+</div>
+<p>or just can just run the bash script <code class="docutils literal notranslate"><span class="pre">run.sh</span></code>.</p>
+<p>To run on your own training and validation files, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_ner.py <span class="se">\</span>
+  --model_name_or_path bert-base-uncased <span class="se">\</span>
+  --train_file path_to_train_file <span class="se">\</span>
+  --validation_file path_to_validation_file <span class="se">\</span>
+  --output_dir /tmp/test-ner <span class="se">\</span>
+  --do_train <span class="se">\</span>
+  --do_eval
+</pre></div>
+</div>
+<p><strong>Note:</strong> This script only works with models that have a fast tokenizer (backed by the 🤗 Tokenizers library) as it
+uses special features of those tokenizers. You can check if your favorite model has a fast tokenizer in
+<a class="reference external" href="https://huggingface.co/transformers/index.html#bigtable">this table</a>, if it doesn’t you can still use the old version
+of the script.</p>
+</div>
+<div class="section" id="old-version-of-the-script">
+<h1>Old version of the script<a class="headerlink" href="#old-version-of-the-script" title="Permalink to this headline">¶</a></h1>
+<p>You can find the old version of the PyTorch script <a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/legacy/token-classification/run_ner.py">here</a>.</p>
+<div class="section" id="tensorflow-version">
+<h2>TensorFlow version<a class="headerlink" href="#tensorflow-version" title="Permalink to this headline">¶</a></h2>
+<p>The following examples are covered in this section:</p>
+<ul class="simple">
+<li><p>NER on the GermEval 2014 (German NER) dataset</p></li>
+<li><p>Emerging and Rare Entities task: WNUT’17 (English NER) dataset</p></li>
+</ul>
+<p>Details and results for the fine-tuning provided by &#64;stefan-it.</p>
+</div>
+<div class="section" id="germeval-2014-german-ner-dataset">
+<h2>GermEval 2014 (German NER) dataset<a class="headerlink" href="#germeval-2014-german-ner-dataset" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="data-download-and-pre-processing-steps">
+<h3>Data (Download and pre-processing steps)<a class="headerlink" href="#data-download-and-pre-processing-steps" title="Permalink to this headline">¶</a></h3>
+<p>Data can be obtained from the <a class="reference external" href="https://sites.google.com/site/germeval2014ner/data">GermEval 2014</a> shared task page.</p>
+<p>Here are the commands for downloading and pre-processing train, dev and test datasets. The original data format has four (tab-separated) columns, in a pre-processing step only the two relevant columns (token and outer span NER annotation) are extracted:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -L <span class="s1">&#39;https://drive.google.com/uc?export=download&amp;id=1Jjhbal535VVz2ap4v4r_rN1UEHTdLK5P&#39;</span> <span class="se">\</span>
+<span class="p">|</span> grep -v <span class="s2">&quot;^#&quot;</span> <span class="p">|</span> cut -f <span class="m">2</span>,3 <span class="p">|</span> tr <span class="s1">&#39;\t&#39;</span> <span class="s1">&#39; &#39;</span> &gt; train.txt.tmp
+curl -L <span class="s1">&#39;https://drive.google.com/uc?export=download&amp;id=1ZfRcQThdtAR5PPRjIDtrVP7BtXSCUBbm&#39;</span> <span class="se">\</span>
+<span class="p">|</span> grep -v <span class="s2">&quot;^#&quot;</span> <span class="p">|</span> cut -f <span class="m">2</span>,3 <span class="p">|</span> tr <span class="s1">&#39;\t&#39;</span> <span class="s1">&#39; &#39;</span> &gt; dev.txt.tmp
+curl -L <span class="s1">&#39;https://drive.google.com/uc?export=download&amp;id=1u9mb7kNJHWQCWyweMDRMuTFoOHOfeBTH&#39;</span> <span class="se">\</span>
+<span class="p">|</span> grep -v <span class="s2">&quot;^#&quot;</span> <span class="p">|</span> cut -f <span class="m">2</span>,3 <span class="p">|</span> tr <span class="s1">&#39;\t&#39;</span> <span class="s1">&#39; &#39;</span> &gt; test.txt.tmp
+</pre></div>
+</div>
+<p>The GermEval 2014 dataset contains some strange “control character” tokens like <code class="docutils literal notranslate"><span class="pre">'\x96',</span> <span class="pre">'\u200e',</span> <span class="pre">'\x95',</span> <span class="pre">'\xad'</span> <span class="pre">or</span> <span class="pre">'\x80'</span></code>.
+One problem with these tokens is, that <code class="docutils literal notranslate"><span class="pre">BertTokenizer</span></code> returns an empty token for them, resulting in misaligned <code class="docutils literal notranslate"><span class="pre">InputExample</span></code>s.
+The <code class="docutils literal notranslate"><span class="pre">preprocess.py</span></code> script located in the <code class="docutils literal notranslate"><span class="pre">scripts</span></code> folder a) filters these tokens and b) splits longer sentences into smaller ones (once the max. subtoken length is reached).</p>
+<p>Let’s define some variables that we need for further pre-processing steps and training the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">MAX_LENGTH</span><span class="o">=</span><span class="m">128</span>
+<span class="nb">export</span> <span class="nv">BERT_MODEL</span><span class="o">=</span>bert-base-multilingual-cased
+</pre></div>
+</div>
+<p>Run the pre-processing script on training, dev and test datasets:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 scripts/preprocess.py train.txt.tmp <span class="nv">$BERT_MODEL</span> <span class="nv">$MAX_LENGTH</span> &gt; train.txt
+python3 scripts/preprocess.py dev.txt.tmp <span class="nv">$BERT_MODEL</span> <span class="nv">$MAX_LENGTH</span> &gt; dev.txt
+python3 scripts/preprocess.py test.txt.tmp <span class="nv">$BERT_MODEL</span> <span class="nv">$MAX_LENGTH</span> &gt; test.txt
+</pre></div>
+</div>
+<p>The GermEval 2014 dataset has much more labels than CoNLL-2002/2003 datasets, so an own set of labels must be used:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat train.txt dev.txt test.txt <span class="p">|</span> cut -d <span class="s2">&quot; &quot;</span> -f <span class="m">2</span> <span class="p">|</span> grep -v <span class="s2">&quot;^</span>$<span class="s2">&quot;</span><span class="p">|</span> sort <span class="p">|</span> uniq &gt; labels.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-the-run">
+<h3>Prepare the run<a class="headerlink" href="#prepare-the-run" title="Permalink to this headline">¶</a></h3>
+<p>Additional environment variables must be set:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">OUTPUT_DIR</span><span class="o">=</span>germeval-model
+<span class="nb">export</span> <span class="nv">BATCH_SIZE</span><span class="o">=</span><span class="m">32</span>
+<span class="nb">export</span> <span class="nv">NUM_EPOCHS</span><span class="o">=</span><span class="m">3</span>
+<span class="nb">export</span> <span class="nv">SAVE_STEPS</span><span class="o">=</span><span class="m">750</span>
+<span class="nb">export</span> <span class="nv">SEED</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

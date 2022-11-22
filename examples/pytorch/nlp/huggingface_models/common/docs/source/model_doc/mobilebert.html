@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MobileBERT &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">MobileBERT</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/mobilebert.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="mobilebert">
+<h1>MobileBERT<a class="headerlink" href="#mobilebert" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The MobileBERT model was proposed in <a class="reference external" href="https://arxiv.org/abs/2004.02984">MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices</a> by Zhiqing Sun, Hongkun Yu, Xiaodan Song, Renjie Liu, Yiming Yang, and Denny
+Zhou. It’s a bidirectional transformer based on the BERT model, which is compressed and accelerated using several
+approaches.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>Natural Language Processing (NLP) has recently achieved great success by using huge pre-trained models with hundreds
+of millions of parameters. However, these models suffer from heavy model sizes and high latency such that they cannot
+be deployed to resource-limited mobile devices. In this paper, we propose MobileBERT for compressing and accelerating
+the popular BERT model. Like the original BERT, MobileBERT is task-agnostic, that is, it can be generically applied to
+various downstream NLP tasks via simple fine-tuning. Basically, MobileBERT is a thin version of BERT_LARGE, while
+equipped with bottleneck structures and a carefully designed balance between self-attentions and feed-forward networks.
+To train MobileBERT, we first train a specially designed teacher model, an inverted-bottleneck incorporated BERT_LARGE
+model. Then, we conduct knowledge transfer from this teacher to MobileBERT. Empirical studies show that MobileBERT is
+4.3x smaller and 5.5x faster than BERT_BASE while achieving competitive results on well-known benchmarks. On the
+natural language inference tasks of GLUE, MobileBERT achieves a GLUEscore o 77.7 (0.6 lower than BERT_BASE), and 62 ms
+latency on a Pixel 4 phone. On the SQuAD v1.1/v2.0 question answering task, MobileBERT achieves a dev F1 score of
+90.0/79.2 (1.5/2.1 higher than BERT_BASE).</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>MobileBERT is a model with absolute position embeddings so it’s usually advised to pad the inputs on the right rather
+than the left.</p></li>
+<li><p>MobileBERT is similar to BERT and therefore relies on the masked language modeling (MLM) objective. It is therefore
+efficient at predicting masked tokens and at NLU in general, but is not optimal for text generation. Models trained
+with a causal language modeling (CLM) objective are better in that regard.</p></li>
+</ul>
+<p>The original code can be found <a class="reference external" href="https://github.com/google-research/mobilebert">here</a>.</p>
+</div>
+<div class="section" id="mobilebertconfig">
+<h2>MobileBertConfig<a class="headerlink" href="#mobilebertconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobileberttokenizer">
+<h2>MobileBertTokenizer<a class="headerlink" href="#mobileberttokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobileberttokenizerfast">
+<h2>MobileBertTokenizerFast<a class="headerlink" href="#mobileberttokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobilebert-specific-outputs">
+<h2>MobileBert specific outputs<a class="headerlink" href="#mobilebert-specific-outputs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobilebertmodel">
+<h2>MobileBertModel<a class="headerlink" href="#mobilebertmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobilebertforpretraining">
+<h2>MobileBertForPreTraining<a class="headerlink" href="#mobilebertforpretraining" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobilebertformaskedlm">
+<h2>MobileBertForMaskedLM<a class="headerlink" href="#mobilebertformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobilebertfornextsentenceprediction">
+<h2>MobileBertForNextSentencePrediction<a class="headerlink" href="#mobilebertfornextsentenceprediction" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobilebertforsequenceclassification">
+<h2>MobileBertForSequenceClassification<a class="headerlink" href="#mobilebertforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobilebertformultiplechoice">
+<h2>MobileBertForMultipleChoice<a class="headerlink" href="#mobilebertformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobilebertfortokenclassification">
+<h2>MobileBertForTokenClassification<a class="headerlink" href="#mobilebertfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mobilebertforquestionanswering">
+<h2>MobileBertForQuestionAnswering<a class="headerlink" href="#mobilebertforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmobilebertmodel">
+<h2>TFMobileBertModel<a class="headerlink" href="#tfmobilebertmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmobilebertforpretraining">
+<h2>TFMobileBertForPreTraining<a class="headerlink" href="#tfmobilebertforpretraining" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmobilebertformaskedlm">
+<h2>TFMobileBertForMaskedLM<a class="headerlink" href="#tfmobilebertformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmobilebertfornextsentenceprediction">
+<h2>TFMobileBertForNextSentencePrediction<a class="headerlink" href="#tfmobilebertfornextsentenceprediction" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmobilebertforsequenceclassification">
+<h2>TFMobileBertForSequenceClassification<a class="headerlink" href="#tfmobilebertforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmobilebertformultiplechoice">
+<h2>TFMobileBertForMultipleChoice<a class="headerlink" href="#tfmobilebertformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmobilebertfortokenclassification">
+<h2>TFMobileBertForTokenClassification<a class="headerlink" href="#tfmobilebertfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmobilebertforquestionanswering">
+<h2>TFMobileBertForQuestionAnswering<a class="headerlink" href="#tfmobilebertforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

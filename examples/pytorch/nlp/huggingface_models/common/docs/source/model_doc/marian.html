@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarianMT &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">MarianMT</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/marian.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="marianmt">
+<h1>MarianMT<a class="headerlink" href="#marianmt" title="Permalink to this headline">¶</a></h1>
+<p><strong>Bugs:</strong> If you see something strange, file a <a class="reference external" href="https://github.com/huggingface/transformers/issues/new?assignees=sshleifer&amp;labels=&amp;template=bug-report.md&amp;title">Github Issue</a>
+and assign &#64;patrickvonplaten.</p>
+<p>Translations should be similar, but not identical to output in the test set linked to in each model card.</p>
+<div class="section" id="implementation-notes">
+<h2>Implementation Notes<a class="headerlink" href="#implementation-notes" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Each model is about 298 MB on disk, there are more than 1,000 models.</p></li>
+<li><p>The list of supported language pairs can be found <a class="reference external" href="https://huggingface.co/Helsinki-NLP">here</a>.</p></li>
+<li><p>Models were originally trained by <a class="reference external" href="https://researchportal.helsinki.fi/en/persons/j%C3%B6rg-tiedemann">Jörg Tiedemann</a> using the <a class="reference external" href="https://marian-nmt.github.io/">Marian</a> C++ library, which supports fast training and translation.</p></li>
+<li><p>All models are transformer encoder-decoders with 6 layers in each component. Each model’s performance is documented
+in a model card.</p></li>
+<li><p>The 80 opus models that require BPE preprocessing are not supported.</p></li>
+<li><p>The modeling code is the same as <code class="xref py py-class docutils literal notranslate"><span class="pre">BartForConditionalGeneration</span></code> with a few minor modifications:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>static (sinusoid) positional embeddings (<code class="xref py py-obj docutils literal notranslate"><span class="pre">MarianConfig.static_position_embeddings=True</span></code>)</p></li>
+<li><p>no layernorm_embedding (<code class="xref py py-obj docutils literal notranslate"><span class="pre">MarianConfig.normalize_embedding=False</span></code>)</p></li>
+<li><p>the model starts generating with <code class="xref py py-obj docutils literal notranslate"><span class="pre">pad_token_id</span></code> (which has 0 as a token_embedding) as the prefix (Bart uses
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">&lt;s/&gt;</span></code>),</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Code to bulk convert models can be found in <code class="docutils literal notranslate"><span class="pre">convert_marian_to_pytorch.py</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="naming">
+<h2>Naming<a class="headerlink" href="#naming" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>All model names use the following format: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Helsinki-NLP/opus-mt-{src}-{tgt}</span></code></p></li>
+<li><p>The language codes used to name models are inconsistent. Two digit codes can usually be found <a class="reference external" href="https://developers.google.com/admin-sdk/directory/v1/languages">here</a>, three digit codes require googling “language
+code {code}”.</p></li>
+<li><p>Codes formatted like <code class="xref py py-obj docutils literal notranslate"><span class="pre">es_AR</span></code> are usually <code class="xref py py-obj docutils literal notranslate"><span class="pre">code_{region}</span></code>. That one is Spanish from Argentina.</p></li>
+<li><p>The models were converted in two stages. The first 1000 models use ISO-639-2 codes to identify languages, the second
+group use a combination of ISO-639-5 codes and ISO-639-2 codes.</p></li>
+</ul>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Since Marian models are smaller than many other translation models available in the library, they can be useful for
+fine-tuning experiments and integration tests.</p></li>
+<li><p><a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/research_projects/seq2seq-distillation/train_distil_marian_enro_teacher.sh">Fine-tune on GPU</a></p></li>
+<li><p><a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/research_projects/seq2seq-distillation/train_distil_marian_no_teacher.sh">Fine-tune on GPU with pytorch-lightning</a></p></li>
+</ul>
+</div>
+<div class="section" id="multilingual-models">
+<h2>Multilingual Models<a class="headerlink" href="#multilingual-models" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>All model names use the following format: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Helsinki-NLP/opus-mt-{src}-{tgt}</span></code>:</p></li>
+<li><p>If a model can output multiple languages, and you should specify a language code by prepending the desired output
+language to the <code class="xref py py-obj docutils literal notranslate"><span class="pre">src_text</span></code>.</p></li>
+<li><p>You can see a models’s supported language codes in its model card, under target constituents, like in <a class="reference external" href="https://huggingface.co/Helsinki-NLP/opus-mt-en-roa">opus-mt-en-roa</a>.</p></li>
+<li><p>Note that if a model is only multilingual on the source side, like <code class="xref py py-obj docutils literal notranslate"><span class="pre">Helsinki-NLP/opus-mt-roa-en</span></code>, no language
+codes are required.</p></li>
+</ul>
+<p>New multi-lingual models from the <a class="reference external" href="https://github.com/Helsinki-NLP/Tatoeba-Challenge">Tatoeba-Challenge repo</a>
+require 3 character language codes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">MarianMTModel</span><span class="p">,</span> <span class="n">MarianTokenizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">src_text</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="s1">&#39;&gt;&gt;fra&lt;&lt; this is a sentence in english that we want to translate to french&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;&gt;&gt;por&lt;&lt; This should go to portuguese&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;&gt;&gt;esp&lt;&lt; And this to Spanish&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;Helsinki-NLP/opus-mt-en-roa&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">MarianTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">supported_language_codes</span><span class="p">)</span>
+<span class="go">[&#39;&gt;&gt;zlm_Latn&lt;&lt;&#39;, &#39;&gt;&gt;mfe&lt;&lt;&#39;, &#39;&gt;&gt;hat&lt;&lt;&#39;, &#39;&gt;&gt;pap&lt;&lt;&#39;, &#39;&gt;&gt;ast&lt;&lt;&#39;, &#39;&gt;&gt;cat&lt;&lt;&#39;, &#39;&gt;&gt;ind&lt;&lt;&#39;, &#39;&gt;&gt;glg&lt;&lt;&#39;, &#39;&gt;&gt;wln&lt;&lt;&#39;, &#39;&gt;&gt;spa&lt;&lt;&#39;, &#39;&gt;&gt;fra&lt;&lt;&#39;, &#39;&gt;&gt;ron&lt;&lt;&#39;, &#39;&gt;&gt;por&lt;&lt;&#39;, &#39;&gt;&gt;ita&lt;&lt;&#39;, &#39;&gt;&gt;oci&lt;&lt;&#39;, &#39;&gt;&gt;arg&lt;&lt;&#39;, &#39;&gt;&gt;min&lt;&lt;&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">MarianMTModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">translated</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">src_text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">translated</span><span class="p">]</span>
+<span class="go">[&quot;c&#39;est une phrase en anglais que nous voulons traduire en français&quot;,</span>
+<span class="go"> &#39;Isto deve ir para o português.&#39;,</span>
+<span class="go"> &#39;Y esto al español&#39;]</span>
+</pre></div>
+</div>
+<p>Here is the code to see all available pretrained models on the hub:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers.hf_api</span> <span class="kn">import</span> <span class="n">HfApi</span>
+<span class="n">model_list</span> <span class="o">=</span> <span class="n">HfApi</span><span class="p">()</span><span class="o">.</span><span class="n">model_list</span><span class="p">()</span>
+<span class="n">org</span> <span class="o">=</span> <span class="s2">&quot;Helsinki-NLP&quot;</span>
+<span class="n">model_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">modelId</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">model_list</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">modelId</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">org</span><span class="p">)]</span>
+<span class="n">suffix</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">model_ids</span><span class="p">]</span>
+<span class="n">old_style_multi_models</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;{org}/{s}&#39;</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">suffix</span> <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="old-style-multi-lingual-models">
+<h2>Old Style Multi-Lingual Models<a class="headerlink" href="#old-style-multi-lingual-models" title="Permalink to this headline">¶</a></h2>
+<p>These are the old style multi-lingual models ported from the OPUS-MT-Train repo: and the members of each language
+group:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Helsinki-NLP/opus-mt-NORTH_EU-NORTH_EU&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-ROMANCE-en&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-SCANDINAVIA-SCANDINAVIA&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-de-ZH&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-en-CELTIC&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-en-ROMANCE&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-es-NORWAY&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-fi-NORWAY&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-fi-ZH&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-fi_nb_no_nn_ru_sv_en-SAMI&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-sv-NORWAY&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;Helsinki-NLP/opus-mt-sv-ZH&#39;</span><span class="p">]</span>
+<span class="n">GROUP_MEMBERS</span> <span class="o">=</span> <span class="p">{</span>
+ <span class="s1">&#39;ZH&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;cmn&#39;</span><span class="p">,</span> <span class="s1">&#39;cn&#39;</span><span class="p">,</span> <span class="s1">&#39;yue&#39;</span><span class="p">,</span> <span class="s1">&#39;ze_zh&#39;</span><span class="p">,</span> <span class="s1">&#39;zh_cn&#39;</span><span class="p">,</span> <span class="s1">&#39;zh_CN&#39;</span><span class="p">,</span> <span class="s1">&#39;zh_HK&#39;</span><span class="p">,</span> <span class="s1">&#39;zh_tw&#39;</span><span class="p">,</span> <span class="s1">&#39;zh_TW&#39;</span><span class="p">,</span> <span class="s1">&#39;zh_yue&#39;</span><span class="p">,</span> <span class="s1">&#39;zhs&#39;</span><span class="p">,</span> <span class="s1">&#39;zht&#39;</span><span class="p">,</span> <span class="s1">&#39;zh&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;ROMANCE&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;fr&#39;</span><span class="p">,</span> <span class="s1">&#39;fr_BE&#39;</span><span class="p">,</span> <span class="s1">&#39;fr_CA&#39;</span><span class="p">,</span> <span class="s1">&#39;fr_FR&#39;</span><span class="p">,</span> <span class="s1">&#39;wa&#39;</span><span class="p">,</span> <span class="s1">&#39;frp&#39;</span><span class="p">,</span> <span class="s1">&#39;oc&#39;</span><span class="p">,</span> <span class="s1">&#39;ca&#39;</span><span class="p">,</span> <span class="s1">&#39;rm&#39;</span><span class="p">,</span> <span class="s1">&#39;lld&#39;</span><span class="p">,</span> <span class="s1">&#39;fur&#39;</span><span class="p">,</span> <span class="s1">&#39;lij&#39;</span><span class="p">,</span> <span class="s1">&#39;lmo&#39;</span><span class="p">,</span> <span class="s1">&#39;es&#39;</span><span class="p">,</span> <span class="s1">&#39;es_AR&#39;</span><span class="p">,</span> <span class="s1">&#39;es_CL&#39;</span><span class="p">,</span> <span class="s1">&#39;es_CO&#39;</span><span class="p">,</span> <span class="s1">&#39;es_CR&#39;</span><span class="p">,</span> <span class="s1">&#39;es_DO&#39;</span><span class="p">,</span> <span class="s1">&#39;es_EC&#39;</span><span class="p">,</span> <span class="s1">&#39;es_ES&#39;</span><span class="p">,</span> <span class="s1">&#39;es_GT&#39;</span><span class="p">,</span> <span class="s1">&#39;es_HN&#39;</span><span class="p">,</span> <span class="s1">&#39;es_MX&#39;</span><span class="p">,</span> <span class="s1">&#39;es_NI&#39;</span><span class="p">,</span> <span class="s1">&#39;es_PA&#39;</span><span class="p">,</span> <span class="s1">&#39;es_PE&#39;</span><span class="p">,</span> <span class="s1">&#39;es_PR&#39;</span><span class="p">,</span> <span class="s1">&#39;es_SV&#39;</span><span class="p">,</span> <span class="s1">&#39;es_UY&#39;</span><span class="p">,</span> <span class="s1">&#39;es_VE&#39;</span><span class="p">,</span> <span class="s1">&#39;pt&#39;</span><span class="p">,</span> <span class="s1">&#39;pt_br&#39;</span><span class="p">,</span> <span class="s1">&#39;pt_BR&#39;</span><span class="p">,</span> <span class="s1">&#39;pt_PT&#39;</span><span class="p">,</span> <span class="s1">&#39;gl&#39;</span><span class="p">,</span> <span class="s1">&#39;lad&#39;</span><span class="p">,</span> <span class="s1">&#39;an&#39;</span><span class="p">,</span> <span class="s1">&#39;mwl&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;it_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;co&#39;</span><span class="p">,</span> <span class="s1">&#39;nap&#39;</span><span class="p">,</span> <span class="s1">&#39;scn&#39;</span><span class="p">,</span> <span class="s1">&#39;vec&#39;</span><span class="p">,</span> <span class="s1">&#39;sc&#39;</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;la&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;NORTH_EU&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;de&#39;</span><span class="p">,</span> <span class="s1">&#39;nl&#39;</span><span class="p">,</span> <span class="s1">&#39;fy&#39;</span><span class="p">,</span> <span class="s1">&#39;af&#39;</span><span class="p">,</span> <span class="s1">&#39;da&#39;</span><span class="p">,</span> <span class="s1">&#39;fo&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;nb&#39;</span><span class="p">,</span> <span class="s1">&#39;nn&#39;</span><span class="p">,</span> <span class="s1">&#39;sv&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;SCANDINAVIA&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;da&#39;</span><span class="p">,</span> <span class="s1">&#39;fo&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;nb&#39;</span><span class="p">,</span> <span class="s1">&#39;nn&#39;</span><span class="p">,</span> <span class="s1">&#39;sv&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;SAMI&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="s1">&#39;sma&#39;</span><span class="p">,</span> <span class="s1">&#39;smj&#39;</span><span class="p">,</span> <span class="s1">&#39;smn&#39;</span><span class="p">,</span> <span class="s1">&#39;sms&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;NORWAY&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;nb_NO&#39;</span><span class="p">,</span> <span class="s1">&#39;nb&#39;</span><span class="p">,</span> <span class="s1">&#39;nn_NO&#39;</span><span class="p">,</span> <span class="s1">&#39;nn&#39;</span><span class="p">,</span> <span class="s1">&#39;nog&#39;</span><span class="p">,</span> <span class="s1">&#39;no_nb&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;CELTIC&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ga&#39;</span><span class="p">,</span> <span class="s1">&#39;cy&#39;</span><span class="p">,</span> <span class="s1">&#39;br&#39;</span><span class="p">,</span> <span class="s1">&#39;gd&#39;</span><span class="p">,</span> <span class="s1">&#39;kw&#39;</span><span class="p">,</span> <span class="s1">&#39;gv&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Example of translating english to many romance languages, using old-style 2 character language codes</p>
+</div>
+<div class="section" id="marianconfig">
+<h2>MarianConfig<a class="headerlink" href="#marianconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mariantokenizer">
+<h2>MarianTokenizer<a class="headerlink" href="#mariantokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="marianmodel">
+<h2>MarianModel<a class="headerlink" href="#marianmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="marianmtmodel">
+<h2>MarianMTModel<a class="headerlink" href="#marianmtmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="marianforcausallm">
+<h2>MarianForCausalLM<a class="headerlink" href="#marianforcausallm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmarianmodel">
+<h2>TFMarianModel<a class="headerlink" href="#tfmarianmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmarianmtmodel">
+<h2>TFMarianMTModel<a class="headerlink" href="#tfmarianmtmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

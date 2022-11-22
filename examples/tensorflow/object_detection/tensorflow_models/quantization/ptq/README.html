@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../" src="../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../_sources/examples/tensorflow/object_detection/tensorflow_models/quantization/ptq/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document is used to list steps of reproducing TensorFlow Object Detection models tuning results. This example can run on Intel CPUs and GPUs.
+Currently, we’ve enabled below models.</p>
+<ul class="simple">
+<li><p>ssd_resnet50_v1</p></li>
+<li><p>ssd_resnet34</p></li>
+<li><p>ssd_mobilenet_v1</p></li>
+<li><p>fastrcnn_inception_resnet_v2</p></li>
+<li><p>fastrcnn_resnet101</p></li>
+<li><p>fastrcnn_resnet50</p></li>
+<li><p>maskrcnn_inception_v2</p></li>
+</ul>
+<div class="section" id="prerequisite">
+<h2>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation">
+<h3>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>Recommend python 3.6 or higher version.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Intel® Neural Compressor</span>
+pip install neural-compressor
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-intel-tensorflow">
+<h3>2. Install Intel Tensorflow<a class="headerlink" href="#install-intel-tensorflow" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install intel-tensorflow
+</pre></div>
+</div>
+<blockquote>
+<div><p>Note: Supported Tensorflow <a class="reference external" href="../../../../../../README.html#supported-frameworks">Version</a>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="installation-dependency-packages">
+<h3>3. Installation Dependency packages<a class="headerlink" href="#installation-dependency-packages" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/tensorflow/object_detection/tensorflow_models/quantization/ptq
+pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-protocol-buffer-compiler">
+<h3>4. Install Protocol Buffer Compiler<a class="headerlink" href="#install-protocol-buffer-compiler" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Protocol</span> <span class="pre">Buffer</span> <span class="pre">Compiler</span></code> in version higher than 3.0.0 is necessary ingredient for automatic COCO dataset preparation. To install please follow
+<a class="reference external" href="https://grpc.io/docs/protoc-installation/#install-using-a-package-manager">Protobuf installation instructions</a>.</p>
+</div>
+<div class="section" id="install-intel-extension-for-tensorflow">
+<h3>5. Install Intel Extension for Tensorflow<a class="headerlink" href="#install-intel-extension-for-tensorflow" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="quantizing-the-model-on-intel-gpu">
+<h4>Quantizing the model on Intel GPU<a class="headerlink" href="#quantizing-the-model-on-intel-gpu" title="Permalink to this headline">¶</a></h4>
+<p>Intel Extension for Tensorflow is mandatory to be installed for quantizing the model on Intel GPUs.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install --upgrade intel-extension-for-tensorflow<span class="o">[</span>gpu<span class="o">]</span>
+</pre></div>
+</div>
+<p>For any more details, please follow the procedure in <a class="reference external" href="https://github.com/intel-innersource/frameworks.ai.infrastructure.intel-extension-for-tensorflow.intel-extension-for-tensorflow/blob/master/docs/install/install_for_gpu.md#install-gpu-drivers">install-gpu-drivers</a></p>
+</div>
+<div class="section" id="quantizing-the-model-on-intel-cpu-experimental">
+<h4>Quantizing the model on Intel CPU(Experimental)<a class="headerlink" href="#quantizing-the-model-on-intel-cpu-experimental" title="Permalink to this headline">¶</a></h4>
+<p>Intel Extension for Tensorflow for Intel CPUs is experimental currently. It’s not mandatory for quantizing the model on Intel CPUs.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install --upgrade intel-extension-for-tensorflow<span class="o">[</span>cpu<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="prepare-dataset">
+<h3>6. Prepare Dataset<a class="headerlink" href="#prepare-dataset" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="automatic-dataset-download">
+<h4>Automatic dataset download<a class="headerlink" href="#automatic-dataset-download" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p><strong><em>Note: <code class="docutils literal notranslate"><span class="pre">prepare_dataset.sh</span></code> script works with TF version 1.x.</em></strong></p>
+</div></blockquote>
+<p>Run the <code class="docutils literal notranslate"><span class="pre">prepare_dataset.sh</span></code> script located in <code class="docutils literal notranslate"><span class="pre">examples/tensorflow/object_detection/tensorflow_models/quantization/ptq</span></code>.</p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/tensorflow/object_detection/tensorflow_models/quantization/ptq
+. prepare_dataset.sh
+</pre></div>
+</div>
+<p>This script will download the <em>train</em>, <em>validation</em> and <em>test</em> COCO datasets. Furthermore it will convert them to
+tensorflow records using the <code class="docutils literal notranslate"><span class="pre">https://github.com/tensorflow/models.git</span></code> dedicated script.</p>
+</div>
+<div class="section" id="manual-dataset-download">
+<h4>Manual dataset download<a class="headerlink" href="#manual-dataset-download" title="Permalink to this headline">¶</a></h4>
+<p>Download CoCo Dataset from <a class="reference external" href="https://cocodataset.org/#download">Official Website</a>.</p>
+</div>
+</div>
+<div class="section" id="download-model">
+<h3>7. Download Model<a class="headerlink" href="#download-model" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="automated-approach">
+<h4>Automated approach<a class="headerlink" href="#automated-approach" title="Permalink to this headline">¶</a></h4>
+<p>Run the <code class="docutils literal notranslate"><span class="pre">prepare_model.py</span></code> script located in <code class="docutils literal notranslate"><span class="pre">examples/tensorflow/object_detection/tensorflow_models/quantization/ptq</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">prepare_model</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">model_name</span> <span class="p">{</span><span class="n">ssd_resnet50_v1</span><span class="p">,</span><span class="n">ssd_mobilenet_v1</span><span class="p">}]</span>
+                        <span class="p">[</span><span class="o">--</span><span class="n">model_path</span> <span class="n">MODEL_PATH</span><span class="p">]</span>
+
+<span class="n">Prepare</span> <span class="n">pre</span><span class="o">-</span><span class="n">trained</span> <span class="n">model</span> <span class="k">for</span> <span class="n">COCO</span> <span class="nb">object</span> <span class="n">detection</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+  <span class="o">--</span><span class="n">model_name</span> <span class="p">{</span><span class="n">ssd_resnet50_v1</span><span class="p">,</span><span class="n">ssd_mobilenet_v1</span><span class="p">}</span>
+                        <span class="n">model</span> <span class="n">to</span> <span class="n">download</span><span class="p">,</span> <span class="n">default</span> <span class="ow">is</span> <span class="n">ssd_resnet50_v1</span>
+  <span class="o">--</span><span class="n">model_path</span> <span class="n">MODEL_PATH</span>
+                        <span class="n">directory</span> <span class="n">to</span> <span class="n">put</span> <span class="n">models</span><span class="p">,</span> <span class="n">default</span> <span class="ow">is</span> <span class="o">./</span><span class="n">model</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="manual-approach">
+<h4>Manual approach<a class="headerlink" href="#manual-approach" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="ssd-resnet50-v1">
+<h5>ssd_resnet50_v1<a class="headerlink" href="#ssd-resnet50-v1" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget http://download.tensorflow.org/models/object_detection/ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03.tar.gz
+tar -xvzf ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03.tar.gz -C /tmp
+</pre></div>
+</div>
+</div>
+<div class="section" id="ssd-mobilenet-v1">
+<h5>ssd_mobilenet_V1<a class="headerlink" href="#ssd-mobilenet-v1" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz
+tar -xvzf ssd_mobilenet_v1_coco_2018_01_28.tar.gz
+</pre></div>
+</div>
+</div>
+<div class="section" id="faster-rcnn-inception-resnet-v2">
+<h5>faster_rcnn_inception_resnet_v2<a class="headerlink" href="#faster-rcnn-inception-resnet-v2" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
+tar -xvzf faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
+</pre></div>
+</div>
+</div>
+<div class="section" id="faster-rcnn-resnet101">
+<h5>faster_rcnn_resnet101<a class="headerlink" href="#faster-rcnn-resnet101" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet101_coco_2018_01_28.tar.gz
+tar -xvzf faster_rcnn_resnet101_coco_2018_01_28.tar.gz
+</pre></div>
+</div>
+</div>
+<div class="section" id="faster-rcnn-resnet50">
+<h5>faster_rcnn_resnet50<a class="headerlink" href="#faster-rcnn-resnet50" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://storage.googleapis.com/intel-optimized-tensorflow/models/faster_rcnn_resnet50_fp32_coco_pretrained_model.tar.gz
+tar -xvf faster_rcnn_resnet50_fp32_coco_pretrained_model.tar.gz
+</pre></div>
+</div>
+</div>
+<div class="section" id="mask-rcnn-inception-v2">
+<h5>mask_rcnn_inception_v2<a class="headerlink" href="#mask-rcnn-inception-v2" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget http://download.tensorflow.org/models/object_detection/mask_rcnn_inception_v2_coco_2018_01_28.tar.gz
+tar -xvzf mask_rcnn_inception_v2_coco_2018_01_28.tar.gz
+</pre></div>
+</div>
+</div>
+<div class="section" id="ssd-resnet34">
+<h5>ssd_resnet34<a class="headerlink" href="#ssd-resnet34" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://storage.googleapis.com/intel-optimized-tensorflow/models/v1_8/ssd_resnet34_fp32_1200x1200_pretrained_model.pb
+</pre></div>
+</div>
+<p>You need to install intel-tensorflow==2.4.0 to enable ssd_resnet34 model.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="run-command">
+<h2>Run Command<a class="headerlink" href="#run-command" title="Permalink to this headline">¶</a></h2>
+<p>Now we support both pb and ckpt formats.</p>
+<div class="section" id="for-pb-model">
+<h3>For PB model<a class="headerlink" href="#for-pb-model" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># The cmd of running ssd_resnet50_v1</span>
+bash run_tuning.sh --config<span class="o">=</span>ssd_resnet50_v1.yaml --input_model<span class="o">=</span>/tmp/ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03/frozen_inference_graph.pb --output_model<span class="o">=</span>./tensorflow-ssd_resnet50_v1-tune.pb
+</pre></div>
+</div>
+</div>
+<div class="section" id="for-ckpt-model">
+<h3>For ckpt model<a class="headerlink" href="#for-ckpt-model" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># The cmd of running ssd_resnet50_v1</span>
+bash run_tuning.sh --config<span class="o">=</span>ssd_resnet50_v1.yaml --input_model<span class="o">=</span>/tmp/ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03/ --output_model<span class="o">=</span>./tensorflow-ssd_resnet50_v1-tune.pb
+</pre></div>
+</div>
+<blockquote>
+<div><p>Note</p>
+<ol class="simple">
+<li><p>Make sure to add dataset_location=/path/to/dataset/coco_val.record in config file: “ssd_resnet50_v1.yaml”</p></li>
+<li><p>For ssd_resnet34 model, anno_path of evaluation/accuracy/metric/COCOmAP in config file should be “label_map.yaml”</p></li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+</div>
+<div class="section" id="details-of-enabling-intel-neural-compressor-on-ssd-resnet50-v1-for-tensorflow">
+<h1>Details of enabling Intel® Neural Compressor on ssd_resnet50_v1 for Tensorflow.<a class="headerlink" href="#details-of-enabling-intel-neural-compressor-on-ssd-resnet50-v1-for-tensorflow" title="Permalink to this headline">¶</a></h1>
+<p>This is a tutorial of how to enable ssd_resnet50_v1 model with Intel® Neural Compressor.</p>
+<div class="section" id="user-code-analysis">
+<h2>User Code Analysis<a class="headerlink" href="#user-code-analysis" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>User specifies fp32 <em>model</em>, calibration dataset <em>q_dataloader</em>, evaluation dataset <em>eval_dataloader</em> and metric in tuning.metric field of model-specific yaml config file.</p></li>
+<li><p>User specifies fp32 <em>model</em>, calibration dataset <em>q_dataloader</em> and a custom <em>eval_func</em> which encapsulates the evaluation dataset and metric by itself.</p></li>
+</ol>
+<p>For ssd_resnet50_v1, we applied the latter one because our philosophy is to enable the model with minimal changes. Hence we need to make two changes on the original code. The first one is to implement the q_dataloader and make necessary changes to <em>eval_func</em>.</p>
+<div class="section" id="q-dataloader-part-adaption">
+<h3>q_dataloader Part Adaption<a class="headerlink" href="#q-dataloader-part-adaption" title="Permalink to this headline">¶</a></h3>
+<p>Specifically, we need to add one generator to iterate the dataset per Intel® Neural Compressor requirements. The easiest way is to implement <em><strong>iter</strong></em> interface. Below function will yield the images to feed the model as input.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Enable the generator for q_dataloader</span>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        [Tensor]: images</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_graph</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">data_graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_images</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input</span><span class="p">(</span>
+        <span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">data_sess</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">data_graph</span><span class="p">,</span>
+                                          <span class="n">config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COCO_NUM_VAL_IMAGES</span><span class="p">):</span>
+        <span class="n">input_images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">input_images</span><span class="p">])</span>
+        <span class="k">yield</span> <span class="n">input_images</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="evaluation-part-adaption">
+<h3>Evaluation Part Adaption<a class="headerlink" href="#evaluation-part-adaption" title="Permalink to this headline">¶</a></h3>
+<p>The Class model_infer has the run_accuracy function which actually could be re-used as the eval_func.</p>
+<p>Compare with the original version, we added the additional parameter <strong>input_graph</strong> as the Intel® Neural Compressor would call this interface with the graph to be evaluated. The following code snippet also need to be added into the run_accuracy function to update the class members like self.input_tensor and self.output_tensors.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">input_graph</span><span class="p">:</span>
+    <span class="n">graph_def</span> <span class="o">=</span> <span class="n">get_graph_def</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">input_graph</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_layers</span><span class="p">)</span>
+    <span class="n">input_graph</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">input_graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">v1</span><span class="o">.</span><span class="n">import_graph_def</span><span class="p">(</span><span class="n">graph_def</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">infer_graph</span> <span class="o">=</span> <span class="n">input_graph</span>
+    <span class="c1"># Need to reset the input_tensor/output_tensor</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">infer_graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_layer</span> <span class="o">+</span> <span class="s2">&quot;:0&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_tensors</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">infer_graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="s2">&quot;:0&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_layers</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="write-yaml-config-file">
+<h3>Write Yaml config file<a class="headerlink" href="#write-yaml-config-file" title="Permalink to this headline">¶</a></h3>
+<p>In examples directory, there is a ssd_resnet50_v1.yaml for tuning the model on Intel CPUs. The ‘framework’ in the yaml is set to ‘tensorflow’. If running this example on Intel GPUs, the ‘framework’ should be set to ‘tensorflow_itex’ and the device in yaml file should be set to ‘gpu’. The ssd_resnet50_v1_itex.yaml is prepared for the GPU case. We could remove most of items and only keep mandatory item for tuning. We also implement a calibration dataloader and have evaluation field for creation of evaluation function at internal neural_compressor.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span>                                               <span class="c1"># mandatory. used to specify model specific information.</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ssd_resnet50_v1</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tensorflow</span>                              <span class="c1"># mandatory. supported values are tensorflow, tensorflow_itex, pytorch, pytorch_ipex, onnxrt_integer, onnxrt_qlinear or mxnet; allow new framework backend extension.</span>
+  <span class="nt">inputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">image_tensor</span>
+  <span class="nt">outputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">num_detections,detection_boxes,detection_scores,detection_classes</span>
+
+<span class="nt">device</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cpu</span>                                          <span class="c1"># optional. default value is cpu, other value is gpu.</span>
+
+<span class="nt">quantization</span><span class="p">:</span>                                        <span class="c1"># optional. tuning constraints on model-wise for advance user to reduce tuning space.</span>
+  <span class="nt">calibration</span><span class="p">:</span>
+    <span class="nt">sampling_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">100</span>                               <span class="c1"># optional. default value is 100. used to set how many samples should be used in calibration.</span>
+  <span class="nt">model_wise</span><span class="p">:</span>                                        <span class="c1"># optional. tuning constraints on model-wise for advance user to reduce tuning space.</span>
+    <span class="nt">activation</span><span class="p">:</span>
+      <span class="nt">algorithm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">minmax</span>
+    <span class="nt">weight</span><span class="p">:</span>
+      <span class="nt">algorithm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">minmax</span>
+  <span class="nt">op_wise</span><span class="p">:</span> <span class="p p-Indicator">{</span>
+<span class="nt">             &#39;FeatureExtractor/resnet_v1_50/fpn/bottom_up_block5/Conv2D&#39;</span><span class="p">:</span> <span class="p p-Indicator">{</span>
+<span class="nt">               &#39;activation&#39;</span><span class="p">:</span>  <span class="p p-Indicator">{</span><span class="nt">&#39;dtype&#39;</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;fp32&#39;</span><span class="p p-Indicator">]},</span>
+             <span class="p p-Indicator">},</span>
+<span class="nt">             &#39;WeightSharedConvolutionalBoxPredictor_2/ClassPredictionTower/conv2d_0/Conv2D&#39;</span><span class="p">:</span> <span class="p p-Indicator">{</span>
+<span class="nt">               &#39;activation&#39;</span><span class="p">:</span>  <span class="p p-Indicator">{</span><span class="nt">&#39;dtype&#39;</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;fp32&#39;</span><span class="p p-Indicator">]},</span>
+             <span class="p p-Indicator">}</span>
+           <span class="p p-Indicator">}</span>
+
+<span class="nt">tuning</span><span class="p">:</span>
+  <span class="nt">accuracy_criterion</span><span class="p">:</span>
+    <span class="nt">relative</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.01</span>                                  <span class="c1"># optional. default value is relative, other value is absolute. this example allows relative accuracy loss: 1%.</span>
+  <span class="nt">exit_policy</span><span class="p">:</span>
+    <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>                                       <span class="c1"># optional. tuning timeout (seconds). default value is 0 which means early stop. combine with max_trials field to decide when to exit.</span>
+    <span class="nt">max_trials</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">100</span>                                  <span class="c1"># optional. max tune times. default value is 100. combine with timeout field to decide when to exit.</span>
+  <span class="nt">random_seed</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">9527</span>                                  <span class="c1"># optional. random seed for deterministic tuning.</span>
+</pre></div>
+</div>
+<p>Here we set the input tensor and output tensors name into <em>inputs</em> and <em>outputs</em> field. Meanwhile, we set mAp target as tolerating 0.01 relative mAp of baseline. The default tuning strategy is basic strategy. The timeout 0 means early stop as well as a tuning config meet accuracy target.</p>
+</div>
+<div class="section" id="code-update">
+<h3>Code update<a class="headerlink" href="#code-update" title="Permalink to this headline">¶</a></h3>
+<p>After prepare step is done, we just need update infer_detections.py like below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span><span class="p">,</span><span class="n">common</span>
+
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_graph</span><span class="p">)</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">calib_dataloader</span> <span class="o">=</span> <span class="n">infer</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">eval_dataloader</span> <span class="o">=</span> <span class="n">infer</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">eval_func</span> <span class="o">=</span> <span class="n">infer</span><span class="o">.</span><span class="n">accuracy_check</span>
+<span class="n">q_model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The quantizer.fit() function will return a best quantized model during timeout constrain.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

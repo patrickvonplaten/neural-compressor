@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using cookiecutter to generate models &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Using <code class="docutils literal notranslate"><span class="pre">cookiecutter</span></code> to generate models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/templates/adding_a_new_model/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!---
+Copyright 2020 The HuggingFace Team. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--><div class="section" id="using-cookiecutter-to-generate-models">
+<h1>Using <code class="docutils literal notranslate"><span class="pre">cookiecutter</span></code> to generate models<a class="headerlink" href="#using-cookiecutter-to-generate-models" title="Permalink to this headline">¶</a></h1>
+<p>This folder contains templates to generate new models that fit the current API and pass all tests. It generates
+models in both PyTorch and TensorFlow, completes the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> and auto-modeling files, and creates the
+documentation.</p>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">cookiecutter</span></code> utility requires to have all the <code class="docutils literal notranslate"><span class="pre">dev</span></code> dependencies installed. Let’s first clone the
+repository and install it in our environment:</p>
+<div class="highlight-shell script notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/huggingface/transformers
+cd transformers
+pip install -e &quot;.[dev]&quot;
+</pre></div>
+</div>
+<p>Once the installation is done, you can use the CLI command <code class="docutils literal notranslate"><span class="pre">add-new-model</span></code> to generate your models:</p>
+<div class="highlight-shell script notranslate"><div class="highlight"><pre><span></span>transformers-cli add-new-model
+</pre></div>
+</div>
+<p>This should launch the <code class="docutils literal notranslate"><span class="pre">cookiecutter</span></code> package which should prompt you to fill in the configuration.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">modelname</span></code> should be cased according to the plain text casing, i.e., BERT, RoBERTa, DeBERTa.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modelname</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ModelNAME</span><span class="o">&gt;</span><span class="p">]:</span>
+<span class="n">uppercase_modelname</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">MODEL_NAME</span><span class="o">&gt;</span><span class="p">]:</span> 
+<span class="n">lowercase_modelname</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;</span><span class="p">]:</span> 
+<span class="n">camelcase_modelname</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ModelName</span><span class="o">&gt;</span><span class="p">]:</span> 
+</pre></div>
+</div>
+<p>Fill in the <code class="docutils literal notranslate"><span class="pre">authors</span></code> with your team members:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">authors</span> <span class="p">[</span><span class="n">The</span> <span class="n">HuggingFace</span> <span class="n">Team</span><span class="p">]:</span> 
+</pre></div>
+</div>
+<p>The checkpoint identifier is the checkpoint that will be used in the examples across the files. Put the name you wish,
+as it will appear on the modelhub. Do not forget to include the organisation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">checkpoint_identifier</span> <span class="p">[</span><span class="n">organisation</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;-</span><span class="n">base</span><span class="o">-</span><span class="n">cased</span><span class="p">]:</span> 
+</pre></div>
+</div>
+<p>The tokenizer should either be based on BERT if it behaves exactly like the BERT tokenizer, or a standalone otherwise.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Select</span> <span class="n">tokenizer_type</span><span class="p">:</span>
+<span class="mi">1</span> <span class="o">-</span> <span class="n">Based</span> <span class="n">on</span> <span class="n">BERT</span>
+<span class="mi">2</span> <span class="o">-</span> <span class="n">Standalone</span>
+<span class="n">Choose</span> <span class="kn">from</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> 
+</pre></div>
+</div>
+<!---
+Choose if your model is an encoder-decoder, or an encoder-only architecture.
+
+If your model is an encoder-only architecture, the generated architecture will be based on the BERT model. 
+If your model is an encoder-decoder architecture, the generated architecture will be based on the BART model. You can,
+of course, edit the files once the generation is complete.
+```
+Select is_encoder_decoder_model:
+1 - True
+2 - False
+Choose from 1, 2 [1]: 
+```
+--><p>Once the command has finished, you should have a total of 7 new files spread across the repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">model_doc</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;.</span><span class="n">rst</span>
+<span class="n">src</span><span class="o">/</span><span class="n">transformers</span><span class="o">/</span><span class="n">models</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;/</span><span class="n">configuration_</span><span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;.</span><span class="n">py</span>
+<span class="n">src</span><span class="o">/</span><span class="n">transformers</span><span class="o">/</span><span class="n">models</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;/</span><span class="n">modeling_</span><span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;.</span><span class="n">py</span>
+<span class="n">src</span><span class="o">/</span><span class="n">transformers</span><span class="o">/</span><span class="n">models</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;/</span><span class="n">modeling_tf_</span><span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;.</span><span class="n">py</span>
+<span class="n">src</span><span class="o">/</span><span class="n">transformers</span><span class="o">/</span><span class="n">models</span><span class="o">/&lt;</span><span class="n">model_name</span><span class="o">&gt;/</span><span class="n">tokenization_</span><span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;.</span><span class="n">py</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">test_modeling_</span><span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;.</span><span class="n">py</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">test_modeling_tf_</span><span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>You can run the tests to ensure that they all pass:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pytest</span> <span class="o">./</span><span class="n">tests</span><span class="o">/</span><span class="n">test_</span><span class="o">*&lt;</span><span class="n">model_name</span><span class="o">&gt;*.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Feel free to modify each file to mimic the behavior of your model.</p>
+<p>⚠ You should be careful about the classes preceded by the following line:️</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copied from transformers.[...]</span>
+</pre></div>
+</div>
+<p>This line ensures that the copy does not diverge from the source. If it <em>should</em> diverge, because the implementation
+is different, this line needs to be deleted. If you don’t delete this line and run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">fix-copies</span></code>,
+your changes will be overwritten.</p>
+<p>Once you have edited the files to fit your architecture, simply re-run the tests (and edit them if a change
+is needed!) afterwards to make sure everything works as expected.</p>
+<p>Once the files are generated and you are happy with your changes, here’s a checklist to ensure that your contribution
+will be merged quickly:</p>
+<ul class="simple">
+<li><p>You should run the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">fixup</span></code> utility to fix the style of the files and to ensure the code quality meets the
+library’s standards.</p></li>
+<li><p>You should complete the documentation file (<code class="docutils literal notranslate"><span class="pre">docs/source/model_doc/&lt;model_name&gt;.rst</span></code>) so that your model may be
+usable.</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

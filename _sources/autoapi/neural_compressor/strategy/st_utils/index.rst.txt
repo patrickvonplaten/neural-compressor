@@ -1,8 +1,0 @@
-:orphan:
-
-:py:mod:`neural_compressor.strategy.st_utils`
-=============================================
-
-.. py:module:: neural_compressor.strategy.st_utils
-
-

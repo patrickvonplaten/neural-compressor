@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setting Up Datasets &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../../../" src="../../../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Setting Up Datasets</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../../../_sources/examples/pytorch/object_detection/maskrcnn/quantization/ptq/fx/pytorch/maskrcnn_benchmark/data/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="setting-up-datasets">
+<h1>Setting Up Datasets<a class="headerlink" href="#setting-up-datasets" title="Permalink to this headline">¶</a></h1>
+<p>This file describes how to perform training on other datasets.</p>
+<p>Only Pascal VOC dataset can be loaded from its original format and be outputted to Pascal style results currently.</p>
+<p>We expect the annotations from other datasets be converted to COCO json format, and
+the output will be in COCO-style. (i.e. AP, AP50, AP75, APs, APm, APl for bbox and segm)</p>
+<div class="section" id="creating-symlinks-for-pascal-voc">
+<h2>Creating Symlinks for PASCAL VOC<a class="headerlink" href="#creating-symlinks-for-pascal-voc" title="Permalink to this headline">¶</a></h2>
+<p>We assume that your symlinked <code class="docutils literal notranslate"><span class="pre">datasets/voc/VOC&lt;year&gt;</span></code> directory has the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">VOC</span><span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">JPEGImages</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">&lt;</span><span class="n">im</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;.</span><span class="n">jpg</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">...</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">&lt;</span><span class="n">im</span><span class="o">-</span><span class="n">N</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;.</span><span class="n">jpg</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">Annotations</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="n">pascal_train</span><span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;.</span><span class="n">json</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="n">pascal_val</span><span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;.</span><span class="n">json</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="n">pascal_test</span><span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;.</span><span class="n">json</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">&lt;</span><span class="n">im</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;.</span><span class="n">xml</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">...</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">&lt;</span><span class="n">im</span><span class="o">-</span><span class="n">N</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;.</span><span class="n">xml</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">VOCdevkit</span><span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Create symlinks for <code class="docutils literal notranslate"><span class="pre">voc/VOC&lt;year&gt;</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">github</span><span class="o">/</span><span class="n">maskrcnn</span><span class="o">-</span><span class="n">benchmark</span>
+<span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">datasets</span><span class="o">/</span><span class="n">voc</span><span class="o">/</span><span class="n">VOC</span><span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">VOC</span><span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">datasets</span><span class="o">/</span><span class="n">voc</span><span class="o">/</span><span class="n">VOC</span><span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Example configuration files for PASCAL VOC could be found <a class="reference external" href="https://github.com/facebookresearch/maskrcnn-benchmark/blob/main/configs/pascal_voc/">here</a>.</p>
+<div class="section" id="pascal-voc-annotations-in-coco-format">
+<h3>PASCAL VOC Annotations in COCO Format<a class="headerlink" href="#pascal-voc-annotations-in-coco-format" title="Permalink to this headline">¶</a></h3>
+<p>To output COCO-style evaluation result, PASCAL VOC annotations in COCO json format is required and could be downloaded from <a class="reference external" href="https://storage.googleapis.com/coco-dataset/external/PASCAL_VOC.zip">here</a>
+via http://cocodataset.org/#external.</p>
+</div>
+</div>
+<div class="section" id="creating-symlinks-for-cityscapes">
+<h2>Creating Symlinks for Cityscapes:<a class="headerlink" href="#creating-symlinks-for-cityscapes" title="Permalink to this headline">¶</a></h2>
+<p>We assume that your symlinked <code class="docutils literal notranslate"><span class="pre">datasets/cityscapes</span></code> directory has the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cityscapes</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">images</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">&lt;</span><span class="n">im</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;.</span><span class="n">jpg</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">...</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">&lt;</span><span class="n">im</span><span class="o">-</span><span class="n">N</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;.</span><span class="n">jpg</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">annotations</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="n">instanceonly_gtFile_train</span><span class="o">.</span><span class="n">json</span>
+<span class="o">|</span>  <span class="o">|</span><span class="n">_</span> <span class="o">...</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">raw</span>
+   <span class="o">|</span><span class="n">_</span> <span class="n">gtFine</span>
+   <span class="o">|</span><span class="n">_</span> <span class="o">...</span>
+   <span class="o">|</span><span class="n">_</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+</pre></div>
+</div>
+<p>Create symlinks for <code class="docutils literal notranslate"><span class="pre">cityscapes</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">github</span><span class="o">/</span><span class="n">maskrcnn</span><span class="o">-</span><span class="n">benchmark</span>
+<span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">datasets</span><span class="o">/</span><span class="n">cityscapes</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">cityscapes</span> <span class="n">datasets</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">cityscapes</span>
+</pre></div>
+</div>
+<div class="section" id="steps-to-convert-cityscapes-annotations-to-coco-format">
+<h3>Steps to convert Cityscapes Annotations to COCO Format<a class="headerlink" href="#steps-to-convert-cityscapes-annotations-to-coco-format" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>Download gtFine_trainvaltest.zip from https://www.cityscapes-dataset.com/downloads/ (login required)</p></li>
+<li><p>Extract it to /path/to/gtFine_trainvaltest</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gtFine_trainvaltest</span>
+<span class="o">|</span><span class="n">_</span> <span class="n">gtFine</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Run the below commands to convert the annotations</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">github</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">mcordts</span><span class="o">/</span><span class="n">cityscapesScripts</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">cityscapesScripts</span>
+<span class="n">cp</span> <span class="o">~/</span><span class="n">github</span><span class="o">/</span><span class="n">maskrcnn</span><span class="o">-</span><span class="n">benchmark</span><span class="o">/</span><span class="n">tool</span><span class="o">/</span><span class="n">cityscapes</span><span class="o">/</span><span class="n">instances2dict_with_polygons</span><span class="o">.</span><span class="n">py</span> <span class="n">cityscapesscripts</span><span class="o">/</span><span class="n">evaluation</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+<span class="n">cd</span> <span class="o">~/</span><span class="n">github</span><span class="o">/</span><span class="n">maskrcnn</span><span class="o">-</span><span class="n">benchmark</span>
+<span class="n">python</span> <span class="n">tools</span><span class="o">/</span><span class="n">cityscapes</span><span class="o">/</span><span class="n">convert_cityscapes_to_coco</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">datadir</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">gtFine_trainvaltest</span> <span class="o">--</span><span class="n">outdir</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">cityscapes</span><span class="o">/</span><span class="n">annotations</span>
+</pre></div>
+</div>
+<p>Example configuration files for Cityscapes could be found <a class="reference external" href="https://github.com/facebookresearch/maskrcnn-benchmark/blob/master/configs/cityscapes/">here</a>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

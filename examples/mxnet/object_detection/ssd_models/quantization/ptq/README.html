@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../" src="../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../_sources/examples/mxnet/object_detection/ssd_models/quantization/ptq/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the step-by-step instructions for reproducing MXNet SSD-ResNet50_v1/SSD-Mobilenet 1.0 tuning results.</p>
+</div>
+<div class="section" id="prerequisite">
+<h1>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install -r requirements.txt
+</pre></div>
+</div>
+<blockquote>
+<div><p>Note: Supported MXNet <a class="reference external" href="../../../../../../README.html#supported-frameworks">Version</a>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="prepare-dataset">
+<h2>2. Prepare Dataset<a class="headerlink" href="#prepare-dataset" title="Permalink to this headline">¶</a></h2>
+<p>If you want to use VOC2007 dataset, download <a class="reference external" href="http://host.robots.ox.ac.uk/pascal/VOC/voc2007/index.html">VOC2007</a> Raw image to the directory <strong>~/.mxnet/datasets/voc</strong> (Note:this path is unchangeable per original inference script requirement)</p>
+<p>If you want to use COCO2017 dataset, download <a class="reference external" href="https://cocodataset.org/#download">COCO2017</a> Raw image to the directory <strong>~/.mxnet/datasets/coco</strong> (Note:this path is unchangeable per original inference script requirement)</p>
+<p>Or you can use <code class="docutils literal notranslate"><span class="pre">prepare_dataset.sh</span></code> to prepare dataset, like below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash prepare_dataset.sh --data_path<span class="o">=</span>./datasets --dataset<span class="o">=</span>voc
+
+
+<span class="c1"># help info</span>
+bash prepare_dataset.sh -h
+
+ Desc: Prepare dataset <span class="k">for</span> MXNet Object Detection.
+
+ -h --help              <span class="nb">help</span> info
+
+ --dataset              <span class="nb">set</span> dataset category, voc or coco, default is voc.
+
+ --data_path            directory of the download dataset, default is: /home/.mxnet/datasets/
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="run">
+<h1>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ssd-resnet50-v1-voc">
+<h2>SSD-ResNet50_v1-VOC<a class="headerlink" href="#ssd-resnet50-v1-voc" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash run_tuning.sh --topology<span class="o">=</span>ssd-resnet50_v1 --dataset_name<span class="o">=</span>voc --dataset_location<span class="o">=</span>/PATH/TO/DATASET --output_model<span class="o">=</span>./nc_ssd_resnet50_voc
+</pre></div>
+</div>
+</div>
+<div class="section" id="ssd-mobilenet1-0-voc">
+<h2>SSD-Mobilenet1.0-VOC<a class="headerlink" href="#ssd-mobilenet1-0-voc" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash run_tuning.sh --topology<span class="o">=</span>ssd-mobilenet1.0 --dataset_name<span class="o">=</span>voc --dataset_location<span class="o">=</span>/PATH/TO/DATASET --output_model<span class="o">=</span>./nc_ssd_mobilenet1.0_voc
+</pre></div>
+</div>
+</div>
+<div class="section" id="ssd-resnet50-v1-coco">
+<h2>SSD-ResNet50_v1-COCO<a class="headerlink" href="#ssd-resnet50-v1-coco" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash run_tuning.sh --topology<span class="o">=</span>ssd-resnet50_v1 --dataset_name<span class="o">=</span>coco --dataset_location<span class="o">=</span>/PATH/TO/DATASET --output_model<span class="o">=</span>./nc_ssd_resnet50_coco
+</pre></div>
+</div>
+</div>
+<div class="section" id="ssd-mobilenet1-0-coco">
+<h2>SSD-Mobilenet1.0-COCO<a class="headerlink" href="#ssd-mobilenet1-0-coco" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash run_tuning.sh --topology<span class="o">=</span>ssd-mobilenet1.0 --dataset_name<span class="o">=</span>coco --dataset_location<span class="o">=</span>/PATH/TO/DATASET --output_model<span class="o">=</span>./nc_ssd_mobilenet1.0_coco
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="benchmark">
+<h1>benchmark<a class="headerlink" href="#benchmark" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># accuracy mode, run the whole test dataset and get accuracy</span>
+bash run_benchmark.sh --topology<span class="o">=</span>ssd-resnet50_v1 --dataset_name<span class="o">=</span>voc --dataset_location<span class="o">=</span>/PATH/TO/DATASET --input_model<span class="o">=</span>/PATH/TO/MODEL_PREFIX --batch_size<span class="o">=</span><span class="m">32</span> --mode<span class="o">=</span>accuracy 
+
+<span class="c1"># benchmark mode, specify iteration number and batch_size in option, get throughput and latency</span>
+bash run_benchmark.sh --topology<span class="o">=</span>ssd-resnet50_v1 --dataset_name<span class="o">=</span>voc --input_model<span class="o">=</span>/PATH/TO/MODEL_PREFIX --batch_size<span class="o">=</span><span class="m">32</span> --iters<span class="o">=</span><span class="m">100</span> --mode<span class="o">=</span>benchmark
+</pre></div>
+</div>
+<p>For more detail, see:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>  bash run_tuning.sh -h
+
+   Desc: Run neural_compressor MXNet Object Detection example.
+
+   -h --help              <span class="nb">help</span> info
+
+   --topology             model used <span class="k">for</span> Object Detection, mobilenet1.0 or resnet50_v1, default is mobilenet1.0.
+
+   --dataset_name         coco or voc, default is voc
+
+   --dataset_location     location of dataset
+
+   --input_model          prefix of fp32 model <span class="o">(</span>eg: ./model/ssd-mobilenet <span class="o">)</span>
+
+   --output_model         Best tuning model by neural_compressor will saved in this name prefix. default is <span class="s1">&#39;./nc_ssd_model&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="examples-of-enabling-intel-neural-compressor-auto-tuning-on-mxnet-object-detection">
+<h1>Examples of enabling Intel® Neural Compressor auto tuning on MXNet Object detection<a class="headerlink" href="#examples-of-enabling-intel-neural-compressor-auto-tuning-on-mxnet-object-detection" title="Permalink to this headline">¶</a></h1>
+<p>This is a tutorial of how to enable a MXNet Object detection model with Intel® Neural Compressor.</p>
+</div>
+<div class="section" id="user-code-analysis">
+<h1>User Code Analysis<a class="headerlink" href="#user-code-analysis" title="Permalink to this headline">¶</a></h1>
+<p>Intel® Neural Compressor supports two usages:</p>
+<ol class="simple">
+<li><p>User specifies fp32 “model”, calibration dataset “q_dataloader”, evaluation dataset “eval_dataloader” and metric in tuning.metric field of model-specific yaml config file.</p></li>
+<li><p>User specifies fp32 “model”, calibration dataset “q_dataloader” and a custom “eval_func” which encapsulates the evaluation dataset and metric by itself.</p></li>
+</ol>
+<p>As this example use VOC/COCO dataset, use VOCMApMetrics/COCOEval as metric which can be found <a class="reference external" href="https://github.com/dmlc/gluon-cv/blob/20a2ed3942720550728ce36c2be53b2d5bbbb6fd/gluoncv/utils/metrics/voc_detection.py#L13">here</a> and <a class="reference external" href="https://cocodataset.org/">here</a>. So we integrate MXNet SSD-ResNet50_v1/SSD-Mobilenet1.0 with Intel® Neural Compressor by the second use case.</p>
+<div class="section" id="write-yaml-config-file">
+<h2>Write Yaml config file<a class="headerlink" href="#write-yaml-config-file" title="Permalink to this headline">¶</a></h2>
+<p>In examples directory, there is a template.yaml. We could remove most of items and only keep mandatory items for tuning.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># conf.yaml</span>
+
+<span class="nt">model</span><span class="p">:</span>                                           
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ssd</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mxnet</span>
+
+<span class="nt">tuning</span><span class="p">:</span>
+  <span class="nt">accuracy_criterion</span><span class="p">:</span>
+    <span class="nt">relative</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+  <span class="nt">exit_policy</span><span class="p">:</span>
+    <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+  <span class="nt">random_seed</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">9527</span>
+</pre></div>
+</div>
+<p>Because we use the second use case which need user to provide a custom “eval_func” which encapsulates the evaluation dataset and metric, we can not see a metric at config file tuning filed. We set accuracy target as tolerating 0.01 relative accuracy loss of baseline. The default tuning strategy is basic strategy. The timeout 0 means early stop as well as a tuning config meet accuracy target.</p>
+</div>
+<div class="section" id="code-update">
+<h2>code update<a class="headerlink" href="#code-update" title="Permalink to this headline">¶</a></h2>
+<p>First, we need to construct evaluate function for Intel® Neural Compressor. At eval_func, we get the val_dataset for the origin script, and return mAP metric to Intel® Neural Compressor.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># define test_func</span>
+    <span class="k">def</span> <span class="nf">eval_func</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+        <span class="n">val_dataset</span><span class="p">,</span> <span class="n">val_metric</span> <span class="o">=</span> <span class="n">get_dataset</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">data_shape</span><span class="p">)</span>
+        <span class="n">val_data</span> <span class="o">=</span> <span class="n">get_dataloader</span><span class="p">(</span>
+        <span class="n">val_dataset</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">data_shape</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">num_workers</span><span class="p">)</span>
+        <span class="n">classes</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="o">.</span><span class="n">classes</span>  <span class="c1"># class names</span>
+
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">)</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="p">[</span><span class="n">mx</span><span class="o">.</span><span class="n">cpu</span><span class="p">()]</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">validate</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">val_data</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">val_metric</span><span class="p">)</span>
+
+        <span class="n">mAP</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">mAP</span>
+</pre></div>
+</div>
+<p>After preparation is done, we just need update main.py like below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+    <span class="c1"># Doing auto-tuning here</span>
+    <span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span>
+    <span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="s2">&quot;./ssd.yaml&quot;</span><span class="p">)</span>
+    <span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+    <span class="n">quantizer</span><span class="o">.</span><span class="n">calib_dataloader</span> <span class="o">=</span> <span class="n">val_data</span>
+    <span class="n">quantizer</span><span class="o">.</span><span class="n">eval_dataloader</span> <span class="o">=</span> <span class="n">val_data</span>
+    <span class="n">quantizer</span><span class="o">.</span><span class="n">eval_func</span> <span class="o">=</span> <span class="n">eval_func</span>
+    <span class="n">q_model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The quantizer.fit() function will return a best quantized model under timeout constrain.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

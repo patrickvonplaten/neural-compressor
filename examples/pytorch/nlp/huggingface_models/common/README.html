@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online demos &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Online demos</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!---
+Copyright 2020 The HuggingFace Team. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--><p align="center">
+    <br>
+    <img src="https://raw.githubusercontent.com/huggingface/transformers/master/docs/source/imgs/transformers_logo_name.png" width="400"/>
+    <br>
+<p>
+<p align="center">
+    <a href="https://circleci.com/gh/huggingface/transformers">
+        <img alt="Build" src="https://img.shields.io/circleci/build/github/huggingface/transformers/master">
+    </a>
+    <a href="https://github.com/huggingface/transformers/blob/master/LICENSE">
+        <img alt="GitHub" src="https://img.shields.io/github/license/huggingface/transformers.svg?color=blue">
+    </a>
+    <a href="https://huggingface.co/transformers/index.html">
+        <img alt="Documentation" src="https://img.shields.io/website/http/huggingface.co/transformers/index.html.svg?down_color=red&down_message=offline&up_message=online">
+    </a>
+    <a href="https://github.com/huggingface/transformers/releases">
+        <img alt="GitHub release" src="https://img.shields.io/github/release/huggingface/transformers.svg">
+    </a>
+    <a href="https://github.com/huggingface/transformers/blob/master/CODE_OF_CONDUCT.md">
+        <img alt="Contributor Covenant" src="https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg">
+    </a>
+</p><h3 align="center">
+<p>State-of-the-art Natural Language Processing for PyTorch and TensorFlow 2.0
+</h3><p>🤗 Transformers provides thousands of pretrained models to perform tasks on texts such as classification, information extraction, question answering, summarization, translation, text generation, etc in 100+ languages. Its aim is to make cutting-edge NLP easier to use for everyone.</p>
+<p>🤗 Transformers provides APIs to quickly download and use those pretrained models on a given text, fine-tune them on your own datasets then share them with the community on our <a class="reference external" href="https://huggingface.co/models">model hub</a>. At the same time, each python module defining an architecture can be used as a standalone and modified to enable quick research experiments.</p>
+<p>🤗 Transformers is backed by the two most popular deep learning libraries, <a class="reference external" href="https://pytorch.org/">PyTorch</a> and <a class="reference external" href="https://www.tensorflow.org/">TensorFlow</a>, with a seamless integration between them, allowing you to train your models with one then load it for inference with the other.</p>
+<div class="section" id="online-demos">
+<h1>Online demos<a class="headerlink" href="#online-demos" title="Permalink to this headline">¶</a></h1>
+<p>You can test most of our models directly on their pages from the <a class="reference external" href="https://huggingface.co/models">model hub</a>. We also offer <a class="reference external" href="https://huggingface.co/pricing">private model hosting, versioning, &amp; an inference API</a> to use those models.</p>
+<p>Here are a few examples:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://huggingface.co/bert-base-uncased?text=Paris+is+the+%5BMASK%5D+of+France">Masked word completion with BERT</a></p></li>
+<li><p><a class="reference external" href="https://huggingface.co/dbmdz/electra-large-discriminator-finetuned-conll03-english?text=My+name+is+Sarah+and+I+live+in+London+city">Name Entity Recognition with Electra</a></p></li>
+<li><p><a class="reference external" href="https://huggingface.co/gpt2?text=A+long+time+ago%2C+">Text generation with GPT-2</a></p></li>
+<li><p><a class="reference external" href="https://huggingface.co/roberta-large-mnli?text=The+dog+was+lost.+Nobody+lost+any+animal">Natural Language Inference with RoBERTa</a></p></li>
+<li><p><a class="reference external" href="https://huggingface.co/facebook/bart-large-cnn?text=The+tower+is+324+metres+%281%2C063+ft%29+tall%2C+about+the+same+height+as+an+81-storey+building%2C+and+the+tallest+structure+in+Paris.+Its+base+is+square%2C+measuring+125+metres+%28410+ft%29+on+each+side.+During+its+construction%2C+the+Eiffel+Tower+surpassed+the+Washington+Monument+to+become+the+tallest+man-made+structure+in+the+world%2C+a+title+it+held+for+41+years+until+the+Chrysler+Building+in+New+York+City+was+finished+in+1930.+It+was+the+first+structure+to+reach+a+height+of+300+metres.+Due+to+the+addition+of+a+broadcasting+aerial+at+the+top+of+the+tower+in+1957%2C+it+is+now+taller+than+the+Chrysler+Building+by+5.2+metres+%2817+ft%29.+Excluding+transmitters%2C+the+Eiffel+Tower+is+the+second+tallest+free-standing+structure+in+France+after+the+Millau+Viaduct">Summarization with BART</a></p></li>
+<li><p><a class="reference external" href="https://huggingface.co/distilbert-base-uncased-distilled-squad?text=Which+name+is+also+used+to+describe+the+Amazon+rainforest+in+English%3F&amp;context=The+Amazon+rainforest+%28Portuguese%3A+Floresta+Amaz%C3%B4nica+or+Amaz%C3%B4nia%3B+Spanish%3A+Selva+Amaz%C3%B3nica%2C+Amazon%C3%ADa+or+usually+Amazonia%3B+French%3A+For%C3%AAt+amazonienne%3B+Dutch%3A+Amazoneregenwoud%29%2C+also+known+in+English+as+Amazonia+or+the+Amazon+Jungle%2C+is+a+moist+broadleaf+forest+that+covers+most+of+the+Amazon+basin+of+South+America.+This+basin+encompasses+7%2C000%2C000+square+kilometres+%282%2C700%2C000+sq+mi%29%2C+of+which+5%2C500%2C000+square+kilometres+%282%2C100%2C000+sq+mi%29+are+covered+by+the+rainforest.+This+region+includes+territory+belonging+to+nine+nations.+The+majority+of+the+forest+is+contained+within+Brazil%2C+with+60%25+of+the+rainforest%2C+followed+by+Peru+with+13%25%2C+Colombia+with+10%25%2C+and+with+minor+amounts+in+Venezuela%2C+Ecuador%2C+Bolivia%2C+Guyana%2C+Suriname+and+French+Guiana.+States+or+departments+in+four+nations+contain+%22Amazonas%22+in+their+names.+The+Amazon+represents+over+half+of+the+planet%27s+remaining+rainforests%2C+and+comprises+the+largest+and+most+biodiverse+tract+of+tropical+rainforest+in+the+world%2C+with+an+estimated+390+billion+individual+trees+divided+into+16%2C000+species">Question answering with DistilBERT</a></p></li>
+<li><p><a class="reference external" href="https://huggingface.co/t5-base?text=My+name+is+Wolfgang+and+I+live+in+Berlin">Translation with T5</a></p></li>
+</ul>
+<p><strong><a class="reference external" href="https://transformer.huggingface.co">Write With Transformer</a></strong>, built by the Hugging Face team, is the official demo of this repo’s text generation capabilities.</p>
+</div>
+<div class="section" id="quick-tour">
+<h1>Quick tour<a class="headerlink" href="#quick-tour" title="Permalink to this headline">¶</a></h1>
+<p>To immediately use a model on a given text, we provide the <code class="docutils literal notranslate"><span class="pre">pipeline</span></code> API. Pipelines group together a pretrained model with the preprocessing that was used during that model training. Here is how to quickly use a pipeline to classify positive versus negative texts</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="go"># Allocate a pipeline for sentiment-analysis</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classifier</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s1">&#39;sentiment-analysis&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classifier</span><span class="p">(</span><span class="s1">&#39;We are very happy to include pipeline into the transformers repository.&#39;</span><span class="p">)</span>
+<span class="go">[{&#39;label&#39;: &#39;POSITIVE&#39;, &#39;score&#39;: 0.9978193640708923}]</span>
+</pre></div>
+</div>
+<p>The second line of code downloads and caches the pretrained model used by the pipeline, the third line evaluates it on the given text. Here the answer is “positive” with a confidence of 99.8%.</p>
+<p>This is another example of pipeline used for that can extract question answers from some context:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="go"># Allocate a pipeline for question-answering</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">question_answerer</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s1">&#39;question-answering&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">question_answerer</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;What is the name of the repository ?&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="s1">&#39;Pipeline have been included in the huggingface/transformers repository&#39;</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="go">{&#39;score&#39;: 0.5135612454720828, &#39;start&#39;: 35, &#39;end&#39;: 59, &#39;answer&#39;: &#39;huggingface/transformers&#39;}</span>
+</pre></div>
+</div>
+<p>On top of the answer, the pretrained model used here returned its confidence score, along with the start position and its end position in the tokenized sentence. You can learn more about the tasks supported by the <code class="docutils literal notranslate"><span class="pre">pipeline</span></code> API in <a class="reference external" href="https://huggingface.co/transformers/task_summary.html">this tutorial</a>.</p>
+<p>To download and use any of the pretrained models on your given task, you just need to use those three lines of codes (PyTorch version):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModel</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s2">&quot;Hello world!&quot;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or for TensorFlow:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">TFAutoModel</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">TFAutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s2">&quot;Hello world!&quot;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;tf&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The tokenizer is responsible for all the preprocessing the pretrained model expects, and can be called directly on one (or list) of texts (as we can see on the fourth line of both code examples). It will output a dictionary you can directly pass to your model (which is done on the fifth line).</p>
+<p>The model itself is a regular <a class="reference external" href="https://pytorch.org/docs/stable/nn.html#torch.nn.Module">Pytorch <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code></a> or a <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model">TensorFlow <code class="docutils literal notranslate"><span class="pre">tf.keras.Model</span></code></a> (depending on your backend) which you can use normally. For instance, <a class="reference external" href="https://huggingface.co/transformers/training.html">this tutorial</a> explains how to integrate such a model in classic PyTorch or TensorFlow training loop, or how to use our <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> API to quickly fine-tune the on a new dataset.</p>
+</div>
+<div class="section" id="why-should-i-use-transformers">
+<h1>Why should I use transformers?<a class="headerlink" href="#why-should-i-use-transformers" title="Permalink to this headline">¶</a></h1>
+<ol class="simple">
+<li><p>Easy-to-use state-of-the-art models:</p>
+<ul class="simple">
+<li><p>High performance on NLU and NLG tasks.</p></li>
+<li><p>Low barrier to entry for educators and practitioners.</p></li>
+<li><p>Few user-facing abstractions with just three classes to learn.</p></li>
+<li><p>A unified API for using all our pretrained models.</p></li>
+</ul>
+</li>
+<li><p>Lower compute costs, smaller carbon footprint:</p>
+<ul class="simple">
+<li><p>Researchers can share trained models instead of always retraining.</p></li>
+<li><p>Practitioners can reduce compute time and production costs.</p></li>
+<li><p>Dozens of architectures with over 2,000 pretrained models, some in more than 100 languages.</p></li>
+</ul>
+</li>
+<li><p>Choose the right framework for every part of a model’s lifetime:</p>
+<ul class="simple">
+<li><p>Train state-of-the-art models in 3 lines of code.</p></li>
+<li><p>Move a single model between TF2.0/PyTorch frameworks at will.</p></li>
+<li><p>Seamlessly pick the right framework for training, evaluation, production.</p></li>
+</ul>
+</li>
+<li><p>Easily customize a model or an example to your needs:</p>
+<ul class="simple">
+<li><p>Examples for each architecture to reproduce the results by the official authors of said architecture.</p></li>
+<li><p>Expose the models internal as consistently as possible.</p></li>
+<li><p>Model files can be used independently of the library for quick experiments.</p></li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="why-shouldn-t-i-use-transformers">
+<h1>Why shouldn’t I use transformers?<a class="headerlink" href="#why-shouldn-t-i-use-transformers" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>This library is not a modular toolbox of building blocks for neural nets. The code in the model files is not refactored with additional abstractions on purpose, so that researchers can quickly iterate on each of the models without diving in additional abstractions/files.</p></li>
+<li><p>The training API is not intended to work on any model but is optimized to work with the models provided by the library. For generic machine learning loops, you should use another library.</p></li>
+<li><p>While we strive to present as many use cases as possible, the scripts in our <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples">examples folder</a> are just that: examples. It is expected that they won’t work out-of-the box on your specific problem and that you will be required to change a few lines of code to adapt them to your needs.</p></li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="with-pip">
+<h2>With pip<a class="headerlink" href="#with-pip" title="Permalink to this headline">¶</a></h2>
+<p>This repository is tested on Python 3.6+, PyTorch 1.0.0+ (PyTorch 1.3.1+ for <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples">examples</a>) and TensorFlow 2.0.</p>
+<p>You should install 🤗 Transformers in a <a class="reference external" href="https://docs.python.org/3/library/venv.html">virtual environment</a>. If you’re unfamiliar with Python virtual environments, check out the <a class="reference external" href="https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/">user guide</a>.</p>
+<p>First, create a virtual environment with the version of Python you’re going to use and activate it.</p>
+<p>Then, you will need to install at least one of TensorFlow 2.0, PyTorch or Flax.
+Please refer to <a class="reference external" href="https://www.tensorflow.org/install/pip#tensorflow-2.0-rc-is-available">TensorFlow installation page</a>, <a class="reference external" href="https://pytorch.org/get-started/locally/#start-locally">PyTorch installation page</a> regarding the specific install command for your platform and/or <a class="reference external" href="https://github.com/google/flax#quick-install">Flax installation page</a>.</p>
+<p>When TensorFlow 2.0 and/or PyTorch has been installed, 🤗 Transformers can be installed using pip as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install transformers
+</pre></div>
+</div>
+<p>If you’d like to play with the examples or need the bleeding edge of the code and can’t wait for a new release, you must <a class="reference external" href="https://huggingface.co/transformers/installation.html#installing-from-source">install the library from source</a>.</p>
+</div>
+<div class="section" id="with-conda">
+<h2>With conda<a class="headerlink" href="#with-conda" title="Permalink to this headline">¶</a></h2>
+<p>Since Transformers version v4.0.0, we now have a conda channel: <code class="docutils literal notranslate"><span class="pre">huggingface</span></code>.</p>
+<p>🤗 Transformers can be installed using conda as follows:</p>
+<div class="highlight-shell script notranslate"><div class="highlight"><pre><span></span>conda install -c huggingface transformers
+</pre></div>
+</div>
+<p>Follow the installation pages of TensorFlow, PyTorch or Flax to see how to install them with conda.</p>
+</div>
+</div>
+<div class="section" id="models-architectures">
+<h1>Models architectures<a class="headerlink" href="#models-architectures" title="Permalink to this headline">¶</a></h1>
+<p><strong><a class="reference external" href="https://huggingface.co/models">All the model checkpoints</a></strong> provided by 🤗 Transformers are seamlessly integrated from the huggingface.co <a class="reference external" href="https://huggingface.co">model hub</a> where they are uploaded directly by <a class="reference external" href="https://huggingface.co/users">users</a> and <a class="reference external" href="https://huggingface.co/organizations">organizations</a>.</p>
+<p>Current number of checkpoints: <img alt="https://img.shields.io/endpoint?url=https://huggingface.co/api/shields/models&amp;color=brightgreen" src="https://img.shields.io/endpoint?url=https://huggingface.co/api/shields/models&amp;color=brightgreen" /></p>
+<p>🤗 Transformers currently provides the following architectures (see <a class="reference external" href="https://huggingface.co/transformers/model_summary.html">here</a> for a high-level summary of each them):</p>
+<ol class="simple">
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/albert.html">ALBERT</a></strong> (from Google Research and the Toyota Technological Institute at Chicago) released with the paper <a class="reference external" href="https://arxiv.org/abs/1909.11942">ALBERT: A Lite BERT for Self-supervised Learning of Language Representations</a>, by Zhenzhong Lan, Mingda Chen, Sebastian Goodman, Kevin Gimpel, Piyush Sharma, Radu Soricut.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/bart.html">BART</a></strong> (from Facebook) released with the paper <a class="reference external" href="https://arxiv.org/pdf/1910.13461.pdf">BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension</a> by Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Ves Stoyanov and Luke Zettlemoyer.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/barthez.html">BARThez</a></strong> (from École polytechnique) released with the paper <a class="reference external" href="https://arxiv.org/abs/2010.12321">BARThez: a Skilled Pretrained French Sequence-to-Sequence Model</a> by Moussa Kamal Eddine, Antoine J.-P. Tixier, Michalis Vazirgiannis.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/bert.html">BERT</a></strong> (from Google) released with the paper <a class="reference external" href="https://arxiv.org/abs/1810.04805">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a> by Jacob Devlin, Ming-Wei Chang, Kenton Lee and Kristina Toutanova.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/bertgeneration.html">BERT For Sequence Generation</a></strong> (from Google) released with the paper <a class="reference external" href="https://arxiv.org/abs/1907.12461">Leveraging Pre-trained Checkpoints for Sequence Generation Tasks</a> by Sascha Rothe, Shashi Narayan, Aliaksei Severyn.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/blenderbot.html">Blenderbot</a></strong> (from Facebook) released with the paper <a class="reference external" href="https://arxiv.org/abs/2004.13637">Recipes for building an open-domain chatbot</a> by Stephen Roller, Emily Dinan, Naman Goyal, Da Ju, Mary Williamson, Yinhan Liu, Jing Xu, Myle Ott, Kurt Shuster, Eric M. Smith, Y-Lan Boureau, Jason Weston.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/blenderbot_small.html">BlenderbotSmall</a></strong> (from Facebook) released with the paper <a class="reference external" href="https://arxiv.org/abs/2004.13637">Recipes for building an open-domain chatbot</a> by Stephen Roller, Emily Dinan, Naman Goyal, Da Ju, Mary Williamson, Yinhan Liu, Jing Xu, Myle Ott, Kurt Shuster, Eric M. Smith, Y-Lan Boureau, Jason Weston.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/bort.html">BORT</a></strong> (from Alexa) released with the paper <a class="reference external" href="https://arxiv.org/abs/2010.10499">Optimal Subarchitecture Extraction For BERT</a> by Adrian de Wynter and Daniel J. Perry.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/camembert.html">CamemBERT</a></strong> (from Inria/Facebook/Sorbonne) released with the paper <a class="reference external" href="https://arxiv.org/abs/1911.03894">CamemBERT: a Tasty French Language Model</a> by Louis Martin*, Benjamin Muller*, Pedro Javier Ortiz Suárez*, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah and Benoît Sagot.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/convbert.html">ConvBERT</a></strong> (from YituTech) released with the paper <a class="reference external" href="https://arxiv.org/abs/2008.02496">ConvBERT: Improving BERT with Span-based Dynamic Convolution</a> by Zihang Jiang, Weihao Yu, Daquan Zhou, Yunpeng Chen, Jiashi Feng, Shuicheng Yan.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/ctrl.html">CTRL</a></strong> (from Salesforce) released with the paper <a class="reference external" href="https://arxiv.org/abs/1909.05858">CTRL: A Conditional Transformer Language Model for Controllable Generation</a> by Nitish Shirish Keskar*, Bryan McCann*, Lav R. Varshney, Caiming Xiong and Richard Socher.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/deberta.html">DeBERTa</a></strong> (from Microsoft) released with the paper <a class="reference external" href="https://arxiv.org/abs/2006.03654">DeBERTa: Decoding-enhanced BERT with Disentangled Attention</a> by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/master/model_doc/deberta_v2.html">DeBERTa-v2</a></strong> (from Microsoft) released with the paper <a class="reference external" href="https://arxiv.org/abs/2006.03654">DeBERTa: Decoding-enhanced BERT with Disentangled Attention</a> by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu Chen.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/dialogpt.html">DialoGPT</a></strong> (from Microsoft Research) released with the paper <a class="reference external" href="https://arxiv.org/abs/1911.00536">DialoGPT: Large-Scale Generative Pre-training for Conversational Response Generation</a> by Yizhe Zhang, Siqi Sun, Michel Galley, Yen-Chun Chen, Chris Brockett, Xiang Gao, Jianfeng Gao, Jingjing Liu, Bill Dolan.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/distilbert.html">DistilBERT</a></strong> (from HuggingFace), released together with the paper <a class="reference external" href="https://arxiv.org/abs/1910.01108">DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter</a> by Victor Sanh, Lysandre Debut and Thomas Wolf. The same method has been applied to compress GPT2 into <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples/distillation">DistilGPT2</a>, RoBERTa into <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples/distillation">DistilRoBERTa</a>, Multilingual BERT into <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples/distillation">DistilmBERT</a> and a German version of DistilBERT.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/dpr.html">DPR</a></strong> (from Facebook) released with the paper <a class="reference external" href="https://arxiv.org/abs/2004.04906">Dense Passage Retrieval
+for Open-Domain Question Answering</a> by Vladimir Karpukhin, Barlas Oğuz, Sewon
+Min, Patrick Lewis, Ledell Wu, Sergey Edunov, Danqi Chen, and Wen-tau Yih.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/electra.html">ELECTRA</a></strong> (from Google Research/Stanford University) released with the paper <a class="reference external" href="https://arxiv.org/abs/2003.10555">ELECTRA: Pre-training text encoders as discriminators rather than generators</a> by Kevin Clark, Minh-Thang Luong, Quoc V. Le, Christopher D. Manning.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/flaubert.html">FlauBERT</a></strong> (from CNRS) released with the paper <a class="reference external" href="https://arxiv.org/abs/1912.05372">FlauBERT: Unsupervised Language Model Pre-training for French</a> by Hang Le, Loïc Vial, Jibril Frej, Vincent Segonne, Maximin Coavoux, Benjamin Lecouteux, Alexandre Allauzen, Benoît Crabbé, Laurent Besacier, Didier Schwab.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/funnel.html">Funnel Transformer</a></strong> (from CMU/Google Brain) released with the paper <a class="reference external" href="https://arxiv.org/abs/2006.03236">Funnel-Transformer: Filtering out Sequential Redundancy for Efficient Language Processing</a> by Zihang Dai, Guokun Lai, Yiming Yang, Quoc V. Le.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/gpt.html">GPT</a></strong> (from OpenAI) released with the paper <a class="reference external" href="https://blog.openai.com/language-unsupervised/">Improving Language Understanding by Generative Pre-Training</a> by Alec Radford, Karthik Narasimhan, Tim Salimans and Ilya Sutskever.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/gpt2.html">GPT-2</a></strong> (from OpenAI) released with the paper <a class="reference external" href="https://blog.openai.com/better-language-models/">Language Models are Unsupervised Multitask Learners</a> by Alec Radford*, Jeffrey Wu*, Rewon Child, David Luan, Dario Amodei** and Ilya Sutskever**.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/layoutlm.html">LayoutLM</a></strong> (from Microsoft Research Asia) released with the paper <a class="reference external" href="https://arxiv.org/abs/1912.13318">LayoutLM: Pre-training of Text and Layout for Document Image Understanding</a> by Yiheng Xu, Minghao Li, Lei Cui, Shaohan Huang, Furu Wei, Ming Zhou.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/led.html">LED</a></strong> (from AllenAI) released with the paper <a class="reference external" href="https://arxiv.org/abs/2004.05150">Longformer: The Long-Document Transformer</a> by Iz Beltagy, Matthew E. Peters, Arman Cohan.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/longformer.html">Longformer</a></strong> (from AllenAI) released with the paper <a class="reference external" href="https://arxiv.org/abs/2004.05150">Longformer: The Long-Document Transformer</a> by Iz Beltagy, Matthew E. Peters, Arman Cohan.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/lxmert.html">LXMERT</a></strong> (from UNC Chapel Hill) released with the paper <a class="reference external" href="https://arxiv.org/abs/1908.07490">LXMERT: Learning Cross-Modality Encoder Representations from Transformers for Open-Domain Question Answering</a> by Hao Tan and Mohit Bansal.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/marian.html">MarianMT</a></strong> Machine translation models trained using <a class="reference external" href="http://opus.nlpl.eu/">OPUS</a> data by Jörg Tiedemann. The <a class="reference external" href="https://marian-nmt.github.io/">Marian Framework</a> is being developed by the Microsoft Translator Team.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/mbart.html">MBart</a></strong> (from Facebook) released with the paper <a class="reference external" href="https://arxiv.org/abs/2001.08210">Multilingual Denoising Pre-training for Neural Machine Translation</a> by Yinhan Liu, Jiatao Gu, Naman Goyal, Xian Li, Sergey Edunov, Marjan Ghazvininejad, Mike Lewis, Luke Zettlemoyer.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/mbart.html">MBart-50</a></strong> (from Facebook) released with the paper <a class="reference external" href="https://arxiv.org/abs/2008.00401">Multilingual Translation with Extensible Multilingual Pretraining and Finetuning</a> by Yuqing Tang, Chau Tran, Xian Li, Peng-Jen Chen, Naman Goyal, Vishrav Chaudhary, Jiatao Gu, Angela Fan.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/mpnet.html">MPNet</a></strong> (from Microsoft Research) released with the paper <a class="reference external" href="https://arxiv.org/abs/2004.09297">MPNet: Masked and Permuted Pre-training for Language Understanding</a> by Kaitao Song, Xu Tan, Tao Qin, Jianfeng Lu, Tie-Yan Liu.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/mt5.html">MT5</a></strong> (from Google AI) released with the paper <a class="reference external" href="https://arxiv.org/abs/2010.11934">mT5: A massively multilingual pre-trained text-to-text transformer</a> by Linting Xue, Noah Constant, Adam Roberts, Mihir Kale, Rami Al-Rfou, Aditya Siddhant, Aditya Barua, Colin Raffel.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/pegasus.html">Pegasus</a></strong> (from Google) released with the paper <a class="reference external" href="https://arxiv.org/abs/1912.08777">PEGASUS: Pre-training with Extracted Gap-sentences for Abstractive Summarization</a>&gt; by Jingqing Zhang, Yao Zhao, Mohammad Saleh and Peter J. Liu.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/prophetnet.html">ProphetNet</a></strong> (from Microsoft Research) released with the paper <a class="reference external" href="https://arxiv.org/abs/2001.04063">ProphetNet: Predicting Future N-gram for Sequence-to-Sequence Pre-training</a> by Yu Yan, Weizhen Qi, Yeyun Gong, Dayiheng Liu, Nan Duan, Jiusheng Chen, Ruofei Zhang and Ming Zhou.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/reformer.html">Reformer</a></strong> (from Google Research) released with the paper <a class="reference external" href="https://arxiv.org/abs/2001.04451">Reformer: The Efficient Transformer</a> by Nikita Kitaev, Łukasz Kaiser, Anselm Levskaya.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/roberta.html">RoBERTa</a></strong> (from Facebook), released together with the paper a <a class="reference external" href="https://arxiv.org/abs/1907.11692">Robustly Optimized BERT Pretraining Approach</a> by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/squeezebert.html">SqueezeBert</a></strong> released with the paper <a class="reference external" href="https://arxiv.org/abs/2006.11316">SqueezeBERT: What can computer vision teach NLP about efficient neural networks?</a> by Forrest N. Iandola, Albert E. Shaw, Ravi Krishna, and Kurt W. Keutzer.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/t5.html">T5</a></strong> (from Google AI) released with the paper <a class="reference external" href="https://arxiv.org/abs/1910.10683">Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer</a> by Colin Raffel and Noam Shazeer and Adam Roberts and Katherine Lee and Sharan Narang and Michael Matena and Yanqi Zhou and Wei Li and Peter J. Liu.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/tapas.html">TAPAS</a></strong> (from Google AI) released with the paper <a class="reference external" href="https://arxiv.org/abs/2004.02349">TAPAS: Weakly Supervised Table Parsing via Pre-training</a> by Jonathan Herzig, Paweł Krzysztof Nowak, Thomas Müller, Francesco Piccinno and Julian Martin Eisenschlos.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/transformerxl.html">Transformer-XL</a></strong> (from Google/CMU) released with the paper <a class="reference external" href="https://arxiv.org/abs/1901.02860">Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context</a> by Zihang Dai*, Zhilin Yang*, Yiming Yang, Jaime Carbonell, Quoc V. Le, Ruslan Salakhutdinov.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/wav2vec2.html">Wav2Vec2</a></strong> (from Facebook AI) released with the paper <a class="reference external" href="https://arxiv.org/abs/2006.11477">wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations</a> by Alexei Baevski, Henry Zhou, Abdelrahman Mohamed, Michael Auli.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/xlm.html">XLM</a></strong> (from Facebook) released together with the paper <a class="reference external" href="https://arxiv.org/abs/1901.07291">Cross-lingual Language Model Pretraining</a> by Guillaume Lample and Alexis Conneau.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/xlmprophetnet.html">XLM-ProphetNet</a></strong> (from Microsoft Research) released with the paper <a class="reference external" href="https://arxiv.org/abs/2001.04063">ProphetNet: Predicting Future N-gram for Sequence-to-Sequence Pre-training</a> by Yu Yan, Weizhen Qi, Yeyun Gong, Dayiheng Liu, Nan Duan, Jiusheng Chen, Ruofei Zhang and Ming Zhou.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/xlmroberta.html">XLM-RoBERTa</a></strong> (from Facebook AI), released together with the paper <a class="reference external" href="https://arxiv.org/abs/1911.02116">Unsupervised Cross-lingual Representation Learning at Scale</a> by Alexis Conneau*, Kartikay Khandelwal*, Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco Guzmán, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov.</p></li>
+<li><p><strong><a class="reference external" href="https://huggingface.co/transformers/model_doc/xlnet.html">XLNet</a></strong> (from Google/CMU) released with the paper <a class="reference external" href="https://arxiv.org/abs/1906.08237">​XLNet: Generalized Autoregressive Pretraining for Language Understanding</a> by Zhilin Yang*, Zihang Dai*, Yiming Yang, Jaime Carbonell, Ruslan Salakhutdinov, Quoc V. Le.</p></li>
+<li><p>Want to contribute a new model? We have added a <strong>detailed guide and templates</strong> to guide you in the process of adding a new model. You can find them in the <a class="reference external" href="https://github.com/intel/neural-compressor/tree/58946fb79d4fe903f438976ea53721b8629d9dd7/examples/pytorch/nlp/huggingface_models/common/templates"><code class="docutils literal notranslate"><span class="pre">templates</span></code></a> folder of the repository. Be sure to check the <a class="reference internal" href="CONTRIBUTING.html"><span class="doc">contributing guidelines</span></a> and contact the maintainers or open an issue to collect feedbacks before starting your PR.</p></li>
+</ol>
+<p>To check if each model has an implementation in PyTorch/TensorFlow/Flax or has an associated tokenizer backed by the 🤗 Tokenizers library, refer to <a class="reference external" href="https://huggingface.co/transformers/index.html#bigtable">this table</a></p>
+<p>These implementations have been tested on several datasets (see the example scripts) and should match the performances of the original implementations. You can find more details on the performances in the Examples section of the <a class="reference external" href="https://huggingface.co/transformers/examples.html">documentation</a>.</p>
+</div>
+<div class="section" id="learn-more">
+<h1>Learn more<a class="headerlink" href="#learn-more" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Section</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://huggingface.co/transformers/">Documentation</a></td>
+<td>Full API documentation and tutorials</td>
+</tr>
+<tr>
+<td><a href="https://huggingface.co/transformers/task_summary.html">Task summary</a></td>
+<td>Tasks supported by 🤗 Transformers</td>
+</tr>
+<tr>
+<td><a href="https://huggingface.co/transformers/preprocessing.html">Preprocessing tutorial</a></td>
+<td>Using the <code>Tokenizer</code> class to prepare data for the models</td>
+</tr>
+<tr>
+<td><a href="https://huggingface.co/transformers/training.html">Training and fine-tuning</a></td>
+<td>Using the models provided by 🤗 Transformers in a PyTorch/TensorFlow training loop and the <code>Trainer</code> API</td>
+</tr>
+<tr>
+<td><a href="https://github.com/huggingface/transformers/tree/master/examples">Quick tour: Fine-tuning/usage scripts</a></td>
+<td>Example scripts for fine-tuning models on a wide range of tasks</td>
+</tr>
+<tr>
+<td><a href="https://huggingface.co/transformers/model_sharing.html">Model sharing and uploading</a></td>
+<td>Upload and share your fine-tuned models with the community</td>
+</tr>
+<tr>
+<td><a href="https://huggingface.co/transformers/migration.html">Migration</a></td>
+<td>Migrate to 🤗 Transformers from <code>pytorch-transformers</code> or <code>pytorch-pretrained-bert</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="citation">
+<h1>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h1>
+<p>We now have a <a class="reference external" href="https://www.aclweb.org/anthology/2020.emnlp-demos.6/">paper</a> you can cite for the 🤗 Transformers library:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@inproceedings</span><span class="p">{</span><span class="nl">wolf-etal-2020-transformers</span><span class="p">,</span>
+    <span class="na">title</span> <span class="p">=</span> <span class="s">&quot;Transformers: State-of-the-Art Natural Language Processing&quot;</span><span class="p">,</span>
+    <span class="na">author</span> <span class="p">=</span> <span class="s">&quot;Thomas Wolf and Lysandre Debut and Victor Sanh and Julien Chaumond and Clement Delangue and Anthony Moi and Pierric Cistac and Tim Rault and Rémi Louf and Morgan Funtowicz and Joe Davison and Sam Shleifer and Patrick von Platen and Clara Ma and Yacine Jernite and Julien Plu and Canwen Xu and Teven Le Scao and Sylvain Gugger and Mariama Drame and Quentin Lhoest and Alexander M. Rush&quot;</span><span class="p">,</span>
+    <span class="na">booktitle</span> <span class="p">=</span> <span class="s">&quot;Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing: System Demonstrations&quot;</span><span class="p">,</span>
+    <span class="na">month</span> <span class="p">=</span> <span class="nv">oct</span><span class="p">,</span>
+    <span class="na">year</span> <span class="p">=</span> <span class="s">&quot;2020&quot;</span><span class="p">,</span>
+    <span class="na">address</span> <span class="p">=</span> <span class="s">&quot;Online&quot;</span><span class="p">,</span>
+    <span class="na">publisher</span> <span class="p">=</span> <span class="s">&quot;Association for Computational Linguistics&quot;</span><span class="p">,</span>
+    <span class="na">url</span> <span class="p">=</span> <span class="s">&quot;https://www.aclweb.org/anthology/2020.emnlp-demos.6&quot;</span><span class="p">,</span>
+    <span class="na">pages</span> <span class="p">=</span> <span class="s">&quot;38--45&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

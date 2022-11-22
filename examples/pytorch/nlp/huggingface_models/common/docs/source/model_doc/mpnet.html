@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPNet &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">MPNet</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/mpnet.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="mpnet">
+<h1>MPNet<a class="headerlink" href="#mpnet" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The MPNet model was proposed in <a class="reference external" href="https://arxiv.org/abs/2004.09297">MPNet: Masked and Permuted Pre-training for Language Understanding</a> by Kaitao Song, Xu Tan, Tao Qin, Jianfeng Lu, Tie-Yan Liu.</p>
+<p>MPNet adopts a novel pre-training method, named masked and permuted language modeling, to inherit the advantages of
+masked language modeling and permuted language modeling for natural language understanding.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>BERT adopts masked language modeling (MLM) for pre-training and is one of the most successful pre-training models.
+Since BERT neglects dependency among predicted tokens, XLNet introduces permuted language modeling (PLM) for
+pre-training to address this problem. However, XLNet does not leverage the full position information of a sentence and
+thus suffers from position discrepancy between pre-training and fine-tuning. In this paper, we propose MPNet, a novel
+pre-training method that inherits the advantages of BERT and XLNet and avoids their limitations. MPNet leverages the
+dependency among predicted tokens through permuted language modeling (vs. MLM in BERT), and takes auxiliary position
+information as input to make the model see a full sentence and thus reducing the position discrepancy (vs. PLM in
+XLNet). We pre-train MPNet on a large-scale dataset (over 160GB text corpora) and fine-tune on a variety of
+down-streaming tasks (GLUE, SQuAD, etc). Experimental results show that MPNet outperforms MLM and PLM by a large
+margin, and achieves better results on these tasks compared with previous state-of-the-art pre-trained methods (e.g.,
+BERT, XLNet, RoBERTa) under the same model setting.</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>MPNet doesn’t have <code class="xref py py-obj docutils literal notranslate"><span class="pre">token_type_ids</span></code>, you don’t need to indicate which token belongs to which segment. just
+separate your segments with the separation token <code class="xref py py-obj docutils literal notranslate"><span class="pre">tokenizer.sep_token</span></code> (or <code class="xref py py-obj docutils literal notranslate"><span class="pre">[sep]</span></code>).</p></li>
+</ul>
+<p>The original code can be found <a class="reference external" href="https://github.com/microsoft/MPNet">here</a>.</p>
+</div>
+<div class="section" id="mpnetconfig">
+<h2>MPNetConfig<a class="headerlink" href="#mpnetconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mpnettokenizer">
+<h2>MPNetTokenizer<a class="headerlink" href="#mpnettokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mpnettokenizerfast">
+<h2>MPNetTokenizerFast<a class="headerlink" href="#mpnettokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mpnetmodel">
+<h2>MPNetModel<a class="headerlink" href="#mpnetmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mpnetformaskedlm">
+<h2>MPNetForMaskedLM<a class="headerlink" href="#mpnetformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mpnetforsequenceclassification">
+<h2>MPNetForSequenceClassification<a class="headerlink" href="#mpnetforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mpnetformultiplechoice">
+<h2>MPNetForMultipleChoice<a class="headerlink" href="#mpnetformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mpnetfortokenclassification">
+<h2>MPNetForTokenClassification<a class="headerlink" href="#mpnetfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mpnetforquestionanswering">
+<h2>MPNetForQuestionAnswering<a class="headerlink" href="#mpnetforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmpnetmodel">
+<h2>TFMPNetModel<a class="headerlink" href="#tfmpnetmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmpnetformaskedlm">
+<h2>TFMPNetForMaskedLM<a class="headerlink" href="#tfmpnetformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmpnetforsequenceclassification">
+<h2>TFMPNetForSequenceClassification<a class="headerlink" href="#tfmpnetforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmpnetformultiplechoice">
+<h2>TFMPNetForMultipleChoice<a class="headerlink" href="#tfmpnetformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmpnetfortokenclassification">
+<h2>TFMPNetForTokenClassification<a class="headerlink" href="#tfmpnetfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmpnetforquestionanswering">
+<h2>TFMPNetForQuestionAnswering<a class="headerlink" href="#tfmpnetforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

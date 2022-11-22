@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MBart and MBart-50 &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">MBart and MBart-50</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/mbart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="mbart-and-mbart-50">
+<h1>MBart and MBart-50<a class="headerlink" href="#mbart-and-mbart-50" title="Permalink to this headline">¶</a></h1>
+<p><strong>DISCLAIMER:</strong> If you see something strange, file a <a class="reference external" href="https://github.com/huggingface/transformers/issues/new?assignees=&amp;labels=&amp;template=bug-report.md&amp;title">Github Issue</a> and assign
+&#64;patrickvonplaten</p>
+<div class="section" id="overview-of-mbart">
+<h2>Overview of MBart<a class="headerlink" href="#overview-of-mbart" title="Permalink to this headline">¶</a></h2>
+<p>The MBart model was presented in <a class="reference external" href="https://arxiv.org/abs/2001.08210">Multilingual Denoising Pre-training for Neural Machine Translation</a> by Yinhan Liu, Jiatao Gu, Naman Goyal, Xian Li, Sergey Edunov Marjan
+Ghazvininejad, Mike Lewis, Luke Zettlemoyer.</p>
+<p>According to the abstract, MBART is a sequence-to-sequence denoising auto-encoder pretrained on large-scale monolingual
+corpora in many languages using the BART objective. mBART is one of the first methods for pretraining a complete
+sequence-to-sequence model by denoising full texts in multiple languages, while previous approaches have focused only
+on the encoder, decoder, or reconstructing parts of the text.</p>
+<p>The Authors’ code can be found <a class="reference external" href="https://github.com/pytorch/fairseq/tree/master/examples/mbart">here</a></p>
+<div class="section" id="training-of-mbart">
+<h3>Training of MBart<a class="headerlink" href="#training-of-mbart" title="Permalink to this headline">¶</a></h3>
+<p>MBart is a multilingual encoder-decoder (sequence-to-sequence) model primarily intended for translation task. As the
+model is multilingual it expects the sequences in a different format. A special language id token is added in both the
+source and target text. The source text format is <code class="xref py py-obj docutils literal notranslate"><span class="pre">X</span> <span class="pre">[eos,</span> <span class="pre">src_lang_code]</span></code> where <code class="xref py py-obj docutils literal notranslate"><span class="pre">X</span></code> is the source text. The
+target text format is <code class="xref py py-obj docutils literal notranslate"><span class="pre">[tgt_lang_code]</span> <span class="pre">X</span> <span class="pre">[eos]</span></code>. <code class="xref py py-obj docutils literal notranslate"><span class="pre">bos</span></code> is never used.</p>
+<p>The regular <code class="xref py py-meth docutils literal notranslate"><span class="pre">__call__()</span></code> will encode source text format, and it should be wrapped
+inside the context manager <code class="xref py py-meth docutils literal notranslate"><span class="pre">as_target_tokenizer()</span></code> to encode target text format.</p>
+<ul class="simple">
+<li><p>Supervised training</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">MBartForConditionalGeneration</span><span class="p">,</span> <span class="n">MBartTokenizer</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">MBartTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/mbart-large-en-ro&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example_english_phrase</span> <span class="o">=</span> <span class="s2">&quot;UN Chief Says There Is No Military Solution in Syria&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expected_translation_romanian</span> <span class="o">=</span> <span class="s2">&quot;Şeful ONU declară că nu există o soluţie militară în Siria&quot;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">example_english_phrase</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">src_lang</span><span class="o">=</span><span class="s2">&quot;en_XX&quot;</span><span class="p">,</span> <span class="n">tgt_lang</span><span class="o">=</span><span class="s2">&quot;ro_RO&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">as_target_tokenizer</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">labels</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">expected_translation_romanian</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">MBartForConditionalGeneration</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/mbart-large-en-ro&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># forward pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul>
+<li><p>Generation</p>
+<blockquote>
+<div><p>While generating the target text set the <code class="xref py py-obj docutils literal notranslate"><span class="pre">decoder_start_token_id</span></code> to the target language id. The following
+example shows how to translate English to Romanian using the <cite>facebook/mbart-large-en-ro</cite> model.</p>
+</div></blockquote>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">MBartForConditionalGeneration</span><span class="p">,</span> <span class="n">MBartTokenizer</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">MBartTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/mbart-large-en-ro&quot;</span><span class="p">,</span> <span class="n">src_lang</span><span class="o">=</span><span class="s2">&quot;en_XX&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">article</span> <span class="o">=</span> <span class="s2">&quot;UN Chief Says There Is No Military Solution in Syria&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">translated_tokens</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">decoder_start_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">lang_code_to_id</span><span class="p">[</span><span class="s2">&quot;ro_RO&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">translated_tokens</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&quot;Şeful ONU declară că nu există o soluţie militară în Siria&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="overview-of-mbart-50">
+<h2>Overview of MBart-50<a class="headerlink" href="#overview-of-mbart-50" title="Permalink to this headline">¶</a></h2>
+<p>MBart-50 was introduced in the <cite>Multilingual Translation with Extensible Multilingual Pretraining and Finetuning
+&lt;https://arxiv.org/abs/2008.00401&gt;</cite> paper by Yuqing Tang, Chau Tran, Xian Li, Peng-Jen Chen, Naman Goyal, Vishrav
+Chaudhary, Jiatao Gu, Angela Fan. MBart-50 is created using the original <cite>mbart-large-cc25</cite> checkpoint by extendeding
+its embedding layers with randomly initialized vectors for an extra set of 25 language tokens and then pretrained on 50
+languages.</p>
+<p>According to the abstract</p>
+<p><em>Multilingual translation models can be created through multilingual finetuning. Instead of finetuning on one
+direction, a pretrained model is finetuned on many directions at the same time. It demonstrates that pretrained models
+can be extended to incorporate additional languages without loss of performance. Multilingual finetuning improves on
+average 1 BLEU over the strongest baselines (being either multilingual from scratch or bilingual finetuning) while
+improving 9.3 BLEU on average over bilingual baselines from scratch.</em></p>
+<div class="section" id="training-of-mbart-50">
+<h3>Training of MBart-50<a class="headerlink" href="#training-of-mbart-50" title="Permalink to this headline">¶</a></h3>
+<p>The text format for MBart-50 is slightly different from mBART. For MBart-50 the language id token is used as a prefix
+for both source and target text i.e the text format is <code class="xref py py-obj docutils literal notranslate"><span class="pre">[lang_code]</span> <span class="pre">X</span> <span class="pre">[eos]</span></code>, where <code class="xref py py-obj docutils literal notranslate"><span class="pre">lang_code</span></code> is source
+language id for source text and target language id for target text, with <code class="xref py py-obj docutils literal notranslate"><span class="pre">X</span></code> being the source or target text
+respectively.</p>
+<p>MBart-50 has its own tokenizer <code class="xref py py-class docutils literal notranslate"><span class="pre">MBart50Tokenizer</span></code>.</p>
+<ul class="simple">
+<li><p>Supervised training</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">MBartForConditionalGeneration</span><span class="p">,</span> <span class="n">MBart50TokenizerFast</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">MBartForConditionalGeneration</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/mbart-large-50&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">MBart50TokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/mbart-large-50&quot;</span><span class="p">,</span> <span class="n">src_lang</span><span class="o">=</span><span class="s2">&quot;en_XX&quot;</span><span class="p">,</span> <span class="n">tgt_lang</span><span class="o">=</span><span class="s2">&quot;ro_RO&quot;</span><span class="p">)</span>
+
+<span class="n">src_text</span> <span class="o">=</span> <span class="s2">&quot; UN Chief Says There Is No Military Solution in Syria&quot;</span>
+<span class="n">tgt_text</span> <span class="o">=</span>  <span class="s2">&quot;Şeful ONU declară că nu există o soluţie militară în Siria&quot;</span>
+
+<span class="n">model_inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">src_text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">as_target_tokenizer</span><span class="p">():</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">tgt_text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+
+<span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">model_inputs</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span> <span class="c1"># forward pass</span>
+</pre></div>
+</div>
+<ul>
+<li><p>Generation</p>
+<blockquote>
+<div><p>To generate using the mBART-50 multilingual translation models, <code class="xref py py-obj docutils literal notranslate"><span class="pre">eos_token_id</span></code> is used as the
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">decoder_start_token_id</span></code> and the target language id is forced as the first generated token. To force the
+target language id as the first generated token, pass the <cite>forced_bos_token_id</cite> parameter to the <cite>generate</cite> method.
+The following example shows how to translate between Hindi to French and Arabic to English using the
+<cite>facebook/mbart-50-large-many-to-many</cite> checkpoint.</p>
+</div></blockquote>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">MBartForConditionalGeneration</span><span class="p">,</span> <span class="n">MBart50TokenizerFast</span>
+
+<span class="n">article_hi</span> <span class="o">=</span> <span class="s2">&quot;संयुक्त राष्ट्र के प्रमुख का कहना है कि सीरिया में कोई सैन्य समाधान नहीं है&quot;</span>
+<span class="n">article_ar</span> <span class="o">=</span> <span class="s2">&quot;الأمين العام للأمم المتحدة يقول إنه لا يوجد حل عسكري في سوريا.&quot;</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">MBartForConditionalGeneration</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/mbart-large-50-many-to-many-mmt&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">MBart50TokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/mbart-large-50-many-to-many-mmt&quot;</span><span class="p">)</span>
+
+<span class="c1"># translate Hindi to French</span>
+<span class="n">tokenizer</span><span class="o">.</span><span class="n">src_lang</span> <span class="o">=</span> <span class="s2">&quot;hi_IN&quot;</span>
+<span class="n">encoded_hi</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">article_hi</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="n">generated_tokens</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">encoded_hi</span><span class="p">,</span> <span class="n">forced_bos_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">lang_code_to_id</span><span class="p">[</span><span class="s2">&quot;fr_XX&quot;</span><span class="p">])</span>
+<span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">generated_tokens</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;Le chef de l &#39;ONU affirme qu &#39;il n &#39;y a pas de solution militaire en Syria.&quot;</span>
+
+<span class="c1"># translate Arabic to English</span>
+<span class="n">tokenizer</span><span class="o">.</span><span class="n">src_lang</span> <span class="o">=</span> <span class="s2">&quot;ar_AR&quot;</span>
+<span class="n">encoded_ar</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">article_ar</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="n">generated_tokens</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">encoded_ar</span><span class="p">,</span> <span class="n">forced_bos_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">lang_code_to_id</span><span class="p">[</span><span class="s2">&quot;en_XX&quot;</span><span class="p">])</span>
+<span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">generated_tokens</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;The Secretary-General of the United Nations says there is no military solution in Syria.&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="mbartconfig">
+<h2>MBartConfig<a class="headerlink" href="#mbartconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mbarttokenizer">
+<h2>MBartTokenizer<a class="headerlink" href="#mbarttokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mbarttokenizerfast">
+<h2>MBartTokenizerFast<a class="headerlink" href="#mbarttokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mbart50tokenizer">
+<h2>MBart50Tokenizer<a class="headerlink" href="#mbart50tokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mbart50tokenizerfast">
+<h2>MBart50TokenizerFast<a class="headerlink" href="#mbart50tokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mbartmodel">
+<h2>MBartModel<a class="headerlink" href="#mbartmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mbartforconditionalgeneration">
+<h2>MBartForConditionalGeneration<a class="headerlink" href="#mbartforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mbartforquestionanswering">
+<h2>MBartForQuestionAnswering<a class="headerlink" href="#mbartforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mbartforsequenceclassification">
+<h2>MBartForSequenceClassification<a class="headerlink" href="#mbartforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="mbartforcausallm">
+<h2>MBartForCausalLM<a class="headerlink" href="#mbartforcausallm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmbartmodel">
+<h2>TFMBartModel<a class="headerlink" href="#tfmbartmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfmbartforconditionalgeneration">
+<h2>TFMBartForConditionalGeneration<a class="headerlink" href="#tfmbartforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blenderbot &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Blenderbot</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/blenderbot.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="blenderbot">
+<h1>Blenderbot<a class="headerlink" href="#blenderbot" title="Permalink to this headline">¶</a></h1>
+<p><strong>DISCLAIMER:</strong> If you see something strange, file a <a class="reference external" href="https://github.com/huggingface/transformers/issues/new?assignees=&amp;labels=&amp;template=bug-report.md&amp;title">Github Issue</a> .</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The Blender chatbot model was proposed in <a class="reference external" href="https://arxiv.org/pdf/2004.13637.pdf">Recipes for building an open-domain chatbot</a> Stephen Roller, Emily Dinan, Naman Goyal, Da Ju, Mary Williamson, Yinhan Liu,
+Jing Xu, Myle Ott, Kurt Shuster, Eric M. Smith, Y-Lan Boureau, Jason Weston on 30 Apr 2020.</p>
+<p>The abstract of the paper is the following:</p>
+<p><em>Building open-domain chatbots is a challenging area for machine learning research. While prior work has shown that
+scaling neural models in the number of parameters and the size of the data they are trained on gives improved results,
+we show that other ingredients are important for a high-performing chatbot. Good conversation requires a number of
+skills that an expert conversationalist blends in a seamless way: providing engaging talking points and listening to
+their partners, and displaying knowledge, empathy and personality appropriately, while maintaining a consistent
+persona. We show that large scale models can learn these skills when given appropriate training data and choice of
+generation strategy. We build variants of these recipes with 90M, 2.7B and 9.4B parameter models, and make our models
+and code publicly available. Human evaluations show our best models are superior to existing approaches in multi-turn
+dialogue in terms of engagingness and humanness measurements. We then discuss the limitations of this work by analyzing
+failure cases of our models.</em></p>
+<p>The authors’ code can be found <a class="reference external" href="https://github.com/facebookresearch/ParlAI">here</a> .</p>
+</div>
+<div class="section" id="implementation-notes">
+<h2>Implementation Notes<a class="headerlink" href="#implementation-notes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Blenderbot uses a standard <a class="reference external" href="https://arxiv.org/pdf/1706.03762.pdf">seq2seq model transformer</a> based architecture.</p></li>
+<li><p>Available checkpoints can be found in the <a class="reference external" href="https://huggingface.co/models?search=blenderbot">model hub</a>.</p></li>
+<li><p>This is the <cite>default</cite> Blenderbot model class. However, some smaller checkpoints, such as
+<code class="docutils literal notranslate"><span class="pre">facebook/blenderbot_small_90M</span></code>, have a different architecture and consequently should be used with
+<a class="reference external" href="https://huggingface.co/transformers/master/model_doc/blenderbot_small.html">BlenderbotSmall</a>.</p></li>
+</ul>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Here is an example of model usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">BlenderbotTokenizer</span><span class="p">,</span> <span class="n">BlenderbotForConditionalGeneration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mname</span> <span class="o">=</span> <span class="s1">&#39;facebook/blenderbot-400M-distill&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">BlenderbotForConditionalGeneration</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">mname</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BlenderbotTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">mname</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">UTTERANCE</span> <span class="o">=</span> <span class="s2">&quot;My friends are cool but they eat too many carbs.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">([</span><span class="n">UTTERANCE</span><span class="p">],</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reply_ids</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">reply_ids</span><span class="p">))</span>
+<span class="go">[&quot;&lt;s&gt; That&#39;s unfortunate. Are they trying to lose weight or are they just trying to be healthier?&lt;/s&gt;&quot;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="blenderbotconfig">
+<h2>BlenderbotConfig<a class="headerlink" href="#blenderbotconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="blenderbottokenizer">
+<h2>BlenderbotTokenizer<a class="headerlink" href="#blenderbottokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="blenderbotmodel">
+<h2>BlenderbotModel<a class="headerlink" href="#blenderbotmodel" title="Permalink to this headline">¶</a></h2>
+<p>See <code class="xref py py-obj docutils literal notranslate"><span class="pre">transformers.BartModel</span></code> for arguments to <cite>forward</cite> and <cite>generate</cite></p>
+</div>
+<div class="section" id="blenderbotforconditionalgeneration">
+<h2>BlenderbotForConditionalGeneration<a class="headerlink" href="#blenderbotforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+<p>See <code class="xref py py-obj docutils literal notranslate"><span class="pre">transformers.BartForConditionalGeneration</span></code> for arguments to <cite>forward</cite> and <cite>generate</cite></p>
+</div>
+<div class="section" id="blenderbotforcausallm">
+<h2>BlenderbotForCausalLM<a class="headerlink" href="#blenderbotforcausallm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfblenderbotmodel">
+<h2>TFBlenderbotModel<a class="headerlink" href="#tfblenderbotmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfblenderbotforconditionalgeneration">
+<h2>TFBlenderbotForConditionalGeneration<a class="headerlink" href="#tfblenderbotforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

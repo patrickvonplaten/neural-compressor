@@ -1,8 +1,0 @@
-:orphan:
-
-:py:mod:`neural_compressor.adaptor.ox_utils.operators.split`
-============================================================
-
-.. py:module:: neural_compressor.adaptor.ox_utils.operators.split
-
-

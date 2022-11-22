@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaluate performance of ONNX Runtime(Mobilenet) &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Evaluate performance of ONNX Runtime(Mobilenet)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/onnxrt/image_recognition/onnx_model_zoo/mobilenet/quantization/ptq/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="evaluate-performance-of-onnx-runtime-mobilenet">
+<h1>Evaluate performance of ONNX Runtime(Mobilenet)<a class="headerlink" href="#evaluate-performance-of-onnx-runtime-mobilenet" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>ONNX runtime quantization is under active development. please use 1.6.0+ to get more quantization support.</p>
+</div></blockquote>
+<p>This example load an image classification model from <a class="reference external" href="https://github.com/onnx/models">ONNX Model Zoo</a> and confirm its accuracy and speed based on <a class="reference external" href="http://www.image-net.org/challenges/LSVRC/2012/downloads">ILSVR2012 validation Imagenet dataset</a>. You need to download this dataset yourself.</p>
+<div class="section" id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
+<p>onnx: 1.9.0
+onnxruntime: 1.10.0</p>
+</div>
+<div class="section" id="prepare-model">
+<h2>Prepare model<a class="headerlink" href="#prepare-model" title="Permalink to this headline">¶</a></h2>
+<p>Download model from <a class="reference external" href="https://github.com/onnx/models">ONNX Model Zoo</a></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://github.com/onnx/models/raw/main/vision/classification/mobilenet/model/mobilenetv2-12.onnx
+</pre></div>
+</div>
+</div>
+<div class="section" id="quantization">
+<h2>Quantization<a class="headerlink" href="#quantization" title="Permalink to this headline">¶</a></h2>
+<p>Quantize model with QLinearOps:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash run_tuning.sh --input_model<span class="o">=</span>path/to/model <span class="se">\ </span> <span class="c1"># model path as *.onnx</span>
+                   --config<span class="o">=</span>mobilenetv2.yaml <span class="se">\</span>
+                   --output_model<span class="o">=</span>path/to/save
+</pre></div>
+</div>
+<p>Quantize model with QDQ mode:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash run_tuning.sh --input_model<span class="o">=</span>path/to/model <span class="se">\ </span> <span class="c1"># model path as *.onnx</span>
+                   --config<span class="o">=</span>mobilenetv2_qdq.yaml <span class="se">\</span>
+                   --output_model<span class="o">=</span>path/to/save
+</pre></div>
+</div>
+</div>
+<div class="section" id="benchmark">
+<h2>Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash run_benchmark.sh --input_model<span class="o">=</span>path/to/model <span class="se">\ </span> <span class="c1"># model path as *.onnx</span>
+                      --config<span class="o">=</span>mobilenetv2.yaml <span class="se">\</span>
+                      --mode<span class="o">=</span>performance <span class="c1"># or accuracy</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

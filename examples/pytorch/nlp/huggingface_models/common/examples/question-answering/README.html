@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQuAD &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">SQuAD</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/question-answering/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!---
+Copyright 2020 The HuggingFace Team. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--><div class="section" id="squad">
+<h1>SQuAD<a class="headerlink" href="#squad" title="Permalink to this headline">¶</a></h1>
+<p>Based on the script <a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/question-answering/run_qa.py"><code class="docutils literal notranslate"><span class="pre">run_qa.py</span></code></a>.</p>
+<p><strong>Note:</strong> This script only works with models that have a fast tokenizer (backed by the 🤗 Tokenizers library) as it
+uses special features of those tokenizers. You can check if your favorite model has a fast tokenizer in
+<a class="reference external" href="https://huggingface.co/transformers/index.html#bigtable">this table</a>, if it doesn’t you can still use the old version
+of the script.</p>
+<p>The old version of this script can be found <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples/legacy/question-answering">here</a>.</p>
+<div class="section" id="fine-tuning-bert-on-squad1-0">
+<h2>Fine-tuning BERT on SQuAD1.0<a class="headerlink" href="#fine-tuning-bert-on-squad1-0" title="Permalink to this headline">¶</a></h2>
+<p>This example code fine-tunes BERT on the SQuAD1.0 dataset. It runs in 24 min (with BERT-base) or 68 min (with BERT-large)
+on a single tesla V100 16GB.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_qa.py <span class="se">\</span>
+  --model_name_or_path bert-base-uncased <span class="se">\</span>
+  --dataset_name squad <span class="se">\</span>
+  --do_train <span class="se">\</span>
+  --do_eval <span class="se">\</span>
+  --per_device_train_batch_size <span class="m">12</span> <span class="se">\</span>
+  --learning_rate 3e-5 <span class="se">\</span>
+  --num_train_epochs <span class="m">2</span> <span class="se">\</span>
+  --max_seq_length <span class="m">384</span> <span class="se">\</span>
+  --doc_stride <span class="m">128</span> <span class="se">\</span>
+  --output_dir /tmp/debug_squad/
+</pre></div>
+</div>
+<p>Training with the previously defined hyper-parameters yields the following results:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">f1</span> <span class="o">=</span> <span class="m">88</span>.52
+<span class="nv">exact_match</span> <span class="o">=</span> <span class="m">81</span>.22
+</pre></div>
+</div>
+</div>
+<div class="section" id="distributed-training">
+<h2>Distributed training<a class="headerlink" href="#distributed-training" title="Permalink to this headline">¶</a></h2>
+<p>Here is an example using distributed training on 8 V100 GPUs and Bert Whole Word Masking uncased model to reach a F1 &gt; 93 on SQuAD1.1:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">8</span> ./examples/question-answering/run_squad.py <span class="se">\</span>
+    --model_name_or_path bert-large-uncased-whole-word-masking <span class="se">\</span>
+    --dataset_name squad <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --learning_rate 3e-5 <span class="se">\</span>
+    --num_train_epochs <span class="m">2</span> <span class="se">\</span>
+    --max_seq_length <span class="m">384</span> <span class="se">\</span>
+    --doc_stride <span class="m">128</span> <span class="se">\</span>
+    --output_dir ./examples/models/wwm_uncased_finetuned_squad/ <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">3</span>   <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">3</span>   <span class="se">\</span>
+</pre></div>
+</div>
+<p>Training with the previously defined hyper-parameters yields the following results:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">f1</span> <span class="o">=</span> <span class="m">93</span>.15
+<span class="nv">exact_match</span> <span class="o">=</span> <span class="m">86</span>.91
+</pre></div>
+</div>
+<p>This fine-tuned model is available as a checkpoint under the reference
+<a class="reference external" href="https://huggingface.co/bert-large-uncased-whole-word-masking-finetuned-squad"><code class="docutils literal notranslate"><span class="pre">bert-large-uncased-whole-word-masking-finetuned-squad</span></code></a>.</p>
+</div>
+<div class="section" id="fine-tuning-xlnet-with-beam-search-on-squad">
+<h2>Fine-tuning XLNet with beam search on SQuAD<a class="headerlink" href="#fine-tuning-xlnet-with-beam-search-on-squad" title="Permalink to this headline">¶</a></h2>
+<p>This example code fine-tunes XLNet on both SQuAD1.0 and SQuAD2.0 dataset.</p>
+<div class="section" id="command-for-squad1-0">
+<h3>Command for SQuAD1.0:<a class="headerlink" href="#command-for-squad1-0" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_qa_beam_search.py <span class="se">\</span>
+    --model_name_or_path xlnet-large-cased <span class="se">\</span>
+    --dataset_name squad <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --learning_rate 3e-5 <span class="se">\</span>
+    --num_train_epochs <span class="m">2</span> <span class="se">\</span>
+    --max_seq_length <span class="m">384</span> <span class="se">\</span>
+    --doc_stride <span class="m">128</span> <span class="se">\</span>
+    --output_dir ./wwm_cased_finetuned_squad/ <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">4</span>  <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">4</span>   <span class="se">\</span>
+    --save_steps <span class="m">5000</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="command-for-squad2-0">
+<h3>Command for SQuAD2.0:<a class="headerlink" href="#command-for-squad2-0" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">SQUAD_DIR</span><span class="o">=</span>/path/to/SQUAD
+
+python run_qa_beam_search.py <span class="se">\</span>
+    --model_name_or_path xlnet-large-cased <span class="se">\</span>
+    --dataset_name squad_v2 <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --version_2_with_negative <span class="se">\</span>
+    --learning_rate 3e-5 <span class="se">\</span>
+    --num_train_epochs <span class="m">4</span> <span class="se">\</span>
+    --max_seq_length <span class="m">384</span> <span class="se">\</span>
+    --doc_stride <span class="m">128</span> <span class="se">\</span>
+    --output_dir ./wwm_cased_finetuned_squad/ <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">2</span>  <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">2</span>   <span class="se">\</span>
+    --save_steps <span class="m">5000</span>
+</pre></div>
+</div>
+<p>Larger batch size may improve the performance while costing more memory.</p>
+</div>
+<div class="section" id="results-for-squad1-0-with-the-previously-defined-hyper-parameters">
+<h3>Results for SQuAD1.0 with the previously defined hyper-parameters:<a class="headerlink" href="#results-for-squad1-0-with-the-previously-defined-hyper-parameters" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="s2">&quot;exact&quot;</span><span class="p">:</span> <span class="mf">85.45884578997162</span><span class="p">,</span>
+<span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="mf">92.5974600601065</span><span class="p">,</span>
+<span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="mi">10570</span><span class="p">,</span>
+<span class="s2">&quot;HasAns_exact&quot;</span><span class="p">:</span> <span class="mf">85.45884578997162</span><span class="p">,</span>
+<span class="s2">&quot;HasAns_f1&quot;</span><span class="p">:</span> <span class="mf">92.59746006010651</span><span class="p">,</span>
+<span class="s2">&quot;HasAns_total&quot;</span><span class="p">:</span> <span class="mi">10570</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="results-for-squad2-0-with-the-previously-defined-hyper-parameters">
+<h3>Results for SQuAD2.0 with the previously defined hyper-parameters:<a class="headerlink" href="#results-for-squad2-0-with-the-previously-defined-hyper-parameters" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="s2">&quot;exact&quot;</span><span class="p">:</span> <span class="mf">80.4177545691906</span><span class="p">,</span>
+<span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="mf">84.07154997729623</span><span class="p">,</span>
+<span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="mi">11873</span><span class="p">,</span>
+<span class="s2">&quot;HasAns_exact&quot;</span><span class="p">:</span> <span class="mf">76.73751686909581</span><span class="p">,</span>
+<span class="s2">&quot;HasAns_f1&quot;</span><span class="p">:</span> <span class="mf">84.05558584352873</span><span class="p">,</span>
+<span class="s2">&quot;HasAns_total&quot;</span><span class="p">:</span> <span class="mi">5928</span><span class="p">,</span>
+<span class="s2">&quot;NoAns_exact&quot;</span><span class="p">:</span> <span class="mf">84.0874684608915</span><span class="p">,</span>
+<span class="s2">&quot;NoAns_f1&quot;</span><span class="p">:</span> <span class="mf">84.0874684608915</span><span class="p">,</span>
+<span class="s2">&quot;NoAns_total&quot;</span><span class="p">:</span> <span class="mi">5945</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fine-tuning-bert-on-squad1-0-with-relative-position-embeddings">
+<h2>Fine-tuning BERT on SQuAD1.0 with relative position embeddings<a class="headerlink" href="#fine-tuning-bert-on-squad1-0-with-relative-position-embeddings" title="Permalink to this headline">¶</a></h2>
+<p>The following examples show how to fine-tune BERT models with different relative position embeddings. The BERT model
+<code class="docutils literal notranslate"><span class="pre">bert-base-uncased</span></code> was pretrained with default absolute position embeddings. We provide the following pretrained
+models which were pre-trained on the same training data (BooksCorpus and English Wikipedia) as in the BERT model
+training, but with different relative position embeddings.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">zhiheng-huang/bert-base-uncased-embedding-relative-key</span></code>, trained from scratch with relative embedding proposed by
+Shaw et al., <a class="reference external" href="https://arxiv.org/abs/1803.02155">Self-Attention with Relative Position Representations</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zhiheng-huang/bert-base-uncased-embedding-relative-key-query</span></code>, trained from scratch with relative embedding method 4
+in Huang et al. <a class="reference external" href="https://arxiv.org/abs/2009.13658">Improve Transformer Models with Better Relative Position Embeddings</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zhiheng-huang/bert-large-uncased-whole-word-masking-embedding-relative-key-query</span></code>, fine-tuned from model
+<code class="docutils literal notranslate"><span class="pre">bert-large-uncased-whole-word-masking</span></code> with 3 additional epochs with relative embedding method 4 in Huang et al.
+<a class="reference external" href="https://arxiv.org/abs/2009.13658">Improve Transformer Models with Better Relative Position Embeddings</a></p></li>
+</ul>
+<div class="section" id="base-models-fine-tuning">
+<h3>Base models fine-tuning<a class="headerlink" href="#base-models-fine-tuning" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">0</span>,1,2,3,4,5,6,7
+python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">8</span> ./examples/question-answering/run_squad.py <span class="se">\</span>
+    --model_name_or_path zhiheng-huang/bert-base-uncased-embedding-relative-key-query <span class="se">\</span>
+    --dataset_name squad <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --learning_rate 3e-5 <span class="se">\</span>
+    --num_train_epochs <span class="m">2</span> <span class="se">\</span>
+    --max_seq_length <span class="m">512</span> <span class="se">\</span>
+    --doc_stride <span class="m">128</span> <span class="se">\</span>
+    --output_dir relative_squad <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">60</span> <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">6</span>
+</pre></div>
+</div>
+<p>Training with the above command leads to the following results. It boosts the BERT default from f1 score of 88.52 to 90.54.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;exact&#39;</span>: <span class="m">83</span>.6802270577105, <span class="s1">&#39;f1&#39;</span>: <span class="m">90</span>.54772098174814
+</pre></div>
+</div>
+<p>The change of <code class="docutils literal notranslate"><span class="pre">max_seq_length</span></code> from 512 to 384 in the above command leads to the f1 score of 90.34. Replacing the above
+model <code class="docutils literal notranslate"><span class="pre">zhiheng-huang/bert-base-uncased-embedding-relative-key-query</span></code> with
+<code class="docutils literal notranslate"><span class="pre">zhiheng-huang/bert-base-uncased-embedding-relative-key</span></code> leads to the f1 score of 89.51. The changing of 8 gpus to one
+gpu training leads to the f1 score of 90.71.</p>
+</div>
+<div class="section" id="large-models-fine-tuning">
+<h3>Large models fine-tuning<a class="headerlink" href="#large-models-fine-tuning" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">0</span>,1,2,3,4,5,6,7
+python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">8</span> ./examples/question-answering/run_squad.py <span class="se">\</span>
+    --model_name_or_path zhiheng-huang/bert-large-uncased-whole-word-masking-embedding-relative-key-query <span class="se">\</span>
+    --dataset_name squad <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --learning_rate 3e-5 <span class="se">\</span>
+    --num_train_epochs <span class="m">2</span> <span class="se">\</span>
+    --max_seq_length <span class="m">512</span> <span class="se">\</span>
+    --doc_stride <span class="m">128</span> <span class="se">\</span>
+    --output_dir relative_squad <span class="se">\</span>
+    --per_gpu_eval_batch_size<span class="o">=</span><span class="m">6</span> <span class="se">\</span>
+    --per_gpu_train_batch_size<span class="o">=</span><span class="m">2</span> <span class="se">\</span>
+    --gradient_accumulation_steps <span class="m">3</span>
+</pre></div>
+</div>
+<p>Training with the above command leads to the f1 score of 93.52, which is slightly better than the f1 score of 93.15 for
+<code class="docutils literal notranslate"><span class="pre">bert-large-uncased-whole-word-masking</span></code>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="squad-with-the-tensorflow-trainer">
+<h1>SQuAD with the Tensorflow Trainer<a class="headerlink" href="#squad-with-the-tensorflow-trainer" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_tf_squad.py <span class="se">\</span>
+    --model_name_or_path bert-base-uncased <span class="se">\</span>
+    --output_dir model <span class="se">\</span>
+    --max_seq_length <span class="m">384</span> <span class="se">\</span>
+    --num_train_epochs <span class="m">2</span> <span class="se">\</span>
+    --per_gpu_train_batch_size <span class="m">8</span> <span class="se">\</span>
+    --per_gpu_eval_batch_size <span class="m">16</span> <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --logging_dir logs <span class="se">\ </span>   
+    --logging_steps <span class="m">10</span> <span class="se">\</span>
+    --learning_rate 3e-5 <span class="se">\</span>
+    --doc_stride <span class="m">128</span>    
+</pre></div>
+</div>
+<p>For the moment evaluation is not available in the Tensorflow Trainer only the training.</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

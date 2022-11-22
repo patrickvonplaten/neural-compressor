@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/text-classification/quantization/qat/fx/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document list steps of reproducing Intel Optimized PyTorch bert-base-cased/uncased models tuning results via Neural Compressor with quantization aware training.</p>
+<p>Our example comes from <a class="reference external" href="https://github.com/huggingface/transformers">Huggingface/transformers</a></p>
+</div>
+<div class="section" id="prerequisite">
+<h1>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>PyTorch 1.8 is needed for pytorch_fx backend and huggingface/transformers.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/nlp/huggingface_models/text-classification/quantization/qat/fx
+pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-fine-tuned-model">
+<h2>2. Prepare fine-tuned model<a class="headerlink" href="#prepare-fine-tuned-model" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python run_glue.py <span class="se">\</span>
+  --model_name_or_path bert-base-cased <span class="se">\</span>
+  --task_name mrpc <span class="se">\</span>
+  --do_train <span class="se">\</span>
+  --do_eval <span class="se">\</span>
+  --max_seq_length <span class="m">128</span> <span class="se">\</span>
+  --per_device_train_batch_size <span class="m">32</span> <span class="se">\</span>
+  --learning_rate 2e-5 <span class="se">\</span>
+  --num_train_epochs <span class="m">3</span> <span class="se">\</span>
+  --output_dir bert_model
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="run">
+<h1>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="enable-bert-base-cased-uncased-example-with-the-auto-quantization-aware-training-strategy-of-neural-compressor">
+<h2>1. Enable bert-base-cased/uncased example with the auto quantization aware training strategy of Neural Compressor.<a class="headerlink" href="#enable-bert-base-cased-uncased-example-with-the-auto-quantization-aware-training-strategy-of-neural-compressor" title="Permalink to this headline">¶</a></h2>
+<p>The changes made are as follows:</p>
+<ol class="simple">
+<li><p>add conf_qat.yaml:<br />This file contains the configuration of quantization.</p></li>
+<li><p>edit run_glue_tune.py:<br />- For quantization, We used neural_compressor in it.<br />- For training, we enbaled early stop strategy.</p></li>
+</ol>
+</div>
+<div class="section" id="to-get-the-tuned-model-and-its-accuracy">
+<h2>2. To get the tuned model and its accuracy:<a class="headerlink" href="#to-get-the-tuned-model-and-its-accuracy" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">run_tuning</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">input_model</span><span class="o">=./</span><span class="n">bert_model</span>  <span class="o">--</span><span class="n">output_model</span><span class="o">=./</span><span class="n">saved_results</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>python run_glue_tune.py \
+    --model_name_or_path ${input_model} \
+    --task_name ${task_name} \
+    --do_train \
+    --do_eval \
+    --max_seq_length 128 \
+    --per_device_eval_batch_size ${batch_size} \
+    --per_device_train_batch_size ${batch_size} \
+    --learning_rate 2e-5 \
+    --num_train_epochs 3 \
+    --output_dir ${output_model} --overwrite_output_dir \
+    --eval_steps 300 \
+    --save_steps 300 \
+    --greater_is_better True \
+    --load_best_model_at_end True \
+    --evaluation_strategy steps \
+    --save_strategy steps \
+    --metric_for_best_model f1 \
+    --save_total_limit 1 \
+    --tune
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-get-the-benchmark-of-tuned-model-includes-batch-size-and-throughput">
+<h2>3. To get the benchmark of tuned model, includes Batch_size and Throughput:<a class="headerlink" href="#to-get-the-benchmark-of-tuned-model-includes-batch-size-and-throughput" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">run_benchmark</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">input_model</span><span class="o">=./</span><span class="n">bert_model</span> <span class="o">--</span><span class="n">config</span><span class="o">=./</span><span class="n">saved_results</span> <span class="o">--</span><span class="n">mode</span><span class="o">=</span><span class="n">benchmark</span> <span class="o">--</span><span class="n">int8</span><span class="o">=</span><span class="n">true</span><span class="o">/</span><span class="n">false</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>python run_glue_tune.py \
+    --model_name_or_path ${input_model}/${tuned_checkpoint} \
+    --task_name ${task_name} \
+    --do_train \
+    --do_eval \
+    --max_seq_length 128 \
+    --per_device_eval_batch_size ${batch_size} \
+    --per_device_train_batch_size ${batch_size} \
+    --learning_rate 2e-5 \
+    --num_train_epochs 3 \
+    --metric_for_best_model f1 \
+    --output_dir ./output_log --overwrite_output_dir \
+    --benchmark [--int8]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="huggingface-model-hub">
+<h1>HuggingFace model hub<a class="headerlink" href="#huggingface-model-hub" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="to-upstream-into-huggingface-model-hub">
+<h2>To upstream into HuggingFace model hub<a class="headerlink" href="#to-upstream-into-huggingface-model-hub" title="Permalink to this headline">¶</a></h2>
+<p>We provide an API <code class="docutils literal notranslate"><span class="pre">save_for_huggingface_upstream</span></code> to collect configuration files, tokenizer files and int8 model weights in the format of <a class="reference external" href="https://github.com/huggingface/transformers">transformers</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neural_compressor.utils.load_huggingface</span> <span class="k">import</span> <span class="n">save_for_huggingface_upstream</span>
+<span class="o">...</span>
+
+<span class="n">save_for_huggingface_upstream</span><span class="p">(</span><span class="n">q_model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Users can upstream files in the <code class="docutils literal notranslate"><span class="pre">output_dir</span></code> into model hub and reuse them with our <code class="docutils literal notranslate"><span class="pre">OptimizedModel</span></code> API.</p>
+</div>
+<div class="section" id="to-download-into-huggingface-model-hub">
+<h2>To download into HuggingFace model hub<a class="headerlink" href="#to-download-into-huggingface-model-hub" title="Permalink to this headline">¶</a></h2>
+<p>We provide an API <code class="docutils literal notranslate"><span class="pre">OptimizedModel</span></code> to initialize int8 models from HuggingFace model hub and its usage is the same as the model class provided by <a class="reference external" href="https://github.com/huggingface/transformers">transformers</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neural_compressor.utils.load_huggingface</span> <span class="kn">import</span> <span class="n">OptimizedModel</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">OptimizedModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+            <span class="n">model_args</span><span class="o">.</span><span class="n">model_name_or_path</span><span class="p">,</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="n">cache_dir</span><span class="o">=</span><span class="n">model_args</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">,</span>
+            <span class="n">revision</span><span class="o">=</span><span class="n">model_args</span><span class="o">.</span><span class="n">model_revision</span><span class="p">,</span>
+            <span class="n">use_auth_token</span><span class="o">=</span><span class="bp">True</span> <span class="k">if</span> <span class="n">model_args</span><span class="o">.</span><span class="n">use_auth_token</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>We also upstreamed several int8 models into HuggingFace <a class="reference external" href="https://huggingface.co/models?other=Intel%C2%AE%20Neural%20Compressor">model hub</a> for users to ramp up.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

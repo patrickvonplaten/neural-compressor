@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenAI GPT &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">OpenAI GPT</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/gpt.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="openai-gpt">
+<h1>OpenAI GPT<a class="headerlink" href="#openai-gpt" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>OpenAI GPT model was proposed in <a class="reference external" href="https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf">Improving Language Understanding by Generative Pre-Training</a>
+by Alec Radford, Karthik Narasimhan, Tim Salimans and Ilya Sutskever. It’s a causal (unidirectional) transformer
+pre-trained using language modeling on a large corpus will long range dependencies, the Toronto Book Corpus.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>Natural language understanding comprises a wide range of diverse tasks such as textual entailment, question answering,
+semantic similarity assessment, and document classification. Although large unlabeled text corpora are abundant,
+labeled data for learning these specific tasks is scarce, making it challenging for discriminatively trained models to
+perform adequately. We demonstrate that large gains on these tasks can be realized by generative pretraining of a
+language model on a diverse corpus of unlabeled text, followed by discriminative fine-tuning on each specific task. In
+contrast to previous approaches, we make use of task-aware input transformations during fine-tuning to achieve
+effective transfer while requiring minimal changes to the model architecture. We demonstrate the effectiveness of our
+approach on a wide range of benchmarks for natural language understanding. Our general task-agnostic model outperforms
+discriminatively trained models that use architectures specifically crafted for each task, significantly improving upon
+the state of the art in 9 out of the 12 tasks studied.</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>GPT is a model with absolute position embeddings so it’s usually advised to pad the inputs on the right rather than
+the left.</p></li>
+<li><p>GPT was trained with a causal language modeling (CLM) objective and is therefore powerful at predicting the next
+token in a sequence. Leveraging this feature allows GPT-2 to generate syntactically coherent text as it can be
+observed in the <cite>run_generation.py</cite> example script.</p></li>
+</ul>
+<p><a class="reference external" href="https://transformer.huggingface.co/doc/gpt">Write With Transformer</a> is a webapp created and hosted by Hugging Face
+showcasing the generative capabilities of several models. GPT is one of them.</p>
+<p>The original code can be found <a class="reference external" href="https://github.com/openai/finetune-transformer-lm">here</a>.</p>
+<p>Note:</p>
+<p>If you want to reproduce the original tokenization process of the <cite>OpenAI GPT</cite> paper, you will need to install <code class="docutils literal notranslate"><span class="pre">ftfy</span></code>
+and <code class="docutils literal notranslate"><span class="pre">SpaCy</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>pip install spacy ftfy==4.4.3
+python -m spacy download en</p>
+</div></blockquote>
+<p>If you don’t install <code class="docutils literal notranslate"><span class="pre">ftfy</span></code> and <code class="docutils literal notranslate"><span class="pre">SpaCy</span></code>, the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpenAIGPTTokenizer</span></code> will default to tokenize
+using BERT’s <code class="xref py py-obj docutils literal notranslate"><span class="pre">BasicTokenizer</span></code> followed by Byte-Pair Encoding (which should be fine for most usage, don’t worry).</p>
+</div>
+<div class="section" id="openaigptconfig">
+<h2>OpenAIGPTConfig<a class="headerlink" href="#openaigptconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="openaigpttokenizer">
+<h2>OpenAIGPTTokenizer<a class="headerlink" href="#openaigpttokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="openaigpttokenizerfast">
+<h2>OpenAIGPTTokenizerFast<a class="headerlink" href="#openaigpttokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="openai-specific-outputs">
+<h2>OpenAI specific outputs<a class="headerlink" href="#openai-specific-outputs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="openaigptmodel">
+<h2>OpenAIGPTModel<a class="headerlink" href="#openaigptmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="openaigptlmheadmodel">
+<h2>OpenAIGPTLMHeadModel<a class="headerlink" href="#openaigptlmheadmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="openaigptdoubleheadsmodel">
+<h2>OpenAIGPTDoubleHeadsModel<a class="headerlink" href="#openaigptdoubleheadsmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="openaigptforsequenceclassification">
+<h2>OpenAIGPTForSequenceClassification<a class="headerlink" href="#openaigptforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfopenaigptmodel">
+<h2>TFOpenAIGPTModel<a class="headerlink" href="#tfopenaigptmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfopenaigptlmheadmodel">
+<h2>TFOpenAIGPTLMHeadModel<a class="headerlink" href="#tfopenaigptlmheadmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfopenaigptdoubleheadsmodel">
+<h2>TFOpenAIGPTDoubleHeadsModel<a class="headerlink" href="#tfopenaigptdoubleheadsmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfopenaigptforsequenceclassification">
+<h2>TFOpenAIGPTForSequenceClassification<a class="headerlink" href="#tfopenaigptforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

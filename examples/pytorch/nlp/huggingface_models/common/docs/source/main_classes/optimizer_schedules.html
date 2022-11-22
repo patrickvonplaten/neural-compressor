@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optimization &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Optimization</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/main_classes/optimizer_schedules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="optimization">
+<h1>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">.optimization</span></code> module provides:</p>
+<ul class="simple">
+<li><p>an optimizer with weight decay fixed that can be used to fine-tuned models, and</p></li>
+<li><p>several schedules in the form of schedule objects that inherit from <code class="docutils literal notranslate"><span class="pre">_LRSchedule</span></code>:</p></li>
+<li><p>a gradient accumulation class to accumulate the gradients of multiple batches</p></li>
+</ul>
+<div class="section" id="adamw-pytorch">
+<h2>AdamW (PyTorch)<a class="headerlink" href="#adamw-pytorch" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="adafactor-pytorch">
+<h2>AdaFactor (PyTorch)<a class="headerlink" href="#adafactor-pytorch" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="adamweightdecay-tensorflow">
+<h2>AdamWeightDecay (TensorFlow)<a class="headerlink" href="#adamweightdecay-tensorflow" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="schedules">
+<h2>Schedules<a class="headerlink" href="#schedules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="learning-rate-schedules-pytorch">
+<h3>Learning Rate Schedules (Pytorch)<a class="headerlink" href="#learning-rate-schedules-pytorch" title="Permalink to this headline">¶</a></h3>
+<a class="reference external image-reference" href="/imgs/warmup_constant_schedule.png"><img alt="" src="imgs/warmup_constant_schedule.png" /></a>
+<a class="reference external image-reference" href="/imgs/warmup_cosine_schedule.png"><img alt="" src="imgs/warmup_cosine_schedule.png" /></a>
+<a class="reference external image-reference" href="/imgs/warmup_cosine_hard_restarts_schedule.png"><img alt="" src="imgs/warmup_cosine_hard_restarts_schedule.png" /></a>
+<a class="reference external image-reference" href="/imgs/warmup_linear_schedule.png"><img alt="" src="imgs/warmup_linear_schedule.png" /></a>
+</div>
+<div class="section" id="warmup-tensorflow">
+<h3>Warmup (TensorFlow)<a class="headerlink" href="#warmup-tensorflow" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="gradient-strategies">
+<h2>Gradient Strategies<a class="headerlink" href="#gradient-strategies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="gradientaccumulator-tensorflow">
+<h3>GradientAccumulator (TensorFlow)<a class="headerlink" href="#gradientaccumulator-tensorflow" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

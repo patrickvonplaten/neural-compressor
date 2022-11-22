@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CTRL &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">CTRL</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/ctrl.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="ctrl">
+<h1>CTRL<a class="headerlink" href="#ctrl" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>CTRL model was proposed in <a class="reference external" href="https://arxiv.org/abs/1909.05858">CTRL: A Conditional Transformer Language Model for Controllable Generation</a> by Nitish Shirish Keskar*, Bryan McCann*, Lav R. Varshney, Caiming Xiong and
+Richard Socher. It’s a causal (unidirectional) transformer pre-trained using language modeling on a very large corpus
+of ~140 GB of text data with the first token reserved as a control code (such as Links, Books, Wikipedia etc.).</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>Large-scale language models show promising text generation capabilities, but users cannot easily control particular
+aspects of the generated text. We release CTRL, a 1.63 billion-parameter conditional transformer language model,
+trained to condition on control codes that govern style, content, and task-specific behavior. Control codes were
+derived from structure that naturally co-occurs with raw text, preserving the advantages of unsupervised learning while
+providing more explicit control over text generation. These codes also allow CTRL to predict which parts of the
+training data are most likely given a sequence. This provides a potential method for analyzing large amounts of data
+via model-based source attribution.</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>CTRL makes use of control codes to generate text: it requires generations to be started by certain words, sentences
+or links to generate coherent text. Refer to the <a class="reference external" href="https://github.com/salesforce/ctrl">original implementation</a> for
+more information.</p></li>
+<li><p>CTRL is a model with absolute position embeddings so it’s usually advised to pad the inputs on the right rather than
+the left.</p></li>
+<li><p>CTRL was trained with a causal language modeling (CLM) objective and is therefore powerful at predicting the next
+token in a sequence. Leveraging this feature allows CTRL to generate syntactically coherent text as it can be
+observed in the <cite>run_generation.py</cite> example script.</p></li>
+<li><p>The PyTorch models can take the <cite>past</cite> as input, which is the previously computed key/value attention pairs. Using
+this <cite>past</cite> value prevents the model from re-computing pre-computed values in the context of text generation. See
+<a class="reference external" href="../quickstart.html#using-the-past">reusing the past in generative models</a> for more information on the usage of
+this argument.</p></li>
+</ul>
+<p>The original code can be found <a class="reference external" href="https://github.com/salesforce/ctrl">here</a>.</p>
+</div>
+<div class="section" id="ctrlconfig">
+<h2>CTRLConfig<a class="headerlink" href="#ctrlconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ctrltokenizer">
+<h2>CTRLTokenizer<a class="headerlink" href="#ctrltokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ctrlmodel">
+<h2>CTRLModel<a class="headerlink" href="#ctrlmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ctrllmheadmodel">
+<h2>CTRLLMHeadModel<a class="headerlink" href="#ctrllmheadmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ctrlforsequenceclassification">
+<h2>CTRLForSequenceClassification<a class="headerlink" href="#ctrlforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfctrlmodel">
+<h2>TFCTRLModel<a class="headerlink" href="#tfctrlmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfctrllmheadmodel">
+<h2>TFCTRLLMHeadModel<a class="headerlink" href="#tfctrllmheadmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfctrlforsequenceclassification">
+<h2>TFCTRLForSequenceClassification<a class="headerlink" href="#tfctrlforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

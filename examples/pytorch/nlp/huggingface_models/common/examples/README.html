@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../" src="../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!---
+Copyright 2020 The HuggingFace Team. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--><div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>This folder contains actively maintained examples of use of 🤗 Transformers organized along NLP tasks. If you are looking for an example that used to
+be in this folder, it may have moved to our <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples/research_projects">research projects</a> subfolder (which contains frozen snapshots of research projects).</p>
+<div class="section" id="important-note">
+<h2>Important note<a class="headerlink" href="#important-note" title="Permalink to this headline">¶</a></h2>
+<p><strong>Important</strong></p>
+<p>To make sure you can successfully run the latest versions of the example scripts, you have to <strong>install the library from source</strong> and install some example-specific requirements. To do this, execute the following steps in a new virtual environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/huggingface/transformers
+<span class="nb">cd</span> transformers
+pip install .
+</pre></div>
+</div>
+<p>Then cd in the example folder of your choice and run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -r requirements.txt
+</pre></div>
+</div>
+<p>Alternatively, you can run the version of the examples as they were for your current version of Transformers via (for instance with v3.5.1):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git checkout tags/v3.5.1
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-big-table-of-tasks">
+<h2>The Big Table of Tasks<a class="headerlink" href="#the-big-table-of-tasks" title="Permalink to this headline">¶</a></h2>
+<p>Here is the list of all our examples:</p>
+<ul class="simple">
+<li><p>with information on whether they are <strong>built on top of <code class="docutils literal notranslate"><span class="pre">Trainer</span></code>/<code class="docutils literal notranslate"><span class="pre">TFTrainer</span></code></strong> (if not, they still work, they might
+just lack some features),</p></li>
+<li><p>whether or not they leverage the <a class="reference external" href="https://github.com/huggingface/datasets">🤗 Datasets</a> library.</p></li>
+<li><p>links to <strong>Colab notebooks</strong> to walk through the scripts and run them easily,</p></li>
+</ul>
+<!--
+Coming soon!
+- links to **Cloud deployments** to be able to deploy large-scale trainings in the Cloud with little to no setup.
+--><table border="1" class="docutils">
+<thead>
+<tr>
+<th>Task</th>
+<th>Example datasets</th>
+<th style="text-align: center;">Trainer support</th>
+<th style="text-align: center;">TFTrainer support</th>
+<th style="text-align: center;">🤗 Datasets</th>
+<th style="text-align: center;">Colab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/huggingface/transformers/tree/master/examples/language-modeling"><strong><code>language-modeling</code></strong></a></td>
+<td>Raw text</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;"><a href="https://colab.research.google.com/github/huggingface/blog/blob/master/notebooks/01_how_to_train.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/huggingface/transformers/tree/master/examples/multiple-choice"><strong><code>multiple-choice</code></strong></a></td>
+<td>SWAG, RACE, ARC</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;"><a href="https://colab.research.google.com/github/ViktorAlm/notebooks/blob/master/MPC_GPU_Demo_for_TF_and_PT.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/huggingface/transformers/tree/master/examples/question-answering"><strong><code>question-answering</code></strong></a></td>
+<td>SQuAD</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;"><a href="https://colab.research.google.com/github/huggingface/notebooks/blob/master/examples/question_answering.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/huggingface/transformers/tree/master/examples/seq2seq"><strong><code>summarization</code></strong></a></td>
+<td>CNN/Daily Mail</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/huggingface/transformers/tree/master/examples/text-classification"><strong><code>text-classification</code></strong></a></td>
+<td>GLUE, XNLI</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;"><a href="https://colab.research.google.com/github/huggingface/notebooks/blob/master/examples/text_classification.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/huggingface/transformers/tree/master/examples/text-generation"><strong><code>text-generation</code></strong></a></td>
+<td>-</td>
+<td style="text-align: center;">n/a</td>
+<td style="text-align: center;">n/a</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;"><a href="https://colab.research.google.com/github/huggingface/blog/blob/master/notebooks/02_how_to_generate.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/huggingface/transformers/tree/master/examples/token-classification"><strong><code>token-classification</code></strong></a></td>
+<td>CoNLL NER</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;"><a href="https://colab.research.google.com/github/huggingface/notebooks/blob/master/examples/token_classification.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/huggingface/transformers/tree/master/examples/seq2seq"><strong><code>translation</code></strong></a></td>
+<td>WMT</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+</tr>
+</tbody>
+</table><!--
+## One-click Deploy to Cloud (wip)
+
+**Coming soon!**
+--></div>
+<div class="section" id="distributed-training-and-mixed-precision">
+<h2>Distributed training and mixed precision<a class="headerlink" href="#distributed-training-and-mixed-precision" title="Permalink to this headline">¶</a></h2>
+<p>All the PyTorch scripts mentioned above work out of the box with distributed training and mixed precision, thanks to
+the <a class="reference external" href="https://huggingface.co/transformers/main_classes/trainer.html">Trainer API</a>. To launch one of them on <em>n</em> GPUS,
+use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch <span class="se">\</span>
+    --nproc_per_node number_of_gpu_you_have path_to_script.py <span class="se">\</span>
+	--all_arguments_of_the_script 
+</pre></div>
+</div>
+<p>As an example, here is how you would fine-tune the BERT large model (with whole word masking) on the text
+classification MNLI task using the <code class="docutils literal notranslate"><span class="pre">run_glue</span></code> script, with 8 GPUs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch <span class="se">\</span>
+    --nproc_per_node <span class="m">8</span> text-classification/run_glue.py <span class="se">\</span>
+    --model_name_or_path bert-large-uncased-whole-word-masking <span class="se">\</span>
+    --task_name mnli <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --max_seq_length <span class="m">128</span> <span class="se">\</span>
+    --per_device_train_batch_size <span class="m">8</span> <span class="se">\</span>
+    --learning_rate 2e-5 <span class="se">\</span>
+    --num_train_epochs <span class="m">3</span>.0 <span class="se">\</span>
+    --output_dir /tmp/mnli_output/
+</pre></div>
+</div>
+<p>If you have a GPU with mixed precision capabilities (architecture Pascal or more recent), you can use mixed precision
+training with PyTorch 1.6.0 or latest, or by installing the <a class="reference external" href="https://github.com/NVIDIA/apex">Apex</a> library for previous
+versions. Just add the flag <code class="docutils literal notranslate"><span class="pre">--fp16</span></code> to your command launching one of the scripts mentioned above!</p>
+<p>Using mixed precision training usually results in 2x-speedup for training with the same final results (as shown in
+<a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples/text-classification#mixed-precision-training">this table</a>
+for text classification).</p>
+</div>
+<div class="section" id="running-on-tpus">
+<h2>Running on TPUs<a class="headerlink" href="#running-on-tpus" title="Permalink to this headline">¶</a></h2>
+<p>When using Tensorflow, TPUs are supported out of the box as a <code class="docutils literal notranslate"><span class="pre">tf.distribute.Strategy</span></code>.</p>
+<p>When using PyTorch, we support TPUs thanks to <code class="docutils literal notranslate"><span class="pre">pytorch/xla</span></code>. For more context and information on how to setup your TPU environment refer to Google’s documentation and to the
+very detailed <a class="reference external" href="https://github.com/pytorch/xla/blob/master/README.md">pytorch/xla README</a>.</p>
+<p>In this repo, we provide a very simple launcher script named
+<a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples/xla_spawn.py">xla_spawn.py</a> that lets you run our
+example scripts on multiple TPU cores without any boilerplate. Just pass a <code class="docutils literal notranslate"><span class="pre">--num_cores</span></code> flag to this script, then your
+regular training script with its arguments (this is similar to the <code class="docutils literal notranslate"><span class="pre">torch.distributed.launch</span></code> helper for
+<code class="docutils literal notranslate"><span class="pre">torch.distributed</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python xla_spawn.py --num_cores num_tpu_you_have <span class="se">\</span>
+    path_to_script.py <span class="se">\</span>
+	--all_arguments_of_the_script 
+</pre></div>
+</div>
+<p>As an example, here is how you would fine-tune the BERT large model (with whole word masking) on the text
+classification MNLI task using the <code class="docutils literal notranslate"><span class="pre">run_glue</span></code> script, with 8 TPUs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python xla_spawn.py --num_cores <span class="m">8</span> <span class="se">\</span>
+    text-classification/run_glue.py <span class="se">\</span>
+    --model_name_or_path bert-large-uncased-whole-word-masking <span class="se">\</span>
+    --task_name mnli <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --max_seq_length <span class="m">128</span> <span class="se">\</span>
+    --per_device_train_batch_size <span class="m">8</span> <span class="se">\</span>
+    --learning_rate 2e-5 <span class="se">\</span>
+    --num_train_epochs <span class="m">3</span>.0 <span class="se">\</span>
+    --output_dir /tmp/mnli_output/
+</pre></div>
+</div>
+</div>
+<div class="section" id="logging-experiment-tracking">
+<h2>Logging &amp; Experiment tracking<a class="headerlink" href="#logging-experiment-tracking" title="Permalink to this headline">¶</a></h2>
+<p>You can easily log and monitor your runs code. The following are currently supported:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/tensorboard">TensorBoard</a></p></li>
+<li><p><a class="reference external" href="https://docs.wandb.ai/integrations/huggingface">Weights &amp; Biases</a></p></li>
+<li><p><a class="reference external" href="https://www.comet.ml/docs/python-sdk/huggingface/">Comet ML</a></p></li>
+</ul>
+<div class="section" id="weights-biases">
+<h3>Weights &amp; Biases<a class="headerlink" href="#weights-biases" title="Permalink to this headline">¶</a></h3>
+<p>To use Weights &amp; Biases, install the wandb package with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install wandb
+</pre></div>
+</div>
+<p>Then log in the command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wandb login
+</pre></div>
+</div>
+<p>If you are in Jupyter or Colab, you should login with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wandb</span>
+<span class="n">wandb</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To enable logging to W&amp;B, include <code class="docutils literal notranslate"><span class="pre">&quot;wandb&quot;</span></code> in the <code class="docutils literal notranslate"><span class="pre">report_to</span></code> of your <code class="docutils literal notranslate"><span class="pre">TrainingArguments</span></code> or script. Or just pass along <code class="docutils literal notranslate"><span class="pre">--report_to</span> <span class="pre">all</span></code> if you have <code class="docutils literal notranslate"><span class="pre">wandb</span></code> installed.</p>
+<p>Whenever you use <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> or <code class="docutils literal notranslate"><span class="pre">TFTrainer</span></code> classes, your losses, evaluation metrics, model topology and gradients (for <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> only) will automatically be logged.</p>
+<p>Advanced configuration is possible by setting environment variables:</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Environment Variables</th>
+      <th style="text-align:left">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">WANDB_LOG_MODEL</td>
+      <td style="text-align:left">Log the model as artifact at the end of training (<b>false</b> by default)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">WANDB_WATCH</td>
+      <td style="text-align:left">
+        <ul>
+          <li><b>gradients</b> (default): Log histograms of the gradients</li>
+          <li><b>all</b>: Log histograms of gradients and parameters</li>
+          <li><b>false</b>: No gradient or parameter logging</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">WANDB_PROJECT</td>
+      <td style="text-align:left">Organize runs by project</td>
+    </tr>
+  </tbody>
+</table><p>Set run names with <code class="docutils literal notranslate"><span class="pre">run_name</span></code> argument present in scripts or as part of <code class="docutils literal notranslate"><span class="pre">TrainingArguments</span></code>.</p>
+<p>Additional configuration options are available through generic <a class="reference external" href="https://docs.wandb.com/library/environment-variables">wandb environment variables</a>.</p>
+<p>Refer to related <a class="reference external" href="https://docs.wandb.ai/integrations/huggingface">documentation &amp; examples</a>.</p>
+</div>
+<div class="section" id="comet-ml">
+<h3>Comet.ml<a class="headerlink" href="#comet-ml" title="Permalink to this headline">¶</a></h3>
+<p>To use <code class="docutils literal notranslate"><span class="pre">comet_ml</span></code>, install the Python package with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install comet_ml
+</pre></div>
+</div>
+<p>or if in a Conda environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c comet_ml -c anaconda -c conda-forge comet_ml
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

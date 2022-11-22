@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saved Pseudo-Labels &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Saved Pseudo-Labels</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/seq2seq-distillation/precomputed_pseudo_labels.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="saved-pseudo-labels">
+<h1>Saved Pseudo-Labels<a class="headerlink" href="#saved-pseudo-labels" title="Permalink to this headline">¶</a></h1>
+<p>These are the generations of various large models on various large <strong>training</strong> sets. All in all they took about 200 GPU hours to produce.</p>
+</div>
+<div class="section" id="available-pseudo-labels">
+<h1>Available Pseudo-labels<a class="headerlink" href="#available-pseudo-labels" title="Permalink to this headline">¶</a></h1>
+<p>| Dataset | Model                       | Link                                                                                   | Rouge Scores       | Notes<br />|———|—————————–|—————————————————————————————-|——————–|————————————————————————————————————-
+| XSUM    | <code class="docutils literal notranslate"><span class="pre">facebook/bart-large-xsum</span></code>    | <a class="reference external" href="https://cdn-datasets.huggingface.co/pseudo/xsum/bart_xsum_pl.tgz">download</a>          | 49.8/28.0/42.5     |<br />| XSUM    | <code class="docutils literal notranslate"><span class="pre">google/pegasus-xsum</span></code>         | <a class="reference external" href="https://cdn-datasets.huggingface.co/pseudo/xsum/pegasus_xsum.tgz">download</a>          | 53.3/32.7/46.5     |<br />| XSUM    | <code class="docutils literal notranslate"><span class="pre">facebook/bart-large-xsum</span></code>    | <a class="reference external" href="https://cdn-datasets.huggingface.co/pseudo/xsum/xsum_pl2_bart.tgz">download</a>         |                   | Bart pseudolabels filtered to those with Rouge2 &gt; 10.0 w GT.<br />| CNN/DM  | <code class="docutils literal notranslate"><span class="pre">sshleifer/pegasus-cnn-ft-v2</span></code> | <a class="reference external" href="https://cdn-datasets.huggingface.co/pseudo/cnn_dm/pegasus_cnn_cnn_pls.tgz">download</a> | 47.316/26.65/44.56 | do not worry about the fact that train.source is one line shorter.<br />| CNN/DM  | <code class="docutils literal notranslate"><span class="pre">facebook/bart-large-cnn</span></code>     | <a class="reference external" href="https://cdn-datasets.huggingface.co/pseudo/cnn_dm/cnn_bart_pl.tgz">download</a>         |                    | 5K (2%) are missing, there should be 282173<br />| CNN/DM  | <code class="docutils literal notranslate"><span class="pre">google/pegasus-xsum</span></code>         | <a class="reference external" href="https://cdn-datasets.huggingface.co/pseudo/cnn_dm/pegasus_xsum_on_cnn.tgz">download</a> | 21.5/6.76/25       | extra labels for xsum distillation  Used max_source_length=512, (and all other pegasus-xsum configuration).
+| EN-RO   | <code class="docutils literal notranslate"><span class="pre">Helsinki-NLP/opus-mt-en-ro</span></code>  | <a class="reference external" href="https://cdn-datasets.huggingface.co/pseudo/wmt_en_ro/opus_mt_en_ro.tgz">download</a> |       |<br />| EN-RO   | <code class="docutils literal notranslate"><span class="pre">facebook/mbart-large-en-ro</span></code>  | <a class="reference external" href="https://cdn-datasets.huggingface.co/pseudo/wmt_en_ro/mbart_large_en_ro.tgz">download</a> |       |</p>
+<p>(EN_RO = WMT 2016 English-Romanian).</p>
+<p>Example Download Command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -S https://cdn-datasets.huggingface.co/pseudo/xsum/bart_xsum_pl.tgz <span class="p">|</span> tar -xvz -C .
+</pre></div>
+</div>
+</div>
+<div class="section" id="generating-new-pseudolabels">
+<h1>Generating New Pseudolabels<a class="headerlink" href="#generating-new-pseudolabels" title="Permalink to this headline">¶</a></h1>
+<p>Here is the command I used to generate the pseudolabels in the second row of the table, after downloading XSUM from <a class="reference external" href="https://cdn-datasets.huggingface.co/summarization/xsum.tar.gz">here</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">8</span> run_distributed_eval.py <span class="se">\</span>
+    --model_name google/pegasus-xsum <span class="se">\ </span>
+    --save_dir pegasus_xsum <span class="se">\ </span>
+    --data_dir xsum <span class="se">\</span>
+    --bs <span class="m">8</span> --sync_timeout <span class="m">60000</span> <span class="se">\</span>
+    --max_source_length <span class="m">512</span> <span class="se">\</span>
+    --type_path train
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>These commands takes a while to run. For example, <code class="docutils literal notranslate"><span class="pre">pegasus_cnn_cnn_pls.tgz</span></code> took 8 hours on 8 GPUs.</p></li>
+<li><p>Pegasus does not work in fp16 :(, Bart, mBART and Marian do.</p></li>
+<li><p>Even if you have 1 GPU, <code class="docutils literal notranslate"><span class="pre">run_distributed_eval.py</span></code> is 10-20% faster than <code class="docutils literal notranslate"><span class="pre">run_eval.py</span></code> because it uses <code class="docutils literal notranslate"><span class="pre">SortishSampler</span></code> to minimize padding computation.</p></li>
+</ul>
+</div>
+<div class="section" id="contributions">
+<h1>Contributions<a class="headerlink" href="#contributions" title="Permalink to this headline">¶</a></h1>
+<p>Feel free to contribute your own pseudolabels via PR. Add a row to this table with a new google drive link (or other command line downloadable link).</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

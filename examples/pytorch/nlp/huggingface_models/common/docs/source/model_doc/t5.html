@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T5 &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">T5</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/t5.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="t5">
+<h1>T5<a class="headerlink" href="#t5" title="Permalink to this headline">¶</a></h1>
+<p><strong>DISCLAIMER:</strong> This model is still a work in progress, if you see something strange, file a <a class="reference external" href="https://github.com/huggingface/transformers/issues/new?assignees=&amp;labels=&amp;template=bug-report.md&amp;title">Github Issue</a>.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The T5 model was presented in <a class="reference external" href="https://arxiv.org/pdf/1910.10683.pdf">Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer</a> by Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang,
+Michael Matena, Yanqi Zhou, Wei Li, Peter J. Liu.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a downstream
+task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness of transfer learning
+has given rise to a diversity of approaches, methodology, and practice. In this paper, we explore the landscape of
+transfer learning techniques for NLP by introducing a unified framework that converts every language problem into a
+text-to-text format. Our systematic study compares pretraining objectives, architectures, unlabeled datasets, transfer
+approaches, and other factors on dozens of language understanding tasks. By combining the insights from our exploration
+with scale and our new “Colossal Clean Crawled Corpus”, we achieve state-of-the-art results on many benchmarks covering
+summarization, question answering, text classification, and more. To facilitate future work on transfer learning for
+NLP, we release our dataset, pre-trained models, and code.</em></p>
+<p>Tips:</p>
+<ul>
+<li><p>T5 is an encoder-decoder model pre-trained on a multi-task mixture of unsupervised and supervised tasks and for which
+each task is converted into a text-to-text format. T5 works well on a variety of tasks out-of-the-box by prepending a
+different prefix to the input corresponding to each task, e.g., for translation: <em>translate English to German: …</em>,
+for summarization: <em>summarize: …</em>.</p>
+<p>For more information about which prefix to use, it is easiest to look into Appendix D of the <a class="reference external" href="https://arxiv.org/pdf/1910.10683.pdf">paper</a>. - For sequence-to-sequence generation, it is recommended to use
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">T5ForConditionalGeneration.generate()</span></code>. This method takes care of feeding the encoded input via cross-attention
+layers to the decoder and auto-regressively generates the decoder output. - T5 uses relative scalar embeddings.
+Encoder input padding can be done on the left and on the right.</p>
+</li>
+</ul>
+<p>The original code can be found <a class="reference external" href="https://github.com/google-research/text-to-text-transfer-transformer">here</a>.</p>
+</div>
+<div class="section" id="training">
+<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
+<p>T5 is an encoder-decoder model and converts all NLP problems into a text-to-text format. It is trained using teacher
+forcing. This means that for training we always need an input sequence and a target sequence. The input sequence is fed
+to the model using <code class="xref py py-obj docutils literal notranslate"><span class="pre">input_ids</span></code>. The target sequence is shifted to the right, i.e., prepended by a start-sequence
+token and fed to the decoder using the <code class="xref py py-obj docutils literal notranslate"><span class="pre">decoder_input_ids</span></code>. In teacher-forcing style, the target sequence is then
+appended by the EOS token and corresponds to the <code class="xref py py-obj docutils literal notranslate"><span class="pre">labels</span></code>. The PAD token is hereby used as the start-sequence
+token. T5 can be trained / fine-tuned both in a supervised and unsupervised fashion.</p>
+<ul>
+<li><p>Unsupervised denoising training</p>
+<p>In this setup spans of the input sequence are masked by so-called sentinel tokens (<em>a.k.a</em> unique mask tokens) and
+the output sequence is formed as a concatenation of the same sentinel tokens and the <em>real</em> masked tokens. Each
+sentinel token represents a unique mask token for this sentence and should start with <code class="xref py py-obj docutils literal notranslate"><span class="pre">&lt;extra_id_0&gt;</span></code>,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">&lt;extra_id_1&gt;</span></code>, … up to <code class="xref py py-obj docutils literal notranslate"><span class="pre">&lt;extra_id_99&gt;</span></code>. As a default, 100 sentinel tokens are available in
+<code class="xref py py-class docutils literal notranslate"><span class="pre">T5Tokenizer</span></code>.</p>
+<p>For instance, the sentence “The cute dog walks in the park” with the masks put on “cute dog” and “the” should be
+processed as follows:</p>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s1">&#39;The &lt;extra_id_0&gt; walks in &lt;extra_id_1&gt; park&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s1">&#39;&lt;extra_id_0&gt; cute dog &lt;extra_id_1&gt; the &lt;extra_id_2&gt;&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+<span class="c1"># the forward function automatically creates the correct decoder_input_ids</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">loss</span>
+</pre></div>
+</div>
+<ul>
+<li><p>Supervised training</p>
+<p>In this setup the input sequence and output sequence are standard sequence-to-sequence input output mapping. In
+translation, for instance with the input sequence “The house is wonderful.” and output sequence “Das Haus ist
+wunderbar.”, the sentences should be processed as follows:</p>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s1">&#39;translate English to German: The house is wonderful.&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s1">&#39;Das Haus ist wunderbar.&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+<span class="c1"># the forward function automatically creates the correct decoder_input_ids</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="t5config">
+<h2>T5Config<a class="headerlink" href="#t5config" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="t5tokenizer">
+<h2>T5Tokenizer<a class="headerlink" href="#t5tokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="t5tokenizerfast">
+<h2>T5TokenizerFast<a class="headerlink" href="#t5tokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="t5model">
+<h2>T5Model<a class="headerlink" href="#t5model" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="t5forconditionalgeneration">
+<h2>T5ForConditionalGeneration<a class="headerlink" href="#t5forconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="t5encodermodel">
+<h2>T5EncoderModel<a class="headerlink" href="#t5encodermodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tft5model">
+<h2>TFT5Model<a class="headerlink" href="#tft5model" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tft5forconditionalgeneration">
+<h2>TFT5ForConditionalGeneration<a class="headerlink" href="#tft5forconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tft5encodermodel">
+<h2>TFT5EncoderModel<a class="headerlink" href="#tft5encodermodel" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

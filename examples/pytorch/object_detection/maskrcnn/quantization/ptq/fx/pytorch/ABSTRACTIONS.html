@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abstractions &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Abstractions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/object_detection/maskrcnn/quantization/ptq/fx/pytorch/ABSTRACTIONS.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="abstractions">
+<h1>Abstractions<a class="headerlink" href="#abstractions" title="Permalink to this headline">¶</a></h1>
+<p>The main abstractions introduced by <code class="docutils literal notranslate"><span class="pre">maskrcnn_benchmark</span></code> that are useful to
+have in mind are the following:</p>
+<div class="section" id="imagelist">
+<h2>ImageList<a class="headerlink" href="#imagelist" title="Permalink to this headline">¶</a></h2>
+<p>In PyTorch, the first dimension of the input to the network generally represents
+the batch dimension, and thus all elements of the same batch have the same
+height / width.
+In order to support images with different sizes and aspect ratios in the same
+batch, we created the <code class="docutils literal notranslate"><span class="pre">ImageList</span></code> class, which holds internally a batch of
+images (os possibly different sizes). The images are padded with zeros such that
+they have the same final size and batched over the first dimension. The original
+sizes of the images before padding are stored in the <code class="docutils literal notranslate"><span class="pre">image_sizes</span></code> attribute,
+and the batched tensor in <code class="docutils literal notranslate"><span class="pre">tensors</span></code>.
+We provide a convenience function <code class="docutils literal notranslate"><span class="pre">to_image_list</span></code> that accepts a few different
+input types, including a list of tensors, and returns an <code class="docutils literal notranslate"><span class="pre">ImageList</span></code> object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">maskrcnn_benchmark.structures.image_list</span> <span class="kn">import</span> <span class="n">to_image_list</span>
+
+<span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">170</span><span class="p">)]</span>
+<span class="n">batched_images</span> <span class="o">=</span> <span class="n">to_image_list</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+
+<span class="c1"># it is also possible to make the final batched image be a multiple of a number</span>
+<span class="n">batched_images_32</span> <span class="o">=</span> <span class="n">to_image_list</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">size_divisible</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="boxlist">
+<h2>BoxList<a class="headerlink" href="#boxlist" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">BoxList</span></code> class holds a set of bounding boxes (represented as a <code class="docutils literal notranslate"><span class="pre">Nx4</span></code> tensor) for
+a specific image, as well as the size of the image as a <code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code> tuple.
+It also contains a set of methods that allow to perform geometric
+transformations to the bounding boxes (such as cropping, scaling and flipping).
+The class accepts bounding boxes from two different input formats:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xyxy</span></code>, where each box is encoded as a <code class="docutils literal notranslate"><span class="pre">x1</span></code>, <code class="docutils literal notranslate"><span class="pre">y1</span></code>, <code class="docutils literal notranslate"><span class="pre">x2</span></code> and <code class="docutils literal notranslate"><span class="pre">y2</span></code> coordinates, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xywh</span></code>, where each box is encoded as <code class="docutils literal notranslate"><span class="pre">x1</span></code>, <code class="docutils literal notranslate"><span class="pre">y1</span></code>, <code class="docutils literal notranslate"><span class="pre">w</span></code> and <code class="docutils literal notranslate"><span class="pre">h</span></code>.</p></li>
+</ul>
+<p>Additionally, each <code class="docutils literal notranslate"><span class="pre">BoxList</span></code> instance can also hold arbitrary additional information
+for each bounding box, such as labels, visibility, probability scores etc.</p>
+<p>Here is an example on how to create a <code class="docutils literal notranslate"><span class="pre">BoxList</span></code> from a list of coordinates:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">maskrcnn_benchmark.structures.bounding_box</span> <span class="kn">import</span> <span class="n">BoxList</span><span class="p">,</span> <span class="n">FLIP_LEFT_RIGHT</span>
+
+<span class="n">width</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">height</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">boxes</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+  <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span>
+  <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="c1"># create a BoxList with 3 boxes</span>
+<span class="n">bbox</span> <span class="o">=</span> <span class="n">BoxList</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">image_size</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;xyxy&#39;</span><span class="p">)</span>
+
+<span class="c1"># perform some box transformations, has similar API as PIL.Image</span>
+<span class="n">bbox_scaled</span> <span class="o">=</span> <span class="n">bbox</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">width</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">height</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">bbox_flipped</span> <span class="o">=</span> <span class="n">bbox</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">FLIP_LEFT_RIGHT</span><span class="p">)</span>
+
+<span class="c1"># add labels for each bbox</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">bbox</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># bbox also support a few operations, like indexing</span>
+<span class="c1"># here, selects boxes 0 and 2</span>
+<span class="n">bbox_subset</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

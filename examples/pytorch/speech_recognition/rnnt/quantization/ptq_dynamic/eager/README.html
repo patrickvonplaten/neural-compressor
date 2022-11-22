@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/speech_recognition/rnnt/quantization/ptq_dynamic/eager/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document list steps of reproducing Intel Optimized PyTorch RNNT models tuning results via Neural Compressor.</p>
+<p>Our example comes from MLPerf Inference Benchmark Suite</p>
+</div>
+<div class="section" id="prerequisite">
+<h1>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Recommend python 3.6 or higher version.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/speech_recognition/rnnt/quantization/ptq_dynamic/eager
+pip install -r requirements.txt
+</pre></div>
+</div>
+<p>Check your gcc version with command : <strong>gcc -v</strong></p>
+<p>GCC5 or above is needed.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash prepare_loadgen.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-dataset">
+<h2>2. Prepare Dataset<a class="headerlink" href="#prepare-dataset" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/speech_recognition/rnnt/quantization/ptq_dynamic/eager
+bash prepare_dataset.sh --download_dir<span class="o">=</span>origin_dataset --convert_dir<span class="o">=</span>convert_dataset
+</pre></div>
+</div>
+<p>Prepare_dataset.sh contains two stages:</p>
+<ul class="simple">
+<li><p>stage1: download LibriSpeech/dev-clean dataset and extract it.</p></li>
+<li><p>stage2: convert .flac file to .wav file</p></li>
+</ul>
+</div>
+<div class="section" id="prepare-pre-trained-model">
+<h2>3. Prepare pre-trained model<a class="headerlink" href="#prepare-pre-trained-model" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/speech_recognition/rnnt/quantization/ptq_dynamic/eager
+wget https://zenodo.org/record/3662521/files/DistributedDataParallel_1576581068.9962234-epoch-100.pt?download<span class="o">=</span><span class="m">1</span> -O rnnt.pt
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="run">
+<h1>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="enable-rnnt-example-with-the-auto-dynamic-quantization-strategy-of-neural-compressor">
+<h2>1. Enable RNNT example with the auto dynamic quantization strategy of Neural Compressor.<a class="headerlink" href="#enable-rnnt-example-with-the-auto-dynamic-quantization-strategy-of-neural-compressor" title="Permalink to this headline">¶</a></h2>
+<p>The changes made are as follows:</p>
+<ol class="simple">
+<li><p>add conf.yaml:
+This file contains the configuration of quantization.</p></li>
+<li><p>run.py-&gt;run_tune.py:
+we added neural_compressor support in it.</p></li>
+<li><p>edit pytorch_SUT.py:
+remove jit script convertion</p></li>
+<li><p>edit pytorch/decoders.py:
+remove assertion of torch.jit.ScriptModule</p></li>
+</ol>
+</div>
+<div class="section" id="to-get-the-tuned-model-and-its-accuracy">
+<h2>2. To get the tuned model and its accuracy:<a class="headerlink" href="#to-get-the-tuned-model-and-its-accuracy" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">run_tuning</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">dataset_location</span><span class="o">=</span><span class="n">convert_dataset</span> <span class="o">--</span><span class="n">input_model</span><span class="o">=./</span><span class="n">rnnt</span><span class="o">.</span><span class="n">pt</span> <span class="o">--</span><span class="n">output_model</span><span class="o">=</span><span class="n">saved_results</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-get-the-benchmark-of-tuned-model-includes-batch-size-and-throughput">
+<h2>3. To get the benchmark of tuned model, includes Batch_size and Throughput:<a class="headerlink" href="#to-get-the-benchmark-of-tuned-model-includes-batch-size-and-throughput" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">run_benchmark</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">dataset_location</span><span class="o">=</span><span class="n">convert_dataset</span> <span class="o">--</span><span class="n">input_model</span><span class="o">=./</span><span class="n">rnnt</span><span class="o">.</span><span class="n">pt</span> <span class="o">--</span><span class="n">mode</span><span class="o">=</span><span class="n">benchmark</span><span class="o">/</span><span class="n">accuracy</span> <span class="o">--</span><span class="n">int8</span><span class="o">=</span><span class="n">true</span><span class="o">/</span><span class="n">false</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-following-is-the-brief-output-information">
+<h2>4. The following is the brief output information:<a class="headerlink" href="#the-following-is-the-brief-output-information" title="Permalink to this headline">¶</a></h2>
+<p>Left part is accuracy/percentage, right part is time_usage/second.</p>
+<ul class="simple">
+<li><p>FP32 baseline is: [92.5477, 796.7552].</p></li>
+<li><p>Tune 1 result is: [91.5872, 1202.2529]</p></li>
+<li><p>Tune 2 result is: [91.5894, 1201.3231]</p></li>
+<li><p>Tune 3 result is: [91.5195, 1211.5965]</p></li>
+<li><p>Tune 4 result is: [91.6030, 1218.2211]</p></li>
+<li><p>Tune 5 result is: [91.4812, 1169.5080]</p></li>
+<li><p>…</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

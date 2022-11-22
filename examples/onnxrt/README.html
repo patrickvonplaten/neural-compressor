@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ONNX model quantization &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">ONNX model quantization</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/onnxrt/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="onnx-model-quantization">
+<h1>ONNX model quantization<a class="headerlink" href="#onnx-model-quantization" title="Permalink to this headline">¶</a></h1>
+<p>Currently Neural Compressor supports dynamic and static quantization for onnx models.</p>
+<div class="section" id="dynamic-quantization">
+<h2>Dynamic quantization<a class="headerlink" href="#dynamic-quantization" title="Permalink to this headline">¶</a></h2>
+<p>Dynamic quantization calculates the quantization parameter (scale and zero point) for activations dynamically.</p>
+<div class="section" id="how-to-use">
+<h3>How to use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h3>
+<p>Users can use dynamic quantization method by these ways:</p>
+<ol class="simple">
+<li><p>Write configuration in yaml file</p></li>
+</ol>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">model_name</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">onnxrt_integerops</span>
+
+<span class="nt">quantization</span><span class="p">:</span>
+  <span class="nt">approach</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">post_training_dynamic_quant</span>
+
+<span class="c1"># other items are omitted</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Write configuration with python code</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neural_compressor</span> <span class="kn">import</span> <span class="n">conf</span>
+<span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">framework</span> <span class="o">=</span> <span class="s1">&#39;onnxrt_integerops&#39;</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">quantization</span><span class="o">.</span><span class="n">approach</span> <span class="o">=</span> <span class="s1">&#39;post_training_dynamic_quant&#39;</span>
+
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="static-quantization">
+<h2>Static quantization<a class="headerlink" href="#static-quantization" title="Permalink to this headline">¶</a></h2>
+<p>Static quantization leverages the calibration data to calculates the quantization parameter of activations. There are two ways to represent quantized ONNX models: operator oriented with QLinearOps and tensor oriented (QDQ format).</p>
+<div class="section" id="id1">
+<h3>How to use<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="operator-oriented-with-qlinearops">
+<h4>Operator oriented with QLinearOps<a class="headerlink" href="#operator-oriented-with-qlinearops" title="Permalink to this headline">¶</a></h4>
+<p>Users can quantize ONNX models with QLinearOps by these ways:</p>
+<ol class="simple">
+<li><p>Write configuration in yaml file</p></li>
+</ol>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">model_name</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">onnxrt_qlinearops</span>
+
+<span class="nt">quantization</span><span class="p">:</span>
+  <span class="nt">approach</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">post_training_static_quant</span>
+
+<span class="c1"># other items are omitted</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Write configuration with python code</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neural_compressor</span> <span class="kn">import</span> <span class="n">conf</span>
+<span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">framework</span> <span class="o">=</span> <span class="s1">&#39;onnxrt_qlinearops&#39;</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">quantization</span><span class="o">.</span><span class="n">approach</span> <span class="o">=</span> <span class="s1">&#39;post_training_static_quant&#39;</span>
+
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tensor-oriented-qdq-format">
+<h4>Tensor oriented (QDQ format)<a class="headerlink" href="#tensor-oriented-qdq-format" title="Permalink to this headline">¶</a></h4>
+<p>Users can quantize ONNX models with QDQ format by these ways:</p>
+<ol class="simple">
+<li><p>Write configuration in yaml file</p></li>
+</ol>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">model_name</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">onnxrt_qdqops</span>
+
+<span class="nt">quantization</span><span class="p">:</span>
+  <span class="nt">approach</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">post_training_static_quant</span>
+
+<span class="c1"># other items are omitted</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Write configuration with python code</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neural_compressor</span> <span class="kn">import</span> <span class="n">conf</span>
+<span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">framework</span> <span class="o">=</span> <span class="s1">&#39;onnxrt_qdqops&#39;</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">quantization</span><span class="o">.</span><span class="n">approach</span> <span class="o">=</span> <span class="s1">&#39;post_training_static_quant&#39;</span>
+
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

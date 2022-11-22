@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pretrained Models &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Pretrained Models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/image_recognition/resnest/quantization/ptq/eager/ablation.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="pretrained-models">
+<h1>Pretrained Models<a class="headerlink" href="#pretrained-models" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th></th>
+<th>setting</th>
+<th>#P</th>
+<th>GFLOPs</th>
+<th>PyTorch</th>
+<th>Gluon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ResNeSt-50-fast</td>
+<td>1s1x64d</td>
+<td>26.3M</td>
+<td>4.34</td>
+<td>80.33</td>
+<td>80.35</td>
+</tr>
+<tr>
+<td>ResNeSt-50-fast</td>
+<td>2s1x64d</td>
+<td>27.5M</td>
+<td>4.34</td>
+<td>80.53</td>
+<td>80.65</td>
+</tr>
+<tr>
+<td>ResNeSt-50-fast</td>
+<td>4s1x64d</td>
+<td>31.9M</td>
+<td>4.35</td>
+<td>80.76</td>
+<td>80.90</td>
+</tr>
+<tr>
+<td>ResNeSt-50-fast</td>
+<td>1s2x40d</td>
+<td>25.9M</td>
+<td>4.38</td>
+<td>80.59</td>
+<td>80.72</td>
+</tr>
+<tr>
+<td>ResNeSt-50-fast</td>
+<td>2s2x40d</td>
+<td>26.9M</td>
+<td>4.38</td>
+<td>80.61</td>
+<td>80.84</td>
+</tr>
+<tr>
+<td>ResNeSt-50-fast</td>
+<td>4s2x40d</td>
+<td>30.4M</td>
+<td>4.41</td>
+<td>81.14</td>
+<td>81.17</td>
+</tr>
+<tr>
+<td>ResNeSt-50-fast</td>
+<td>1s4x24d</td>
+<td>25.7M</td>
+<td>4.42</td>
+<td>80.99</td>
+<td>80.97</td>
+</tr>
+</tbody>
+</table><div class="section" id="pytorch-models">
+<h2>PyTorch Models<a class="headerlink" href="#pytorch-models" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Load using Torch Hub</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="c1"># get list of models</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="s1">&#39;zhanghang1989/ResNeSt&#39;</span><span class="p">,</span> <span class="n">force_reload</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># load pretrained models, using ResNeSt-50-fast_2s1x64d as an example</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;zhanghang1989/ResNeSt&#39;</span><span class="p">,</span> <span class="s1">&#39;resnest50_fast_2s1x64d&#39;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Load using python package</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># using ResNeSt-50 as an example</span>
+<span class="kn">from</span> <span class="nn">resnest.torch</span> <span class="kn">import</span> <span class="n">resnest50_fast_2s1x64d</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">resnest50_fast_2s1x64d</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gluon-models">
+<h2>Gluon Models<a class="headerlink" href="#gluon-models" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Load pretrained model:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># using ResNeSt-50 as an example</span>
+<span class="kn">from</span> <span class="nn">resnest.gluon</span> <span class="kn">import</span> <span class="n">resnest50_fast_2s1x64d</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">resnest50_fast_2s1x64d</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

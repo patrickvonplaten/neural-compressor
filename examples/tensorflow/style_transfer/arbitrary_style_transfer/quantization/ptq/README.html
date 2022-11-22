@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../" src="../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../_sources/examples/tensorflow/style_transfer/arbitrary_style_transfer/quantization/ptq/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document is used to list steps of reproducing TensorFlow style transfer Intel® Neural Compressor tuning zoo result.
+This example can run on Intel CPUs and GPUs.</p>
+<div class="section" id="prerequisite">
+<h2>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation">
+<h3>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Intel® Neural Compressor</span>
+pip install neural-compressor
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-intel-tensorflow">
+<h3>2. Install Intel Tensorflow<a class="headerlink" href="#install-intel-tensorflow" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install intel-tensorflow
+</pre></div>
+</div>
+<blockquote>
+<div><p>Note: Supported Tensorflow <a class="reference external" href="../../../../../../README.html#supported-frameworks">Version</a>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="install-additional-dependency-packages">
+<h3>3. Install Additional Dependency packages<a class="headerlink" href="#install-additional-dependency-packages" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/tensorflow/style_transfer/arbitrary_style_transfer/quantization/ptq 
+pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-intel-extension-for-tensorflow">
+<h3>4. Install Intel Extension for Tensorflow<a class="headerlink" href="#install-intel-extension-for-tensorflow" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="quantizing-the-model-on-intel-gpu">
+<h4>Quantizing the model on Intel GPU<a class="headerlink" href="#quantizing-the-model-on-intel-gpu" title="Permalink to this headline">¶</a></h4>
+<p>Intel Extension for Tensorflow is mandatory to be installed for quantizing the model on Intel GPUs.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install --upgrade intel-extension-for-tensorflow<span class="o">[</span>gpu<span class="o">]</span>
+</pre></div>
+</div>
+<p>For any more details, please follow the procedure in <a class="reference external" href="https://github.com/intel-innersource/frameworks.ai.infrastructure.intel-extension-for-tensorflow.intel-extension-for-tensorflow/blob/master/docs/install/install_for_gpu.md#install-gpu-drivers">install-gpu-drivers</a></p>
+</div>
+<div class="section" id="quantizing-the-model-on-intel-cpu-experimental">
+<h4>Quantizing the model on Intel CPU(Experimental)<a class="headerlink" href="#quantizing-the-model-on-intel-cpu-experimental" title="Permalink to this headline">¶</a></h4>
+<p>Intel Extension for Tensorflow for Intel CPUs is experimental currently. It’s not mandatory for quantizing the model on Intel CPUs.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install --upgrade intel-extension-for-tensorflow<span class="o">[</span>cpu<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="prepare-dataset">
+<h3>5. Prepare Dataset<a class="headerlink" href="#prepare-dataset" title="Permalink to this headline">¶</a></h3>
+<p>There are two folders named style_images and content_images
+you can use these two folders to generated stylized images for test
+you can also prepare your own style_images or content_images</p>
+</div>
+<div class="section" id="prepare-pretrained-model">
+<h3>6. Prepare Pretrained model<a class="headerlink" href="#prepare-pretrained-model" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="automated-approach">
+<h4>Automated approach<a class="headerlink" href="#automated-approach" title="Permalink to this headline">¶</a></h4>
+<p>Run the <code class="docutils literal notranslate"><span class="pre">prepare_model.py</span></code> script located in <code class="docutils literal notranslate"><span class="pre">LowPrecisionInferenceTool/examples/tensorflow/style_transfer</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">prepare_model</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">model_path</span> <span class="n">MODEL_PATH</span><span class="p">]</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+  <span class="o">--</span><span class="n">model_path</span> <span class="n">MODEL_PATH</span> <span class="n">directory</span> <span class="n">to</span> <span class="n">put</span> <span class="n">models</span><span class="p">,</span> <span class="n">default</span> <span class="ow">is</span> <span class="o">./</span><span class="n">model</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="manual-approach">
+<h4>Manual approach<a class="headerlink" href="#manual-approach" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://storage.googleapis.com/download.magenta.tensorflow.org/models/arbitrary_style_transfer.tar.gz
+tar -xvzf arbitrary_style_transfer.tar.gz ./model
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="run-command">
+<h2>Run Command<a class="headerlink" href="#run-command" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python style_tune.py --output_dir<span class="o">=</span>./result --style_images_paths<span class="o">=</span>./style_images --content_images_paths<span class="o">=</span>./content_images --input_model<span class="o">=</span>./model/model.ckpt
+</pre></div>
+</div>
+<div class="section" id="quantize-with-neural-compressor">
+<h3>Quantize with neural_compressor<a class="headerlink" href="#quantize-with-neural-compressor" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="tune-model-with-neural-compressor">
+<h4>1. Tune model with neural_compressor<a class="headerlink" href="#tune-model-with-neural-compressor" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash run_tuning.sh --dataset_location<span class="o">=</span>style_images/,content_images/ --input_model<span class="o">=</span>./model/model.ckpt --output_model<span class="o">=</span>saved_model
+</pre></div>
+</div>
+</div>
+<div class="section" id="check-benchmark-of-tuned-model">
+<h4>2. check benchmark of tuned model<a class="headerlink" href="#check-benchmark-of-tuned-model" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>bash run_benchmark.sh --dataset_location<span class="o">=</span>style_images/,content_images/ --input_model<span class="o">=</span>saved_model.pb --batch_size<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="details-of-enabling-intel-neural-compressor-on-style-transfer-for-tensorflow">
+<h1>Details of enabling Intel® Neural Compressor on style transfer for Tensorflow.<a class="headerlink" href="#details-of-enabling-intel-neural-compressor-on-style-transfer-for-tensorflow" title="Permalink to this headline">¶</a></h1>
+<p>This is a tutorial of how to enable style_transfer model with Intel® Neural Compressor.</p>
+<div class="section" id="user-code-analysis">
+<h2>User Code Analysis<a class="headerlink" href="#user-code-analysis" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>User specifies fp32 <em>model</em>, calibration dataset <em>q_dataloader</em>, evaluation dataset <em>eval_dataloader</em> and metric in tuning.metric field of model-specific yaml config file.</p></li>
+<li><p>User specifies fp32 <em>model</em>, calibration dataset <em>q_dataloader</em> and a custom <em>eval_func</em> which encapsulates the evaluation dataset and metric by itself.</p></li>
+</ol>
+<p>For style_transfer, we applied the latter one because we don’t have metric for style transfer model.The first one is to implement the q_dataloader and implement a fake <em>eval_func</em>. As neural_compressor have implement a style_transfer dataset, so only eval_func should be prepared after load the graph</p>
+<div class="section" id="evaluation-part-adaption">
+<h3>Evaluation Part Adaption<a class="headerlink" href="#evaluation-part-adaption" title="Permalink to this headline">¶</a></h3>
+<p>As style transfer don’t have a metric to measure the accuracy, we only implement a fake eval_func</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eval_func</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="write-yaml-config-file">
+<h3>Write Yaml config file<a class="headerlink" href="#write-yaml-config-file" title="Permalink to this headline">¶</a></h3>
+<p>In examples directory, there is a conf.yaml for tuning the model on Intel CPUs. The ‘framework’ in the yaml is set to ‘tensorflow’. If running this example on Intel GPUs, the ‘framework’ should be set to ‘tensorflow_itex’ and the device in yaml file should be set to ‘gpu’. The conf_itex.yaml is prepared for the GPU case. We could remove most of items and only keep mandatory item for tuning. We also implement a calibration dataloader and have evaluation field for creation of evaluation function at internal neural_compressor.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">device</span><span class="p">:</span> <span class="nt">cpu                                          # NOTE</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">optional. default value is cpu, other value is gpu.</span>
+
+<span class="nt">model</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">style_transfer</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tensorflow</span>
+  <span class="nt">inputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">import/style_input,import/content_input</span>
+  <span class="nt">outputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">import/transformer/expand/conv3/conv/Sigmoid</span>
+
+<span class="nt">quantization</span><span class="p">:</span>
+  <span class="nt">calibration</span><span class="p">:</span>
+    <span class="nt">dataloader</span><span class="p">:</span>
+      <span class="nt">batch_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+      <span class="nt">dataset</span><span class="p">:</span>
+        <span class="nt">style_transfer</span><span class="p">:</span>
+          <span class="nt">content_folder</span><span class="p">:</span> <span class="nt">./content_images/          # NOTE</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">modify to content images path if needed</span>
+          <span class="nt">style_folder</span><span class="p">:</span> <span class="nt">./style_images/              # NOTE</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">modify to style images path if needed</span>
+
+<span class="nt">evaluation</span><span class="p">:</span>
+  <span class="nt">accuracy</span><span class="p">:</span>
+    <span class="nt">dataloader</span><span class="p">:</span>
+      <span class="nt">batch_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+      <span class="nt">dataset</span><span class="p">:</span>
+        <span class="nt">style_transfer</span><span class="p">:</span>
+          <span class="nt">content_folder</span><span class="p">:</span> <span class="nt">./content_images/          # NOTE</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">modify to content images path if needed</span>
+          <span class="nt">style_folder</span><span class="p">:</span> <span class="nt">./style_images/              # NOTE</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">modify to style images path if needed</span>
+
+<span class="nt">tuning</span><span class="p">:</span>
+    <span class="nt">accuracy_criterion</span><span class="p">:</span>
+      <span class="nt">relative</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+    <span class="nt">exit_policy</span><span class="p">:</span>
+      <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+    <span class="nt">random_seed</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">9527</span>
+</pre></div>
+</div>
+<p>Here we set the input tensor and output tensors name into <em>inputs</em> and <em>outputs</em> field. In this case we only calibration and quantize the model without tune the accuracy</p>
+</div>
+<div class="section" id="code-update">
+<h3>Code update<a class="headerlink" href="#code-update" title="Permalink to this headline">¶</a></h3>
+<p>After prepare step is done, we just need add 2 lines to get the quantized model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span>
+
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">graph</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">eval_func</span> <span class="o">=</span> <span class="n">eval_func</span>
+<span class="n">q_model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The Intel® Neural Compressor quantizer.fit() function will return a best quantized model during timeout constrain.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

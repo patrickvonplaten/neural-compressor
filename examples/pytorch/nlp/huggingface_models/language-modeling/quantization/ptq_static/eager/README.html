@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/language-modeling/quantization/ptq_static/eager/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document is used to list steps of reproducing PyTorch BERT tuning zoo result.
+Original BERT documents please refer to <a class="reference internal" href="../../../../common/README.html"><span class="doc">BERT README</span></a> and <a class="reference internal" href="../../../../common/examples/language-modeling/README.html"><span class="doc">README</span></a>.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>Dynamic Quantization is the recommended method for huggingface models.</p>
+</div></blockquote>
+</div>
+<div class="section" id="prerequisite">
+<h1>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python-version">
+<h3>Python Version<a class="headerlink" href="#python-version" title="Permalink to this headline">¶</a></h3>
+<p>Recommend python 3.6 or higher version.</p>
+<div class="section" id="install-transformers">
+<h4>Install transformers<a class="headerlink" href="#install-transformers" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/nlp/huggingface_models/common
+python setup.py install
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>Please don’t install public transformers package.</p>
+</div></blockquote>
+</div>
+<div class="section" id="install-dependency">
+<h4>Install dependency<a class="headerlink" href="#install-dependency" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/nlp/huggingface_models/language-modeling/quantization/ptq_static/eager
+pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-pytorch">
+<h4>Install PyTorch<a class="headerlink" href="#install-pytorch" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install torch&gt;<span class="o">=</span><span class="m">1</span>.7
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="prepare-pretrained-model">
+<h2>2. Prepare pretrained model<a class="headerlink" href="#prepare-pretrained-model" title="Permalink to this headline">¶</a></h2>
+<p>Before use Intel® Neural Compressor, you should fine tune the model to get pretrained model, You should also install the additional packages required by the examples:</p>
+<div class="section" id="language-modeling">
+<h3>Language-modeling<a class="headerlink" href="#language-modeling" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="finetune-command">
+<h4>Finetune command<a class="headerlink" href="#finetune-command" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/nlp/huggingface_models/language-modeling/quantization/ptq_static/eager
+
+python run_clm_tune.py <span class="se">\</span>
+  --model_name_or_path microsoft/DialoGPT-small <span class="se">\</span>
+  --dataset_name wikitext<span class="se">\</span>
+  --dataset_config_name wikitext-2-raw-v1 <span class="se">\</span>
+  --do_train <span class="se">\</span>
+  --do_eval <span class="se">\</span>
+  --output_dir /path/to/checkpoint/dir
+</pre></div>
+</div>
+<blockquote>
+<div><p>NOTE</p>
+<p>the metric we use is eval loss, not perplexity, because the perplexity is too sensitive. Until now, we have enabled dialogpt, reformer, ctrl models. The accuracy of the int8 model is relative less than 0.01 to fp32, except for ctrl, which is relative less than 0.05.</p>
+<p>model_name_or_path : Path to pretrained model or model identifier from huggingface.co/models</p>
+<p>dataset_name : Dataset name, can be one of {wikitext, crime_and_punish}.</p>
+<p>dataset_config_name : just for dialogpt: wikitext-2-raw-v1.</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="start-to-neural-compressor-tune-for-model-quantization">
+<h1>Start to neural_compressor tune for Model Quantization<a class="headerlink" href="#start-to-neural-compressor-tune-for-model-quantization" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/nlp/huggingface_models/quantization/ptq_dynamic/eager
+</pre></div>
+</div>
+<div class="section" id="glue-task">
+<h2>Glue task<a class="headerlink" href="#glue-task" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sh run_tuning.sh --topology<span class="o">=</span>topology_name --dataset_location<span class="o">=</span>/path/to/glue/data/dir --input_model<span class="o">=</span>/path/to/checkpoint/dir
+</pre></div>
+</div>
+<blockquote>
+<div><p>NOTE</p>
+<p>topology_name can be:{“bert_base_MRPC”, “distilbert_base_MRPC”, “albert_base_MRPC”, “funnel_MRPC”, “bart_WNLI”, “mbart_WNLI”, “xlm_roberta_MRPC”, “gpt2_MRPC”, “xlnet_base_MRPC”, “transfo_xl_MRPC”, “ctrl_MRPC”, “xlm_MRPC”}</p>
+<p>/path/to/checkpoint/dir is the path to finetune output_dir</p>
+</div></blockquote>
+</div>
+<div class="section" id="seq2seq-task">
+<h2>Seq2seq task<a class="headerlink" href="#seq2seq-task" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sh run_tuning.sh --topology<span class="o">=</span>topology_name --dataset_location<span class="o">=</span>/path/to/seq2seq/data/dir --input_model<span class="o">=</span>/path/to/checkpoint/dir
+</pre></div>
+</div>
+<blockquote>
+<div><p>NOTE</p>
+<p>topology_name can be:{“t5_WMT_en_ro”, “marianmt_WMT_en_ro”, “pegasus_billsum”}</p>
+<p>/path/to/checkpoint/dir is the path to output_dir set in finetune.</p>
+<p>/path/to/seq2seq/data/dir is the path to data_dir set in finetune.</p>
+<p>for example,</p>
+<p><code class="docutils literal notranslate"><span class="pre">examples/test_data/wmt_en_ro</span></code> for translation task</p>
+<p><code class="docutils literal notranslate"><span class="pre">examples/seq2seq/billsum</span></code> for summarization task</p>
+</div></blockquote>
+</div>
+<div class="section" id="language-modeling-task">
+<h2>Language-modeling task<a class="headerlink" href="#language-modeling-task" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sh run_tuning.sh --topology<span class="o">=</span>topology_name --input_model<span class="o">=</span>/path/to/checkpoint/dir
+</pre></div>
+</div>
+<blockquote>
+<div><p>NOTE</p>
+<p>topology_name can be one of {dialogpt_wikitext, reformer_crime_and_punishment}</p>
+<p>/path/to/checkpoint/dir is the path to finetune output_dir</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="examples-of-enabling-intel-neural-compressor">
+<h1>Examples of enabling Intel® Neural Compressor<a class="headerlink" href="#examples-of-enabling-intel-neural-compressor" title="Permalink to this headline">¶</a></h1>
+<p>This is a tutorial of how to enable BERT model with Intel® Neural Compressor.</p>
+</div>
+<div class="section" id="user-code-analysis">
+<h1>User Code Analysis<a class="headerlink" href="#user-code-analysis" title="Permalink to this headline">¶</a></h1>
+<p>Intel® Neural Compressor supports two usages:</p>
+<ol class="simple">
+<li><p>User specifies fp32 ‘model’, calibration dataset ‘q_dataloader’, evaluation dataset “eval_dataloader” and metrics in tuning.metrics field of model-specific yaml config file.</p></li>
+<li><p>User specifies fp32 ‘model’, calibration dataset ‘q_dataloader’ and a custom “eval_func” which encapsulates the evaluation dataset and metrics by itself.</p></li>
+</ol>
+<p>As BERT’s matricses are ‘f1’, ‘acc_and_f1’, mcc’, ‘spearmanr’, ‘acc’, so customer should provide evaluation function ‘eval_func’, it’s suitable for the second use case.</p>
+<div class="section" id="write-yaml-config-file">
+<h2>Write Yaml config file<a class="headerlink" href="#write-yaml-config-file" title="Permalink to this headline">¶</a></h2>
+<p>In examples directory, there is conf.yaml. We could remove most of the items and only keep mandatory item for tuning.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bert</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pytorch</span>
+
+<span class="nt">device</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cpu</span>
+
+<span class="nt">quantization</span><span class="p">:</span>
+  <span class="nt">approach</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">post_training_static_quant</span>
+
+<span class="nt">tuning</span><span class="p">:</span>
+  <span class="nt">accuracy_criterion</span><span class="p">:</span>
+    <span class="nt">relative</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+  <span class="nt">exit_policy</span><span class="p">:</span>
+    <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+    <span class="nt">max_trials</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">300</span>
+  <span class="nt">random_seed</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">9527</span>
+</pre></div>
+</div>
+<p>Here we set accuracy target as tolerating 0.01 relative accuracy loss of baseline. The default tuning strategy is basic strategy. The timeout 0 means early stop as well as a tuning config meet accuracy target.</p>
+<blockquote>
+<div><p><strong>Note</strong> : neural_compressor does NOT support “mse” tuning strategy for pytorch framework</p>
+</div></blockquote>
+</div>
+<div class="section" id="code-prepare">
+<h2>Code Prepare<a class="headerlink" href="#code-prepare" title="Permalink to this headline">¶</a></h2>
+<p>For language modeling task,We need update run_clm_tune.py like below</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">training_args</span><span class="o">.</span><span class="n">tune</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">eval_func_for_nc</span><span class="p">(</span><span class="n">model_tuned</span><span class="p">):</span>
+        <span class="n">trainer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_tuned</span>
+        <span class="n">eval_output</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">eval_dataset</span><span class="o">=</span><span class="n">eval_dataset</span><span class="p">)</span>
+        <span class="n">perplexity</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eval_output</span><span class="p">[</span><span class="s2">&quot;eval_loss&quot;</span><span class="p">])</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;perplexity&quot;</span><span class="p">:</span><span class="n">perplexity</span><span class="p">,</span><span class="s2">&quot;eval_loss&quot;</span><span class="p">:</span><span class="n">eval_output</span><span class="p">[</span><span class="s2">&quot;eval_loss&quot;</span><span class="p">],</span>\
+                    <span class="s2">&quot;eval_samples_per_second&quot;</span><span class="p">:</span><span class="n">eval_output</span><span class="p">[</span><span class="s1">&#39;eval_samples_per_second&#39;</span><span class="p">]}</span>
+        <span class="n">clm_task_metrics_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;perplexity&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">clm_task_metrics_keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finally Eval {}:{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="n">key</span><span class="o">==</span><span class="s2">&quot;perplexity&quot;</span><span class="p">:</span>
+                    <span class="n">perplexity</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                    <span class="k">break</span>
+        <span class="k">return</span> <span class="mi">100</span><span class="o">-</span><span class="n">perplexity</span>
+
+    <span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span><span class="p">,</span> <span class="n">common</span>
+    <span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="s2">&quot;./conf.yaml&quot;</span><span class="p">)</span>
+    <span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">quantizer</span><span class="o">.</span><span class="n">calib_dataloader</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">get_eval_dataloader</span><span class="p">()</span>
+    <span class="n">quantizer</span><span class="o">.</span><span class="n">eval_func</span> <span class="o">=</span> <span class="n">eval_func_for_nc</span>
+    <span class="n">q_model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="n">q_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">training_args</span><span class="o">.</span><span class="n">tuned_checkpoint</span><span class="p">)</span>
+    <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

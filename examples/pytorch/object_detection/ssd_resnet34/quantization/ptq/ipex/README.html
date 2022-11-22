@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSD-ResNet34 Inference &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">SSD-ResNet34 Inference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/object_detection/ssd_resnet34/quantization/ptq/ipex/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="ssd-resnet34-inference">
+<h1>SSD-ResNet34 Inference<a class="headerlink" href="#ssd-resnet34-inference" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>Note: IPEX version &gt;= 1.10</p>
+</div></blockquote>
+<div class="section" id="model-specific-setup">
+<h2>Model Specific Setup<a class="headerlink" href="#model-specific-setup" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Install dependencies</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Download pretrained model</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">cd</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">your</span> <span class="n">clone</span> <span class="n">of</span> <span class="n">the</span> <span class="n">model</span> <span class="n">zoo</span><span class="o">&gt;/</span><span class="n">examples</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">object_detection</span><span class="o">/</span><span class="n">ssd_resnet34</span><span class="o">/</span><span class="n">quantization</span><span class="o">/</span><span class="n">ptq</span><span class="o">/</span><span class="n">ipex</span>
+    <span class="n">bash</span> <span class="n">download_model</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Set Jemalloc Preload for better performance. The jemalloc should be built from the General setup section.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    export LD_PRELOAD=&quot;path/lib/libjemalloc.so&quot;:$LD_PRELOAD
+    export MALLOC_CONF=&quot;oversize_threshold:1,background_thread:true,metadata_thp:auto,dirty_decay_ms:9000000000,muzzy_decay_ms:9000000000&quot;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Set IOMP preload for better performance. IOMP should be installed in your conda env from the General setup section.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    export LD_PRELOAD=path/lib/libiomp5.so:$LD_PRELOAD
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Set ENV to use AMX if you are using SPR</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">export</span> <span class="n">DNNL_MAX_CPU_ISA</span><span class="o">=</span><span class="n">AVX512_CORE_AMX</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dataset">
+<h2>Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline">¶</a></h2>
+<p>Download the 2017 COCO dataset using the <code class="docutils literal notranslate"><span class="pre">download_dataset.sh</span></code> script.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">cd</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">your</span> <span class="n">clone</span> <span class="n">of</span> <span class="n">the</span> <span class="n">model</span> <span class="n">zoo</span><span class="o">&gt;/</span><span class="n">examples</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">object_detection</span><span class="o">/</span><span class="n">ssd_resnet34</span><span class="o">/</span><span class="n">quantization</span><span class="o">/</span><span class="n">ptq</span><span class="o">/</span><span class="n">ipex</span>
+
+    <span class="n">bash</span> <span class="n">download_dataset</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run">
+<h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">infer</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">--</span><span class="n">data</span> <span class="n">DATASET_DIR</span>
+    <span class="o">--</span><span class="n">device</span> <span class="mi">0</span>
+    <span class="o">--</span><span class="n">checkpoint</span>  <span class="n">PRETAINED_MODEL</span>   <span class="c1">#./pretrained/resnet34-ssd1200.pth </span>
+    <span class="o">-</span><span class="n">w</span> <span class="mi">10</span> 
+    <span class="o">-</span><span class="n">j</span> <span class="mi">0</span> 
+    <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">cuda</span> 
+    <span class="o">--</span><span class="n">batch</span><span class="o">-</span><span class="n">size</span> <span class="mi">16</span> 
+    <span class="o">--</span><span class="n">tune</span> 
+    <span class="o">--</span><span class="n">accuracy</span><span class="o">-</span><span class="n">mode</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">run_tuning</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">dataset_location</span><span class="o">=</span><span class="n">dataset</span> <span class="o">--</span><span class="n">input_model</span><span class="o">=</span><span class="n">model</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="n">run_benchmark</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">dataset_location</span><span class="o">=</span><span class="n">dataset</span> <span class="o">--</span><span class="n">input_model</span><span class="o">=</span><span class="n">model</span> <span class="o">--</span><span class="n">mode</span><span class="o">=</span><span class="n">accuracy</span><span class="o">/</span><span class="n">benchmark</span> <span class="o">--</span><span class="n">int8</span><span class="o">=</span><span class="kc">True</span><span class="o">/</span><span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

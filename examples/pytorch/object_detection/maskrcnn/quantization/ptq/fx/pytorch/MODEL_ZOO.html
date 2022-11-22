@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model Zoo and Baselines &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Model Zoo and Baselines</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/object_detection/maskrcnn/quantization/ptq/fx/pytorch/MODEL_ZOO.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="model-zoo-and-baselines">
+<h1>Model Zoo and Baselines<a class="headerlink" href="#model-zoo-and-baselines" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="hardware">
+<h2>Hardware<a class="headerlink" href="#hardware" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>8 NVIDIA V100 GPUs</p></li>
+</ul>
+</div>
+<div class="section" id="software">
+<h2>Software<a class="headerlink" href="#software" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>PyTorch version: 1.0.0a0+dd2c487</p></li>
+<li><p>CUDA 9.2</p></li>
+<li><p>CUDNN 7.1</p></li>
+<li><p>NCCL 2.2.13-1</p></li>
+</ul>
+</div>
+<div class="section" id="end-to-end-faster-and-mask-r-cnn-baselines">
+<h2>End-to-end Faster and Mask R-CNN baselines<a class="headerlink" href="#end-to-end-faster-and-mask-r-cnn-baselines" title="Permalink to this headline">¶</a></h2>
+<p>All the baselines were trained using the exact same experimental setup as in Detectron.
+We initialize the detection models with ImageNet weights from Caffe2, the same as used by Detectron.</p>
+<p>The pre-trained models are available in the link in the model id.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>backbone</th>
+<th>type</th>
+<th>lr sched</th>
+<th>im / gpu</th>
+<th>train mem(GB)</th>
+<th>train time (s/iter)</th>
+<th>total train time(hr)</th>
+<th>inference time(s/im)</th>
+<th>box AP</th>
+<th>mask AP</th>
+<th>model id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R-50-C4</td>
+<td>Fast</td>
+<td>1x</td>
+<td>1</td>
+<td>5.8</td>
+<td>0.4036</td>
+<td>20.2</td>
+<td>0.17130</td>
+<td>34.8</td>
+<td>-</td>
+<td><a href="https://download.pytorch.org/models/maskrcnn/e2e_faster_rcnn_R_50_C4_1x.pth">6358800</a></td>
+</tr>
+<tr>
+<td>R-50-FPN</td>
+<td>Fast</td>
+<td>1x</td>
+<td>2</td>
+<td>4.4</td>
+<td>0.3530</td>
+<td>8.8</td>
+<td>0.12580</td>
+<td>36.8</td>
+<td>-</td>
+<td><a href="https://download.pytorch.org/models/maskrcnn/e2e_faster_rcnn_R_50_FPN_1x.pth">6358793</a></td>
+</tr>
+<tr>
+<td>R-101-FPN</td>
+<td>Fast</td>
+<td>1x</td>
+<td>2</td>
+<td>7.1</td>
+<td>0.4591</td>
+<td>11.5</td>
+<td>0.143149</td>
+<td>39.1</td>
+<td>-</td>
+<td><a href="https://download.pytorch.org/models/maskrcnn/e2e_faster_rcnn_R_101_FPN_1x.pth">6358804</a></td>
+</tr>
+<tr>
+<td>X-101-32x8d-FPN</td>
+<td>Fast</td>
+<td>1x</td>
+<td>1</td>
+<td>7.6</td>
+<td>0.7007</td>
+<td>35.0</td>
+<td>0.209965</td>
+<td>41.2</td>
+<td>-</td>
+<td><a href="https://download.pytorch.org/models/maskrcnn/e2e_faster_rcnn_X_101_32x8d_FPN_1x.pth">6358717</a></td>
+</tr>
+<tr>
+<td>R-50-C4</td>
+<td>Mask</td>
+<td>1x</td>
+<td>1</td>
+<td>5.8</td>
+<td>0.4520</td>
+<td>22.6</td>
+<td>0.17796 + 0.028</td>
+<td>35.6</td>
+<td>31.5</td>
+<td><a href="https://download.pytorch.org/models/maskrcnn/e2e_mask_rcnn_R_50_C4_1x.pth">6358801</a></td>
+</tr>
+<tr>
+<td>R-50-FPN</td>
+<td>Mask</td>
+<td>1x</td>
+<td>2</td>
+<td>5.2</td>
+<td>0.4536</td>
+<td>11.3</td>
+<td>0.12966 + 0.034</td>
+<td>37.8</td>
+<td>34.2</td>
+<td><a href="https://download.pytorch.org/models/maskrcnn/e2e_mask_rcnn_R_50_FPN_1x.pth">6358792</a></td>
+</tr>
+<tr>
+<td>R-101-FPN</td>
+<td>Mask</td>
+<td>1x</td>
+<td>2</td>
+<td>7.9</td>
+<td>0.5665</td>
+<td>14.2</td>
+<td>0.15384 + 0.034</td>
+<td>40.1</td>
+<td>36.1</td>
+<td><a href="https://download.pytorch.org/models/maskrcnn/e2e_mask_rcnn_R_101_FPN_1x.pth">6358805</a></td>
+</tr>
+<tr>
+<td>X-101-32x8d-FPN</td>
+<td>Mask</td>
+<td>1x</td>
+<td>1</td>
+<td>7.8</td>
+<td>0.7562</td>
+<td>37.8</td>
+<td>0.21739 + 0.034</td>
+<td>42.2</td>
+<td>37.8</td>
+<td><a href="https://download.pytorch.org/models/maskrcnn/e2e_mask_rcnn_X_101_32x8d_FPN_1x.pth">6358718</a></td>
+</tr>
+</tbody>
+</table><p>For person keypoint detection:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>backbone</th>
+<th>type</th>
+<th>lr sched</th>
+<th>im / gpu</th>
+<th>train mem(GB)</th>
+<th>train time (s/iter)</th>
+<th>total train time(hr)</th>
+<th>inference time(s/im)</th>
+<th>box AP</th>
+<th>keypoint AP</th>
+<th>model id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R-50-FPN</td>
+<td>Keypoint</td>
+<td>1x</td>
+<td>2</td>
+<td>5.7</td>
+<td>0.3771</td>
+<td>9.4</td>
+<td>0.10941</td>
+<td>53.7</td>
+<td>64.3</td>
+<td>9981060</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="section" id="comparison-with-detectron-and-mmdetection">
+<h1>Comparison with Detectron and mmdetection<a class="headerlink" href="#comparison-with-detectron-and-mmdetection" title="Permalink to this headline">¶</a></h1>
+<p>In the following section, we compare our implementation with <a class="reference external" href="https://github.com/facebookresearch/Detectron">Detectron</a>
+and <a class="reference external" href="https://github.com/open-mmlab/mmdetection">mmdetection</a>.
+The same remarks from <a class="reference external" href="https://github.com/open-mmlab/mmdetection/blob/master/MODEL_ZOO.md#training-speed">mmdetection</a>
+about different hardware applies here.</p>
+<div class="section" id="training-speed">
+<h2>Training speed<a class="headerlink" href="#training-speed" title="Permalink to this headline">¶</a></h2>
+<p>The numbers here are in seconds / iteration. The lower, the better.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>type</th>
+<th>Detectron (P100)</th>
+<th>mmdetection (V100)</th>
+<th>maskrcnn_benchmark (V100)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Faster R-CNN R-50 C4</td>
+<td>0.566</td>
+<td>-</td>
+<td>0.4036</td>
+</tr>
+<tr>
+<td>Faster R-CNN R-50 FPN</td>
+<td>0.544</td>
+<td>0.554</td>
+<td>0.3530</td>
+</tr>
+<tr>
+<td>Faster R-CNN R-101 FPN</td>
+<td>0.647</td>
+<td>-</td>
+<td>0.4591</td>
+</tr>
+<tr>
+<td>Faster R-CNN X-101-32x8d FPN</td>
+<td>0.799</td>
+<td>-</td>
+<td>0.7007</td>
+</tr>
+<tr>
+<td>Mask R-CNN R-50 C4</td>
+<td>0.620</td>
+<td>-</td>
+<td>0.4520</td>
+</tr>
+<tr>
+<td>Mask R-CNN R-50 FPN</td>
+<td>0.889</td>
+<td>0.690</td>
+<td>0.4536</td>
+</tr>
+<tr>
+<td>Mask R-CNN R-101 FPN</td>
+<td>1.008</td>
+<td>-</td>
+<td>0.5665</td>
+</tr>
+<tr>
+<td>Mask R-CNN X-101-32x8d FPN</td>
+<td>0.961</td>
+<td>-</td>
+<td>0.7562</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="training-memory">
+<h2>Training memory<a class="headerlink" href="#training-memory" title="Permalink to this headline">¶</a></h2>
+<p>The lower, the better</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>type</th>
+<th>Detectron (P100)</th>
+<th>mmdetection (V100)</th>
+<th>maskrcnn_benchmark (V100)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Faster R-CNN R-50 C4</td>
+<td>6.3</td>
+<td>-</td>
+<td>5.8</td>
+</tr>
+<tr>
+<td>Faster R-CNN R-50 FPN</td>
+<td>7.2</td>
+<td>4.9</td>
+<td>4.4</td>
+</tr>
+<tr>
+<td>Faster R-CNN R-101 FPN</td>
+<td>8.9</td>
+<td>-</td>
+<td>7.1</td>
+</tr>
+<tr>
+<td>Faster R-CNN X-101-32x8d FPN</td>
+<td>7.0</td>
+<td>-</td>
+<td>7.6</td>
+</tr>
+<tr>
+<td>Mask R-CNN R-50 C4</td>
+<td>6.6</td>
+<td>-</td>
+<td>5.8</td>
+</tr>
+<tr>
+<td>Mask R-CNN R-50 FPN</td>
+<td>8.6</td>
+<td>5.9</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>Mask R-CNN R-101 FPN</td>
+<td>10.2</td>
+<td>-</td>
+<td>7.9</td>
+</tr>
+<tr>
+<td>Mask R-CNN X-101-32x8d FPN</td>
+<td>7.7</td>
+<td>-</td>
+<td>7.8</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="accuracy">
+<h2>Accuracy<a class="headerlink" href="#accuracy" title="Permalink to this headline">¶</a></h2>
+<p>The higher, the better</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>type</th>
+<th>Detectron (P100)</th>
+<th>mmdetection (V100)</th>
+<th>maskrcnn_benchmark (V100)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Faster R-CNN R-50 C4</td>
+<td>34.8</td>
+<td>-</td>
+<td>34.8</td>
+</tr>
+<tr>
+<td>Faster R-CNN R-50 FPN</td>
+<td>36.7</td>
+<td>36.7</td>
+<td>36.8</td>
+</tr>
+<tr>
+<td>Faster R-CNN R-101 FPN</td>
+<td>39.4</td>
+<td>-</td>
+<td>39.1</td>
+</tr>
+<tr>
+<td>Faster R-CNN X-101-32x8d FPN</td>
+<td>41.3</td>
+<td>-</td>
+<td>41.2</td>
+</tr>
+<tr>
+<td>Mask R-CNN R-50 C4</td>
+<td>35.8 &amp; 31.4</td>
+<td>-</td>
+<td>35.6 &amp; 31.5</td>
+</tr>
+<tr>
+<td>Mask R-CNN R-50 FPN</td>
+<td>37.7 &amp; 33.9</td>
+<td>37.5 &amp; 34.4</td>
+<td>37.8 &amp; 34.2</td>
+</tr>
+<tr>
+<td>Mask R-CNN R-101 FPN</td>
+<td>40.0 &amp; 35.9</td>
+<td>-</td>
+<td>40.1 &amp; 36.1</td>
+</tr>
+<tr>
+<td>Mask R-CNN X-101-32x8d FPN</td>
+<td>42.1 &amp; 37.3</td>
+<td>-</td>
+<td>42.2 &amp; 37.8</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

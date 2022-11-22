@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TAPAS &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">TAPAS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/tapas.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="tapas">
+<h1>TAPAS<a class="headerlink" href="#tapas" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is a recently introduced model so the API hasn’t been tested extensively. There may be some bugs or slight
+breaking changes to fix them in the future.</p>
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The TAPAS model was proposed in <a class="reference external" href="https://www.aclweb.org/anthology/2020.acl-main.398">TAPAS: Weakly Supervised Table Parsing via Pre-training</a> by Jonathan Herzig, Paweł Krzysztof Nowak, Thomas Müller,
+Francesco Piccinno and Julian Martin Eisenschlos. It’s a BERT-based model specifically designed (and pre-trained) for
+answering questions about tabular data. Compared to BERT, TAPAS uses relative position embeddings and has 7 token types
+that encode tabular structure. TAPAS is pre-trained on the masked language modeling (MLM) objective on a large dataset
+comprising millions of tables from English Wikipedia and corresponding texts. For question answering, TAPAS has 2 heads
+on top: a cell selection head and an aggregation head, for (optionally) performing aggregations (such as counting or
+summing) among selected cells. TAPAS has been fine-tuned on several datasets: <a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=54253">SQA</a> (Sequential Question Answering by Microsoft), <a class="reference external" href="https://github.com/ppasupat/WikiTableQuestions">WTQ</a> (Wiki Table Questions by Stanford University) and <a class="reference external" href="https://github.com/salesforce/WikiSQL">WikiSQL</a> (by Salesforce). It achieves state-of-the-art on both SQA and WTQ, while
+having comparable performance to SOTA on WikiSQL, with a much simpler architecture.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>Answering natural language questions over tables is usually seen as a semantic parsing task. To alleviate the
+collection cost of full logical forms, one popular approach focuses on weak supervision consisting of denotations
+instead of logical forms. However, training semantic parsers from weak supervision poses difficulties, and in addition,
+the generated logical forms are only used as an intermediate step prior to retrieving the denotation. In this paper, we
+present TAPAS, an approach to question answering over tables without generating logical forms. TAPAS trains from weak
+supervision, and predicts the denotation by selecting table cells and optionally applying a corresponding aggregation
+operator to such selection. TAPAS extends BERT’s architecture to encode tables as input, initializes from an effective
+joint pre-training of text segments and tables crawled from Wikipedia, and is trained end-to-end. We experiment with
+three different semantic parsing datasets, and find that TAPAS outperforms or rivals semantic parsing models by
+improving state-of-the-art accuracy on SQA from 55.1 to 67.2 and performing on par with the state-of-the-art on WIKISQL
+and WIKITQ, but with a simpler model architecture. We additionally find that transfer learning, which is trivial in our
+setting, from WIKISQL to WIKITQ, yields 48.7 accuracy, 4.2 points above the state-of-the-art.</em></p>
+<p>In addition, the authors have further pre-trained TAPAS to recognize <strong>table entailment</strong>, by creating a balanced
+dataset of millions of automatically created training examples which are learned in an intermediate step prior to
+fine-tuning. The authors of TAPAS call this further pre-training intermediate pre-training (since TAPAS is first
+pre-trained on MLM, and then on another dataset). They found that intermediate pre-training further improves
+performance on SQA, achieving a new state-of-the-art as well as state-of-the-art on <a class="reference external" href="https://github.com/wenhuchen/Table-Fact-Checking">TabFact</a>, a large-scale dataset with 16k Wikipedia tables for table
+entailment (a binary classification task). For more details, see their follow-up paper: <a class="reference external" href="https://www.aclweb.org/anthology/2020.findings-emnlp.27/">Understanding tables with
+intermediate pre-training</a> by Julian Martin Eisenschlos,
+Syrine Krichene and Thomas Müller.</p>
+<p>The original code can be found <a class="reference external" href="https://github.com/google-research/tapas">here</a>.</p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>TAPAS is a model that uses relative position embeddings by default (restarting the position embeddings at every cell
+of the table). Note that this is something that was added after the publication of the original TAPAS paper.
+According to the authors, this usually results in a slightly better performance, and allows you to encode longer
+sequences without running out of embeddings. This is reflected in the <code class="docutils literal notranslate"><span class="pre">reset_position_index_per_cell</span></code> parameter of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TapasConfig</span></code>, which is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> by default. The default versions of the models available
+in the <a class="reference external" href="https://huggingface.co/models?search=tapas">model hub</a> all use relative position embeddings. You can still
+use the ones with absolute position embeddings by passing in an additional argument <code class="docutils literal notranslate"><span class="pre">revision=&quot;no_reset&quot;</span></code> when
+calling the <code class="docutils literal notranslate"><span class="pre">.from_pretrained()</span></code> method. Note that it’s usually advised to pad the inputs on the right rather than
+the left.</p></li>
+<li><p>TAPAS is based on BERT, so <code class="docutils literal notranslate"><span class="pre">TAPAS-base</span></code> for example corresponds to a <code class="docutils literal notranslate"><span class="pre">BERT-base</span></code> architecture. Of course,
+TAPAS-large will result in the best performance (the results reported in the paper are from TAPAS-large). Results of
+the various sized models are shown on the <a class="reference external" href="https://github.com/google-research/tapas">original Github repository</a>.</p></li>
+<li><p>TAPAS has checkpoints fine-tuned on SQA, which are capable of answering questions related to a table in a
+conversational set-up. This means that you can ask follow-up questions such as “what is his age?” related to the
+previous question. Note that the forward pass of TAPAS is a bit different in case of a conversational set-up: in that
+case, you have to feed every table-question pair one by one to the model, such that the <cite>prev_labels</cite> token type ids
+can be overwritten by the predicted <cite>labels</cite> of the model to the previous question. See “Usage” section for more
+info.</p></li>
+<li><p>TAPAS is similar to BERT and therefore relies on the masked language modeling (MLM) objective. It is therefore
+efficient at predicting masked tokens and at NLU in general, but is not optimal for text generation. Models trained
+with a causal language modeling (CLM) objective are better in that regard.</p></li>
+</ul>
+</div>
+<div class="section" id="usage-fine-tuning">
+<h2>Usage: fine-tuning<a class="headerlink" href="#usage-fine-tuning" title="Permalink to this headline">¶</a></h2>
+<p>Here we explain how you can fine-tune <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasForQuestionAnswering</span></code> on your own dataset.</p>
+<p><strong>STEP 1: Choose one of the 3 ways in which you can use TAPAS - or experiment</strong></p>
+<p>Basically, there are 3 different ways in which one can fine-tune <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasForQuestionAnswering</span></code>,
+corresponding to the different datasets on which Tapas was fine-tuned:</p>
+<ol class="arabic simple">
+<li><p>SQA: if you’re interested in asking follow-up questions related to a table, in a conversational set-up. For example
+if you first ask “what’s the name of the first actor?” then you can ask a follow-up question such as “how old is
+he?”. Here, questions do not involve any aggregation (all questions are cell selection questions).</p></li>
+<li><p>WTQ: if you’re not interested in asking questions in a conversational set-up, but rather just asking questions
+related to a table, which might involve aggregation, such as counting a number of rows, summing up cell values or
+averaging cell values. You can then for example ask “what’s the total number of goals Cristiano Ronaldo made in his
+career?”. This case is also called <strong>weak supervision</strong>, since the model itself must learn the appropriate
+aggregation operator (SUM/COUNT/AVERAGE/NONE) given only the answer to the question as supervision.</p></li>
+<li><p>WikiSQL-supervised: this dataset is based on WikiSQL with the model being given the ground truth aggregation
+operator during training. This is also called <strong>strong supervision</strong>. Here, learning the appropriate aggregation
+operator is much easier.</p></li>
+</ol>
+<p>To summarize:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 13%" />
+<col style="width: 66%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Task</strong></p></td>
+<td><p><strong>Example dataset</strong></p></td>
+<td><p><strong>Description</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Conversational</p></td>
+<td><p>SQA</p></td>
+<td><p>Conversational, only cell selection questions</p></td>
+</tr>
+<tr class="row-odd"><td><p>Weak supervision for aggregation</p></td>
+<td><p>WTQ</p></td>
+<td><p>Questions might involve aggregation, and the model must learn this given only the answer as supervision</p></td>
+</tr>
+<tr class="row-even"><td><p>Strong supervision for aggregation</p></td>
+<td><p>WikiSQL-supervised</p></td>
+<td><p>Questions might involve aggregation, and the model must learn this given the gold aggregation operator</p></td>
+</tr>
+</tbody>
+</table>
+<p>Initializing a model with a pre-trained base and randomly initialized classification heads from the model hub can be
+done as follows (be sure to have installed the <a class="reference external" href="https://github.com/rusty1s/pytorch_scatter">torch-scatter dependency</a>
+for your environment):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">TapasConfig</span><span class="p">,</span> <span class="n">TapasForQuestionAnswering</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># for example, the base sized model with default SQA configuration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;google/tapas-base&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or, the base sized model with WTQ configuration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">TapasConfig</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;google/tapas-base-finetuned-wtq&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;google/tapas-base&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or, the base sized model with WikiSQL configuration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">TapasConfig</span><span class="p">(</span><span class="s1">&#39;google-base-finetuned-wikisql-supervised&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;google/tapas-base&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Of course, you don’t necessarily have to follow one of these three ways in which TAPAS was fine-tuned. You can also
+experiment by defining any hyperparameters you want when initializing <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasConfig</span></code>, and then
+create a <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasForQuestionAnswering</span></code> based on that configuration. For example, if you have a
+dataset that has both conversational questions and questions that might involve aggregation, then you can do it this
+way. Here’s an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">TapasConfig</span><span class="p">,</span> <span class="n">TapasForQuestionAnswering</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># you can initialize the classification heads any way you want (see docs of TapasConfig)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">TapasConfig</span><span class="p">(</span><span class="n">num_aggregation_labels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">average_logits_per_cell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">select_one_column</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># initializing the pre-trained base sized model with our custom classification heads</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;google/tapas-base&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What you can also do is start from an already fine-tuned checkpoint. A note here is that the already fine-tuned
+checkpoint on WTQ has some issues due to the L2-loss which is somewhat brittle. See <a class="reference external" href="https://github.com/google-research/tapas/issues/91#issuecomment-735719340">here</a> for more info.</p>
+<p>For a list of all pre-trained and fine-tuned TAPAS checkpoints available in the HuggingFace model hub, see <a class="reference external" href="https://huggingface.co/models?search=tapas">here</a>.</p>
+<p><strong>STEP 2: Prepare your data in the SQA format</strong></p>
+<p>Second, no matter what you picked above, you should prepare your dataset in the <a class="reference external" href="https://www.microsoft.com/en-us/download/details.aspx?id=54253">SQA format</a>. This format is a TSV/CSV file with the following
+columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: optional, id of the table-question pair, for bookkeeping purposes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">annotator</span></code>: optional, id of the person who annotated the table-question pair, for bookkeeping purposes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code>: integer indicating if the question is the first, second, third,… related to the table. Only required
+in case of conversational setup (SQA). You don’t need this column in case you’re going for WTQ/WikiSQL-supervised.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">question</span></code>: string</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">table_file</span></code>: string, name of a csv file containing the tabular data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">answer_coordinates</span></code>: list of one or more tuples (each tuple being a cell coordinate, i.e. row, column pair that is
+part of the answer)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">answer_text</span></code>: list of one or more strings (each string being a cell value that is part of the answer)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aggregation_label</span></code>: index of the aggregation operator. Only required in case of strong supervision for aggregation
+(the WikiSQL-supervised case)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float_answer</span></code>: the float answer to the question, if there is one (np.nan if there isn’t). Only required in case of
+weak supervision for aggregation (such as WTQ and WikiSQL)</p></li>
+</ul>
+<p>The tables themselves should be present in a folder, each table being a separate csv file. Note that the authors of the
+TAPAS algorithm used conversion scripts with some automated logic to convert the other datasets (WTQ, WikiSQL) into the
+SQA format. The author explains this <a class="reference external" href="https://github.com/google-research/tapas/issues/50#issuecomment-705465960">here</a>. Interestingly, these conversion scripts
+are not perfect (the <code class="docutils literal notranslate"><span class="pre">answer_coordinates</span></code> and <code class="docutils literal notranslate"><span class="pre">float_answer</span></code> fields are populated based on the <code class="docutils literal notranslate"><span class="pre">answer_text</span></code>),
+meaning that WTQ and WikiSQL results could actually be improved.</p>
+<p><strong>STEP 3: Convert your data into PyTorch tensors using TapasTokenizer</strong></p>
+<p>Third, given that you’ve prepared your data in this TSV/CSV format (and corresponding CSV files containing the tabular
+data), you can then use <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasTokenizer</span></code> to convert table-question pairs into <code class="xref py py-obj docutils literal notranslate"><span class="pre">input_ids</span></code>,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">attention_mask</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">token_type_ids</span></code> and so on. Again, based on which of the three cases you picked above,
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TapasForQuestionAnswering</span></code> requires different inputs to be fine-tuned:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 72%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Task</strong></p></td>
+<td><p><strong>Required inputs</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Conversational</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">input_ids</span></code>, <code class="docutils literal notranslate"><span class="pre">attention_mask</span></code>, <code class="docutils literal notranslate"><span class="pre">token_type_ids</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Weak supervision for aggregation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">input_ids</span></code>, <code class="docutils literal notranslate"><span class="pre">attention_mask</span></code>, <code class="docutils literal notranslate"><span class="pre">token_type_ids</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">numeric_values</span></code>,
+<code class="docutils literal notranslate"><span class="pre">numeric_values_scale</span></code>, <code class="docutils literal notranslate"><span class="pre">float_answer</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Strong supervision for aggregation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">input</span> <span class="pre">ids</span></code>, <code class="docutils literal notranslate"><span class="pre">attention</span> <span class="pre">mask</span></code>, <code class="docutils literal notranslate"><span class="pre">token</span> <span class="pre">type</span> <span class="pre">ids</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">aggregation_labels</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">TapasTokenizer</span></code> creates the <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">numeric_values</span></code> and <code class="docutils literal notranslate"><span class="pre">numeric_values_scale</span></code> based on
+the <code class="docutils literal notranslate"><span class="pre">answer_coordinates</span></code> and <code class="docutils literal notranslate"><span class="pre">answer_text</span></code> columns of the TSV file. The <code class="docutils literal notranslate"><span class="pre">float_answer</span></code> and <code class="docutils literal notranslate"><span class="pre">aggregation_labels</span></code>
+are already in the TSV file of step 2. Here’s an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">TapasTokenizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;google/tapas-base&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">TapasTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Actors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Brad Pitt&quot;</span><span class="p">,</span> <span class="s2">&quot;Leonardo Di Caprio&quot;</span><span class="p">,</span> <span class="s2">&quot;George Clooney&quot;</span><span class="p">],</span> <span class="s1">&#39;Number of movies&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;87&quot;</span><span class="p">,</span> <span class="s2">&quot;53&quot;</span><span class="p">,</span> <span class="s2">&quot;69&quot;</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;What is the name of the first actor?&quot;</span><span class="p">,</span> <span class="s2">&quot;How many movies has George Clooney played in?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is the total number of movies?&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">answer_coordinates</span> <span class="o">=</span> <span class="p">[[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">answer_text</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;Brad Pitt&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;69&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;209&quot;</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">queries</span><span class="o">=</span><span class="n">queries</span><span class="p">,</span> <span class="n">answer_coordinates</span><span class="o">=</span><span class="n">answer_coordinates</span><span class="p">,</span> <span class="n">answer_text</span><span class="o">=</span><span class="n">answer_text</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;max_length&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span>
+<span class="go">{&#39;input_ids&#39;: tensor([[ ... ]]), &#39;attention_mask&#39;: tensor([[...]]), &#39;token_type_ids&#39;: tensor([[[...]]]),</span>
+<span class="go">&#39;numeric_values&#39;: tensor([[ ... ]]), &#39;numeric_values_scale: tensor([[ ... ]]), labels: tensor([[ ... ]])}</span>
+</pre></div>
+</div>
+<p>Note that <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasTokenizer</span></code> expects the data of the table to be <strong>text-only</strong>. You can use
+<code class="docutils literal notranslate"><span class="pre">.astype(str)</span></code> on a dataframe to turn it into text-only data. Of course, this only shows how to encode a single
+training example. It is advised to create a PyTorch dataset and a corresponding dataloader:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tsv_path</span> <span class="o">=</span> <span class="s2">&quot;your_path_to_the_tsv_file&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">table_csv_path</span> <span class="o">=</span> <span class="s2">&quot;your_path_to_a_directory_containing_all_csv_files&quot;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TableDataset</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="gp">... </span>        <span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">table_csv_path</span> <span class="o">+</span> <span class="n">item</span><span class="o">.</span><span class="n">table_file</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="c1"># be sure to make your table data text only</span>
+<span class="gp">... </span>        <span class="n">encoding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">queries</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">question</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">answer_coordinates</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">answer_coordinates</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">answer_text</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">answer_text</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;max_length&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                  <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span>        <span class="c1"># remove the batch dimension which the tokenizer adds by default</span>
+<span class="gp">... </span>        <span class="n">encoding</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">val</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">encoding</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="gp">... </span>        <span class="c1"># add the float_answer which is also required (weak supervision for aggregation case)</span>
+<span class="gp">... </span>        <span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;float_answer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">float_answer</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">encoding</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>       <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">tsv_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TableDataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that here, we encode each table-question pair independently. This is fine as long as your dataset is <strong>not
+conversational</strong>. In case your dataset involves conversational questions (such as in SQA), then you should first group
+together the <code class="docutils literal notranslate"><span class="pre">queries</span></code>, <code class="docutils literal notranslate"><span class="pre">answer_coordinates</span></code> and <code class="docutils literal notranslate"><span class="pre">answer_text</span></code> per table (in the order of their <code class="docutils literal notranslate"><span class="pre">position</span></code>
+index) and batch encode each table with its questions. This will make sure that the <code class="docutils literal notranslate"><span class="pre">prev_labels</span></code> token types (see
+docs of <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasTokenizer</span></code>) are set correctly. See <a class="reference external" href="https://github.com/NielsRogge/Transformers-Tutorials/blob/master/TAPAS/Fine_tuning_TapasForQuestionAnswering_on_SQA.ipynb">this notebook</a>
+for more info.</p>
+<p><strong>STEP 4: Train (fine-tune) TapasForQuestionAnswering</strong></p>
+<p>You can then fine-tune <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasForQuestionAnswering</span></code> using native PyTorch as follows (shown here for
+the weak supervision for aggregation case):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">TapasConfig</span><span class="p">,</span> <span class="n">TapasForQuestionAnswering</span><span class="p">,</span> <span class="n">AdamW</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># this is the default WTQ configuration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">TapasConfig</span><span class="p">(</span>
+<span class="gp">... </span>           <span class="n">num_aggregation_labels</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">use_answer_as_supervision</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">answer_loss_cutoff</span> <span class="o">=</span> <span class="mf">0.664694</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">cell_selection_preference</span> <span class="o">=</span> <span class="mf">0.207951</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">huber_loss_delta</span> <span class="o">=</span> <span class="mf">0.121194</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">init_cell_selection_weights_to_zero</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">select_one_column</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">allow_empty_column_selection</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">temperature</span> <span class="o">=</span> <span class="mf">0.0352513</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;google/tapas-base&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">AdamW</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">5e-5</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># loop over the dataset multiple times</span>
+<span class="gp">... </span>   <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c1"># get the inputs;</span>
+<span class="gp">... </span>        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">]</span>
+<span class="gp">... </span>        <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;attention_mask&quot;</span><span class="p">]</span>
+<span class="gp">... </span>        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;token_type_ids&quot;</span><span class="p">]</span>
+<span class="gp">... </span>        <span class="n">labels</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span>
+<span class="gp">... </span>        <span class="n">numeric_values</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;numeric_values&quot;</span><span class="p">]</span>
+<span class="gp">... </span>        <span class="n">numeric_values_scale</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;numeric_values_scale&quot;</span><span class="p">]</span>
+<span class="gp">... </span>        <span class="n">float_answer</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;float_answer&quot;</span><span class="p">]</span>
+
+<span class="gp">... </span>        <span class="c1"># zero the parameter gradients</span>
+<span class="gp">... </span>        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+<span class="gp">... </span>        <span class="c1"># forward + backward + optimize</span>
+<span class="gp">... </span>        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="o">=</span><span class="n">attention_mask</span><span class="p">,</span> <span class="n">token_type_ids</span><span class="o">=</span><span class="n">token_type_ids</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">numeric_values</span><span class="o">=</span><span class="n">numeric_values</span><span class="p">,</span> <span class="n">numeric_values_scale</span><span class="o">=</span><span class="n">numeric_values_scale</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="n">float_answer</span><span class="o">=</span><span class="n">float_answer</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">loss</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">loss</span>
+<span class="gp">... </span>        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="gp">... </span>        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage-inference">
+<h2>Usage: inference<a class="headerlink" href="#usage-inference" title="Permalink to this headline">¶</a></h2>
+<p>Here we explain how you can use <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasForQuestionAnswering</span></code> for inference (i.e. making predictions
+on new data). For inference, only <code class="docutils literal notranslate"><span class="pre">input_ids</span></code>, <code class="docutils literal notranslate"><span class="pre">attention_mask</span></code> and <code class="docutils literal notranslate"><span class="pre">token_type_ids</span></code> (which you can obtain using
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TapasTokenizer</span></code>) have to be provided to the model to obtain the logits. Next, you can use the
+handy <code class="docutils literal notranslate"><span class="pre">convert_logits_to_predictions</span></code> method of <code class="xref py py-class docutils literal notranslate"><span class="pre">TapasTokenizer</span></code> to convert these into predicted
+coordinates and optional aggregation indices.</p>
+<p>However, note that inference is <strong>different</strong> depending on whether or not the setup is conversational. In a
+non-conversational set-up, inference can be done in parallel on all table-question pairs of a batch. Here’s an example
+of that:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">TapasTokenizer</span><span class="p">,</span> <span class="n">TapasForQuestionAnswering</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_name</span> <span class="o">=</span> <span class="s1">&#39;google/tapas-base-finetuned-wtq&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">TapasTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Actors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Brad Pitt&quot;</span><span class="p">,</span> <span class="s2">&quot;Leonardo Di Caprio&quot;</span><span class="p">,</span> <span class="s2">&quot;George Clooney&quot;</span><span class="p">],</span> <span class="s1">&#39;Number of movies&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;87&quot;</span><span class="p">,</span> <span class="s2">&quot;53&quot;</span><span class="p">,</span> <span class="s2">&quot;69&quot;</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;What is the name of the first actor?&quot;</span><span class="p">,</span> <span class="s2">&quot;How many movies has George Clooney played in?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is the total number of movies?&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">queries</span><span class="o">=</span><span class="n">queries</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;max_length&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">predicted_answer_coordinates</span><span class="p">,</span> <span class="n">predicted_aggregation_indices</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">convert_logits_to_predictions</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">inputs</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">outputs</span><span class="o">.</span><span class="n">logits</span><span class="o">.</span><span class="n">detach</span><span class="p">(),</span>
+<span class="gp">... </span>        <span class="n">outputs</span><span class="o">.</span><span class="n">logits_aggregation</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<span class="gp">... </span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># let&#39;s print out the results:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">id2aggregation</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;SUM&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;AVERAGE&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="s2">&quot;COUNT&quot;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aggregation_predictions_string</span> <span class="o">=</span> <span class="p">[</span><span class="n">id2aggregation</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">predicted_aggregation_indices</span><span class="p">]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">answers</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">coordinates</span> <span class="ow">in</span> <span class="n">predicted_answer_coordinates</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="c1"># only a single cell:</span>
+<span class="gp">... </span>    <span class="n">answers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">... </span>  <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="c1"># multiple cells</span>
+<span class="gp">... </span>    <span class="n">cell_values</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">coordinate</span> <span class="ow">in</span> <span class="n">coordinates</span><span class="p">:</span>
+<span class="gp">... </span>       <span class="n">cell_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="n">coordinate</span><span class="p">])</span>
+<span class="gp">... </span>    <span class="n">answers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cell_values</span><span class="p">))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">display</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">query</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="n">predicted_agg</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">queries</span><span class="p">,</span> <span class="n">answers</span><span class="p">,</span> <span class="n">aggregation_predictions_string</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="k">if</span> <span class="n">predicted_agg</span> <span class="o">==</span> <span class="s2">&quot;NONE&quot;</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted answer: &quot;</span> <span class="o">+</span> <span class="n">answer</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted answer: &quot;</span> <span class="o">+</span> <span class="n">predicted_agg</span> <span class="o">+</span> <span class="s2">&quot; &gt; &quot;</span> <span class="o">+</span> <span class="n">answer</span><span class="p">)</span>
+<span class="go">What is the name of the first actor?</span>
+<span class="go">Predicted answer: Brad Pitt</span>
+<span class="go">How many movies has George Clooney played in?</span>
+<span class="go">Predicted answer: COUNT &gt; 69</span>
+<span class="go">What is the total number of movies?</span>
+<span class="go">Predicted answer: SUM &gt; 87, 53, 69</span>
+</pre></div>
+</div>
+<p>In case of a conversational set-up, then each table-question pair must be provided <strong>sequentially</strong> to the model, such
+that the <code class="docutils literal notranslate"><span class="pre">prev_labels</span></code> token types can be overwritten by the predicted <code class="docutils literal notranslate"><span class="pre">labels</span></code> of the previous table-question
+pair. Again, more info can be found in <a class="reference external" href="https://github.com/NielsRogge/Transformers-Tutorials/blob/master/TAPAS/Fine_tuning_TapasForQuestionAnswering_on_SQA.ipynb">this notebook</a>.</p>
+</div>
+<div class="section" id="tapas-specific-outputs">
+<h2>Tapas specific outputs<a class="headerlink" href="#tapas-specific-outputs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tapasconfig">
+<h2>TapasConfig<a class="headerlink" href="#tapasconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tapastokenizer">
+<h2>TapasTokenizer<a class="headerlink" href="#tapastokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tapasmodel">
+<h2>TapasModel<a class="headerlink" href="#tapasmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tapasformaskedlm">
+<h2>TapasForMaskedLM<a class="headerlink" href="#tapasformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tapasforsequenceclassification">
+<h2>TapasForSequenceClassification<a class="headerlink" href="#tapasforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tapasforquestionanswering">
+<h2>TapasForQuestionAnswering<a class="headerlink" href="#tapasforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

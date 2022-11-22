@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Problem &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">1. Problem</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/object_detection/maskrcnn/quantization/ptq/fx/MASKRCNN_README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="problem">
+<h1>1. Problem<a class="headerlink" href="#problem" title="Permalink to this headline">¶</a></h1>
+<p>Object detection and segmentation. Metrics are mask and box mAP.</p>
+</div>
+<div class="section" id="directions">
+<h1>2. Directions<a class="headerlink" href="#directions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="steps-to-configure-machine">
+<h2>Steps to configure machine<a class="headerlink" href="#steps-to-configure-machine" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>Checkout the MLPerf repository</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">mlperf</span>
+<span class="n">cd</span> <span class="n">mlperf</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">mlperf</span><span class="o">/</span><span class="n">training</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Install CUDA and Docker</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">training</span><span class="o">/</span><span class="n">install_cuda_docker</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Build the docker image for the object detection task</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">training</span><span class="o">/</span><span class="n">object_detection</span><span class="o">/</span>
+<span class="n">nvidia</span><span class="o">-</span><span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">t</span> <span class="n">mlperf</span><span class="o">/</span><span class="n">object_detection</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Run docker container and install code</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nvidia</span><span class="o">-</span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">v</span> <span class="o">.</span><span class="p">:</span><span class="o">/</span><span class="n">workspace</span> <span class="o">-</span><span class="n">t</span> <span class="o">-</span><span class="n">i</span> <span class="o">--</span><span class="n">rm</span> <span class="o">--</span><span class="n">ipc</span><span class="o">=</span><span class="n">host</span> <span class="n">mlperf</span><span class="o">/</span><span class="n">object_detection</span> \
+    <span class="s2">&quot;cd mlperf/training/object_detection &amp;&amp; ./install.sh&quot;</span>
+</pre></div>
+</div>
+<p>Now exit the docker container (Ctrl-D) to get back to your host.</p>
+</div>
+<div class="section" id="steps-to-download-data">
+<h2>Steps to download data<a class="headerlink" href="#steps-to-download-data" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># From training/object_detection/</span>
+<span class="n">source</span> <span class="n">download_dataset</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="steps-to-run-benchmark">
+<h2>Steps to run benchmark.<a class="headerlink" href="#steps-to-run-benchmark" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nvidia</span><span class="o">-</span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">v</span> <span class="o">.</span><span class="p">:</span><span class="o">/</span><span class="n">workspace</span> <span class="o">-</span><span class="n">t</span> <span class="o">-</span><span class="n">i</span> <span class="o">--</span><span class="n">rm</span> <span class="o">--</span><span class="n">ipc</span><span class="o">=</span><span class="n">host</span> <span class="n">mlperf</span><span class="o">/</span><span class="n">object_detection</span> \
+    <span class="s2">&quot;cd mlperf/training/object_detection &amp;&amp; ./run_and_time.sh&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="dataset-environment">
+<h1>3. Dataset/Environment<a class="headerlink" href="#dataset-environment" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="publication-attribution">
+<h2>Publication/Attribution<a class="headerlink" href="#publication-attribution" title="Permalink to this headline">¶</a></h2>
+<p>Microsoft COCO: Common Objects in Context</p>
+</div>
+<div class="section" id="data-preprocessing">
+<h2>Data preprocessing<a class="headerlink" href="#data-preprocessing" title="Permalink to this headline">¶</a></h2>
+<p>Only horizontal flips are allowed.</p>
+</div>
+<div class="section" id="training-and-test-data-separation">
+<h2>Training and test data separation<a class="headerlink" href="#training-and-test-data-separation" title="Permalink to this headline">¶</a></h2>
+<p>As provided by MS-COCO (2017 version).</p>
+</div>
+<div class="section" id="training-data-order">
+<h2>Training data order<a class="headerlink" href="#training-data-order" title="Permalink to this headline">¶</a></h2>
+<p>Randomly.</p>
+</div>
+<div class="section" id="test-data-order">
+<h2>Test data order<a class="headerlink" href="#test-data-order" title="Permalink to this headline">¶</a></h2>
+<p>Any order.</p>
+</div>
+</div>
+<div class="section" id="model">
+<h1>4. Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>Publication/Attribution<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>He, Kaiming, et al. “Mask r-cnn.” Computer Vision (ICCV), 2017 IEEE International Conference on.
+IEEE, 2017.</p>
+<p>We use a version of Mask R-CNN with a ResNet50 backbone.</p>
+</div>
+<div class="section" id="list-of-layers">
+<h2>List of layers<a class="headerlink" href="#list-of-layers" title="Permalink to this headline">¶</a></h2>
+<p>Running the timing script will display a list of layers.</p>
+</div>
+<div class="section" id="weight-and-bias-initialization">
+<h2>Weight and bias initialization<a class="headerlink" href="#weight-and-bias-initialization" title="Permalink to this headline">¶</a></h2>
+<p>The ResNet50 base must be loaded from the provided weights. They may be quantized.</p>
+</div>
+<div class="section" id="loss-function">
+<h2>Loss function<a class="headerlink" href="#loss-function" title="Permalink to this headline">¶</a></h2>
+<p>Multi-task loss (classification, box, mask). Described in the Mask R-CNN paper.</p>
+<p>Classification: Smooth L1 loss</p>
+<p>Box: Log loss for true class.</p>
+<p>Mask: per-pixel sigmoid, average binary cross-entropy loss.</p>
+</div>
+<div class="section" id="optimizer">
+<h2>Optimizer<a class="headerlink" href="#optimizer" title="Permalink to this headline">¶</a></h2>
+<p>Momentum SGD. Weight decay of 0.0001, momentum of 0.9.</p>
+</div>
+</div>
+<div class="section" id="quality">
+<h1>5. Quality<a class="headerlink" href="#quality" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quality-metric">
+<h2>Quality metric<a class="headerlink" href="#quality-metric" title="Permalink to this headline">¶</a></h2>
+<p>As Mask R-CNN can provide both boxes and masks, we evaluate on both box and mask mAP.</p>
+</div>
+<div class="section" id="quality-target">
+<h2>Quality target<a class="headerlink" href="#quality-target" title="Permalink to this headline">¶</a></h2>
+<p>Box mAP of 0.377, mask mAP of 0.339</p>
+</div>
+<div class="section" id="evaluation-frequency">
+<h2>Evaluation frequency<a class="headerlink" href="#evaluation-frequency" title="Permalink to this headline">¶</a></h2>
+<p>Once per epoch, 118k.</p>
+</div>
+<div class="section" id="evaluation-thoroughness">
+<h2>Evaluation thoroughness<a class="headerlink" href="#evaluation-thoroughness" title="Permalink to this headline">¶</a></h2>
+<p>Evaluate over the entire validation set. Use the official COCO API to compute mAP.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

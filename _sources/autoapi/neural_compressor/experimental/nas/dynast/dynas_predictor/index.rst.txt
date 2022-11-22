@@ -1,8 +1,0 @@
-:orphan:
-
-:py:mod:`neural_compressor.experimental.nas.dynast.dynas_predictor`
-===================================================================
-
-.. py:module:: neural_compressor.experimental.nas.dynast.dynas_predictor
-
-

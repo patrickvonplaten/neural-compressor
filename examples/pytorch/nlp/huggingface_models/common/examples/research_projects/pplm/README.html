@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plug and Play Language Models: a Simple Approach to Controlled Text Generation &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Plug and Play Language Models: a Simple Approach to Controlled Text Generation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/pplm/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="plug-and-play-language-models-a-simple-approach-to-controlled-text-generation">
+<h1>Plug and Play Language Models: a Simple Approach to Controlled Text Generation<a class="headerlink" href="#plug-and-play-language-models-a-simple-approach-to-controlled-text-generation" title="Permalink to this headline">¶</a></h1>
+<p>Authors: <a class="reference external" href="https://dathath.github.io/">Sumanth Dathathri</a>, <a class="reference external" href="https://andreamad8.github.io/">Andrea Madotto</a>, Janice Lan, Jane Hung, Eric Frank, <a class="reference external" href="https://w4nderlu.st/">Piero Molino</a>, <a class="reference external" href="http://yosinski.com/">Jason Yosinski</a>, and <a class="reference external" href="http://www.rosanneliu.com/">Rosanne Liu</a></p>
+<p>This folder contains the original code used to run the Plug and Play Language Model (PPLM).</p>
+<p>Paper link: https://arxiv.org/abs/1912.02164</p>
+<p>Blog link: https://eng.uber.com/pplm</p>
+<p>Please check out the repo under uber-research for more information: https://github.com/uber-research/PPLM</p>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/huggingface/transformers <span class="o">&amp;&amp;</span> <span class="nb">cd</span> transformers
+pip install .
+pip install nltk torchtext <span class="c1"># additional requirements.</span>
+<span class="nb">cd</span> examples/text-generation/pplm
+</pre></div>
+</div>
+</div>
+<div class="section" id="pplm-bow">
+<h2>PPLM-BoW<a class="headerlink" href="#pplm-bow" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="example-command-for-bag-of-words-control">
+<h3>Example command for bag-of-words control<a class="headerlink" href="#example-command-for-bag-of-words-control" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_pplm.py -B military --cond_text <span class="s2">&quot;The potato&quot;</span> --length <span class="m">50</span> --gamma <span class="m">1</span>.5 --num_iterations <span class="m">3</span> --num_samples <span class="m">10</span> --stepsize <span class="m">0</span>.03 --window_length <span class="m">5</span> --kl_scale <span class="m">0</span>.01 --gm_scale <span class="m">0</span>.99 --colorama --sample
+</pre></div>
+</div>
+</div>
+<div class="section" id="tuning-hyperparameters-for-bag-of-words-control">
+<h3>Tuning hyperparameters for bag-of-words control<a class="headerlink" href="#tuning-hyperparameters-for-bag-of-words-control" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>Increase <code class="docutils literal notranslate"><span class="pre">--stepsize</span></code> to intensify topic control, and decrease its value to soften the control. <code class="docutils literal notranslate"><span class="pre">--stepsize</span> <span class="pre">0</span></code> recovers the original uncontrolled GPT-2 model.</p></li>
+<li><p>If the language being generated is repetitive (For e.g. “science science experiment experiment”), there are several options to consider: </br>
+a) Reduce the <code class="docutils literal notranslate"><span class="pre">--stepsize</span></code> </br>
+b) Increase <code class="docutils literal notranslate"><span class="pre">--kl_scale</span></code> (the KL-loss coefficient) or decrease <code class="docutils literal notranslate"><span class="pre">--gm_scale</span></code> (the gm-scaling term) </br>
+c) Add <code class="docutils literal notranslate"><span class="pre">--grad-length</span> <span class="pre">xx</span></code> where xx is an (integer &lt;= length, e.g. <code class="docutils literal notranslate"><span class="pre">--grad-length</span> <span class="pre">30</span></code>).</br></p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="pplm-discrim">
+<h2>PPLM-Discrim<a class="headerlink" href="#pplm-discrim" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="example-command-for-discriminator-based-sentiment-control">
+<h3>Example command for discriminator based sentiment control<a class="headerlink" href="#example-command-for-discriminator-based-sentiment-control" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_pplm.py -D sentiment --class_label <span class="m">2</span> --cond_text <span class="s2">&quot;My dog died&quot;</span> --length <span class="m">50</span> --gamma <span class="m">1</span>.0 --num_iterations <span class="m">10</span> --num_samples <span class="m">10</span> --stepsize <span class="m">0</span>.04 --kl_scale <span class="m">0</span>.01 --gm_scale <span class="m">0</span>.95 --sample
+</pre></div>
+</div>
+</div>
+<div class="section" id="tuning-hyperparameters-for-discriminator-control">
+<h3>Tuning hyperparameters for discriminator control<a class="headerlink" href="#tuning-hyperparameters-for-discriminator-control" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>Increase <code class="docutils literal notranslate"><span class="pre">--stepsize</span></code> to intensify topic control, and decrease its value to soften the control. <code class="docutils literal notranslate"><span class="pre">--stepsize</span> <span class="pre">0</span></code> recovers the original uncontrolled GPT-2 model.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">--class_label</span> <span class="pre">3</span></code> for negative, and <code class="docutils literal notranslate"><span class="pre">--class_label</span> <span class="pre">2</span></code> for positive</p></li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

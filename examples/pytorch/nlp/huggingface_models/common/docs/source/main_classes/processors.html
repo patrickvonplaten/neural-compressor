@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Processors &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Processors</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/main_classes/processors.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="processors">
+<h1>Processors<a class="headerlink" href="#processors" title="Permalink to this headline">¶</a></h1>
+<p>This library includes processors for several traditional tasks. These processors can be used to process a dataset into
+examples that can be fed to a model.</p>
+<div class="section" id="id1">
+<h2>Processors<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>All processors follow the same architecture which is that of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">DataProcessor</span></code>. The processor returns a list of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">InputExample</span></code>. These
+<code class="xref py py-class docutils literal notranslate"><span class="pre">InputExample</span></code> can be converted to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">InputFeatures</span></code> in order to be fed to the model.</p>
+</div>
+<div class="section" id="glue">
+<h2>GLUE<a class="headerlink" href="#glue" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://gluebenchmark.com/">General Language Understanding Evaluation (GLUE)</a> is a benchmark that evaluates the
+performance of models across a diverse set of existing NLU tasks. It was released together with the paper <a class="reference external" href="https://openreview.net/pdf?id=rJ4km2R5t7">GLUE: A
+multi-task benchmark and analysis platform for natural language understanding</a></p>
+<p>This library hosts a total of 10 processors for the following tasks: MRPC, MNLI, MNLI (mismatched), CoLA, SST2, STSB,
+QQP, QNLI, RTE and WNLI.</p>
+<p>Those processors are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MrpcProcessor</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MnliProcessor</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MnliMismatchedProcessor</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Sst2Processor</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">StsbProcessor</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">QqpProcessor</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">QnliProcessor</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RteProcessor</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">WnliProcessor</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>Additionally, the following method can be used to load values from a data file and convert them to a list of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">InputExample</span></code>.</p>
+<div class="section" id="example-usage">
+<h3>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h3>
+<p>An example using these processors is given in the <a class="reference external" href="https://github.com/huggingface/pytorch-transformers/blob/master/examples/text-classification/run_glue.py">run_glue.py</a> script.</p>
+</div>
+</div>
+<div class="section" id="xnli">
+<h2>XNLI<a class="headerlink" href="#xnli" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.nyu.edu/projects/bowman/xnli/">The Cross-Lingual NLI Corpus (XNLI)</a> is a benchmark that evaluates the
+quality of cross-lingual text representations. XNLI is crowd-sourced dataset based on <cite>MultiNLI
+&lt;http://www.nyu.edu/projects/bowman/multinli/&gt;</cite>: pairs of text are labeled with textual entailment annotations for 15
+different languages (including both high-resource language such as English and low-resource languages such as Swahili).</p>
+<p>It was released together with the paper <a class="reference external" href="https://arxiv.org/abs/1809.05053">XNLI: Evaluating Cross-lingual Sentence Representations</a></p>
+<p>This library hosts the processor to load the XNLI data:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">XnliProcessor</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>Please note that since the gold labels are available on the test set, evaluation is performed on the test set.</p>
+<p>An example using these processors is given in the <a class="reference external" href="https://github.com/huggingface/pytorch-transformers/blob/master/examples/text-classification/run_xnli.py">run_xnli.py</a> script.</p>
+</div>
+<div class="section" id="squad">
+<h2>SQuAD<a class="headerlink" href="#squad" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://rajpurkar.github.io/SQuAD-explorer//">The Stanford Question Answering Dataset (SQuAD)</a> is a benchmark that
+evaluates the performance of models on question answering. Two versions are available, v1.1 and v2.0. The first version
+(v1.1) was released together with the paper <a class="reference external" href="https://arxiv.org/abs/1606.05250">SQuAD: 100,000+ Questions for Machine Comprehension of Text</a>. The second version (v2.0) was released alongside the paper <a class="reference external" href="https://arxiv.org/abs/1806.03822">Know What You Don’t
+Know: Unanswerable Questions for SQuAD</a>.</p>
+<p>This library hosts a processor for each of the two versions:</p>
+<div class="section" id="id2">
+<h3>Processors<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Those processors are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SquadV1Processor</span></code></p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SquadV2Processor</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>They both inherit from the abstract class <code class="xref py py-class docutils literal notranslate"><span class="pre">SquadProcessor</span></code></p>
+<p>Additionally, the following method can be used to convert SQuAD examples into
+<code class="xref py py-class docutils literal notranslate"><span class="pre">SquadFeatures</span></code> that can be used as model inputs.</p>
+<p>These processors as well as the aforementionned method can be used with files containing the data as well as with the
+<cite>tensorflow_datasets</cite> package. Examples are given below.</p>
+</div>
+<div class="section" id="id3">
+<h3>Example usage<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Here is an example using the processors as well as the conversion method using data files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loading a V2 processor</span>
+<span class="n">processor</span> <span class="o">=</span> <span class="n">SquadV2Processor</span><span class="p">()</span>
+<span class="n">examples</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">get_dev_examples</span><span class="p">(</span><span class="n">squad_v2_data_dir</span><span class="p">)</span>
+
+<span class="c1"># Loading a V1 processor</span>
+<span class="n">processor</span> <span class="o">=</span> <span class="n">SquadV1Processor</span><span class="p">()</span>
+<span class="n">examples</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">get_dev_examples</span><span class="p">(</span><span class="n">squad_v1_data_dir</span><span class="p">)</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="n">squad_convert_examples_to_features</span><span class="p">(</span>
+    <span class="n">examples</span><span class="o">=</span><span class="n">examples</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">max_seq_length</span><span class="o">=</span><span class="n">max_seq_length</span><span class="p">,</span>
+    <span class="n">doc_stride</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">doc_stride</span><span class="p">,</span>
+    <span class="n">max_query_length</span><span class="o">=</span><span class="n">max_query_length</span><span class="p">,</span>
+    <span class="n">is_training</span><span class="o">=</span><span class="ow">not</span> <span class="n">evaluate</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Using <cite>tensorflow_datasets</cite> is as easy as using a data file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># tensorflow_datasets only handle Squad V1.</span>
+<span class="n">tfds_examples</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;squad&quot;</span><span class="p">)</span>
+<span class="n">examples</span> <span class="o">=</span> <span class="n">SquadV1Processor</span><span class="p">()</span><span class="o">.</span><span class="n">get_examples_from_dataset</span><span class="p">(</span><span class="n">tfds_examples</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="n">evaluate</span><span class="p">)</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="n">squad_convert_examples_to_features</span><span class="p">(</span>
+    <span class="n">examples</span><span class="o">=</span><span class="n">examples</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">max_seq_length</span><span class="o">=</span><span class="n">max_seq_length</span><span class="p">,</span>
+    <span class="n">doc_stride</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">doc_stride</span><span class="p">,</span>
+    <span class="n">max_query_length</span><span class="o">=</span><span class="n">max_query_length</span><span class="p">,</span>
+    <span class="n">is_training</span><span class="o">=</span><span class="ow">not</span> <span class="n">evaluate</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Another example using these processors is given in the <a href="#id4"><span class="problematic" id="id5">:prefix_link:`run_squad.py
+&lt;examples/question-answering/run_squad.py&gt;`</span></a> script.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

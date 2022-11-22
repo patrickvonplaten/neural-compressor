@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distil* &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Distil*</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/distillation/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="distil">
+<h1>Distil*<a class="headerlink" href="#distil" title="Permalink to this headline">¶</a></h1>
+<p>Author: &#64;VictorSanh</p>
+<p>This folder contains the original code used to train Distil* as well as examples showcasing how to use DistilBERT, DistilRoBERTa and DistilGPT2.</p>
+<p><strong>January 20, 2020 - Bug fixing</strong> We have recently discovered and fixed <a class="reference external" href="https://github.com/huggingface/transformers/commit/48cbf267c988b56c71a2380f748a3e6092ccaed3">a bug</a> in the evaluation of our <code class="docutils literal notranslate"><span class="pre">run_*.py</span></code> scripts that caused the reported metrics to be over-estimated on average. We have updated all the metrics with the latest runs.</p>
+<p><strong>December 6, 2019 - Update</strong> We release <strong>DistilmBERT</strong>: 92% of <code class="docutils literal notranslate"><span class="pre">bert-base-multilingual-cased</span></code> on XNLI. The model supports 104 different languages listed <a class="reference external" href="https://github.com/google-research/bert/blob/master/multilingual.md#list-of-languages">here</a>.</p>
+<p><strong>November 19, 2019 - Update</strong> We release German <strong>DistilBERT</strong>: 98.8% of <code class="docutils literal notranslate"><span class="pre">bert-base-german-dbmdz-cased</span></code> on NER tasks.</p>
+<p><strong>October 23, 2019 - Update</strong> We release <strong>DistilRoBERTa</strong>: 95% of <code class="docutils literal notranslate"><span class="pre">RoBERTa-base</span></code>’s performance on GLUE, twice as fast as RoBERTa while being 35% smaller.</p>
+<p><strong>October 3, 2019 - Update</strong> We release our <a class="reference external" href="https://arxiv.org/abs/1910.01108">NeurIPS workshop paper</a> explaining our approach on <strong>DistilBERT</strong>. It includes updated results and further experiments. We applied the same method to GPT2 and release the weights of <strong>DistilGPT2</strong>. DistilGPT2 is two times faster and 33% smaller than GPT2. <strong>The paper supersedes our <a class="reference external" href="https://medium.com/huggingface/distilbert-8cf3380435b5">previous blogpost</a> with a different distillation loss and better performances. Please use the paper as a reference when comparing/reporting results on DistilBERT.</strong></p>
+<p><strong>September 19, 2019 - Update:</strong> We fixed bugs in the code and released an updated version of the weights trained with a modification of the distillation loss. DistilBERT now reaches 99% of <code class="docutils literal notranslate"><span class="pre">BERT-base</span></code>’s performance on GLUE, and 86.9 F1 score on SQuAD v1.1 dev set (compared to 88.5 for <code class="docutils literal notranslate"><span class="pre">BERT-base</span></code>). We will publish a formal write-up of our approach in the near future!</p>
+<div class="section" id="what-is-distil">
+<h2>What is Distil*<a class="headerlink" href="#what-is-distil" title="Permalink to this headline">¶</a></h2>
+<p>Distil* is a class of compressed models that started with DistilBERT. DistilBERT stands for Distilled-BERT. DistilBERT is a small, fast, cheap and light Transformer model based on Bert architecture. It has 40% less parameters than <code class="docutils literal notranslate"><span class="pre">bert-base-uncased</span></code>, runs 60% faster while preserving 97% of BERT’s performances as measured on the GLUE language understanding benchmark. DistilBERT is trained using knowledge distillation, a technique to compress a large model called the teacher into a smaller model called the student. By distillating Bert, we obtain a smaller Transformer model that bears a lot of similarities with the original BERT model while being lighter, smaller and faster to run. DistilBERT is thus an interesting option to put large-scaled trained Transformer model into production.</p>
+<p>We have applied the same method to other Transformer architectures and released the weights:</p>
+<ul class="simple">
+<li><p>GPT2: on the <a class="reference external" href="https://blog.einstein.ai/the-wikitext-long-term-dependency-language-modeling-dataset/">WikiText-103</a> benchmark, GPT2 reaches a perplexity on the test set of 16.3 compared to 21.1 for <strong>DistilGPT2</strong> (after fine-tuning on the train set).</p></li>
+<li><p>RoBERTa: <strong>DistilRoBERTa</strong> reaches 95% of <code class="docutils literal notranslate"><span class="pre">RoBERTa-base</span></code>’s performance on GLUE while being twice faster and 35% smaller.</p></li>
+<li><p>German BERT: <strong>German DistilBERT</strong> reaches 99% of <code class="docutils literal notranslate"><span class="pre">bert-base-german-dbmdz-cased</span></code>’s performance on German NER (CoNLL-2003).</p></li>
+<li><p>Multilingual BERT: <strong>DistilmBERT</strong> reaches 92% of Multilingual BERT’s performance on XNLI while being twice faster and 25% smaller. The model supports 104 languages listed <a class="reference external" href="https://github.com/google-research/bert/blob/master/multilingual.md#list-of-languages">here</a>.</p></li>
+</ul>
+<p>For more information on DistilBERT, please refer to our <a class="reference external" href="https://arxiv.org/abs/1910.01108">NeurIPS workshop paper</a>.</p>
+<p>Here are the results on the dev sets of GLUE:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th style="text-align: center;">Model</th>
+<th style="text-align: center;">Macro-score</th>
+<th style="text-align: center;">CoLA</th>
+<th style="text-align: center;">MNLI</th>
+<th style="text-align: center;">MRPC</th>
+<th style="text-align: center;">QNLI</th>
+<th style="text-align: center;">QQP</th>
+<th style="text-align: center;">RTE</th>
+<th style="text-align: center;">SST-2</th>
+<th style="text-align: center;">STS-B</th>
+<th style="text-align: center;">WNLI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">BERT-base-uncased</td>
+<td style="text-align: center;"><strong>79.5</strong></td>
+<td style="text-align: center;">56.3</td>
+<td style="text-align: center;">84.7</td>
+<td style="text-align: center;">88.6</td>
+<td style="text-align: center;">91.8</td>
+<td style="text-align: center;">89.6</td>
+<td style="text-align: center;">69.3</td>
+<td style="text-align: center;">92.7</td>
+<td style="text-align: center;">89.0</td>
+<td style="text-align: center;">53.5</td>
+</tr>
+<tr>
+<td style="text-align: center;">DistilBERT-base-uncased</td>
+<td style="text-align: center;"><strong>77.0</strong></td>
+<td style="text-align: center;">51.3</td>
+<td style="text-align: center;">82.1</td>
+<td style="text-align: center;">87.5</td>
+<td style="text-align: center;">89.2</td>
+<td style="text-align: center;">88.5</td>
+<td style="text-align: center;">59.9</td>
+<td style="text-align: center;">91.3</td>
+<td style="text-align: center;">86.9</td>
+<td style="text-align: center;">56.3</td>
+</tr>
+<tr>
+<td style="text-align: center;">BERT-base-cased</td>
+<td style="text-align: center;"><strong>78.2</strong></td>
+<td style="text-align: center;">58.2</td>
+<td style="text-align: center;">83.9</td>
+<td style="text-align: center;">87.8</td>
+<td style="text-align: center;">91.0</td>
+<td style="text-align: center;">89.2</td>
+<td style="text-align: center;">66.1</td>
+<td style="text-align: center;">91.7</td>
+<td style="text-align: center;">89.2</td>
+<td style="text-align: center;">46.5</td>
+</tr>
+<tr>
+<td style="text-align: center;">DistilBERT-base-cased</td>
+<td style="text-align: center;"><strong>75.9</strong></td>
+<td style="text-align: center;">47.2</td>
+<td style="text-align: center;">81.5</td>
+<td style="text-align: center;">85.6</td>
+<td style="text-align: center;">88.2</td>
+<td style="text-align: center;">87.8</td>
+<td style="text-align: center;">60.6</td>
+<td style="text-align: center;">90.4</td>
+<td style="text-align: center;">85.5</td>
+<td style="text-align: center;">56.3</td>
+</tr>
+<tr>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+<td style="text-align: center;">---</td>
+</tr>
+<tr>
+<td style="text-align: center;">RoBERTa-base (reported)</td>
+<td style="text-align: center;"><strong>83.2</strong>/<strong>86.4</strong><sup>2</sup></td>
+<td style="text-align: center;">63.6</td>
+<td style="text-align: center;">87.6</td>
+<td style="text-align: center;">90.2</td>
+<td style="text-align: center;">92.8</td>
+<td style="text-align: center;">91.9</td>
+<td style="text-align: center;">78.7</td>
+<td style="text-align: center;">94.8</td>
+<td style="text-align: center;">91.2</td>
+<td style="text-align: center;">57.7<sup>3</sup></td>
+</tr>
+<tr>
+<td style="text-align: center;">DistilRoBERTa<sup>1</sup></td>
+<td style="text-align: center;"><strong>79.0</strong>/<strong>82.3</strong><sup>2</sup></td>
+<td style="text-align: center;">59.3</td>
+<td style="text-align: center;">84.0</td>
+<td style="text-align: center;">86.6</td>
+<td style="text-align: center;">90.8</td>
+<td style="text-align: center;">89.4</td>
+<td style="text-align: center;">67.9</td>
+<td style="text-align: center;">92.5</td>
+<td style="text-align: center;">88.3</td>
+<td style="text-align: center;">52.1</td>
+</tr>
+</tbody>
+</table><p><sup>1</sup> We did not use the MNLI checkpoint for fine-tuning but directly perform transfer learning on the pre-trained DistilRoBERTa.</p>
+<p><sup>2</sup> Macro-score computed without WNLI.</p>
+<p><sup>3</sup> We compute this score ourselves for completeness.</p>
+<p>Here are the results on the <em>test</em> sets for 6 of the languages available in XNLI. The results are computed in the zero shot setting (trained on the English portion and evaluated on the target language portion):</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th style="text-align: center;">Model</th>
+<th style="text-align: center;">English</th>
+<th style="text-align: center;">Spanish</th>
+<th style="text-align: center;">Chinese</th>
+<th style="text-align: center;">German</th>
+<th style="text-align: center;">Arabic</th>
+<th style="text-align: center;">Urdu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">mBERT base cased (computed)</td>
+<td style="text-align: center;">82.1</td>
+<td style="text-align: center;">74.6</td>
+<td style="text-align: center;">69.1</td>
+<td style="text-align: center;">72.3</td>
+<td style="text-align: center;">66.4</td>
+<td style="text-align: center;">58.5</td>
+</tr>
+<tr>
+<td style="text-align: center;">mBERT base uncased (reported)</td>
+<td style="text-align: center;">81.4</td>
+<td style="text-align: center;">74.3</td>
+<td style="text-align: center;">63.8</td>
+<td style="text-align: center;">70.5</td>
+<td style="text-align: center;">62.1</td>
+<td style="text-align: center;">58.3</td>
+</tr>
+<tr>
+<td style="text-align: center;">DistilmBERT</td>
+<td style="text-align: center;">78.2</td>
+<td style="text-align: center;">69.1</td>
+<td style="text-align: center;">64.0</td>
+<td style="text-align: center;">66.3</td>
+<td style="text-align: center;">59.1</td>
+<td style="text-align: center;">54.7</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>This part of the library has only be tested with Python3.6+. There are few specific dependencies to install before launching a distillation, you can install them with the command <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>.</p>
+<p><strong>Important note:</strong> The training scripts have been updated to support PyTorch v1.2.0 (there are breaking changes compared to v1.1.0).</p>
+</div>
+<div class="section" id="how-to-use-distilbert">
+<h2>How to use DistilBERT<a class="headerlink" href="#how-to-use-distilbert" title="Permalink to this headline">¶</a></h2>
+<p>Transformers includes five pre-trained Distil* models, currently only provided for English and German (we are investigating the possibility to train and release a multilingual version of DistilBERT):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">distilbert-base-uncased</span></code>: DistilBERT English language model pretrained on the same data used to pretrain Bert (concatenation of the Toronto Book Corpus and full English Wikipedia) using distillation with the supervision of the <code class="docutils literal notranslate"><span class="pre">bert-base-uncased</span></code> version of Bert. The model has 6 layers, 768 dimension and 12 heads, totalizing 66M parameters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distilbert-base-uncased-distilled-squad</span></code>: A finetuned version of <code class="docutils literal notranslate"><span class="pre">distilbert-base-uncased</span></code> finetuned using (a second step of) knowledge distillation on SQuAD 1.0. This model reaches a F1 score of 86.9 on the dev set (for comparison, Bert <code class="docutils literal notranslate"><span class="pre">bert-base-uncased</span></code> version reaches a 88.5 F1 score).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distilbert-base-cased</span></code>: DistilBERT English language model pretrained on the same data used to pretrain Bert (concatenation of the Toronto Book Corpus and full English Wikipedia) using distillation with the supervision of the <code class="docutils literal notranslate"><span class="pre">bert-base-cased</span></code> version of Bert. The model has 6 layers, 768 dimension and 12 heads, totalizing 65M parameters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distilbert-base-cased-distilled-squad</span></code>: A finetuned version of <code class="docutils literal notranslate"><span class="pre">distilbert-base-cased</span></code> finetuned using (a second step of) knowledge distillation on SQuAD 1.0. This model reaches a F1 score of 87.1 on the dev set (for comparison, Bert <code class="docutils literal notranslate"><span class="pre">bert-base-cased</span></code> version reaches a 88.7 F1 score).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distilbert-base-german-cased</span></code>: DistilBERT German language model pretrained on 1/2 of the data used to pretrain Bert using distillation with the supervision of the <code class="docutils literal notranslate"><span class="pre">bert-base-german-dbmdz-cased</span></code> version of German DBMDZ Bert. For NER tasks the model reaches a F1 score of 83.49 on the CoNLL-2003 test set (for comparison, <code class="docutils literal notranslate"><span class="pre">bert-base-german-dbmdz-cased</span></code> reaches a 84.52 F1 score), and a F1 score of 85.23 on the GermEval 2014 test set (<code class="docutils literal notranslate"><span class="pre">bert-base-german-dbmdz-cased</span></code> reaches a 86.89 F1 score).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distilgpt2</span></code>: DistilGPT2 English language model pretrained with the supervision of <code class="docutils literal notranslate"><span class="pre">gpt2</span></code> (the smallest version of GPT2) on <a class="reference external" href="https://skylion007.github.io/OpenWebTextCorpus/">OpenWebTextCorpus</a>, a reproduction of OpenAI’s WebText dataset. The model has 6 layers, 768 dimension and 12 heads, totalizing 82M parameters (compared to 124M parameters for GPT2). On average, DistilGPT2 is two times faster than GPT2.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distilroberta-base</span></code>: DistilRoBERTa English language model pretrained with the supervision of <code class="docutils literal notranslate"><span class="pre">roberta-base</span></code> solely on <a class="reference external" href="https://skylion007.github.io/OpenWebTextCorpus/">OpenWebTextCorpus</a>, a reproduction of OpenAI’s WebText dataset (it is ~4 times less training data than the teacher RoBERTa). The model has 6 layers, 768 dimension and 12 heads, totalizing 82M parameters (compared to 125M parameters for RoBERTa-base). On average DistilRoBERTa is twice as fast as Roberta-base.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distilbert-base-multilingual-cased</span></code>: DistilmBERT multilingual model pretrained with the supervision of <code class="docutils literal notranslate"><span class="pre">bert-base-multilingual-cased</span></code> on the concatenation of Wikipedia in 104 different languages. The model supports the 104 languages listed <a class="reference external" href="https://github.com/google-research/bert/blob/master/multilingual.md#list-of-languages">here</a>. The model has 6 layers, 768 dimension and 12 heads, totalizing 134M parameters (compared to 177M parameters for mBERT-base). On average DistilmBERT is twice as fast as mBERT-base.</p></li>
+</ul>
+<p>Using DistilBERT is very similar to using BERT. DistilBERT share the same tokenizer as BERT’s <code class="docutils literal notranslate"><span class="pre">bert-base-uncased</span></code> even though we provide a link to this tokenizer under the <code class="docutils literal notranslate"><span class="pre">DistilBertTokenizer</span></code> name to have a consistent naming between the library models.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">DistilBertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;distilbert-base-cased&#39;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DistilBertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;distilbert-base-cased&#39;</span><span class="p">)</span>
+
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Hello, my dog is cute&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
+<span class="n">last_hidden_states</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># The last hidden-state is the first element of the output tuple</span>
+</pre></div>
+</div>
+<p>Similarly, using the other Distil* models simply consists in calling the base classes with a different pretrained checkpoint:</p>
+<ul class="simple">
+<li><p>DistilBERT uncased: <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">DistilBertModel.from_pretrained('distilbert-base-uncased')</span></code></p></li>
+<li><p>DistilGPT2: <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">GPT2Model.from_pretrained('distilgpt2')</span></code></p></li>
+<li><p>DistilRoBERTa: <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">RobertaModel.from_pretrained('distilroberta-base')</span></code></p></li>
+<li><p>DistilmBERT: <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">DistilBertModel.from_pretrained('distilbert-base-multilingual-cased')</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="how-to-train-distil">
+<h2>How to train Distil*<a class="headerlink" href="#how-to-train-distil" title="Permalink to this headline">¶</a></h2>
+<p>In the following, we will explain how you can train DistilBERT.</p>
+<div class="section" id="a-preparing-the-data">
+<h3>A. Preparing the data<a class="headerlink" href="#a-preparing-the-data" title="Permalink to this headline">¶</a></h3>
+<p>The weights we release are trained using a concatenation of Toronto Book Corpus and English Wikipedia (same training data as the English version of BERT).</p>
+<p>To avoid processing the data several time, we do it once and for all before the training. From now on, will suppose that you have a text file <code class="docutils literal notranslate"><span class="pre">dump.txt</span></code> which contains one sequence per line (a sequence being composed of one of several coherent sentences).</p>
+<p>First, we will binarize the data, i.e. tokenize the data and convert each token in an index in our model’s vocabulary.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/binarized_data.py <span class="se">\</span>
+    --file_path data/dump.txt <span class="se">\</span>
+    --tokenizer_type bert <span class="se">\</span>
+    --tokenizer_name bert-base-uncased <span class="se">\</span>
+    --dump_file data/binarized_text
+</pre></div>
+</div>
+<p>Our implementation of masked language modeling loss follows <a class="reference external" href="https://github.com/facebookresearch/XLM">XLM</a>’s one and smooths the probability of masking with a factor that put more emphasis on rare words. Thus we count the occurrences of each tokens in the data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/token_counts.py <span class="se">\</span>
+    --data_file data/binarized_text.bert-base-uncased.pickle <span class="se">\</span>
+    --token_counts_dump data/token_counts.bert-base-uncased.pickle <span class="se">\</span>
+    --vocab_size <span class="m">30522</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="b-training">
+<h3>B. Training<a class="headerlink" href="#b-training" title="Permalink to this headline">¶</a></h3>
+<p>Training with distillation is really simple once you have pre-processed the data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python train.py <span class="se">\</span>
+    --student_type distilbert <span class="se">\</span>
+    --student_config training_configs/distilbert-base-uncased.json <span class="se">\</span>
+    --teacher_type bert <span class="se">\</span>
+    --teacher_name bert-base-uncased <span class="se">\</span>
+    --alpha_ce <span class="m">5</span>.0 --alpha_mlm <span class="m">2</span>.0 --alpha_cos <span class="m">1</span>.0 --alpha_clm <span class="m">0</span>.0 --mlm <span class="se">\</span>
+    --freeze_pos_embs <span class="se">\</span>
+    --dump_path serialization_dir/my_first_training <span class="se">\</span>
+    --data_file data/binarized_text.bert-base-uncased.pickle <span class="se">\</span>
+    --token_counts data/token_counts.bert-base-uncased.pickle <span class="se">\</span>
+    --force <span class="c1"># overwrites the `dump_path` if it already exists.</span>
+</pre></div>
+</div>
+<p>By default, this will launch a training on a single GPU (even if more are available on the cluster). Other parameters are available in the command line, please look in <code class="docutils literal notranslate"><span class="pre">train.py</span></code> or run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">train.py</span> <span class="pre">--help</span></code> to list them.</p>
+<p>We highly encourage you to use distributed training for training DistilBERT as the training corpus is quite large. Here’s an example that runs a distributed training on a single node having 4 GPUs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">NODE_RANK</span><span class="o">=</span><span class="m">0</span>
+<span class="nb">export</span> <span class="nv">N_NODES</span><span class="o">=</span><span class="m">1</span>
+
+<span class="nb">export</span> <span class="nv">N_GPU_NODE</span><span class="o">=</span><span class="m">4</span>
+<span class="nb">export</span> <span class="nv">WORLD_SIZE</span><span class="o">=</span><span class="m">4</span>
+<span class="nb">export</span> <span class="nv">MASTER_PORT</span><span class="o">=</span>&lt;AN_OPEN_PORT&gt;
+<span class="nb">export</span> <span class="nv">MASTER_ADDR</span><span class="o">=</span>&lt;I.P.&gt;
+
+pkill -f <span class="s1">&#39;python -u train.py&#39;</span>
+
+python -m torch.distributed.launch <span class="se">\</span>
+    --nproc_per_node<span class="o">=</span><span class="nv">$N_GPU_NODE</span> <span class="se">\</span>
+    --nnodes<span class="o">=</span><span class="nv">$N_NODES</span> <span class="se">\</span>
+    --node_rank <span class="nv">$NODE_RANK</span> <span class="se">\</span>
+    --master_addr <span class="nv">$MASTER_ADDR</span> <span class="se">\</span>
+    --master_port <span class="nv">$MASTER_PORT</span> <span class="se">\</span>
+    train.py <span class="se">\</span>
+        --force <span class="se">\</span>
+        --gpus <span class="nv">$WORLD_SIZE</span> <span class="se">\</span>
+        --student_type distilbert <span class="se">\</span>
+        --student_config training_configs/distilbert-base-uncased.json <span class="se">\</span>
+        --teacher_type bert <span class="se">\</span>
+        --teacher_name bert-base-uncased <span class="se">\</span>
+        --alpha_ce <span class="m">0</span>.33 --alpha_mlm <span class="m">0</span>.33 --alpha_cos <span class="m">0</span>.33 --alpha_clm <span class="m">0</span>.0 --mlm <span class="se">\</span>
+        --freeze_pos_embs <span class="se">\</span>
+        --dump_path serialization_dir/my_first_training <span class="se">\</span>
+        --data_file data/binarized_text.bert-base-uncased.pickle <span class="se">\</span>
+        --token_counts data/token_counts.bert-base-uncased.pickle
+</pre></div>
+</div>
+<p><strong>Tips:</strong> Starting distilled training with good initialization of the model weights is crucial to reach decent performance. In our experiments, we initialized our model from a few layers of the teacher (Bert) itself! Please refer to <code class="docutils literal notranslate"><span class="pre">scripts/extract.py</span></code> and <code class="docutils literal notranslate"><span class="pre">scripts/extract_distilbert.py</span></code> to create a valid initialization checkpoint and use <code class="docutils literal notranslate"><span class="pre">--student_pretrained_weights</span></code> argument to use this initialization for the distilled training!</p>
+<p>Happy distillation!</p>
+</div>
+</div>
+<div class="section" id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>If you find the resource useful, you should cite the following paper:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@inproceedings</span><span class="p">{</span><span class="n">sanh2019distilbert</span><span class="p">,</span>
+  <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">DistilBERT</span><span class="p">,</span> <span class="n">a</span> <span class="n">distilled</span> <span class="n">version</span> <span class="n">of</span> <span class="n">BERT</span><span class="p">:</span> <span class="n">smaller</span><span class="p">,</span> <span class="n">faster</span><span class="p">,</span> <span class="n">cheaper</span> <span class="ow">and</span> <span class="n">lighter</span><span class="p">},</span>
+  <span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Sanh</span><span class="p">,</span> <span class="n">Victor</span> <span class="ow">and</span> <span class="n">Debut</span><span class="p">,</span> <span class="n">Lysandre</span> <span class="ow">and</span> <span class="n">Chaumond</span><span class="p">,</span> <span class="n">Julien</span> <span class="ow">and</span> <span class="n">Wolf</span><span class="p">,</span> <span class="n">Thomas</span><span class="p">},</span>
+  <span class="n">booktitle</span><span class="o">=</span><span class="p">{</span><span class="n">NeurIPS</span> <span class="n">EMC</span><span class="o">^</span><span class="mi">2</span> <span class="n">Workshop</span><span class="p">},</span>
+  <span class="n">year</span><span class="o">=</span><span class="p">{</span><span class="mi">2019</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

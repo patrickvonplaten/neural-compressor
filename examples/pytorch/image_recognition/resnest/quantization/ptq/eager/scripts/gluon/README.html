@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Train ResNeSt with MXNet Gluon &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../../" src="../../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Train ResNeSt with MXNet Gluon</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../../_sources/examples/pytorch/image_recognition/resnest/quantization/ptq/eager/scripts/gluon/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="train-resnest-with-mxnet-gluon">
+<h1>Train ResNeSt with MXNet Gluon<a class="headerlink" href="#train-resnest-with-mxnet-gluon" title="Permalink to this headline">¶</a></h1>
+<p>For training with PyTorch, please visit <a class="reference external" href="https://hangzhang.org/PyTorch-Encoding/model_zoo/imagenet.html">PyTorch Encoding Toolkit</a></p>
+<div class="section" id="install-mxnet-with-horovod">
+<h2>Install MXNet with Horovod<a class="headerlink" href="#install-mxnet-with-horovod" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># assuming you have CUDA 10.0 on your machine</span>
+pip install mxnet-cu100
+<span class="nv">HOROVOD_GPU_ALLREDUCE</span><span class="o">=</span>NCCL pip install -v --no-cache-dir horovod
+pip install --no-cache mpi4py
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-imagenet-recordio-data-format">
+<h2>Prepare ImageNet recordio data format<a class="headerlink" href="#prepare-imagenet-recordio-data-format" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Unfortunately ,this is required for training using MXNet Gluon. Please follow the <a class="reference external" href="https://gluon-cv.mxnet.io/build/examples_datasets/recordio.html">GluonCV tutorial</a> to prepare the data.</p></li>
+<li><p>Copy the data into ramdisk (optional):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/
+sudo mkdir -p /media/ramdisk
+sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>200G tmpfs /media/ramdisk
+cp -r /home/ubuntu/data/ILSVRC2012/ /media/ramdisk
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="training-command">
+<h2>Training command<a class="headerlink" href="#training-command" title="Permalink to this headline">¶</a></h2>
+<p>Using ResNeSt-50 as the target model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>horovodrun -np <span class="m">64</span> --hostfile hosts python train.py <span class="se">\</span>
+--rec-train /media/ramdisk/ILSVRC2012/train.rec <span class="se">\</span>
+--rec-val /media/ramdisk/ILSVRC2012/val.rec <span class="se">\</span>
+--model resnest50 --lr <span class="m">0</span>.05 --num-epochs <span class="m">270</span> --batch-size <span class="m">128</span> <span class="se">\</span>
+--use-rec --dtype float32 --warmup-epochs <span class="m">5</span> --last-gamma --no-wd <span class="se">\</span>
+--label-smoothing --mixup --save-dir params_ resnest50 <span class="se">\</span>
+--log-interval <span class="m">50</span> --eval-frequency <span class="m">5</span> --auto_aug --input-size <span class="m">224</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="verify-pretrained-model">
+<h2>Verify pretrained model<a class="headerlink" href="#verify-pretrained-model" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python verify.py --model resnest50 --crop-size <span class="m">224</span> --resume params_ resnest50/imagenet-resnest50-269.params
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

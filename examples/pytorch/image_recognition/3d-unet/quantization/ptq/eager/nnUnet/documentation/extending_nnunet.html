@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extending/Changing nnU-Net &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../../" src="../../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Extending/Changing nnU-Net</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../../_sources/examples/pytorch/image_recognition/3d-unet/quantization/ptq/eager/nnUnet/documentation/extending_nnunet.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="extending-changing-nnu-net">
+<h1>Extending/Changing nnU-Net<a class="headerlink" href="#extending-changing-nnu-net" title="Permalink to this headline">¶</a></h1>
+<p>To use nnU-Net as a framework and make changes to its components, please make sure to install it with the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code>
+and <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> commands so that a local copy of the code is created.
+Changing components of nnU-Net needs to be done in different places, depending on whether these components belong to
+the inferred, blueprint or empirical parameters. We cover some of the most common use cases below. They should give
+you a good indication of where to start.</p>
+<p>Generally it is recommended to look into the code where the thing you would like to change is currently implemented
+and then derive a strategy on how to change it. If you have any questions, feel free to open an issue on GitHub and
+we will help you as much as we can.</p>
+<div class="section" id="changes-to-blueprint-parameters">
+<h2>Changes to blueprint parameters<a class="headerlink" href="#changes-to-blueprint-parameters" title="Permalink to this headline">¶</a></h2>
+<p>This section gives guidance on how to implement changes to loss function, training schedule, learning rates, optimizer,
+some architecture parameters, data augmentation etc. All these parameters are part of the <strong>nnU-Net trainer class</strong>,
+which we have already seen in the sections above. The default trainer class for 2D, 3D low resolution and 3D full
+resolution U-Net is nnUNetTrainerV2, the default for the 3D full resolution U-Net from the cascade is
+nnUNetTrainerV2CascadeFullRes. Trainer classes in nnU-Net inherit form each other, nnUNetTrainerV2CascadeFullRes for
+example has nnUNetTrainerV2 as parent class and only overrides cascade-specific code.</p>
+<p>Due to the inheritance of trainer classes, changes can be integrated into nnU-Net quite easily and with minimal effort.
+Simply create a new trainer class (with some custom name), change the functionality you need to change and then specify
+this class (via its name) during training - done.</p>
+<p>This process requires the new class to be located in a subfolder of nnunet.training.network_training! Do not save it
+somewhere else or nnU-Net will not be able to find it! Also don’t use the same name twice! nnU-Net always picks the
+first trainer that matches the requested name.</p>
+<p>Don’t worry about overwriting results of another trainer class. nnU-Net always generates output folders that are named
+after the trainer class used to generate the results.</p>
+<p>Due to the variety of possible changes to the blueprint parameters of nnU-Net, we here only present a summary of where
+to look for what kind of modification. During method development we have already created a large number of nnU-Net
+blueprint variations which should give a good indication of where to start:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Type of modification</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>loss function</td>
+<td>nnunet.training.network_training.loss_function.*</td>
+</tr>
+<tr>
+<td>data augmentation</td>
+<td>nnunet.training.network_training.data_augmentation.*</td>
+</tr>
+<tr>
+<td>Optimizer, lr, momentum</td>
+<td>nnunet.training.network_training.optimizer_and_lr.*</td>
+</tr>
+<tr>
+<td>(Batch)Normalization</td>
+<td>nnunet.training.network_training.architectural_variants.nnUNetTrainerV2_BN.py<br>nnunet.training.network_training.architectural_variants.nnUNetTrainerV2_FRN.py<br>nnunet.training.network_training.architectural_variants.nnUNetTrainerV2_GN.py<br>nnunet.training.network_training.architectural_variants.nnUNetTrainerV2_NoNormalization_lr1en3.py</td>
+</tr>
+<tr>
+<td>Nonlinearity</td>
+<td>nnunet.training.network_training.architectural_variants.nnUNetTrainerV2_ReLU.py<br>nnunet.training.network_training.architectural_variants.nnUNetTrainerV2_Mish.py</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>nnunet.training.network_training.architectural_variants.nnUNetTrainerV2_3ConvPerStage.py<br>nnunet.training.network_training.architectural_variants.nnUNetTrainerV2_ResencUNet</td>
+</tr>
+<tr>
+<td>...</td>
+<td>(see nnunet.training.network_training and subfolders)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="changes-to-inferred-parameters">
+<h2>Changes to Inferred Parameters<a class="headerlink" href="#changes-to-inferred-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The inferred parameters are determined based on the dataset fingerprint, a low dimensional representation of the properties
+of the training cases. It captures, for example, the image shapes, voxel spacings and intensity information from
+the training cases. The datset fingerprint is created by the DatasetAnalyzer (which is located in nnunet.preprocessing)
+while running <code class="docutils literal notranslate"><span class="pre">nnUNet_plan_and_preprocess</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">nnUNet_plan_and_preprocess</span></code> uses so called ExperimentPlanners for running the adaptation process. Default ExperimentPlanner
+classes are ExperimentPlanner2D_v21 for the 2D U-Net and ExperimentPlanner3D_v21 for the 3D full resolution U-Net and the
+U-Net cascade. Just like nnUNetTrainers, the ExperimentPlanners inherit from each other, resulting in minimal programming
+effort to incorporate changes. Just like with the trainers, simply give your custom ExperimentPlanners a unique name and
+save them in some subfolder of nnunet.experiment_planning. You can then specify your class names when running
+<code class="docutils literal notranslate"><span class="pre">nnUNet_plan_and_preprocess</span></code> and nnU-Net will find them automatically. When inheriting form ExperimentPlanners, you <strong>MUST</strong>
+overwrite the class variables <code class="docutils literal notranslate"><span class="pre">self.data_identifier</span></code> and <code class="docutils literal notranslate"><span class="pre">self.plans_fname</span></code> (just like for example
+<a class="reference external" href="nnunet/experiment_planning/alternative_experiment_planning/normalization/experiment_planner_3DUNet_CT2.py">here</a>).
+If you omit this step the planner will overwrite the plans file and the preprocessed data of the planner it inherits from.</p>
+<p>To train with your custom configuration, simply specify the correct plans identifier with <code class="docutils literal notranslate"><span class="pre">-p</span></code> when you call the
+<code class="docutils literal notranslate"><span class="pre">nnUNet_train</span></code> command. The plans file also contains the data_identifier specified in your ExperimentPlanner, so the
+trainer class will automatically know what data should be used.</p>
+<p>Possible adaptations to the inferred parameters could include a different way of prioritizing batch size vs patch size
+(currently, nnU-Net prioritizies patch size), a different handling of the spacing information for architecture template
+instantiation, changing the definition of target spacing, or using different strategies for finding the 3d low
+resolution U-Net configuration.</p>
+<p>The folders located in nnunet.experiment_planning contain several example ExperimentPlanner that modify various aspects
+of the inferred parameters. You can use them as inspiration for your own.</p>
+<p>If you wish to run a different preprocessing, you most likely will have to implement your own Preprocessor class.
+The preprocessor class that is used by some ExperimentPlanner is specified in its preprocessor_name class variable. The
+default is <code class="docutils literal notranslate"><span class="pre">self.preprocessor_name</span> <span class="pre">=</span> <span class="pre">&quot;GenericPreprocessor&quot;</span></code> for 3D and <code class="docutils literal notranslate"><span class="pre">PreprocessorFor2D</span></code> for 2D (the 2D preprocessor
+ignores the target spacing for the first axis to ensure that images are only resampled in the axes that will make up the training samples).
+GenericPreprocessor (and all custom Preprocessors you implement) must be located in nnunet.preprocessing. The
+preprocessor_name is saved in the plans file (by ExperimentPlanner), so that the
+nnUNetTrainer knows which preprocessor must be used during inference to match the preprocessing of the training data.</p>
+<p>Modifications to the preprocessing pipeline could be the addition of bias field correction to MRI images, a different CT
+preprocessing scheme or a different way of resampling segmentations and image data for anisotropic cases.
+An example is provided <a class="reference external" href="nnunet/preprocessing/preprocessing.py">here</a>.</p>
+<p>When implementing a custom preprocessor, you should also create a custom ExperimentPlanner that uses it (via self.preprocessor_name).
+This experiment planner must also use a matching data_identifier and plans_fname to ensure no other data is overwritten.</p>
+</div>
+<div class="section" id="use-a-different-network-architecture">
+<h2>Use a different network architecture<a class="headerlink" href="#use-a-different-network-architecture" title="Permalink to this headline">¶</a></h2>
+<p>Changing the network architecture in nnU-Net is easy, but not self-explanatory. Any new segmentation network you implement
+needs to understand what nnU-Net requests from it (wrt how many downsampling operations are done, whether deep supervision
+is used, what the convolutional kernel sizes are supposed to be). It needs to be able to dynamiccaly change its topology,
+just like our implementation of the <a class="reference external" href="nnunet/network_architecture/generic_UNet.py">Generic_UNet</a>. Furthermore, it must be
+able to generate a value that can be used to estimate memory consumption. What we have implemented for Generic_UNet effectively
+counts the number of voxels found in all feature maps that are present in a given configuration. Although this estimation
+disregards the number of parameters we have found it to work quite well. Unless you implement an architecture with
+unreasonably high number of parameters, the large majority of the VRAM used during training will be occupied by feature
+maps, so parameters can be (mostly) disregarded. For implementing your own network, it is key to understand that the
+number we are computing here cannot be interpreted directly as memory consumption (other factors than the feature maps
+of the convolutions also play a role, such as instance normalization. This is furthermore very hard to predict because
+there are also several different algorithms for running the convolutions, each with its own memory requirement. We train
+models with cudnn.benchmark=True, so it is impossible to predict which algorithm is used).
+So instead, to approch this problem in the most straightforward way, we manually identify the largest configuration we
+can fit in the GPU of choice (manually define the dowmsampling, patch size etc) and use this value (-10% or so to be save)
+as <strong>reference</strong> in the ExperimentPlanner that uses this architecture.</p>
+<p>To illustrate this process, we have implemented a U-Net with a residual encoder
+(see FabiansUNet in <a class="reference external" href="nnunet/network_architecture/generic_modular_residual_UNet.py">generic_modular_residual_UNet.py</a>).
+This UNet has a class variable called use_this_for_3D_configuration. This value was found with the code located in
+find_3d_configuration (same python file). The corresponding ExperimentPlanner
+<a class="reference external" href="nnunet/experiment_planning/alternative_experiment_planning/experiment_planner_residual_3DUNet_v21.py">ExperimentPlanner3DFabiansResUNet_v21</a>
+compares this value to values generated for the currently configured network topology (which are also computed by
+FabiansUNet.compute_approx_vram_consumption) to ensure that the GPU memory target is met.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

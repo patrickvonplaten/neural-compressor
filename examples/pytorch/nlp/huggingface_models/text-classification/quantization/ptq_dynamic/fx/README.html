@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/text-classification/quantization/ptq_dynamic/fx/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document is used to list steps of reproducing PyTorch BERT tuning zoo result.
+Original BERT documents please refer to <a class="reference internal" href="../../../../common/README.html"><span class="doc">BERT README</span></a> and <a class="reference internal" href="../../../../common/examples/text-classification/README.html"><span class="doc">README</span></a>.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<p>Dynamic Quantization is the recommended method for huggingface models.</p>
+</div></blockquote>
+</div>
+<div class="section" id="prerequisite">
+<h1>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python-version">
+<h3>Python Version<a class="headerlink" href="#python-version" title="Permalink to this headline">¶</a></h3>
+<p>Recommend python 3.6 or higher version.</p>
+<div class="section" id="install-bert-model">
+<h4>Install BERT model<a class="headerlink" href="#install-bert-model" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install transformers
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-dependency">
+<h4>Install dependency<a class="headerlink" href="#install-dependency" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-pytorch">
+<h4>Install PyTorch<a class="headerlink" href="#install-pytorch" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install torch
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="prepare-pretrained-model">
+<h2>2. Prepare pretrained model<a class="headerlink" href="#prepare-pretrained-model" title="Permalink to this headline">¶</a></h2>
+<p>Before use Intel® Neural Compressor, you should fine tune the model to get pretrained model or reuse fine-tuned models in <a class="reference external" href="https://huggingface.co/models">model hub</a>, You should also install the additional packages required by the examples.</p>
+</div>
+</div>
+<div class="section" id="start-to-neural-compressor-tune-for-model-quantization">
+<h1>Start to neural_compressor tune for Model Quantization<a class="headerlink" href="#start-to-neural-compressor-tune-for-model-quantization" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Here we implemented several models in fx mode.</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/nlp/huggingface_models/text-classification/quantization/ptq_dynamic/fx
+</pre></div>
+</div>
+<div class="section" id="glue-task">
+<h2>Glue task<a class="headerlink" href="#glue-task" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="to-get-the-tuned-model-and-its-accuracy">
+<h3>1. To get the tuned model and its accuracy:<a class="headerlink" href="#to-get-the-tuned-model-and-its-accuracy" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -u ./run_glue.py <span class="se">\</span>
+        --model_name_or_path bert-large-rte <span class="se">\</span>
+        --task_name rte <span class="se">\</span>
+        --do_eval <span class="se">\</span>
+        --do_train <span class="se">\</span>
+        --max_seq_length <span class="m">128</span> <span class="se">\</span>
+        --per_device_eval_batch_size <span class="m">16</span> <span class="se">\</span>
+        --no_cuda <span class="se">\</span>
+        --output_dir ./int8_model_dir <span class="se">\</span>
+        --tune <span class="se">\</span>
+        --overwrite_output_dir
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-get-the-benchmark-of-tuned-model-includes-batch-size-and-throughput">
+<h3>2. To get the benchmark of tuned model, includes Batch_size and Throughput:<a class="headerlink" href="#to-get-the-benchmark-of-tuned-model-includes-batch-size-and-throughput" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -u ./run_glue.py <span class="se">\</span>
+        --model_name_or_path ./int8_model_dir <span class="se">\</span>
+        --task_name sst2 <span class="se">\</span>
+        --do_eval <span class="se">\</span>
+        --max_seq_length <span class="m">128</span> <span class="se">\</span>
+        --per_device_eval_batch_size <span class="m">1</span> <span class="se">\</span>
+        --no_cuda <span class="se">\</span>
+        --output_dir ./output_log <span class="se">\</span>
+        --benchmark <span class="se">\</span>
+        --int8 <span class="se">\</span>
+        --overwrite_output_dir
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="huggingface-model-hub">
+<h1>HuggingFace model hub<a class="headerlink" href="#huggingface-model-hub" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="to-upstream-into-huggingface-model-hub">
+<h2>To upstream into HuggingFace model hub<a class="headerlink" href="#to-upstream-into-huggingface-model-hub" title="Permalink to this headline">¶</a></h2>
+<p>We provide an API <code class="docutils literal notranslate"><span class="pre">save_for_huggingface_upstream</span></code> to collect configuration files, tokenizer files and int8 model weights in the format of <a class="reference external" href="https://github.com/huggingface/transformers">transformers</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neural_compressor.utils.load_huggingface</span> <span class="k">import</span> <span class="n">save_for_huggingface_upstream</span>
+<span class="o">...</span>
+
+<span class="n">save_for_huggingface_upstream</span><span class="p">(</span><span class="n">q_model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Users can upstream files in the <code class="docutils literal notranslate"><span class="pre">output_dir</span></code> into model hub and reuse them with our <code class="docutils literal notranslate"><span class="pre">OptimizedModel</span></code> API.</p>
+</div>
+<div class="section" id="to-download-into-huggingface-model-hub">
+<h2>To download into HuggingFace model hub<a class="headerlink" href="#to-download-into-huggingface-model-hub" title="Permalink to this headline">¶</a></h2>
+<p>We provide an API <code class="docutils literal notranslate"><span class="pre">OptimizedModel</span></code> to initialize int8 models from HuggingFace model hub and its usage is the same as the model class provided by <a class="reference external" href="https://github.com/huggingface/transformers">transformers</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neural_compressor.utils.load_huggingface</span> <span class="kn">import</span> <span class="n">OptimizedModel</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">OptimizedModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+            <span class="n">model_args</span><span class="o">.</span><span class="n">model_name_or_path</span><span class="p">,</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="n">cache_dir</span><span class="o">=</span><span class="n">model_args</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">,</span>
+            <span class="n">revision</span><span class="o">=</span><span class="n">model_args</span><span class="o">.</span><span class="n">model_revision</span><span class="p">,</span>
+            <span class="n">use_auth_token</span><span class="o">=</span><span class="bp">True</span> <span class="k">if</span> <span class="n">model_args</span><span class="o">.</span><span class="n">use_auth_token</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>We also upstreamed several int8 models into HuggingFace <a class="reference external" href="https://huggingface.co/models?other=Intel%C2%AE%20Neural%20Compressor">model hub</a> for users to ramp up.</p>
+<hr class="docutils" />
+</div>
+<hr class="docutils" />
+<div class="section" id="this-is-a-tutorial-of-how-to-enable-nlp-model-with-intel-neural-compressor">
+<h2>This is a tutorial of how to enable NLP model with Intel® Neural Compressor.<a class="headerlink" href="#this-is-a-tutorial-of-how-to-enable-nlp-model-with-intel-neural-compressor" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="intel-neural-compressor-supports-two-usages">
+<h3>Intel® Neural Compressor supports two usages:<a class="headerlink" href="#intel-neural-compressor-supports-two-usages" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>User specifies fp32 ‘model’, calibration dataset ‘q_dataloader’, evaluation dataset “eval_dataloader” and metrics in tuning.metrics field of model-specific yaml config file.</p></li>
+<li><p>User specifies fp32 ‘model’, calibration dataset ‘q_dataloader’ and a custom “eval_func” which encapsulates the evaluation dataset and metrics by itself.</p></li>
+</ol>
+<p>As MRPC’s metrics are ‘f1’, ‘acc_and_f1’, mcc’, ‘spearmanr’, ‘acc’, so customer should provide evaluation function ‘eval_func’, it’s suitable for the second use case.</p>
+</div>
+<div class="section" id="write-yaml-config-file">
+<h3>Write Yaml config file<a class="headerlink" href="#write-yaml-config-file" title="Permalink to this headline">¶</a></h3>
+<p>In examples directory, there is conf.yaml. We could remove most of the items and only keep mandatory item for tuning.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bert</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pytorch_fx</span>
+
+<span class="nt">device</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cpu</span>
+
+<span class="nt">quantization</span><span class="p">:</span>
+  <span class="nt">approach</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">post_training_dynamic_quant</span>
+
+<span class="nt">tuning</span><span class="p">:</span>
+  <span class="nt">accuracy_criterion</span><span class="p">:</span>
+    <span class="nt">relative</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+  <span class="nt">exit_policy</span><span class="p">:</span>
+    <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+    <span class="nt">max_trials</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">300</span>
+  <span class="nt">random_seed</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">9527</span>
+</pre></div>
+</div>
+<p>Here we set accuracy target as tolerating 0.01 relative accuracy loss of baseline. The default tuning strategy is basic strategy. The timeout 0 means early stop as well as a tuning config meet accuracy target.</p>
+<blockquote>
+<div><p><strong>Note</strong> : neural_compressor does NOT support “mse” tuning strategy for pytorch framework</p>
+</div></blockquote>
+</div>
+<div class="section" id="code-prepare">
+<h3>Code Prepare<a class="headerlink" href="#code-prepare" title="Permalink to this headline">¶</a></h3>
+<p>We just need update run_squad_tune.py and run_glue.py like below</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span> <span class="k">if</span> <span class="n">training_args</span><span class="o">.</span><span class="n">do_train</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">eval_dataset</span> <span class="k">if</span> <span class="n">training_args</span><span class="o">.</span><span class="n">do_eval</span> <span class="k">else</span> <span class="bp">None</span><span class="p">,</span>
+    <span class="n">compute_metrics</span><span class="o">=</span><span class="n">compute_metrics</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">data_collator</span><span class="o">=</span><span class="n">data_collator</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">eval_dataloader</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">get_eval_dataloader</span><span class="p">()</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="n">eval_dataloader</span><span class="o">.</span><span class="n">batch_size</span>
+
+<span class="n">metric_name</span> <span class="o">=</span> <span class="s2">&quot;eval_f1&quot;</span>
+<span class="k">def</span> <span class="nf">take_eval_steps</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">trainer</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">,</span> <span class="n">save_metrics</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">save_metrics</span><span class="p">:</span>
+        <span class="n">trainer</span><span class="o">.</span><span class="n">save_metrics</span><span class="p">(</span><span class="s2">&quot;eval&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;{}: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">metric_name</span><span class="p">,</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)))</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Throughput: {} samples/sec&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;eval_samples_per_second&quot;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">eval_func</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">take_eval_steps</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">trainer</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span><span class="p">,</span> <span class="n">common</span>
+<span class="k">if</span> <span class="p">(</span>
+    <span class="ow">not</span> <span class="n">training_args</span><span class="o">.</span><span class="n">dataloader_drop_last</span>
+    <span class="ow">and</span> <span class="n">eval_dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="n">training_args</span><span class="o">.</span><span class="n">per_device_eval_batch_size</span> <span class="o">!=</span> <span class="mi">0</span>
+<span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="s2">&quot;The number of samples of the dataset is not a multiple of the batch size.&quot;</span>
+        <span class="s2">&quot;Use --dataloader_drop_last to overcome.&quot;</span>
+    <span class="p">)</span>
+<span class="n">calib_dataloader</span> <span class="o">=</span> <span class="n">eval_dataloader</span>
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="s1">&#39;conf.yaml&#39;</span><span class="p">)</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">eval_func</span> <span class="o">=</span> <span class="n">eval_func</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">calib_dataloader</span> <span class="o">=</span> <span class="n">calib_dataloader</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">training_args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TEMPLATE &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active"><strong>TEMPLATE</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/templates/adding_a_new_model/ADD_NEW_MODEL_PROPOSAL_TEMPLATE.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="template">
+<h1><strong>TEMPLATE</strong><a class="headerlink" href="#template" title="Permalink to this headline">¶</a></h1>
+<p><em>search &amp; replace the following keywords, e.g.:</em>
+<code class="docutils literal notranslate"><span class="pre">:%s/\[name</span> <span class="pre">of</span> <span class="pre">model\]/brand_new_bert/g</span></code></p>
+<p>-[lowercase name of model]  # e.g. brand_new_bert</p>
+<p>-[camelcase name of model]  # e.g. BrandNewBert</p>
+<p>-[name of mentor]  # e.g. <a class="reference external" href="https://github.com/peter">Peter</a></p>
+<p>-[link to original repo]</p>
+<p>-[start date]</p>
+<p>-[end date]</p>
+</div>
+<div class="section" id="how-to-add-camelcase-name-of-model-to-transformers">
+<h1>How to add [camelcase name of model] to 🤗 Transformers?<a class="headerlink" href="#how-to-add-camelcase-name-of-model-to-transformers" title="Permalink to this headline">¶</a></h1>
+<p>Mentor: [name of mentor]</p>
+<p>Begin: [start date]</p>
+<p>Estimated End: [end date]</p>
+<p>Adding a new model is often difficult and requires an in-depth knowledge
+of the 🤗 Transformers library and ideally also of the model’s original
+repository. At Hugging Face, we are trying to empower the community more
+and more to add models independently.</p>
+<p>The following sections explain in detail how to add [camelcase name of model]
+to Transformers. You will work closely with [name of mentor] to
+integrate [camelcase name of model] into Transformers. By doing so, you will both gain a
+theoretical and deep practical understanding of [camelcase name of model].
+But more importantly, you will have made a major
+open-source contribution to Transformers. Along the way, you will:</p>
+<ul class="simple">
+<li><p>get insights into open-source best practices</p></li>
+<li><p>understand the design principles of one of the most popular NLP
+libraries</p></li>
+<li><p>learn how to do efficiently test large NLP models</p></li>
+<li><p>learn how to integrate Python utilities like <code class="docutils literal notranslate"><span class="pre">black</span></code>, <code class="docutils literal notranslate"><span class="pre">isort</span></code>,
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">fix-copies</span></code> into a library to always ensure clean and readable
+code</p></li>
+</ul>
+<p>To start, let’s try to get a general overview of the Transformers
+library.</p>
+<div class="section" id="general-overview-of-transformers">
+<h2>General overview of 🤗 Transformers<a class="headerlink" href="#general-overview-of-transformers" title="Permalink to this headline">¶</a></h2>
+<p>First, you should get a general overview of 🤗 Transformers. Transformers
+is a very opinionated library, so there is a chance that
+you don’t agree with some of the library’s philosophies or design
+choices. From our experience, however, we found that the fundamental
+design choices and philosophies of the library are crucial to
+efficiently scale Transformers while keeping maintenance costs at a
+reasonable level.</p>
+<p>A good first starting point to better understand the library is to read
+the <a class="reference external" href="https://huggingface.co/transformers/philosophy.html">documentation of our philosophy</a>.
+As a result of our way of working, there are some choices that we try to apply to all models:</p>
+<ul class="simple">
+<li><p>Composition is generally favored over abstraction</p></li>
+<li><p>Duplicating code is not always bad if it strongly improves the
+readability or accessibility of a model</p></li>
+<li><p>Model files are as self-contained as possible so that when you read
+the code of a specific model, you ideally only have to look into the
+respective <code class="docutils literal notranslate"><span class="pre">modeling_....py</span></code> file.</p></li>
+</ul>
+<p>In our opinion, the library’s code is not just a means to provide a
+product, <em>e.g.</em>, the ability to use BERT for inference, but also as the
+very product that we want to improve. Hence, when adding a model, the
+user is not only the person that will use your model, but also everybody
+that will read, try to understand, and possibly tweak your code.</p>
+<p>With this in mind, let’s go a bit deeper into the general library
+design.</p>
+<div class="section" id="overview-of-models">
+<h3>Overview of models<a class="headerlink" href="#overview-of-models" title="Permalink to this headline">¶</a></h3>
+<p>To successfully add a model, it is important to understand the
+interaction between your model and its config,
+<code class="docutils literal notranslate"><span class="pre">PreTrainedModel</span></code>, and <code class="docutils literal notranslate"><span class="pre">PretrainedConfig</span></code>. For
+exemplary purposes, we will call the PyTorch model to be added to 🤗 Transformers
+<code class="docutils literal notranslate"><span class="pre">BrandNewBert</span></code>.</p>
+<p>Let’s take a look:</p>
+<p><img alt="image" src="../../../../../../../_images/transformers_overview.png" /></p>
+<p>As you can see, we do make use of inheritance in 🤗 Transformers, but we
+keep the level of abstraction to an absolute minimum. There are never
+more than two levels of abstraction for any model in the library.
+<code class="docutils literal notranslate"><span class="pre">BrandNewBertModel</span></code> inherits from
+<code class="docutils literal notranslate"><span class="pre">BrandNewBertPreTrainedModel</span></code> which in
+turn inherits from <code class="docutils literal notranslate"><span class="pre">PreTrainedModel</span></code> and that’s it.
+As a general rule, we want to make sure
+that a new model only depends on <code class="docutils literal notranslate"><span class="pre">PreTrainedModel</span></code>. The
+important functionalities that are automatically provided to every new
+model are
+<code class="docutils literal notranslate"><span class="pre">PreTrainedModel.from_pretrained</span></code> and <code class="docutils literal notranslate"><span class="pre">PreTrainedModel.save_pretrained</span></code>, which are
+used for serialization and deserialization. All
+of the other important functionalities, such as
+<code class="docutils literal notranslate"><span class="pre">BrandNewBertModel.forward</span></code> should be
+completely defined in the new <code class="docutils literal notranslate"><span class="pre">modeling_brand_new_bert.py</span></code> module. Next,
+we want to make sure that a model with a specific head layer, such as
+<code class="docutils literal notranslate"><span class="pre">BrandNewBertForMaskedLM</span></code> does not inherit
+from <code class="docutils literal notranslate"><span class="pre">BrandNewBertModel</span></code>, but rather uses
+<code class="docutils literal notranslate"><span class="pre">BrandNewBertModel</span></code> as a component that
+can be called in its forward pass to keep the level of abstraction low.
+Every new model requires a configuration class, called
+<code class="docutils literal notranslate"><span class="pre">BrandNewBertConfig</span></code>. This configuration
+is always stored as an attribute in
+<code class="docutils literal notranslate"><span class="pre">PreTrainedModel</span></code>, and
+thus can be accessed via the <code class="docutils literal notranslate"><span class="pre">config</span></code> attribute for all classes
+inheriting from <code class="docutils literal notranslate"><span class="pre">BrandNewBertPreTrainedModel</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># assuming that `brand_new_bert` belongs to the organization `brandy`</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">BrandNewBertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;brandy/brand_new_bert&quot;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">config</span>  <span class="c1"># model has access to its config</span>
+</pre></div>
+</div>
+<p>Similar to the model, the configuration inherits basic serialization and
+deserialization functionalities from
+<code class="docutils literal notranslate"><span class="pre">PretrainedConfig</span></code>. Note
+that the configuration and the model are always serialized into two
+different formats - the model to a <code class="docutils literal notranslate"><span class="pre">pytorch_model.bin</span></code> file
+and the configuration to a <code class="docutils literal notranslate"><span class="pre">config.json</span></code> file. Calling
+<code class="docutils literal notranslate"><span class="pre">PreTrainedModel.save_pretrained</span></code> will automatically call
+<code class="docutils literal notranslate"><span class="pre">PretrainedConfig.save_pretrained</span></code>, so that both model and configuration are saved.</p>
+</div>
+<div class="section" id="overview-of-tokenizers">
+<h3>Overview of tokenizers<a class="headerlink" href="#overview-of-tokenizers" title="Permalink to this headline">¶</a></h3>
+<p>Not quite ready yet :-( This section will be added soon!</p>
+</div>
+</div>
+<div class="section" id="step-by-step-recipe-to-add-a-model-to-transformers">
+<h2>Step-by-step recipe to add a model to 🤗 Transformers<a class="headerlink" href="#step-by-step-recipe-to-add-a-model-to-transformers" title="Permalink to this headline">¶</a></h2>
+<p>Everyone has different preferences of how to port a model so it can be
+very helpful for you to take a look at summaries of how other
+contributors ported models to Hugging Face. Here is a list of community
+blog posts on how to port a model:</p>
+<ol class="simple">
+<li><p><a class="reference external" href="https://medium.com/huggingface/from-tensorflow-to-pytorch-265f40ef2a28">Porting GPT2
+Model</a>
+by <a class="reference external" href="https://huggingface.co/thomwolf">Thomas</a></p></li>
+<li><p><a class="reference external" href="https://huggingface.co/blog/porting-fsmt">Porting WMT19 MT Model</a>
+by <a class="reference external" href="https://huggingface.co/stas">Stas</a></p></li>
+</ol>
+<p>From experience, we can tell you that the most important things to keep
+in mind when adding a model are:</p>
+<ul class="simple">
+<li><p>Don’t reinvent the wheel! Most parts of the code you will add for
+the new 🤗 Transformers model already exist somewhere in 🤗
+Transformers. Take some time to find similar, already existing
+models and tokenizers you can copy from.
+<a class="reference external" href="https://www.gnu.org/software/grep/">grep</a> and
+<a class="reference external" href="https://github.com/BurntSushi/ripgrep">rg</a> are your friends. Note
+that it might very well happen that your model’s tokenizer is based
+on one model implementation, and your model’s modeling code on
+another one. <em>E.g.</em>, FSMT’s modeling code is based on BART, while
+FSMT’s tokenizer code is based on XLM.</p></li>
+<li><p>It’s more of an engineering challenge than a scientific challenge.
+You should spend more time on creating an efficient debugging
+environment than trying to understand all theoretical aspects of the
+model in the paper.</p></li>
+<li><p>Ask for help when you’re stuck! Models are the core component of 🤗
+Transformers so we, at Hugging Face, are more than happy to help
+you at every step to add your model. Don’t hesitate to ask if you
+notice you are not making progress.</p></li>
+</ul>
+<p>In the following, we try to give you a general recipe that we found most
+useful when porting a model to 🤗 Transformers.</p>
+<p>The following list is a summary of everything that has to be done to add
+a model and can be used by you as a To-Do List:</p>
+<ol class="simple">
+<li><p>[ ] (Optional) Understood theoretical aspects</p></li>
+<li><p>[ ] Prepared transformers dev environment</p></li>
+<li><p>[ ] Set up debugging environment of the original repository</p></li>
+<li><p>[ ] Created script that successfully runs forward pass using
+original repository and checkpoint</p></li>
+<li><p>[ ] Successfully opened a PR and added the model skeleton to Transformers</p></li>
+<li><p>[ ] Successfully converted original checkpoint to Transformers
+checkpoint</p></li>
+<li><p>[ ] Successfully ran forward pass in Transformers that gives
+identical output to original checkpoint</p></li>
+<li><p>[ ] Finished model tests in Transformers</p></li>
+<li><p>[ ] Successfully added Tokenizer in Transformers</p></li>
+<li><p>[ ] Run end-to-end integration tests</p></li>
+<li><p>[ ] Finished docs</p></li>
+<li><p>[ ] Uploaded model weights to the hub</p></li>
+<li><p>[ ] Submitted the pull request for review</p></li>
+<li><p>[ ] (Optional) Added a demo notebook</p></li>
+</ol>
+<p>To begin with, we usually recommend to start by getting a good
+theoretical understanding of <code class="docutils literal notranslate"><span class="pre">[camelcase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]</span></code>. However, if you prefer to
+understand the theoretical aspects of the model <em>on-the-job</em>, then it is
+totally fine to directly dive into the <code class="docutils literal notranslate"><span class="pre">[camelcase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]</span></code>’s code-base. This
+option might suit you better, if your engineering skills are better than
+your theoretical skill, if you have trouble understanding
+<code class="docutils literal notranslate"><span class="pre">[camelcase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]</span></code>’s paper, or if you just enjoy programming much more than
+reading scientific papers.</p>
+<div class="section" id="optional-theoretical-aspects-of-camelcase-name-of-model">
+<h3>1. (Optional) Theoretical aspects of [camelcase name of model]<a class="headerlink" href="#optional-theoretical-aspects-of-camelcase-name-of-model" title="Permalink to this headline">¶</a></h3>
+<p>You should take some time to read <em>[camelcase name of model]’s</em> paper, if such
+descriptive work exists. There might be large sections of the paper that
+are difficult to understand. If this is the case, this is fine - don’t
+worry! The goal is not to get a deep theoretical understanding of the
+paper, but to extract the necessary information required to effectively
+re-implement the model in 🤗 Transformers. That being said, you don’t
+have to spend too much time on the theoretical aspects, but rather focus
+on the practical ones, namely:</p>
+<ul class="simple">
+<li><p>What type of model is <em>[camelcase name of model]</em>? BERT-like encoder-only
+model? GPT2-like decoder-only model? BART-like encoder-decoder
+model? Look at the <code class="docutils literal notranslate"><span class="pre">model_summary</span></code> if
+you’re not familiar with the differences between those.</p></li>
+<li><p>What are the applications of <em>[camelcase name of model]</em>? Text
+classification? Text generation? Seq2Seq tasks, <em>e.g.,</em>
+summarization?</p></li>
+<li><p>What is the novel feature of the model making it different from
+BERT/GPT-2/BART?</p></li>
+<li><p>Which of the already existing <a class="reference external" href="https://huggingface.co/transformers/#contents">🤗 Transformers
+models</a> is most
+similar to <em>[camelcase name of model]</em>?</p></li>
+<li><p>What type of tokenizer is used? A sentencepiece tokenizer? Word
+piece tokenizer? Is it the same tokenizer as used for BERT or BART?</p></li>
+</ul>
+<p>After you feel like you have gotten a good overview of the architecture
+of the model, you might want to write to [name of mentor] with any
+questions you might have. This might include questions regarding the
+model’s architecture, its attention layer, etc. We will be more than
+happy to help you.</p>
+<div class="section" id="additional-resources">
+<h4>Additional resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h4>
+<p>Before diving into the code, here are some additional resources that might be worth taking a look at:</p>
+<ul class="simple">
+<li><p>[link 1]</p></li>
+<li><p>[link 2]</p></li>
+<li><p>[link 3]</p></li>
+<li><p>…</p></li>
+</ul>
+</div>
+<div class="section" id="make-sure-you-ve-understood-the-fundamental-aspects-of-camelcase-name-of-model">
+<h4>Make sure you’ve understood the fundamental aspects of [camelcase name of model]<a class="headerlink" href="#make-sure-you-ve-understood-the-fundamental-aspects-of-camelcase-name-of-model" title="Permalink to this headline">¶</a></h4>
+<p>Alright, now you should be ready to take a closer look into the actual code of [camelcase name of model].
+You should have understood the following aspects of [camelcase name of model] by now:</p>
+<ul class="simple">
+<li><p>[characteristic 1 of [camelcase name of model]]</p></li>
+<li><p>[characteristic 2 of [camelcase name of model]]</p></li>
+<li><p>…</p></li>
+</ul>
+<p>If any of the mentioned aspects above are <strong>not</strong> clear to you, now is a great time to talk to [name of mentor].</p>
+</div>
+</div>
+<div class="section" id="next-prepare-your-environment">
+<h3>2. Next prepare your environment<a class="headerlink" href="#next-prepare-your-environment" title="Permalink to this headline">¶</a></h3>
+<ol>
+<li><p>Fork the <a class="reference external" href="https://github.com/huggingface/transformers">repository</a>
+by clicking on the ‘Fork’ button on the repository’s page. This
+creates a copy of the code under your GitHub user account.</p></li>
+<li><p>Clone your <code class="docutils literal notranslate"><span class="pre">transformers</span></code> fork to your local disk, and add the base
+repository as a remote:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/<span class="o">[</span>your Github handle<span class="o">]</span>/transformers.git
+<span class="nb">cd</span> transformers
+git remote add upstream https://github.com/huggingface/transformers.git
+</pre></div>
+</div>
+</li>
+<li><p>Set up a development environment, for instance by running the
+following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m venv .env
+<span class="nb">source</span> .env/bin/activate
+pip install -e <span class="s2">&quot;.[dev]&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>and return to the parent directory</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ..
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>We recommend adding the PyTorch version of <em>[camelcase name of model]</em> to
+Transformers. To install PyTorch, please follow the instructions <a class="reference external" href="https://pytorch.org/get-started/locally/">here</a>.</p></li>
+</ol>
+<p><strong>Note:</strong> You don’t need to have CUDA installed. Making the new model
+work on CPU is sufficient.</p>
+<ol class="simple">
+<li><p>To port <em>[camelcase name of model]</em>, you will also need access to its
+original repository:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone <span class="o">[</span>link to original repo<span class="o">]</span>.git 
+<span class="nb">cd</span> <span class="o">[</span>lowercase name of model<span class="o">]</span>
+pip install -e .
+</pre></div>
+</div>
+<p>Now you have set up a development environment to port <em>[camelcase name of model]</em>
+to 🤗 Transformers.</p>
+</div>
+<div class="section" id="run-a-pretrained-checkpoint-using-the-original-repository">
+<h3>Run a pretrained checkpoint using the original repository<a class="headerlink" href="#run-a-pretrained-checkpoint-using-the-original-repository" title="Permalink to this headline">¶</a></h3>
+<p><strong>3. Set up debugging environment</strong></p>
+<p>At first, you will work on the original <em>[camelcase name of model]</em> repository.
+Often, the original implementation is very “researchy”. Meaning that
+documentation might be lacking and the code can be difficult to
+understand. But this should be exactly your motivation to reimplement
+<em>[camelcase name of model]</em>. At Hugging Face, one of our main goals is to <em>make
+people stand on the shoulders of giants</em> which translates here very well
+into taking a working model and rewriting it to make it as <strong>accessible,
+user-friendly, and beautiful</strong> as possible. This is the number-one
+motivation to re-implement models into 🤗 Transformers - trying to make
+complex new NLP technology accessible to <strong>everybody</strong>.</p>
+<p>You should start thereby by diving into the [original repository]([link to original repo]).</p>
+<p>Successfully running the official pretrained model in the original
+repository is often <strong>the most difficult</strong> step. From our experience, it
+is very important to spend some time getting familiar with the original
+code-base. You need to figure out the following:</p>
+<ul class="simple">
+<li><p>Where to find the pretrained weights?</p></li>
+<li><p>How to load the pretrained weights into the corresponding model?</p></li>
+<li><p>How to run the tokenizer independently from the model?</p></li>
+<li><p>Trace one forward pass so that you know which classes and functions
+are required for a simple forward pass. Usually, you only have to
+reimplement those functions.</p></li>
+<li><p>Be able to locate the important components of the model: Where is
+the model’s class? Are there model sub-classes, <em>e.g.</em>,
+EncoderModel, DecoderModel? Where is the self-attention layer? Are
+there multiple different attention layers, <em>e.g.</em>, <em>self-attention</em>,
+<em>cross-attention</em>…?</p></li>
+<li><p>How can you debug the model in the original environment of the repo?
+Do you have to add <code class="docutils literal notranslate"><span class="pre">print</span></code> statements, can you work with
+an interactive debugger like <a class="reference external" href="https://pypi.org/project/ipdb/">ipdb</a>, or should you use
+an efficient IDE to debug the model, like PyCharm?</p></li>
+</ul>
+<p>It is very important that before you start the porting process, that you
+can <strong>efficiently</strong> debug code in the original repository! Also,
+remember that you are working with an open-source library, so do not
+hesitate to open an issue, or even a pull request in the original
+repository. The maintainers of this repository are most likely very
+happy about someone looking into their code!</p>
+<p>At this point, it is really up to you which debugging environment and
+strategy you prefer to use to debug the original model. We strongly
+advise against setting up a costly GPU environment, but simply work on a
+CPU both when starting to dive into the original repository and also
+when starting to write the 🤗 Transformers implementation of the model.
+Only at the very end, when the model has already been successfully
+ported to 🤗 Transformers, one should verify that the model also works as
+expected on GPU.</p>
+<p>In general, there are two possible debugging environments for running
+the original model</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://jupyter.org/">Jupyter notebooks</a> / <a class="reference external" href="https://colab.research.google.com/notebooks/intro.ipynb">google colab</a></p></li>
+<li><p>Local python scripts.</p></li>
+</ul>
+<p>Jupyter notebooks have the advantage that they allow for cell-by-cell
+execution which can be helpful to better split logical components from
+one another and to have faster debugging cycles as intermediate results
+can be stored. Also, notebooks are often easier to share with other
+contributors, which might be very helpful if you want to ask the Hugging
+Face team for help. If you are familiar with Jupiter notebooks, we
+strongly recommend you to work with them.</p>
+<p>The obvious disadvantage of Jupyther notebooks is that if you are not
+used to working with them you will have to spend some time adjusting to
+the new programming environment and that you might not be able to use
+your known debugging tools anymore, like <code class="docutils literal notranslate"><span class="pre">ipdb</span></code>.</p>
+<p><strong>4. Successfully run forward pass</strong></p>
+<p>For each code-base, a good first step is always to load a <strong>small</strong>
+pretrained checkpoint and to be able to reproduce a single forward pass
+using a dummy integer vector of input IDs as an input. Such a script
+could look like this (in pseudocode):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="p">[</span><span class="n">camelcase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="n">Model</span><span class="o">.</span><span class="n">load_pretrained_checkpoint</span><span class="p">(</span><span class="s2">&quot;/path/to/checkpoint/&quot;</span><span class="p">)</span>
+<span class="n">input_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>  <span class="c1"># vector of input ids</span>
+<span class="n">original_output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, regarding the debugging strategy, there are generally a few from
+which to choose from:</p>
+<ul class="simple">
+<li><p>Decompose the original model into many small testable components and
+run a forward pass on each of those for verification</p></li>
+<li><p>Decompose the original model only into the original <em>tokenizer</em> and
+the original <em>model</em>, run a forward pass on those, and use
+intermediate print statements or breakpoints for verification</p></li>
+</ul>
+<p>Again, it is up to you which strategy to choose. Often, one or the other
+is advantageous depending on the original code base.</p>
+<p>If the original code-base allows you to decompose the model into smaller
+sub-components, <em>e.g.</em>, if the original code-base can easily be run in
+eager mode, it is usually worth the effort to do so. There are some
+important advantages to taking the more difficult road in the beginning:</p>
+<ul class="simple">
+<li><p>at a later stage when comparing the original model to the Hugging
+Face implementation, you can verify automatically for each component
+individually that the corresponding component of the 🤗 Transformers
+implementation matches instead of relying on visual comparison via
+print statements</p></li>
+<li><p>it can give you some rope to decompose the big problem of porting a
+model into smaller problems of just porting individual components
+and thus structure your work better</p></li>
+<li><p>separating the model into logical meaningful components will help
+you to get a better overview of the model’s design and thus to
+better understand the model</p></li>
+<li><p>at a later stage those component-by-component tests help you to
+ensure that no regression occurs as you continue changing your code</p></li>
+</ul>
+<p><a class="reference external" href="https://gist.github.com/LysandreJik/db4c948f6b4483960de5cbac598ad4ed">Lysandre’s</a>
+integration checks for ELECTRA gives a nice example of how this can be
+done.</p>
+<p>However, if the original code-base is very complex or only allows
+intermediate components to be run in a compiled mode, it might be too
+time-consuming or even impossible to separate the model into smaller
+testable sub-components. A good example is <a class="reference external" href="https://github.com/tensorflow/mesh/tree/master/mesh_tensorflow">T5’s
+MeshTensorFlow</a>
+library which is very complex and does not offer a simple way to
+decompose the model into its sub-components. For such libraries, one
+often relies on verifying print statements.</p>
+<p>No matter which strategy you choose, the recommended procedure is often
+the same in that you should start to debug the starting layers first and
+the ending layers last.</p>
+<p>It is recommended that you retrieve the output, either by print
+statements or sub-component functions, of the following layers in the
+following order:</p>
+<ol class="simple">
+<li><p>Retrieve the input IDs passed to the model</p></li>
+<li><p>Retrieve the word embeddings</p></li>
+<li><p>Retrieve the input of the first Transformer layer</p></li>
+<li><p>Retrieve the output of the first Transformer layer</p></li>
+<li><p>Retrieve the output of the following n - 1 Transformer layers</p></li>
+<li><p>Retrieve the output of the whole [camelcase name of model] Model</p></li>
+</ol>
+<p>Input IDs should thereby consists of an array of integers, <em>e.g.</em>,
+<code class="docutils literal notranslate"><span class="pre">input_ids</span> <span class="pre">=</span> <span class="pre">[0,</span> <span class="pre">4,</span> <span class="pre">4,</span> <span class="pre">3,</span> <span class="pre">2,</span> <span class="pre">4,</span> <span class="pre">1,</span> <span class="pre">7,</span> <span class="pre">19]</span></code></p>
+<p>The outputs of the following layers often consist of multi-dimensional
+float arrays and can look like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[[</span>
+ <span class="o">[</span>-0.1465, -0.6501,  <span class="m">0</span>.1993,  ...,  <span class="m">0</span>.1451,  <span class="m">0</span>.3430,  <span class="m">0</span>.6024<span class="o">]</span>,
+ <span class="o">[</span>-0.4417, -0.5920,  <span class="m">0</span>.3450,  ..., -0.3062,  <span class="m">0</span>.6182,  <span class="m">0</span>.7132<span class="o">]</span>,
+ <span class="o">[</span>-0.5009, -0.7122,  <span class="m">0</span>.4548,  ..., -0.3662,  <span class="m">0</span>.6091,  <span class="m">0</span>.7648<span class="o">]</span>,
+ ...,
+ <span class="o">[</span>-0.5613, -0.6332,  <span class="m">0</span>.4324,  ..., -0.3792,  <span class="m">0</span>.7372,  <span class="m">0</span>.9288<span class="o">]</span>,
+ <span class="o">[</span>-0.5416, -0.6345,  <span class="m">0</span>.4180,  ..., -0.3564,  <span class="m">0</span>.6992,  <span class="m">0</span>.9191<span class="o">]</span>,
+ <span class="o">[</span>-0.5334, -0.6403,  <span class="m">0</span>.4271,  ..., -0.3339,  <span class="m">0</span>.6533,  <span class="m">0</span>.8694<span class="o">]]]</span>,
+</pre></div>
+</div>
+<p>We expect that every model added to 🤗 Transformers passes a couple of
+integration tests, meaning that the original model and the reimplemented
+version in 🤗 Transformers have to give the exact same output up to a
+precision of 0.001! Since it is normal that the exact same model written
+in different libraries can give a slightly different output depending on
+the library framework, we accept an error tolerance of 1e-3 (0.001). It
+is not enough if the model gives nearly the same output, they have to be
+the almost identical. Therefore, you will certainly compare the
+intermediate outputs of the 🤗 Transformers version multiple times
+against the intermediate outputs of the original implementation of
+<em>[camelcase name of model]</em> in which case an <strong>efficient</strong> debugging environment
+of the original repository is absolutely important. Here is some advice
+to make your debugging environment as efficient as possible.</p>
+<ul class="simple">
+<li><p>Find the best way of debugging intermediate results. Is the original
+repository written in PyTorch? Then you should probably take the
+time to write a longer script that decomposes the original model
+into smaller sub-components to retrieve intermediate values. Is the
+original repository written in Tensorflow 1? Then you might have to
+rely on TensorFlow print operations like
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/print">tf.print</a> to
+output intermediate values. Is the original repository written in
+Jax? Then make sure that the model is <strong>not jitted</strong> when running
+the forward pass, <em>e.g.</em>, check-out <a class="reference external" href="https://github.com/google/jax/issues/196">this
+link</a>.</p></li>
+<li><p>Use the smallest pretrained checkpoint you can find. The smaller the
+checkpoint, the faster your debug cycle becomes. It is not efficient
+if your pretrained model is so big that your forward pass takes more
+than 10 seconds. In case only very large checkpoints are available,
+it might make more sense to create a dummy model in the new
+environment with randomly initialized weights and save those weights
+for comparison with the 🤗 Transformers version of your model</p></li>
+<li><p>Make sure you are using the easiest way of calling a forward pass in
+the original repository. Ideally, you want to find the function in
+the original repository that <strong>only</strong> calls a single forward pass,
+<em>i.e.</em> that is often called <code class="docutils literal notranslate"><span class="pre">predict</span></code>, <code class="docutils literal notranslate"><span class="pre">evaluate</span></code>, <code class="docutils literal notranslate"><span class="pre">forward</span></code> or
+<code class="docutils literal notranslate"><span class="pre">__call__</span></code>. You don’t want to debug a function that calls <code class="docutils literal notranslate"><span class="pre">forward</span></code>
+multiple times, <em>e.g.</em>, to generate text, like
+<code class="docutils literal notranslate"><span class="pre">autoregressive_sample</span></code>, <code class="docutils literal notranslate"><span class="pre">generate</span></code>.</p></li>
+<li><p>Try to separate the tokenization from the model’s
+forward pass. If the original repository shows
+examples where you have to input a string, then try to find out
+where in the forward call the string input is changed to input ids
+and start from this point. This might mean that you have to possibly
+write a small script yourself or change the original code so that
+you can directly input the ids instead of an input string.</p></li>
+<li><p>Make sure that the model in your debugging setup is <strong>not</strong> in
+training mode, which often causes the model to yield random outputs
+due to multiple dropout layers in the model. Make sure that the
+forward pass in your debugging environment is <strong>deterministic</strong> so
+that the dropout layers are not used. Or use
+<code class="docutils literal notranslate"><span class="pre">transformers.file_utils.set_seed</span></code> if the old and new
+implementations are in the same framework.</p></li>
+</ul>
+<div class="section" id="more-details-on-how-to-create-a-debugging-environment-for-camelcase-name-of-model">
+<h4>More details on how to create a debugging environment for [camelcase name of model]<a class="headerlink" href="#more-details-on-how-to-create-a-debugging-environment-for-camelcase-name-of-model" title="Permalink to this headline">¶</a></h4>
+<p>[TODO FILL: Here the mentor should add very specific information on what the student should do]
+[to set up an efficient environment for the special requirements of this model]</p>
+</div>
+</div>
+<div class="section" id="port-camelcase-name-of-model-to-transformers">
+<h3>Port [camelcase name of model] to 🤗 Transformers<a class="headerlink" href="#port-camelcase-name-of-model-to-transformers" title="Permalink to this headline">¶</a></h3>
+<p>Next, you can finally start adding new code to 🤗 Transformers. Go into
+the clone of your 🤗 Transformers’ fork:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">transformers</span>
+</pre></div>
+</div>
+<p>In the special case that you are adding a model whose architecture
+exactly matches the model architecture of an existing model you only
+have to add a conversion script as described in <a class="reference external" href="#write-a-conversion-script">this
+section</a>. In this case, you can just re-use
+the whole model architecture of the already existing model.</p>
+<p>Otherwise, let’s start generating a new model with the amazing
+Cookiecutter!</p>
+<p><strong>Use the Cookiecutter to automatically generate the model’s code</strong></p>
+<p>To begin with head over to the <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/templates/adding_a_new_model">🤗 Transformers
+templates</a>
+to make use of our <code class="docutils literal notranslate"><span class="pre">cookiecutter</span></code> implementation to automatically
+generate all the relevant files for your model. Again, we recommend only
+adding the PyTorch version of the model at first. Make sure you follow
+the instructions of the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> on the <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/templates/adding_a_new_model">🤗 Transformers
+templates</a>
+carefully.</p>
+<p><strong>Open a Pull Request on the main huggingface/transformers repo</strong></p>
+<p>Before starting to adapt the automatically generated code, now is the
+time to open a “Work in progress (WIP)” pull request, <em>e.g.</em>, “[WIP]
+Add <em>[camelcase name of model]</em>”, in 🤗 Transformers so that you and the Hugging
+Face team can work side-by-side on integrating the model into 🤗
+Transformers.</p>
+<p>You should do the following:</p>
+<ol class="simple">
+<li><p>Create a branch with a descriptive name from your master branch</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">add_</span><span class="p">[</span><span class="n">lowercase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Commit the automatically generated code:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+    <span class="n">git</span> <span class="n">commit</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Fetch and rebase to current master</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
+    <span class="n">git</span> <span class="n">rebase</span> <span class="n">upstream</span><span class="o">/</span><span class="n">master</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Push the changes to your account using:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">git</span> <span class="n">push</span> <span class="o">-</span><span class="n">u</span> <span class="n">origin</span> <span class="n">a</span><span class="o">-</span><span class="n">descriptive</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">my</span><span class="o">-</span><span class="n">changes</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Once you are satisfied, go to the webpage of your fork on GitHub.
+Click on “Pull request”. Make sure to add the GitHub handle of
+[name of mentor] as a reviewer, so that the Hugging
+Face team gets notified for future changes.</p></li>
+<li><p>Change the PR into a draft by clicking on “Convert to draft” on the
+right of the GitHub pull request web page.</p></li>
+</ol>
+<p>In the following, whenever you have done some progress, don’t forget to
+commit your work and push it to your account so that it shows in the
+pull request. Additionally, you should make sure to update your work
+with the current master from time to time by doing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">upstream</span><span class="o">/</span><span class="n">master</span>
+</pre></div>
+</div>
+<p>In general, all questions you might have regarding the model or your
+implementation should be asked in your PR and discussed/solved in the
+PR. This way, [name of mentor] will always be notified when you are
+committing new code or if you have a question. It is often very helpful
+to point [name of mentor] to your added code so that the Hugging
+Face team can efficiently understand your problem or question.</p>
+<p>To do so, you can go to the “Files changed” tab where you see all of
+your changes, go to a line regarding which you want to ask a question,
+and click on the “+” symbol to add a comment. Whenever a question or
+problem has been solved, you can click on the “Resolve” button of the
+created comment.</p>
+<p>In the same way, [name of mentor] will open comments when reviewing
+your code. We recommend asking most questions on GitHub on your PR. For
+some very general questions that are not very useful for the public,
+feel free to ping [name of mentor] by Slack or email.</p>
+<p><strong>5. Adapt the generated models code for [camelcase name of model]</strong></p>
+<p>At first, we will focus only on the model itself and not care about the
+tokenizer. All the relevant code should be found in the generated files
+<code class="docutils literal notranslate"><span class="pre">src/transformers/models/[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]/modeling_[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model].py</span></code> and
+<code class="docutils literal notranslate"><span class="pre">src/transformers/models/[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]/configuration_[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model].py</span></code>.</p>
+<p>Now you can finally start coding :). The generated code in
+<code class="docutils literal notranslate"><span class="pre">src/transformers/models/[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]/modeling_[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model].py</span></code> will
+either have the same architecture as BERT if it’s an encoder-only model
+or BART if it’s an encoder-decoder model. At this point, you should
+remind yourself what you’ve learned in the beginning about the
+theoretical aspects of the model: <em>How is the model different from BERT
+or BART?</em>”. Implement those changes which often means to change the
+<em>self-attention</em> layer, the order of the normalization layer, etc…
+Again, it is often useful to look at the similar architecture of already
+existing models in Transformers to get a better feeling of how your
+model should be implemented.</p>
+<p><strong>Note</strong> that at this point, you don’t have to be very sure that your
+code is fully correct or clean. Rather, it is advised to add a first
+<em>unclean</em>, copy-pasted version of the original code to
+<code class="docutils literal notranslate"><span class="pre">src/transformers/models/[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]/modeling_[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model].py</span></code>
+until you feel like all the necessary code is added. From our
+experience, it is much more efficient to quickly add a first version of
+the required code and improve/correct the code iteratively with the
+conversion script as described in the next section. The only thing that
+has to work at this point is that you can instantiate the 🤗 Transformers
+implementation of <em>[camelcase name of model]</em>, <em>i.e.</em> the following command
+should work:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="p">[</span><span class="n">camelcase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="n">Model</span><span class="p">,</span> <span class="p">[</span><span class="n">camelcase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="n">Config</span>
+<span class="n">model</span> <span class="o">=</span> <span class="p">[</span><span class="n">camelcase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="n">Model</span><span class="p">([</span><span class="n">camelcase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="n">Config</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>The above command will create a model according to the default
+parameters as defined in <code class="docutils literal notranslate"><span class="pre">[camelcase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]Config()</span></code> with random weights,
+thus making sure that the <code class="docutils literal notranslate"><span class="pre">init()</span></code> methods of all components works.</p>
+<p>[TODO FILL: Here the mentor should add very specific information on what exactly has to be changed for this model]
+[…]
+[…]</p>
+<p><strong>6. Write a conversion script</strong></p>
+<p>Next, you should write a conversion script that lets you convert the
+checkpoint you used to debug <em>[camelcase name of model]</em> in the original
+repository to a checkpoint compatible with your just created 🤗
+Transformers implementation of <em>[camelcase name of model]</em>. It is not advised to
+write the conversion script from scratch, but rather to look through
+already existing conversion scripts in 🤗 Transformers for one that has
+been used to convert a similar model that was written in the same
+framework as <em>[camelcase name of model]</em>. Usually, it is enough to copy an
+already existing conversion script and slightly adapt it for your use
+case. Don’t hesitate to ask [name of mentor] to point you to a
+similar already existing conversion script for your model.</p>
+<ul class="simple">
+<li><p>If you are porting a model from TensorFlow to PyTorch, a good
+starting point might be BERT’s conversion script
+<a class="reference external" href="https://github.com/huggingface/transformers/blob/7acfa95afb8194f8f9c1f4d2c6028224dbed35a2/src/transformers/models/bert/modeling_bert.py#L91">here</a></p></li>
+<li><p>If you are porting a model from PyTorch to PyTorch, a good starting
+point might be BART’s conversion script
+<a class="reference external" href="https://github.com/huggingface/transformers/blob/master/src/transformers/models/bart/convert_bart_original_pytorch_checkpoint_to_pytorch.py">here</a></p></li>
+</ul>
+<p>In the following, we’ll quickly explain how PyTorch models store layer
+weights and define layer names. In PyTorch, the name of a layer is
+defined by the name of the class attribute you give the layer. Let’s
+define a dummy model in PyTorch, called <code class="docutils literal notranslate"><span class="pre">SimpleModel</span></code> as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="kn">as</span> <span class="nn">nn</span>
+
+<span class="k">class</span> <span class="nc">SimpleModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dense</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intermediate</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can create an instance of this model definition which will fill
+all weights: <code class="docutils literal notranslate"><span class="pre">dense</span></code>, <code class="docutils literal notranslate"><span class="pre">intermediate</span></code>, <code class="docutils literal notranslate"><span class="pre">layer_norm</span></code> with random weights.
+We can print the model to see its architecture</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">SimpleModel</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will print out the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SimpleModel<span class="o">(</span>
+  <span class="o">(</span>dense<span class="o">)</span>: Linear<span class="o">(</span><span class="nv">in_features</span><span class="o">=</span><span class="m">10</span>, <span class="nv">out_features</span><span class="o">=</span><span class="m">10</span>, <span class="nv">bias</span><span class="o">=</span>True<span class="o">)</span>
+  <span class="o">(</span>intermediate<span class="o">)</span>: Linear<span class="o">(</span><span class="nv">in_features</span><span class="o">=</span><span class="m">10</span>, <span class="nv">out_features</span><span class="o">=</span><span class="m">10</span>, <span class="nv">bias</span><span class="o">=</span>True<span class="o">)</span>
+  <span class="o">(</span>layer_norm<span class="o">)</span>: LayerNorm<span class="o">((</span><span class="m">10</span>,<span class="o">)</span>, <span class="nv">eps</span><span class="o">=</span>1e-05, <span class="nv">elementwise_affine</span><span class="o">=</span>True<span class="o">)</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>We can see that the layer names are defined by the name of the class
+attribute in PyTorch. You can print out the weight values of a specific
+layer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">dense</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>to see that the weights were randomly initialized</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tensor<span class="o">([[</span>-0.0818,  <span class="m">0</span>.2207, -0.0749, -0.0030,  <span class="m">0</span>.0045, -0.1569, -0.1598,  <span class="m">0</span>.0212,
+         -0.2077,  <span class="m">0</span>.2157<span class="o">]</span>,
+        <span class="o">[</span> <span class="m">0</span>.1044,  <span class="m">0</span>.0201,  <span class="m">0</span>.0990,  <span class="m">0</span>.2482,  <span class="m">0</span>.3116,  <span class="m">0</span>.2509,  <span class="m">0</span>.2866, -0.2190,
+          <span class="m">0</span>.2166, -0.0212<span class="o">]</span>,
+        <span class="o">[</span>-0.2000,  <span class="m">0</span>.1107, -0.1999, -0.3119,  <span class="m">0</span>.1559,  <span class="m">0</span>.0993,  <span class="m">0</span>.1776, -0.1950,
+         -0.1023, -0.0447<span class="o">]</span>,
+        <span class="o">[</span>-0.0888, -0.1092,  <span class="m">0</span>.2281,  <span class="m">0</span>.0336,  <span class="m">0</span>.1817, -0.0115,  <span class="m">0</span>.2096,  <span class="m">0</span>.1415,
+         -0.1876, -0.2467<span class="o">]</span>,
+        <span class="o">[</span> <span class="m">0</span>.2208, -0.2352, -0.1426, -0.2636, -0.2889, -0.2061, -0.2849, -0.0465,
+          <span class="m">0</span>.2577,  <span class="m">0</span>.0402<span class="o">]</span>,
+        <span class="o">[</span> <span class="m">0</span>.1502,  <span class="m">0</span>.2465,  <span class="m">0</span>.2566,  <span class="m">0</span>.0693,  <span class="m">0</span>.2352, -0.0530,  <span class="m">0</span>.1859, -0.0604,
+          <span class="m">0</span>.2132,  <span class="m">0</span>.1680<span class="o">]</span>,
+        <span class="o">[</span> <span class="m">0</span>.1733, -0.2407, -0.1721,  <span class="m">0</span>.1484,  <span class="m">0</span>.0358, -0.0633, -0.0721, -0.0090,
+          <span class="m">0</span>.2707, -0.2509<span class="o">]</span>,
+        <span class="o">[</span>-0.1173,  <span class="m">0</span>.1561,  <span class="m">0</span>.2945,  <span class="m">0</span>.0595, -0.1996,  <span class="m">0</span>.2988, -0.0802,  <span class="m">0</span>.0407,
+          <span class="m">0</span>.1829, -0.1568<span class="o">]</span>,
+        <span class="o">[</span>-0.1164, -0.2228, -0.0403,  <span class="m">0</span>.0428,  <span class="m">0</span>.1339,  <span class="m">0</span>.0047,  <span class="m">0</span>.1967,  <span class="m">0</span>.2923,
+          <span class="m">0</span>.0333, -0.0536<span class="o">]</span>,
+        <span class="o">[</span>-0.1492, -0.1616,  <span class="m">0</span>.1057,  <span class="m">0</span>.1950, -0.2807, -0.2710, -0.1586,  <span class="m">0</span>.0739,
+          <span class="m">0</span>.2220,  <span class="m">0</span>.2358<span class="o">]])</span>.
+</pre></div>
+</div>
+<p>In the conversion script, you should fill those randomly initialized
+weights with the exact weights of the corresponding layer in the
+checkpoint. <em>E.g.</em>,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># retrieve matching layer weights, e.g. by </span>
+<span class="c1"># recursive algorithm</span>
+<span class="n">layer_name</span> <span class="o">=</span> <span class="s2">&quot;dense&quot;</span>
+<span class="n">pretrained_weight</span> <span class="o">=</span> <span class="n">array_of_dense_layer</span>
+
+<span class="n">model_pointer</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;dense&quot;</span><span class="p">)</span>
+
+<span class="n">model_pointer</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">pretrained_weight</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>While doing so, you must verify that each randomly initialized weight of
+your PyTorch model and its corresponding pretrained checkpoint weight
+exactly match in both <strong>shape and name</strong>. To do so, it is <strong>necessary</strong>
+to add assert statements for the shape and print out the names of the
+checkpoints weights. <em>E.g.</em>, you should add statements like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="p">(</span>
+     <span class="n">model_pointer</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">pretrained_weight</span><span class="o">.</span><span class="n">shape</span>
+<span class="p">),</span> <span class="n">f</span><span class="s2">&quot;Pointer shape of random weight {model_pointer.shape} and array shape of checkpoint weight {pretrained_weight.shape} mismatched&quot;</span>
+</pre></div>
+</div>
+<p>Besides, you should also print out the names of both weights to make
+sure they match, <em>e.g.</em>,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Initialize PyTorch weight {layer_name} from {pretrained_weight.name}&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If either the shape or the name doesn’t match, you probably assigned
+the wrong checkpoint weight to a randomly initialized layer of the 🤗
+Transformers implementation.</p>
+<p>An incorrect shape is most likely due to an incorrect setting of the
+config parameters in <code class="docutils literal notranslate"><span class="pre">[camelcase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]Config()</span></code> that do not exactly match
+those that were used for the checkpoint you want to convert. However, it
+could also be that PyTorch’s implementation of a layer requires the
+weight to be transposed beforehand.</p>
+<p>Finally, you should also check that <strong>all</strong> required weights are
+initialized and print out all checkpoint weights that were not used for
+initialization to make sure the model is correctly converted. It is
+completely normal, that the conversion trials fail with either a wrong
+shape statement or wrong name assignment. This is most likely because
+either you used incorrect parameters in <code class="docutils literal notranslate"><span class="pre">[camelcase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]Config()</span></code>, have a
+wrong architecture in the 🤗 Transformers implementation, you have a bug
+in the <code class="docutils literal notranslate"><span class="pre">init()</span></code> functions of one of the components of the 🤗 Transformers
+implementation or you need to transpose one of the checkpoint weights.</p>
+<p>This step should be iterated with the previous step until all weights of
+the checkpoint are correctly loaded in the Transformers model. Having
+correctly loaded the checkpoint into the 🤗 Transformers implementation,
+you can then save the model under a folder of your choice
+<code class="docutils literal notranslate"><span class="pre">/path/to/converted/checkpoint/folder</span></code> that should then contain both a
+<code class="docutils literal notranslate"><span class="pre">pytorch_model.bin</span></code> file and a <code class="docutils literal notranslate"><span class="pre">config.json</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s2">&quot;/path/to/converted/checkpoint/folder&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>[TODO FILL: Here the mentor should add very specific information on what exactly has to be done for the conversion of this model]
+[…]
+[…]</p>
+<p><strong>7. Implement the forward pass</strong></p>
+<p>Having managed to correctly load the pretrained weights into the 🤗
+Transformers implementation, you should now make sure that the forward
+pass is correctly implemented. In <a class="reference external" href="#run-a-pretrained-checkpoint-using-the-original-repository">Get familiar with the original
+repository</a>,
+you have already created a script that runs a forward pass of the model
+using the original repository. Now you should write an analogous script
+using the 🤗 Transformers implementation instead of the original one. It
+should look as follows:</p>
+<p>[TODO FILL: Here the model name might have to be adapted, <em>e.g.</em>, maybe [camelcase name of model]ForConditionalGeneration instead of [camelcase name of model]Model]</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="p">[</span><span class="n">camelcase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="n">Model</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;/path/to/converted/checkpoint/folder&quot;</span><span class="p">)</span>
+<span class="n">input_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">19</span><span class="p">]</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span><span class="o">.</span><span class="n">last_hidden_states</span>
+</pre></div>
+</div>
+<p>It is very likely that the 🤗 Transformers implementation and the
+original model implementation don’t give the exact same output the very
+first time or that the forward pass throws an error. Don’t be
+disappointed - it’s expected! First, you should make sure that the
+forward pass doesn’t throw any errors. It often happens that the wrong
+dimensions are used leading to a <code class="docutils literal notranslate"><span class="pre">&quot;Dimensionality</span> <span class="pre">mismatch&quot;</span></code>
+error or that the wrong data type object is used, <em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">torch.long</span></code>
+instead of <code class="docutils literal notranslate"><span class="pre">torch.float32</span></code>. Don’t hesitate to ask [name of mentor]
+for help, if you don’t manage to solve certain errors.</p>
+<p>The final part to make sure the 🤗 Transformers implementation works
+correctly is to ensure that the outputs are equivalent to a precision of
+<code class="docutils literal notranslate"><span class="pre">1e-3</span></code>. First, you should ensure that the output shapes are identical,
+<em>i.e.</em> <code class="docutils literal notranslate"><span class="pre">outputs.shape</span></code> should yield the same value for the script of the
+🤗 Transformers implementation and the original implementation. Next, you
+should make sure that the output values are identical as well. This one
+of the most difficult parts of adding a new model. Common mistakes why
+the outputs are not identical are:</p>
+<ul class="simple">
+<li><p>Some layers were not added, <em>i.e.</em> an activation layer
+was not added, or the residual connection was forgotten</p></li>
+<li><p>The word embedding matrix was not tied</p></li>
+<li><p>The wrong positional embeddings are used because the original
+implementation uses on offset</p></li>
+<li><p>Dropout is applied during the forward pass. To fix this make sure
+<code class="docutils literal notranslate"><span class="pre">model.training</span> <span class="pre">is</span> <span class="pre">False</span></code> and that no dropout layer is
+falsely activated during the forward pass, <em>i.e.</em> pass
+<code class="docutils literal notranslate"><span class="pre">self.training</span></code> to <a class="reference external" href="https://pytorch.org/docs/stable/nn.functional.html?highlight=dropout#torch.nn.functional.dropout">PyTorch’s functional
+dropout</a></p></li>
+</ul>
+<p>The best way to fix the problem is usually to look at the forward pass
+of the original implementation and the 🤗 Transformers implementation
+side-by-side and check if there are any differences. Ideally, you should
+debug/print out intermediate outputs of both implementations of the
+forward pass to find the exact position in the network where the 🤗
+Transformers implementation shows a different output than the original
+implementation. First, make sure that the hard-coded <code class="docutils literal notranslate"><span class="pre">input_ids</span></code> in both
+scripts are identical. Next, verify that the outputs of the first
+transformation of the <code class="docutils literal notranslate"><span class="pre">input_ids</span></code> (usually the word embeddings) are
+identical. And then work your way up to the very last layer of the
+network. At some point, you will notice a difference between the two
+implementations, which should point you to the bug in the 🤗 Transformers
+implementation. From our experience, a simple and efficient way is to
+add many print statements in both the original implementation and 🤗
+Transformers implementation, at the same positions in the network
+respectively, and to successively remove print statements showing the
+same values for intermediate presentions.</p>
+<p>When you’re confident that both implementations yield the same output,
+verifying the outputs with
+<code class="docutils literal notranslate"><span class="pre">torch.allclose(original_output,</span> <span class="pre">output,</span> <span class="pre">atol=1e-3)</span></code>, you’re done with
+the most difficult part! Congratulations - the work left to be done
+should be a cakewalk 😊.</p>
+<p><strong>8. Adding all necessary model tests</strong></p>
+<p>At this point, you have successfully added a new model. However, it is
+very much possible that the model does not yet fully comply with the
+required design. To make sure, the implementation is fully compatible
+with 🤗 Transformers, all common tests should pass. The Cookiecutter
+should have automatically added a test file for your model, probably
+under the same <code class="docutils literal notranslate"><span class="pre">tests/test_modeling_[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model].py</span></code>. Run this test
+file to verify that all common tests pass:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_modeling_</span><span class="p">[</span><span class="n">lowercase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>[TODO FILL: Here the mentor should add very specific information on what tests are likely to fail after having implemented the model
+, e.g. given the model, it might be very likely that <code class="docutils literal notranslate"><span class="pre">test_attention_output</span></code> fails]
+[…]
+[…]</p>
+<p>Having fixed all common tests, it is now crucial to ensure that all the
+nice work you have done is well tested, so that</p>
+<ul class="simple">
+<li><p>a)  The community can easily understand your work by looking at
+specific tests of <em>[camelcase name of model]</em></p></li>
+<li><p>b)  Future changes to your model will not break any important
+feature of the model.</p></li>
+</ul>
+<p>At first, integration tests should be added. Those integration tests
+essentially do the same as the debugging scripts you used earlier to
+implement the model to 🤗 Transformers. A template of those model tests
+is already added by the Cookiecutter, called
+<code class="docutils literal notranslate"><span class="pre">[camelcase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]ModelIntegrationTests</span></code> and only has to be filled out by
+you. To ensure that those tests are passing, run</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">RUN_SLOW</span><span class="o">=</span><span class="mi">1</span> <span class="n">pytest</span> <span class="o">-</span><span class="n">sv</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_modeling_</span><span class="p">[</span><span class="n">lowercase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="o">.</span><span class="n">py</span><span class="p">::[</span><span class="n">camelcase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="n">ModelIntegrationTests</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> In case you are using Windows, you should replace <code class="docutils literal notranslate"><span class="pre">RUN_SLOW=1</span></code> with <code class="docutils literal notranslate"><span class="pre">SET</span> <span class="pre">RUN_SLOW=1</span></code></p>
+<p>Second, all features that are special to <em>[camelcase name of model]</em> should be
+tested additionally in a separate test under
+<code class="docutils literal notranslate"><span class="pre">[camelcase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]ModelTester</span></code>/<code class="docutils literal notranslate"><span class="pre">[camelcase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]ModelTest</span></code>. This part is often
+forgotten but is extremely useful in two ways:</p>
+<ul class="simple">
+<li><p>It helps to transfer the knowledge you have acquired during the
+model addition to the community by showing how the special features
+of <em>[camelcase name of model]</em> should work.</p></li>
+<li><p>Future contributors can quickly test changes to the model by running
+those special tests.</p></li>
+</ul>
+<p>[TODO FILL: Here the mentor should add very specific information on what special features of the model should be tested additionally]
+[…]
+[…]</p>
+<p><strong>9. Implement the tokenizer</strong></p>
+<p>Next, we should add the tokenizer of <em>[camelcase name of model]</em>. Usually, the
+tokenizer is equivalent or very similar to an already existing tokenizer
+of 🤗 Transformers.</p>
+<p>[TODO FILL: Here the mentor should add a comment whether a new tokenizer is required or if this is not the case which existing tokenizer closest resembles
+[camelcase name of model]’s tokenizer and how the tokenizer should be implemented]
+[…]
+[…]</p>
+<p>It is very important to find/extract the original tokenizer file and to
+manage to load this file into the 🤗 Transformers’ implementation of the
+tokenizer.</p>
+<p>For [camelcase name of model], the tokenizer files can be found here:</p>
+<ul class="simple">
+<li><p>[To be filled out by mentor]</p></li>
+</ul>
+<p>and having implemented the  🤗Transformers’ version of the tokenizer can be loaded as follows:</p>
+<p>[To be filled out by mentor]</p>
+<p>To ensure that the tokenizer works correctly, it is recommended to first
+create a script in the original repository that inputs a string and
+returns the <code class="docutils literal notranslate"><span class="pre">input_ids</span></code>. It could look similar to this (in pseudo-code):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">input_str</span> <span class="o">=</span> <span class="s2">&quot;This is a long example input string containing special characters .</span><span class="nv">$?</span><span class="s2">-, numbers 2872 234 12 and words.&quot;</span>
+<span class="nv">model</span> <span class="o">=</span> <span class="o">[</span>camelcase name of model<span class="o">]</span>Model.load_pretrained_checkpoint<span class="o">(</span><span class="s2">&quot;/path/to/checkpoint/&quot;</span><span class="o">)</span>
+<span class="nv">input_ids</span> <span class="o">=</span> model.tokenize<span class="o">(</span>input_str<span class="o">)</span>
+</pre></div>
+</div>
+<p>You might have to take a deeper look again into the original repository
+to find the correct tokenizer function or you might even have to do
+changes to your clone of the original repository to only output the
+<code class="docutils literal notranslate"><span class="pre">input_ids</span></code>. Having written a functional tokenization script that uses
+the original repository, an analogous script for 🤗 Transformers should
+be created. It should look similar to this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="p">[</span><span class="n">camelcase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="n">Tokenizer</span>
+<span class="n">input_str</span> <span class="o">=</span> <span class="s2">&quot;This is a long example input string containing special characters .$?-, numbers 2872 234 12 and words.&quot;</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="p">[</span><span class="n">camelcase</span> <span class="n">name</span> <span class="n">of</span> <span class="n">model</span><span class="p">]</span><span class="n">Tokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;/path/to/tokenizer/folder/&quot;</span><span class="p">)</span>
+
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">input_str</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+</pre></div>
+</div>
+<p>When both <code class="docutils literal notranslate"><span class="pre">input_ids</span></code> yield the same values, as a final step a tokenizer
+test file should also be added.</p>
+<p>[TODO FILL: Here mentor should point the student to test files of similar tokenizers]</p>
+<p>Analogous to the modeling test files of <em>[camelcase name of model]</em>, the
+tokenization test files of <em>[camelcase name of model]</em> should contain a couple of
+hard-coded integration tests.</p>
+<p>[TODO FILL: Here mentor should again point to an existing similar test of another model that the student can copy &amp; adapt]</p>
+<p><strong>10. Run End-to-end integration tests</strong></p>
+<p>Having added the tokenizer, you should also add a couple of end-to-end
+integration tests using both the model and the tokenizer to
+<code class="docutils literal notranslate"><span class="pre">tests/test_modeling_[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model].py</span></code> in 🤗 Transformers. Such a test
+should show on a meaningful text-to-text sample that the 🤗 Transformers
+implementation works as expected. A meaningful text-to-text sample can
+include <em>e.g.</em> a source-to-target-translation pair, an
+article-to-summary pair, a question-to-answer pair, etc… If none of
+the ported checkpoints has been fine-tuned on a downstream task it is
+enough to simply rely on the model tests. In a final step to ensure that
+the model is fully functional, it is advised that you also run all tests
+on GPU. It can happen that you forgot to add some <code class="docutils literal notranslate"><span class="pre">.to(self.device)</span></code>
+statements to internal tensors of the model, which in such a test would
+show in an error. In case you have no access to a GPU, the Hugging Face
+team can take care of running those tests for you.</p>
+<p><strong>11. Add Docstring</strong></p>
+<p>Now, all the necessary functionality for <em>[camelcase name of model]</em> is added -
+you’re almost done! The only thing left to add is a nice docstring and
+a doc page. The Cookiecutter should have added a template file called
+<code class="docutils literal notranslate"><span class="pre">docs/source/model_doc/[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model].rst</span></code> that you should fill out.
+Users of your model will usually first look at this page before using
+your model. Hence, the documentation must be understandable and concise.
+It is very useful for the community to add some <em>Tips</em> to show how the
+model should be used. Don’t hesitate to ping [name of mentor]
+regarding the docstrings.</p>
+<p>Next, make sure that the docstring added to
+<code class="docutils literal notranslate"><span class="pre">src/transformers/models/[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model]/modeling_[lowercase</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">model].py</span></code> is
+correct and included all necessary inputs and outputs. It is always to
+good to remind oneself that documentation should be treated at least as
+carefully as the code in 🤗 Transformers since the documentation is
+usually the first contact point of the community with the model.</p>
+<p><strong>Code refactor</strong></p>
+<p>Great, now you have added all the necessary code for <em>[camelcase name of model]</em>.
+At this point, you should correct some potential incorrect code style by
+running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make style
+</pre></div>
+</div>
+<p>and verify that your coding style passes the quality check:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make quality
+</pre></div>
+</div>
+<p>There are a couple of other very strict design tests in 🤗 Transformers
+that might still be failing, which shows up in the tests of your pull
+request. This is often because of some missing information in the
+docstring or some incorrect naming. [name of mentor] will surely
+help you if you’re stuck here.</p>
+<p>Lastly, it is always a good idea to refactor one’s code after having
+ensured that the code works correctly. With all tests passing, now it’s
+a good time to go over the added code again and do some refactoring.</p>
+<p>You have now finished the coding part, congratulation! 🎉 You are
+Awesome! 😎</p>
+<p><strong>12. Upload the models to the model hub</strong></p>
+<p>In this final part, you should convert and upload all checkpoints to the
+model hub and add a model card for each uploaded model checkpoint. You
+should work alongside [name of mentor] here to decide on a fitting
+name for each checkpoint and to get the required access rights to be
+able to upload the model under the author’s organization of
+<em>[camelcase name of model]</em>.</p>
+<p>It is worth spending some time to create fitting model cards for each
+checkpoint. The model cards should highlight the specific
+characteristics of this particular checkpoint, <em>e.g.</em>, On which dataset
+was the checkpoint pretrained/fine-tuned on? On what down-stream task
+should the model be used? And also include some code on how to correctly
+use the model.</p>
+<p><strong>13. (Optional) Add notebook</strong></p>
+<p>It is very helpful to add a notebook that showcases in-detail how
+<em>[camelcase name of model]</em> can be used for inference and/or fine-tuned on a
+downstream task. This is not mandatory to merge your PR, but very useful
+for the community.</p>
+<p><strong>14. Submit your finished PR</strong></p>
+<p>You’re done programming now and can move to the last step, which is
+getting your PR merged into master. Usually, [name of mentor]
+should have helped you already at this point, but it is worth taking
+some time to give your finished PR a nice description and eventually add
+comments to your code, if you want to point out certain design choices
+to your reviewer.</p>
+</div>
+<div class="section" id="share-your-work">
+<h3>Share your work!!<a class="headerlink" href="#share-your-work" title="Permalink to this headline">¶</a></h3>
+<p>Now, it’s time to get some credit from the community for your work!
+Having completed a model addition is a major contribution to
+Transformers and the whole NLP community. Your code and the ported
+pre-trained models will certainly be used by hundreds and possibly even
+thousands of developers and researchers. You should be proud of your
+work and share your achievement with the community.</p>
+<p><strong>You have made another model that is super easy to access for everyone
+in the community! 🤯</strong></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

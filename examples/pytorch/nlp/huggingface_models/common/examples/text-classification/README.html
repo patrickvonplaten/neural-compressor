@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text classification examples &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Text classification examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/text-classification/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!---
+Copyright 2020 The HuggingFace Team. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--><div class="section" id="text-classification-examples">
+<h1>Text classification examples<a class="headerlink" href="#text-classification-examples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pytorch-version">
+<h2>PyTorch version<a class="headerlink" href="#pytorch-version" title="Permalink to this headline">¶</a></h2>
+<p>Based on the script <a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/text-classification/run_glue.py"><code class="docutils literal notranslate"><span class="pre">run_glue.py</span></code></a>.</p>
+<p>Fine-tuning the library models for sequence classification on the GLUE benchmark: <a class="reference external" href="https://gluebenchmark.com/">General Language Understanding
+Evaluation</a>. This script can fine-tune any of the models on the <a class="reference external" href="https://huggingface.co/models">hub</a>
+and can also be used for your own data in a csv or a JSON file (the script might need some tweaks in that case, refer
+to the comments inside for help).</p>
+<p>GLUE is made up of a total of 9 different tasks. Here is how to run the script on one of them:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">TASK_NAME</span><span class="o">=</span>mrpc
+
+python run_glue.py <span class="se">\</span>
+  --model_name_or_path bert-base-cased <span class="se">\</span>
+  --task_name <span class="nv">$TASK_NAME</span> <span class="se">\</span>
+  --do_train <span class="se">\</span>
+  --do_eval <span class="se">\</span>
+  --max_seq_length <span class="m">128</span> <span class="se">\</span>
+  --per_device_train_batch_size <span class="m">32</span> <span class="se">\</span>
+  --learning_rate 2e-5 <span class="se">\</span>
+  --num_train_epochs <span class="m">3</span> <span class="se">\</span>
+  --output_dir /tmp/<span class="nv">$TASK_NAME</span>/
+</pre></div>
+</div>
+<p>where task name can be one of cola, sst2, mrpc, stsb, qqp, mnli, qnli, rte, wnli.</p>
+<p>We get the following results on the dev set of the benchmark with the previous commands (with an exception for MRPC and
+WNLI which are tiny and where we used 5 epochs isntead of 3). Trainings are seeded so you should obtain the same
+results with PyTorch 1.6.0 (and close results with different versions), training times are given for information (a
+single Titan RTX was used):</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Task</th>
+<th>Metric</th>
+<th>Result</th>
+<th>Training time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CoLA</td>
+<td>Matthew's corr</td>
+<td>56.53</td>
+<td>3:17</td>
+</tr>
+<tr>
+<td>SST-2</td>
+<td>Accuracy</td>
+<td>92.32</td>
+<td>26:06</td>
+</tr>
+<tr>
+<td>MRPC</td>
+<td>F1/Accuracy</td>
+<td>88.85/84.07</td>
+<td>2:21</td>
+</tr>
+<tr>
+<td>STS-B</td>
+<td>Person/Spearman corr.</td>
+<td>88.64/88.48</td>
+<td>2:13</td>
+</tr>
+<tr>
+<td>QQP</td>
+<td>Accuracy/F1</td>
+<td>90.71/87.49</td>
+<td>2:22:26</td>
+</tr>
+<tr>
+<td>MNLI</td>
+<td>Matched acc./Mismatched acc.</td>
+<td>83.91/84.10</td>
+<td>2:35:23</td>
+</tr>
+<tr>
+<td>QNLI</td>
+<td>Accuracy</td>
+<td>90.66</td>
+<td>40:57</td>
+</tr>
+<tr>
+<td>RTE</td>
+<td>Accuracy</td>
+<td>65.70</td>
+<td>57</td>
+</tr>
+<tr>
+<td>WNLI</td>
+<td>Accuracy</td>
+<td>56.34</td>
+<td>24</td>
+</tr>
+</tbody>
+</table><p>Some of these results are significantly different from the ones reported on the test set of GLUE benchmark on the
+website. For QQP and WNLI, please refer to <a class="reference external" href="https://gluebenchmark.com/faq">FAQ #12</a> on the website.</p>
+<div class="section" id="mixed-precision-training">
+<h3>Mixed precision training<a class="headerlink" href="#mixed-precision-training" title="Permalink to this headline">¶</a></h3>
+<p>If you have a GPU with mixed precision capabilities (architecture Pascal or more recent), you can use mixed precision
+training with PyTorch 1.6.0 or latest, or by installing the <a class="reference external" href="https://github.com/NVIDIA/apex">Apex</a> library for previous
+versions. Just add the flag <code class="docutils literal notranslate"><span class="pre">--fp16</span></code> to your command launching one of the scripts mentioned above!</p>
+<p>Using mixed precision training usually results in 2x-speedup for training with the same final results:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Task</th>
+<th>Metric</th>
+<th>Result</th>
+<th>Training time</th>
+<th>Result (FP16)</th>
+<th>Training time (FP16)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CoLA</td>
+<td>Matthew's corr</td>
+<td>56.53</td>
+<td>3:17</td>
+<td>56.78</td>
+<td>1:41</td>
+</tr>
+<tr>
+<td>SST-2</td>
+<td>Accuracy</td>
+<td>92.32</td>
+<td>26:06</td>
+<td>91.74</td>
+<td>13:11</td>
+</tr>
+<tr>
+<td>MRPC</td>
+<td>F1/Accuracy</td>
+<td>88.85/84.07</td>
+<td>2:21</td>
+<td>88.12/83.58</td>
+<td>1:10</td>
+</tr>
+<tr>
+<td>STS-B</td>
+<td>Person/Spearman corr.</td>
+<td>88.64/88.48</td>
+<td>2:13</td>
+<td>88.71/88.55</td>
+<td>1:08</td>
+</tr>
+<tr>
+<td>QQP</td>
+<td>Accuracy/F1</td>
+<td>90.71/87.49</td>
+<td>2:22:26</td>
+<td>90.67/87.43</td>
+<td>1:11:54</td>
+</tr>
+<tr>
+<td>MNLI</td>
+<td>Matched acc./Mismatched acc.</td>
+<td>83.91/84.10</td>
+<td>2:35:23</td>
+<td>84.04/84.06</td>
+<td>1:17:06</td>
+</tr>
+<tr>
+<td>QNLI</td>
+<td>Accuracy</td>
+<td>90.66</td>
+<td>40:57</td>
+<td>90.96</td>
+<td>20:16</td>
+</tr>
+<tr>
+<td>RTE</td>
+<td>Accuracy</td>
+<td>65.70</td>
+<td>57</td>
+<td>65.34</td>
+<td>29</td>
+</tr>
+<tr>
+<td>WNLI</td>
+<td>Accuracy</td>
+<td>56.34</td>
+<td>24</td>
+<td>56.34</td>
+<td>12</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="section" id="run-tensorflow-2-0-version">
+<h1>Run TensorFlow 2.0 version<a class="headerlink" href="#run-tensorflow-2-0-version" title="Permalink to this headline">¶</a></h1>
+<p>Based on the script <a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/text-classification/run_tf_glue.py"><code class="docutils literal notranslate"><span class="pre">run_tf_glue.py</span></code></a>.</p>
+<p>Fine-tuning the library TensorFlow 2.0 Bert model for sequence classification on the  MRPC task of the GLUE benchmark: <a class="reference external" href="https://gluebenchmark.com/">General Language Understanding Evaluation</a>.</p>
+<p>This script has an option for mixed precision (Automatic Mixed Precision / AMP) to run models on Tensor Cores (NVIDIA Volta/Turing GPUs) and future hardware and an option for XLA, which uses the XLA compiler to reduce model runtime.
+Options are toggled using <code class="docutils literal notranslate"><span class="pre">USE_XLA</span></code> or <code class="docutils literal notranslate"><span class="pre">USE_AMP</span></code> variables in the script.
+These options and the below benchmark are provided by &#64;tlkh.</p>
+<p>Quick benchmarks from the script (no other modifications):</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>GPU</th>
+<th>Mode</th>
+<th>Time (2nd epoch)</th>
+<th>Val Acc (3 runs)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Titan V</td>
+<td>FP32</td>
+<td>41s</td>
+<td>0.8438/0.8281/0.8333</td>
+</tr>
+<tr>
+<td>Titan V</td>
+<td>AMP</td>
+<td>26s</td>
+<td>0.8281/0.8568/0.8411</td>
+</tr>
+<tr>
+<td>V100</td>
+<td>FP32</td>
+<td>35s</td>
+<td>0.8646/0.8359/0.8464</td>
+</tr>
+<tr>
+<td>V100</td>
+<td>AMP</td>
+<td>22s</td>
+<td>0.8646/0.8385/0.8411</td>
+</tr>
+<tr>
+<td>1080 Ti</td>
+<td>FP32</td>
+<td>55s</td>
+<td>-</td>
+</tr>
+</tbody>
+</table><p>Mixed precision (AMP) reduces the training time considerably for the same hardware and hyper-parameters (same batch size was used).</p>
+<div class="section" id="run-generic-text-classification-script-in-tensorflow">
+<h2>Run generic text classification script in TensorFlow<a class="headerlink" href="#run-generic-text-classification-script-in-tensorflow" title="Permalink to this headline">¶</a></h2>
+<p>The script <a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/text-classification/run_tf_text_classification.py">run_tf_text_classification.py</a> allows users to run a text classification on their own CSV files. For now there are few restrictions, the CSV files must have a header corresponding to the column names and not more than three columns: one column for the id, one column for the text and another column for a second piece of text in case of an entailment classification for example.</p>
+<p>To use the script, one as to run the following command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_tf_text_classification.py <span class="se">\</span>
+  --train_file train.csv <span class="se">\ </span><span class="c1">### training dataset file location (mandatory if running with --do_train option)</span>
+  --dev_file dev.csv <span class="se">\ </span><span class="c1">### development dataset file location (mandatory if running with --do_eval option)</span>
+  --test_file test.csv <span class="se">\ </span><span class="c1">### test dataset file location (mandatory if running with --do_predict option)</span>
+  --label_column_id <span class="m">0</span> <span class="se">\ </span><span class="c1">### which column corresponds to the labels</span>
+  --model_name_or_path bert-base-multilingual-uncased <span class="se">\</span>
+  --output_dir model <span class="se">\</span>
+  --num_train_epochs <span class="m">4</span> <span class="se">\</span>
+  --per_device_train_batch_size <span class="m">16</span> <span class="se">\</span>
+  --per_device_eval_batch_size <span class="m">32</span> <span class="se">\</span>
+  --do_train <span class="se">\</span>
+  --do_eval <span class="se">\</span>
+  --do_predict <span class="se">\</span>
+  --logging_steps <span class="m">10</span> <span class="se">\</span>
+  --evaluation_strategy steps <span class="se">\</span>
+  --save_steps <span class="m">10</span> <span class="se">\</span>
+  --overwrite_output_dir <span class="se">\</span>
+  --max_seq_length <span class="m">128</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xnli">
+<h2>XNLI<a class="headerlink" href="#xnli" title="Permalink to this headline">¶</a></h2>
+<p>Based on the script <a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/text-classification/run_xnli.py"><code class="docutils literal notranslate"><span class="pre">run_xnli.py</span></code></a>.</p>
+<p><a class="reference external" href="https://www.nyu.edu/projects/bowman/xnli/">XNLI</a> is a crowd-sourced dataset based on <a class="reference external" href="http://www.nyu.edu/projects/bowman/multinli/">MultiNLI</a>. It is an evaluation benchmark for cross-lingual text representations. Pairs of text are labeled with textual entailment annotations for 15 different languages (including both high-resource language such as English and low-resource languages such as Swahili).</p>
+<div class="section" id="fine-tuning-on-xnli">
+<h3>Fine-tuning on XNLI<a class="headerlink" href="#fine-tuning-on-xnli" title="Permalink to this headline">¶</a></h3>
+<p>This example code fine-tunes mBERT (multi-lingual BERT) on the XNLI dataset. It runs in 106 mins on a single tesla V100 16GB.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python run_xnli.py <span class="se">\</span>
+  --model_name_or_path bert-base-multilingual-cased <span class="se">\</span>
+  --language de <span class="se">\</span>
+  --train_language en <span class="se">\</span>
+  --do_train <span class="se">\</span>
+  --do_eval <span class="se">\</span>
+  --per_device_train_batch_size <span class="m">32</span> <span class="se">\</span>
+  --learning_rate 5e-5 <span class="se">\</span>
+  --num_train_epochs <span class="m">2</span>.0 <span class="se">\</span>
+  --max_seq_length <span class="m">128</span> <span class="se">\</span>
+  --output_dir /tmp/debug_xnli/ <span class="se">\</span>
+  --save_steps -1
+</pre></div>
+</div>
+<p>Training with the previously defined hyper-parameters yields the following results on the <strong>test</strong> set:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">acc</span> <span class="o">=</span> <span class="m">0</span>.7093812375249501
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

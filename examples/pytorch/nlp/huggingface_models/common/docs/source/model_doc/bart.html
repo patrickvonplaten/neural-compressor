@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BART &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">BART</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/bart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="bart">
+<h1>BART<a class="headerlink" href="#bart" title="Permalink to this headline">¶</a></h1>
+<p><strong>DISCLAIMER:</strong> If you see something strange, file a <a class="reference external" href="https://github.com/huggingface/transformers/issues/new?assignees=&amp;labels=&amp;template=bug-report.md&amp;title">Github Issue</a> and assign
+&#64;patrickvonplaten</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The Bart model was proposed in <a class="reference external" href="https://arxiv.org/abs/1910.13461">BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation,
+Translation, and Comprehension</a> by Mike Lewis, Yinhan Liu, Naman Goyal, Marjan
+Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Ves Stoyanov and Luke Zettlemoyer on 29 Oct, 2019.</p>
+<p>According to the abstract,</p>
+<ul class="simple">
+<li><p>Bart uses a standard seq2seq/machine translation architecture with a bidirectional encoder (like BERT) and a
+left-to-right decoder (like GPT).</p></li>
+<li><p>The pretraining task involves randomly shuffling the order of the original sentences and a novel in-filling scheme,
+where spans of text are replaced with a single mask token.</p></li>
+<li><p>BART is particularly effective when fine tuned for text generation but also works well for comprehension tasks. It
+matches the performance of RoBERTa with comparable training resources on GLUE and SQuAD, achieves new
+state-of-the-art results on a range of abstractive dialogue, question answering, and summarization tasks, with gains
+of up to 6 ROUGE.</p></li>
+</ul>
+<p>The Authors’ code can be found <a class="reference external" href="https://github.com/pytorch/fairseq/tree/master/examples/bart">here</a>.</p>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Examples and scripts for fine-tuning BART and other models for sequence to sequence tasks can be found in
+<a href="#id1"><span class="problematic" id="id2">:prefix_link:`examples/seq2seq/ &lt;examples/seq2seq/README.md&gt;`</span></a>.</p></li>
+<li><p>An example of how to train <code class="xref py py-class docutils literal notranslate"><span class="pre">BartForConditionalGeneration</span></code> with a Hugging Face <code class="xref py py-obj docutils literal notranslate"><span class="pre">datasets</span></code>
+object can be found in this <a class="reference external" href="https://discuss.huggingface.co/t/train-bart-for-conditional-generation-e-g-summarization/1904">forum discussion</a>.</p></li>
+<li><p><a class="reference external" href="https://huggingface.co/models?search=distilbart">Distilled checkpoints</a> are described in this <a class="reference external" href="https://arxiv.org/abs/2010.13002">paper</a>.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="implementation-notes">
+<h2>Implementation Notes<a class="headerlink" href="#implementation-notes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Bart doesn’t use <code class="xref py py-obj docutils literal notranslate"><span class="pre">token_type_ids</span></code> for sequence classification. Use <code class="xref py py-class docutils literal notranslate"><span class="pre">BartTokenizer</span></code> or
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code> to get the proper splitting.</p></li>
+<li><p>The forward pass of <code class="xref py py-class docutils literal notranslate"><span class="pre">BartModel</span></code> will create the <code class="docutils literal notranslate"><span class="pre">decoder_input_ids</span></code> if they are not passed.
+This is different than some other modeling APIs. A typical use case of this feature is mask filling.</p></li>
+<li><p>Model predictions are intended to be identical to the original implementation when
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">force_bos_token_to_be_generated=True</span></code>. This only works, however, if the string you pass to
+<code class="xref py py-func docutils literal notranslate"><span class="pre">fairseq.encode()</span></code> starts with a space.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code> should be used for conditional generation tasks like
+summarization, see the example in that docstrings.</p></li>
+<li><p>Models that load the <cite>facebook/bart-large-cnn</cite> weights will not have a <code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_token_id</span></code>, or be able to perform
+mask-filling tasks.</p></li>
+</ul>
+</div>
+<div class="section" id="mask-filling">
+<h2>Mask Filling<a class="headerlink" href="#mask-filling" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">facebook/bart-base</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">facebook/bart-large</span></code> checkpoints can be used to fill multi-token masks.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">BartForConditionalGeneration</span><span class="p">,</span> <span class="n">BartTokenizer</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">BartForConditionalGeneration</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/bart-large&quot;</span><span class="p">,</span> <span class="n">force_bos_token_to_be_generated</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tok</span> <span class="o">=</span> <span class="n">BartTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/bart-large&quot;</span><span class="p">)</span>
+<span class="n">example_english_phrase</span> <span class="o">=</span> <span class="s2">&quot;UN Chief Says There Is No &lt;mask&gt; in Syria&quot;</span>
+<span class="n">batch</span> <span class="o">=</span> <span class="n">tok</span><span class="p">(</span><span class="n">example_english_phrase</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span>
+<span class="n">generated_ids</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">])</span>
+<span class="k">assert</span> <span class="n">tok</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">generated_ids</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;UN Chief Says There Is No Plan to Stop Chemical Weapons in Syria&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bartconfig">
+<h2>BartConfig<a class="headerlink" href="#bartconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="barttokenizer">
+<h2>BartTokenizer<a class="headerlink" href="#barttokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="barttokenizerfast">
+<h2>BartTokenizerFast<a class="headerlink" href="#barttokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bartmodel">
+<h2>BartModel<a class="headerlink" href="#bartmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bartforconditionalgeneration">
+<h2>BartForConditionalGeneration<a class="headerlink" href="#bartforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bartforsequenceclassification">
+<h2>BartForSequenceClassification<a class="headerlink" href="#bartforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bartforquestionanswering">
+<h2>BartForQuestionAnswering<a class="headerlink" href="#bartforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bartforcausallm">
+<h2>BartForCausalLM<a class="headerlink" href="#bartforcausallm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfbartmodel">
+<h2>TFBartModel<a class="headerlink" href="#tfbartmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfbartforconditionalgeneration">
+<h2>TFBartForConditionalGeneration<a class="headerlink" href="#tfbartforconditionalgeneration" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

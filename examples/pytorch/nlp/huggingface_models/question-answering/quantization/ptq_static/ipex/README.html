@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step by step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step by step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/question-answering/quantization/ptq_static/ipex/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step by step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the step-by-step instructions for reproducing bert-large and distilbert-base models with IPEX backend tuning results with Intel® Neural Compressor.</p>
+<blockquote>
+<div><p>Note: IPEX version &gt;= 1.10</p>
+</div></blockquote>
+<div class="section" id="prepare">
+<h2>Prepare<a class="headerlink" href="#prepare" title="Permalink to this headline">¶</a></h2>
+<p>Follow <a class="reference external" href="https://github.com/intel-innersource/frameworks.ai.models.intel-models/blob/develop/docs/general/pytorch/BareMetalSetup.md">link</a> to install Conda and build Pytorch, IPEX, TorchVison Jemalloc and TCMalloc.</p>
+<ul class="simple">
+<li><p>Install dependency</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">conda</span> <span class="n">install</span> <span class="n">intel</span><span class="o">-</span><span class="n">openmp</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Set ENV to use AMX if you are using SPR</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">export</span> <span class="n">DNNL_MAX_CPU_ISA</span><span class="o">=</span><span class="n">AVX512_CORE_AMX</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Install Intel® Extension for PyTorch* (IPEX)</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">intel_extension_for_pytorch</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">software</span><span class="o">.</span><span class="n">intel</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ipex</span><span class="o">-</span><span class="n">whl</span><span class="o">-</span><span class="n">stable</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>Note: Intel® Extension for PyTorch* has PyTorch version requirement. Please check more detailed information via the URL below.</p>
+</div></blockquote>
+</div>
+<div class="section" id="run">
+<h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bert-large-inference">
+<h3>Bert-Large Inference<a class="headerlink" href="#bert-large-inference" title="Permalink to this headline">¶</a></h3>
+<p>If IPEX version is equal or higher than 1.12, please install transformers 4.19.0. We can use the model from huggingface model hub and squad dataset from datasets package, run script <code class="docutils literal notranslate"><span class="pre">run_qa.py</span></code> with command as following.</p>
+<ul class="simple">
+<li><p>Install transformers</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">pip</span> <span class="n">install</span> <span class="n">transformers</span> <span class="o">==</span> <span class="mf">4.19</span><span class="o">.</span><span class="mi">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Command</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">python</span> <span class="n">run_qa</span><span class="o">.</span><span class="n">py</span> 
+    <span class="o">--</span><span class="n">model_name_or_path</span> <span class="n">bert</span><span class="o">-</span><span class="n">large</span><span class="o">-</span><span class="n">uncased</span><span class="o">-</span><span class="n">whole</span><span class="o">-</span><span class="n">word</span><span class="o">-</span><span class="n">masking</span><span class="o">-</span><span class="n">finetuned</span><span class="o">-</span><span class="n">squad</span> \
+    <span class="o">--</span><span class="n">dataset_name</span> <span class="n">squad</span> \
+    <span class="o">--</span><span class="n">do_eval</span> \
+    <span class="o">--</span><span class="n">max_seq_length</span> <span class="mi">384</span> \
+    <span class="o">--</span><span class="n">doc_stride</span> <span class="mi">128</span> \
+    <span class="o">--</span><span class="n">no_cuda</span> \
+    <span class="o">--</span><span class="n">tune</span> \
+    <span class="o">--</span><span class="n">output_dir</span> <span class="o">./</span><span class="n">savedresult</span> 
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">bash</span> <span class="n">run_tuning</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">topology</span><span class="o">=</span><span class="s2">&quot;bert_large_ipex&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">bash</span> <span class="n">run_benchmark</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">topology</span><span class="o">=</span><span class="s2">&quot;bert_large_ipex&quot;</span> <span class="o">--</span><span class="n">mode</span><span class="o">=</span><span class="n">benchmark</span>
+</pre></div>
+</div>
+<p>If IPEX verison is 1.10 or 1.11, please install transformers 3.0.2, prepare model, dataset and run script <code class="docutils literal notranslate"><span class="pre">run_qa_1_10.py</span></code> command as following.</p>
+<ul class="simple">
+<li><p>install transformers</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">transformers</span> <span class="o">==</span> <span class="mf">3.0</span><span class="o">.</span><span class="mi">2</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Download dataset
+Please following this <a class="reference external" href="https://github.com/huggingface/transformers/tree/v3.0.2/examples/question-answering">link</a> to get dev-v1.1.json</p></li>
+<li><p>Download fine-tuned model</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">mkdir</span> <span class="n">bert_squad_model</span>
+  <span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">models</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">co</span><span class="o">/</span><span class="n">bert</span><span class="o">/</span><span class="n">bert</span><span class="o">-</span><span class="n">large</span><span class="o">-</span><span class="n">uncased</span><span class="o">-</span><span class="n">whole</span><span class="o">-</span><span class="n">word</span><span class="o">-</span><span class="n">masking</span><span class="o">-</span><span class="n">finetuned</span><span class="o">-</span><span class="n">squad</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">O</span> <span class="n">bert_squad_model</span><span class="o">/</span><span class="n">config</span><span class="o">.</span><span class="n">json</span>
+  <span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">cdn</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">co</span><span class="o">/</span><span class="n">bert</span><span class="o">-</span><span class="n">large</span><span class="o">-</span><span class="n">uncased</span><span class="o">-</span><span class="n">whole</span><span class="o">-</span><span class="n">word</span><span class="o">-</span><span class="n">masking</span><span class="o">-</span><span class="n">finetuned</span><span class="o">-</span><span class="n">squad</span><span class="o">-</span><span class="n">pytorch_model</span><span class="o">.</span><span class="n">bin</span>  <span class="o">-</span><span class="n">O</span> <span class="n">bert_squad_model</span><span class="o">/</span><span class="n">pytorch_model</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Command</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">python</span> <span class="n">run_qa_1_10</span><span class="o">.</span><span class="n">py</span> 
+    <span class="o">--</span><span class="n">model_type</span> <span class="n">bert</span> 
+    <span class="o">--</span><span class="n">model_name_or_path</span> <span class="o">./</span><span class="n">bert_squad_model</span><span class="o">/</span> <span class="c1">#finetuned model</span>
+    <span class="o">--</span><span class="n">do_lower_case</span> 
+    <span class="o">--</span><span class="n">predict_file</span> <span class="o">./</span><span class="n">dev</span><span class="o">-</span><span class="n">v1</span><span class="o">.</span><span class="mf">1.</span><span class="n">json</span> <span class="c1">#dataset</span>
+    <span class="o">--</span><span class="n">tokenizer_name</span> <span class="n">bert</span><span class="o">-</span><span class="n">large</span><span class="o">-</span><span class="n">uncased</span><span class="o">-</span><span class="n">whole</span><span class="o">-</span><span class="n">word</span><span class="o">-</span><span class="n">masking</span><span class="o">-</span><span class="n">finetuned</span><span class="o">-</span><span class="n">squad</span> 
+    <span class="o">--</span><span class="n">do_eval</span> 
+    <span class="o">--</span><span class="n">max_seq_length</span> <span class="mi">384</span> 
+    <span class="o">--</span><span class="n">doc_stride</span> <span class="mi">128</span>  
+    <span class="o">--</span><span class="n">no_cuda</span>  
+    <span class="o">--</span><span class="n">tune</span> 
+    <span class="o">--</span><span class="n">output_dir</span> <span class="o">./</span><span class="n">savedresult</span>  
+    <span class="o">--</span><span class="n">int8</span> 
+    <span class="o">--</span><span class="n">int8_fp32</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">bash</span> <span class="n">run_tuning</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">topology</span><span class="o">=</span><span class="s2">&quot;bert_large_1_10_ipex&quot;</span> <span class="o">--</span><span class="n">dataset_location</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">dataset</span> <span class="o">--</span><span class="n">input_model</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">model</span> 
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">bash</span> <span class="n">run_benchmark</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">topology</span><span class="o">=</span><span class="s2">&quot;bert_large_1_10_ipex&quot;</span> <span class="o">--</span><span class="n">dataset_location</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">dataset</span> <span class="o">--</span><span class="n">input_model</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">model</span> <span class="o">--</span><span class="n">mode</span><span class="o">=</span><span class="n">benchmark</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="distilbert-base-inference">
+<h3>Distilbert-base Inference<a class="headerlink" href="#distilbert-base-inference" title="Permalink to this headline">¶</a></h3>
+<p>For distilbert-base, the IPEX version requests equal or higher than 1.12.</p>
+<ul class="simple">
+<li><p>install transformers</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">pip</span> <span class="n">install</span> <span class="n">transformers</span> <span class="o">==</span> <span class="mf">4.19</span><span class="o">.</span><span class="mi">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Command</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">python</span> <span class="n">run_qa</span><span class="o">.</span><span class="n">py</span> 
+    <span class="o">--</span><span class="n">model_name_or_path</span> <span class="n">distilbert</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">uncased</span><span class="o">-</span><span class="n">distilled</span><span class="o">-</span><span class="n">squad</span> \
+    <span class="o">--</span><span class="n">dataset_name</span> <span class="n">squad</span> \
+    <span class="o">--</span><span class="n">do_eval</span> \
+    <span class="o">--</span><span class="n">max_seq_length</span> <span class="mi">384</span> \
+    <span class="o">--</span><span class="n">doc_stride</span> <span class="mi">128</span> \
+    <span class="o">--</span><span class="n">no_cuda</span> \
+    <span class="o">--</span><span class="n">tune</span> \
+    <span class="o">--</span><span class="n">output_dir</span> <span class="o">./</span><span class="n">savedresult</span> 
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">bash</span> <span class="n">run_tuning</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">topology</span><span class="o">=</span><span class="s2">&quot;distilbert_base_ipex&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">bash</span> <span class="n">run_benchmark</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">topology</span><span class="o">=</span><span class="s2">&quot;distilbert_base_ipex&quot;</span> <span class="o">--</span><span class="n">mode</span><span class="o">=</span><span class="n">benchmark</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

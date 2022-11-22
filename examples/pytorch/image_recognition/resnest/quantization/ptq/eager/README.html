@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step-by-Step &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Step-by-Step</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/image_recognition/resnest/quantization/ptq/eager/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="step-by-step">
+<h1>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the step-by-step instructions for reproducing PyTorch ResNest50 tuning results with Intel® Neural Compressor.</p>
+<blockquote>
+<div><p><strong>Note</strong></p>
+<ul class="simple">
+<li><p>PyTorch quantization implementation in imperative path has limitation on automatically execution. It requires to manually add QuantStub and DequantStub for quantizable ops, it also requires to manually do fusion operation.</p></li>
+<li><p>Intel® Neural Compressor supposes user have done these two steps before invoking Intel® Neural Compressor interface.
+For details, please refer to https://pytorch.org/docs/stable/quantization.html</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="prerequisite">
+<h1>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> examples/pytorch/image_recognition/resnest/quantization/ptq/eager
+pip install -r requirements.txt
+python setup.py install
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-dataset">
+<h2>2. Prepare Dataset<a class="headerlink" href="#prepare-dataset" title="Permalink to this headline">¶</a></h2>
+<p>Download <a class="reference external" href="http://www.image-net.org/">ImageNet</a> Raw image to dir: /path/to/imagenet. The dir include below folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls /path/to/imagenet
+train  val
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="run">
+<h1>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="resnest50">
+<h2>1. ResNest50<a class="headerlink" href="#resnest50" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>python -u scripts/torch/verify.py --tune --model resnest50 --batch-size what_you_want --workers <span class="m">1</span> --no-cuda /path/to/imagenet
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="examples-of-enabling-intel-neural-compressor-auto-tuning-on-pytorch-resnest">
+<h1>Examples of enabling Intel® Neural Compressor auto tuning on PyTorch ResNest<a class="headerlink" href="#examples-of-enabling-intel-neural-compressor-auto-tuning-on-pytorch-resnest" title="Permalink to this headline">¶</a></h1>
+<p>This is a tutorial of how to enable a PyTorch classification model with Intel® Neural Compressor.</p>
+</div>
+<div class="section" id="user-code-analysis">
+<h1>User Code Analysis<a class="headerlink" href="#user-code-analysis" title="Permalink to this headline">¶</a></h1>
+<p>Intel® Neural Compressor supports three usages:</p>
+<ol class="simple">
+<li><p>User only provide fp32 “model”, and configure calibration dataset, evaluation dataset and metric in model-specific yaml config file.</p></li>
+<li><p>User provide fp32 “model”, calibration dataset “q_dataloader” and evaluation dataset “eval_dataloader”, and configure metric in tuning.metric field of model-specific yaml config file.</p></li>
+<li><p>User specifies fp32 “model”, calibration dataset “q_dataloader” and a custom “eval_func” which encapsulates the evaluation dataset and metric by itself.</p></li>
+</ol>
+<p>As ResNest series are typical classification models, use Top-K as metric which is built-in supported by Intel® Neural Compressor. So here we integrate PyTorch ResNest with Intel® Neural Compressor by the first use case for simplicity.</p>
+<div class="section" id="write-yaml-config-file">
+<h2>Write Yaml config file<a class="headerlink" href="#write-yaml-config-file" title="Permalink to this headline">¶</a></h2>
+<p>In examples directory, there is a template.yaml. We could remove most of the items and only keep mandatory item for tuning.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1">#conf.yaml</span>
+<span class="nt">model</span><span class="p">:</span>                                               <span class="c1"># mandatory. used to specify model specific information.</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">resnest</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pytorch</span>                                 <span class="c1"># mandatory. supported values are tensorflow, pytorch, pytorch_ipex, onnxrt_integer, onnxrt_qlinear or mxnet; allow new framework backend extension.</span>
+
+<span class="nt">quantization</span><span class="p">:</span>                                        <span class="c1"># optional. tuning constraints on model-wise for advance user to reduce tuning space.</span>
+  <span class="nt">calibration</span><span class="p">:</span>
+    <span class="nt">sampling_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">300</span>                               <span class="c1"># optional. default value is 100. used to set how many samples should be used in calibration.</span>
+    <span class="nt">dataloader</span><span class="p">:</span>
+      <span class="nt">batch_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+      <span class="nt">dataset</span><span class="p">:</span>
+        <span class="nt">ImageFolder</span><span class="p">:</span>
+          <span class="nt">root</span><span class="p">:</span> <span class="nt">/path/to/calibration/dataset         # NOTE</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">modify to calibration dataset location if needed</span>
+      <span class="nt">transform</span><span class="p">:</span>
+        <span class="nt">RandomResizedCrop</span><span class="p">:</span>
+            <span class="nt">size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">224</span>
+        <span class="nt">RandomHorizontalFlip</span><span class="p">:</span>
+        <span class="nt">ToTensor</span><span class="p">:</span>
+        <span class="nt">Normalize</span><span class="p">:</span>
+            <span class="nt">mean</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.485</span><span class="p p-Indicator">,</span> <span class="nv">0.456</span><span class="p p-Indicator">,</span> <span class="nv">0.406</span><span class="p p-Indicator">]</span>
+            <span class="nt">std</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.229</span><span class="p p-Indicator">,</span> <span class="nv">0.224</span><span class="p p-Indicator">,</span> <span class="nv">0.225</span><span class="p p-Indicator">]</span>
+
+<span class="nt">evaluation</span><span class="p">:</span>                                          <span class="c1"># optional. required if user doesn&#39;t provide eval_func in neural_compressor.Quantization.</span>
+  <span class="nt">accuracy</span><span class="p">:</span>                                          <span class="c1"># optional. required if user doesn&#39;t provide eval_func in neural_compressor.Quantization.</span>
+    <span class="nt">metric</span><span class="p">:</span>
+      <span class="nt">topk</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>                                        <span class="c1"># built-in metrics are topk, map, f1, allow user to register new metric.</span>
+    <span class="nt">dataloader</span><span class="p">:</span>
+      <span class="nt">batch_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+      <span class="nt">dataset</span><span class="p">:</span>
+        <span class="nt">ImageFolder</span><span class="p">:</span>
+          <span class="nt">root</span><span class="p">:</span> <span class="nt">/path/to/evaluation/dataset          # NOTE</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">modify to evaluation dataset location if needed</span>
+      <span class="nt">transform</span><span class="p">:</span>
+        <span class="nt">Resize</span><span class="p">:</span>
+          <span class="nt">size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">256</span>
+        <span class="nt">CenterCrop</span><span class="p">:</span>
+          <span class="nt">size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">224</span>
+        <span class="nt">ToTensor</span><span class="p">:</span>
+        <span class="nt">Normalize</span><span class="p">:</span>
+          <span class="nt">mean</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.485</span><span class="p p-Indicator">,</span> <span class="nv">0.456</span><span class="p p-Indicator">,</span> <span class="nv">0.406</span><span class="p p-Indicator">]</span>
+          <span class="nt">std</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.229</span><span class="p p-Indicator">,</span> <span class="nv">0.224</span><span class="p p-Indicator">,</span> <span class="nv">0.225</span><span class="p p-Indicator">]</span>
+  <span class="nt">performance</span><span class="p">:</span>                                       <span class="c1"># optional. used to benchmark performance of passing model.</span>
+    <span class="nt">configs</span><span class="p">:</span>
+      <span class="nt">cores_per_instance</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+      <span class="nt">num_of_instance</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">7</span>
+    <span class="nt">dataloader</span><span class="p">:</span>
+      <span class="nt">batch_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+      <span class="nt">dataset</span><span class="p">:</span>
+        <span class="nt">ImageFolder</span><span class="p">:</span>
+          <span class="nt">root</span><span class="p">:</span> <span class="nt">/path/to/evaluation/dataset          # NOTE</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">modify to evaluation dataset location if needed</span>
+      <span class="nt">transform</span><span class="p">:</span>
+        <span class="nt">Resize</span><span class="p">:</span>
+          <span class="nt">size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">256</span>
+        <span class="nt">CenterCrop</span><span class="p">:</span>
+          <span class="nt">size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">224</span>
+        <span class="nt">ToTensor</span><span class="p">:</span>
+        <span class="nt">Normalize</span><span class="p">:</span>
+          <span class="nt">mean</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.485</span><span class="p p-Indicator">,</span> <span class="nv">0.456</span><span class="p p-Indicator">,</span> <span class="nv">0.406</span><span class="p p-Indicator">]</span>
+          <span class="nt">std</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.229</span><span class="p p-Indicator">,</span> <span class="nv">0.224</span><span class="p p-Indicator">,</span> <span class="nv">0.225</span><span class="p p-Indicator">]</span>
+
+<span class="nt">tuning</span><span class="p">:</span>
+  <span class="nt">accuracy_criterion</span><span class="p">:</span>
+    <span class="nt">relative</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.01</span>                                  <span class="c1"># optional. default value is relative, other value is absolute. this example allows relative accuracy loss: 1%.</span>
+  <span class="nt">exit_policy</span><span class="p">:</span>
+    <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>                                       <span class="c1"># optional. tuning timeout (seconds). default value is 0 which means early stop. combine with max_trials field to decide when to exit.</span>
+  <span class="nt">random_seed</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">9527</span>                                  <span class="c1"># optional. random seed for deterministic tuning.</span>
+</pre></div>
+</div>
+<p>Here we choose topk built-in metric and set accuracy target as tolerating 0.01 relative accuracy loss of baseline. The default tuning strategy is basic strategy. The timeout 0 means unlimited time for a tuning config meet accuracy target.</p>
+</div>
+<div class="section" id="prepare">
+<h2>prepare<a class="headerlink" href="#prepare" title="Permalink to this headline">¶</a></h2>
+<p>PyTorch quantization requires two manual steps:</p>
+<ol class="simple">
+<li><p>Add QuantStub and DeQuantStub for all quantizable ops.</p></li>
+<li><p>Fuse possible patterns, such as Conv + Relu and Conv + BN + Relu.</p></li>
+</ol>
+<p>It’s intrinsic limitation of PyTorch quantization imperative path. No way to develop a code to automatically do that.</p>
+<p>The related code changes please refer to examples/pytorch/image_recognition/resnest/quantization/ptq/eager/resnest/torch/resnet.py and examples/pytorch/image_recognition/resnest/quantization/ptq/eager/resnest/torch/splat.py.</p>
+</div>
+<div class="section" id="code-update">
+<h2>code update<a class="headerlink" href="#code-update" title="Permalink to this headline">¶</a></h2>
+<p>After prepare step is done, we just need update main.py like below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fuse_model</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span><span class="p">,</span> <span class="n">common</span>
+<span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="s2">&quot;./conf.yaml&quot;</span><span class="p">)</span>
+<span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">q_model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The quantizer.fit() function will return a best quantized model during timeout constrain.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

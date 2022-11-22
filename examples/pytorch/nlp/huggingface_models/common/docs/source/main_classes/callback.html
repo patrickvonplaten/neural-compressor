@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Callbacks &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Callbacks</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/main_classes/callback.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="callbacks">
+<h1>Callbacks<a class="headerlink" href="#callbacks" title="Permalink to this headline">¶</a></h1>
+<p>Callbacks are objects that can customize the behavior of the training loop in the PyTorch
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> (this feature is not yet implemented in TensorFlow) that can inspect the training loop
+state (for progress reporting, logging on TensorBoard or other ML platforms…) and take decisions (like early
+stopping).</p>
+<p>Callbacks are “read only” pieces of code, apart from the <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainerControl</span></code> object they return, they
+cannot change anything in the training loop. For customizations that require changes in the training loop, you should
+subclass <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> and override the methods you need (see <a class="reference internal" href="trainer.html"><span class="doc">Trainer</span></a> for examples).</p>
+<p>By default a <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> will use the following callbacks:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultFlowCallback</span></code> which handles the default behavior for logging, saving and evaluation.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PrinterCallback</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">ProgressCallback</span></code> to display progress and print the
+logs (the first one is used if you deactivate tqdm through the <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingArguments</span></code>, otherwise
+it’s the second one).</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">TensorBoardCallback</span></code> if tensorboard is accessible (either through PyTorch &gt;= 1.4
+or tensorboardX).</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">WandbCallback</span></code> if <a class="reference external" href="https://www.wandb.com/">wandb</a> is installed.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">CometCallback</span></code> if <a class="reference external" href="https://www.comet.ml/site/">comet_ml</a> is installed.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MLflowCallback</span></code> if <a class="reference external" href="https://www.mlflow.org/">mlflow</a> is installed.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AzureMLCallback</span></code> if <a class="reference external" href="https://pypi.org/project/azureml-sdk/">azureml-sdk</a> is
+installed.</p></li>
+</ul>
+<p>The main class that implements callbacks is <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainerCallback</span></code>. It gets the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingArguments</span></code> used to instantiate the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code>, can access that
+Trainer’s internal state via <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainerState</span></code>, and can take some actions on the training loop via
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TrainerControl</span></code>.</p>
+<div class="section" id="available-callbacks">
+<h2>Available Callbacks<a class="headerlink" href="#available-callbacks" title="Permalink to this headline">¶</a></h2>
+<p>Here is the list of the available <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainerCallback</span></code> in the library:</p>
+</div>
+<div class="section" id="trainercallback">
+<h2>TrainerCallback<a class="headerlink" href="#trainercallback" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="trainerstate">
+<h2>TrainerState<a class="headerlink" href="#trainerstate" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="trainercontrol">
+<h2>TrainerControl<a class="headerlink" href="#trainercontrol" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

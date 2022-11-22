@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patience-based Early Exit &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Patience-based Early Exit</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/bert-loses-patience/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="patience-based-early-exit">
+<h1>Patience-based Early Exit<a class="headerlink" href="#patience-based-early-exit" title="Permalink to this headline">¶</a></h1>
+<p>Patience-based Early Exit (PABEE) is a plug-and-play inference method for pretrained language models.
+We have already implemented it on BERT and ALBERT. Basically, you can make your LM faster and more robust with PABEE. It can even improve the performance of ALBERT on GLUE. The only sacrifice is that the batch size can only be 1.
+Learn more in the paper <a class="reference external" href="https://arxiv.org/abs/2006.04152">“BERT Loses Patience: Fast and Robust Inference with Early Exit”</a> and the official <a class="reference external" href="https://github.com/JetRunner/PABEE">GitHub repo</a>.</p>
+<p><img alt="PABEE" src="https://github.com/JetRunner/PABEE/raw/master/bert-loses-patience.png" /></p>
+<div class="section" id="training">
+<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
+<p>You can fine-tune a pretrained language model (you can choose from BERT and ALBERT) and train the internal classifiers by:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">GLUE_DIR</span><span class="o">=</span>/path/to/glue_data
+<span class="nb">export</span> <span class="nv">TASK_NAME</span><span class="o">=</span>MRPC
+
+python ./run_glue_with_pabee.py <span class="se">\</span>
+  --model_type albert <span class="se">\</span>
+  --model_name_or_path bert-base-uncased/albert-base-v2 <span class="se">\</span>
+  --task_name <span class="nv">$TASK_NAME</span> <span class="se">\</span>
+  --do_train <span class="se">\</span>
+  --do_eval <span class="se">\</span>
+  --do_lower_case <span class="se">\</span>
+  --data_dir <span class="s2">&quot;</span><span class="nv">$GLUE_DIR</span><span class="s2">/</span><span class="nv">$TASK_NAME</span><span class="s2">&quot;</span> <span class="se">\</span>
+  --max_seq_length <span class="m">128</span> <span class="se">\</span>
+  --per_gpu_train_batch_size <span class="m">32</span> <span class="se">\</span>
+  --per_gpu_eval_batch_size <span class="m">32</span> <span class="se">\</span>
+  --learning_rate 2e-5 <span class="se">\</span>
+  --save_steps <span class="m">50</span> <span class="se">\</span>
+  --logging_steps <span class="m">50</span> <span class="se">\</span>
+  --num_train_epochs <span class="m">5</span> <span class="se">\</span>
+  --output_dir /path/to/save/ <span class="se">\</span>
+  --evaluate_during_training
+</pre></div>
+</div>
+</div>
+<div class="section" id="inference">
+<h2>Inference<a class="headerlink" href="#inference" title="Permalink to this headline">¶</a></h2>
+<p>You can inference with different patience settings by:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">GLUE_DIR</span><span class="o">=</span>/path/to/glue_data
+<span class="nb">export</span> <span class="nv">TASK_NAME</span><span class="o">=</span>MRPC
+
+python ./run_glue_with_pabee.py <span class="se">\</span>
+  --model_type albert <span class="se">\</span>
+  --model_name_or_path /path/to/save/ <span class="se">\</span>
+  --task_name <span class="nv">$TASK_NAME</span> <span class="se">\</span>
+  --do_eval <span class="se">\</span>
+  --do_lower_case <span class="se">\</span>
+  --data_dir <span class="s2">&quot;</span><span class="nv">$GLUE_DIR</span><span class="s2">/</span><span class="nv">$TASK_NAME</span><span class="s2">&quot;</span> <span class="se">\</span>
+  --max_seq_length <span class="m">128</span> <span class="se">\</span>
+  --per_gpu_eval_batch_size <span class="m">1</span> <span class="se">\</span>
+  --learning_rate 2e-5 <span class="se">\</span>
+  --logging_steps <span class="m">50</span> <span class="se">\</span>
+  --num_train_epochs <span class="m">15</span> <span class="se">\</span>
+  --output_dir /path/to/save/ <span class="se">\</span>
+  --eval_all_checkpoints <span class="se">\</span>
+  --patience <span class="m">3</span>,4,5,6,7,8
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">patience</span></code> can be a list of patience settings, separated by a comma. It will help determine which patience works best.</p>
+<p>When evaluating on a regression task (STS-B), you may add <code class="docutils literal notranslate"><span class="pre">--regression_threshold</span> <span class="pre">0.1</span></code> to define the regression threshold.</p>
+</div>
+<div class="section" id="results">
+<h2>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h2>
+<p>On the GLUE dev set:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Model</th>
+<th>#Param</th>
+<th>Speed</th>
+<th>CoLA</th>
+<th>MNLI</th>
+<th>MRPC</th>
+<th>QNLI</th>
+<th>QQP</th>
+<th>RTE</th>
+<th>SST-2</th>
+<th>STS-B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALBERT-base</td>
+<td>12M</td>
+<td></td>
+<td>58.9</td>
+<td>84.6</td>
+<td>89.5</td>
+<td>91.7</td>
+<td>89.6</td>
+<td>78.6</td>
+<td>92.8</td>
+<td>89.5</td>
+</tr>
+<tr>
+<td>+PABEE</td>
+<td>12M</td>
+<td>1.57x</td>
+<td>61.2</td>
+<td>85.1</td>
+<td>90.0</td>
+<td>91.8</td>
+<td>89.6</td>
+<td>80.1</td>
+<td>93.0</td>
+<td>90.1</td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th>Model</th>
+<th>#Param</th>
+<th>Speed-up</th>
+<th>MNLI</th>
+<th>SST-2</th>
+<th>STS-B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT-base</td>
+<td>108M</td>
+<td></td>
+<td>84.5</td>
+<td>92.1</td>
+<td>88.9</td>
+</tr>
+<tr>
+<td>+PABEE</td>
+<td>108M</td>
+<td>1.62x</td>
+<td>83.6</td>
+<td>92.0</td>
+<td>88.7</td>
+</tr>
+<tr>
+<td>ALBERT-large</td>
+<td>18M</td>
+<td></td>
+<td>86.4</td>
+<td>94.9</td>
+<td>90.4</td>
+</tr>
+<tr>
+<td>+PABEE</td>
+<td>18M</td>
+<td>2.42x</td>
+<td>86.8</td>
+<td>95.2</td>
+<td>90.6</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>If you find this resource useful, please consider citing the following paper:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">zhou2020bert</span><span class="p">,</span>
+    <span class="na">title</span><span class="p">=</span><span class="s">{BERT Loses Patience: Fast and Robust Inference with Early Exit}</span><span class="p">,</span>
+    <span class="na">author</span><span class="p">=</span><span class="s">{Wangchunshu Zhou and Canwen Xu and Tao Ge and Julian McAuley and Ke Xu and Furu Wei}</span><span class="p">,</span>
+    <span class="na">year</span><span class="p">=</span><span class="s">{2020}</span><span class="p">,</span>
+    <span class="na">eprint</span><span class="p">=</span><span class="s">{2006.04152}</span><span class="p">,</span>
+    <span class="na">archivePrefix</span><span class="p">=</span><span class="s">{arXiv}</span><span class="p">,</span>
+    <span class="na">primaryClass</span><span class="p">=</span><span class="s">{cs.CL}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

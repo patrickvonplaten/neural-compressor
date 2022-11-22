@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trainer &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Trainer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/main_classes/trainer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="trainer">
+<h1>Trainer<a class="headerlink" href="#trainer" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">TFTrainer</span></code> classes provide an API for feature-complete
+training in most standard use cases. It’s used in most of the <a class="reference internal" href="../examples.html"><span class="doc">example scripts</span></a>.</p>
+<p>Before instantiating your <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code>/<code class="xref py py-class docutils literal notranslate"><span class="pre">TFTrainer</span></code>, create a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingArguments</span></code>/<code class="xref py py-class docutils literal notranslate"><span class="pre">TFTrainingArguments</span></code> to access all the points of
+customization during training.</p>
+<p>The API supports distributed training on multiple GPUs/TPUs, mixed precision through <a class="reference external" href="https://github.com/NVIDIA/apex">NVIDIA Apex</a> for PyTorch and <code class="xref py py-obj docutils literal notranslate"><span class="pre">tf.keras.mixed_precision</span></code> for TensorFlow.</p>
+<p>Both <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">TFTrainer</span></code> contain the basic training loop supporting the
+previous features. To inject custom behavior you can subclass them and override the following methods:</p>
+<ul class="simple">
+<li><p><strong>get_train_dataloader</strong>/<strong>get_train_tfdataset</strong> – Creates the training DataLoader (PyTorch) or TF Dataset.</p></li>
+<li><p><strong>get_eval_dataloader</strong>/<strong>get_eval_tfdataset</strong> – Creates the evaluation DataLoader (PyTorch) or TF Dataset.</p></li>
+<li><p><strong>get_test_dataloader</strong>/<strong>get_test_tfdataset</strong> – Creates the test DataLoader (PyTorch) or TF Dataset.</p></li>
+<li><p><strong>log</strong> – Logs information on the various objects watching training.</p></li>
+<li><p><strong>create_optimizer_and_scheduler</strong> – Setups the optimizer and learning rate scheduler if they were not passed at
+init.</p></li>
+<li><p><strong>compute_loss</strong> - Computes the loss on a batch of training inputs.</p></li>
+<li><p><strong>training_step</strong> – Performs a training step.</p></li>
+<li><p><strong>prediction_step</strong> – Performs an evaluation/test step.</p></li>
+<li><p><strong>run_model</strong> (TensorFlow only) – Basic pass through the model.</p></li>
+<li><p><strong>evaluate</strong> – Runs an evaluation loop and returns metrics.</p></li>
+<li><p><strong>predict</strong> – Returns predictions (with metrics if labels are available) on a test set.</p></li>
+</ul>
+<p>Here is an example of how to customize <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> using a custom loss function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">Trainer</span>
+<span class="k">class</span> <span class="nc">MyTrainer</span><span class="p">(</span><span class="n">Trainer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compute_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;labels&quot;</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">my_custom_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Another way to customize the training loop behavior for the PyTorch <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> is to use
+<a class="reference internal" href="callback.html"><span class="doc">callbacks</span></a> that can inspect the training loop state (for progress reporting, logging on TensorBoard or
+other ML platforms…) and take decisions (like early stopping).</p>
+<div class="section" id="id1">
+<h2>Trainer<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="seq2seqtrainer">
+<h2>Seq2SeqTrainer<a class="headerlink" href="#seq2seqtrainer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tftrainer">
+<h2>TFTrainer<a class="headerlink" href="#tftrainer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="trainingarguments">
+<h2>TrainingArguments<a class="headerlink" href="#trainingarguments" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="seq2seqtrainingarguments">
+<h2>Seq2SeqTrainingArguments<a class="headerlink" href="#seq2seqtrainingarguments" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tftrainingarguments">
+<h2>TFTrainingArguments<a class="headerlink" href="#tftrainingarguments" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="trainer-integrations">
+<h2>Trainer Integrations<a class="headerlink" href="#trainer-integrations" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> has been extended to support libraries that may dramatically improve your training
+time and fit much bigger models.</p>
+<p>Currently it supports third party solutions, <a class="reference external" href="https://github.com/microsoft/DeepSpeed">DeepSpeed</a> and <a class="reference external" href="https://github.com/facebookresearch/fairscale/">FairScale</a>, which implement parts of the paper <a class="reference external" href="https://arxiv.org/abs/1910.02054">ZeRO: Memory Optimizations
+Toward Training Trillion Parameter Models, by Samyam Rajbhandari, Jeff Rasley, Olatunji Ruwase, Yuxiong He</a>.</p>
+<p>This provided support is new and experimental as of this writing.</p>
+<div class="section" id="installation-notes">
+<h3>Installation Notes<a class="headerlink" href="#installation-notes" title="Permalink to this headline">¶</a></h3>
+<p>As of this writing, both FairScale and Deepspeed require compilation of CUDA C++ code, before they can be used.</p>
+<p>While all installation issues should be dealt with through the corresponding GitHub Issues of <a class="reference external" href="https://github.com/facebookresearch/fairscale/issues">FairScale</a> and <a class="reference external" href="https://github.com/microsoft/DeepSpeed/issues">Deepspeed</a>, there are a few common issues that one may encounter while building
+any PyTorch extension that needs to build CUDA extensions.</p>
+<p>Therefore, if you encounter a CUDA-related build issue while doing one of the following or both:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install fairscale
+pip install deepspeed
+</pre></div>
+</div>
+<p>please, read the following notes first.</p>
+<p>In these notes we give examples for what to do when <code class="docutils literal notranslate"><span class="pre">pytorch</span></code> has been built with CUDA <code class="docutils literal notranslate"><span class="pre">10.2</span></code>. If your situation is
+different remember to adjust the version number to the one you are after.</p>
+<p><strong>Possible problem #1:</strong></p>
+<p>While, Pytorch comes with its own CUDA toolkit, to build these two projects you must have an identical version of CUDA
+installed system-wide.</p>
+<p>For example, if you installed <code class="docutils literal notranslate"><span class="pre">pytorch</span></code> with <code class="docutils literal notranslate"><span class="pre">cudatoolkit==10.2</span></code> in the Python environment, you also need to have
+CUDA <code class="docutils literal notranslate"><span class="pre">10.2</span></code> installed system-wide.</p>
+<p>The exact location may vary from system to system, but <code class="docutils literal notranslate"><span class="pre">/usr/local/cuda-10.2</span></code> is the most common location on many
+Unix systems. When CUDA is correctly set up and added to the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable, one can find the
+installation location by doing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>which nvcc
+</pre></div>
+</div>
+<p>If you don’t have CUDA installed system-wide, install it first. You will find the instructions by using your favorite
+search engine. For example, if you’re on Ubuntu you may want to search for: <a class="reference external" href="https://www.google.com/search?q=ubuntu+cuda+10.2+install">ubuntu cuda 10.2 install</a>.</p>
+<p><strong>Possible problem #2:</strong></p>
+<p>Another possible common problem is that you may have more than one CUDA toolkit installed system-wide. For example you
+may have:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/usr/local/cuda-10.2
+/usr/local/cuda-11.0
+</pre></div>
+</div>
+<p>Now, in this situation you need to make sure that your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> environment variables contain
+the correct paths to the desired CUDA version. Typically, package installers will set these to contain whatever the
+last version was installed. If you encounter the problem, where the package build fails because it can’t find the right
+CUDA version despite you having it installed system-wide, it means that you need to adjust the 2 aforementioned
+environment variables.</p>
+<p>First, you may look at their contents:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="nv">$PATH</span>
+<span class="nb">echo</span> <span class="nv">$LD_LIBRARY_PATH</span>
+</pre></div>
+</div>
+<p>so you get an idea of what is inside.</p>
+<p>It’s possible that <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> is empty.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PATH</span></code> lists the locations of where executables can be found and <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> is for where shared libraries
+are to looked for. In both cases, earlier entries have priority over the later ones. <code class="docutils literal notranslate"><span class="pre">:</span></code> is used to separate multiple
+entries.</p>
+<p>Now, to tell the build program where to find the specific CUDA toolkit, insert the desired paths to be listed first by
+doing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/usr/local/cuda-10.2/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/cuda-10.2/lib64:<span class="nv">$LD_LIBRARY_PATH</span>
+</pre></div>
+</div>
+<p>Note that we aren’t overwriting the existing values, but prepending instead.</p>
+<p>Of course, adjust the version number, the full path if need be. Check that the directories you assign actually do
+exist. <code class="docutils literal notranslate"><span class="pre">lib64</span></code> sub-directory is where the various CUDA <code class="docutils literal notranslate"><span class="pre">.so</span></code> objects, like <code class="docutils literal notranslate"><span class="pre">libcudart.so</span></code> reside, it’s unlikely
+that your system will have it named differently, but if it is adjust it to reflect your reality.</p>
+<p><strong>Possible problem #3:</strong></p>
+<p>Some older CUDA versions may refuse to build with newer compilers. For example, you my have <code class="docutils literal notranslate"><span class="pre">gcc-9</span></code> but it wants
+<code class="docutils literal notranslate"><span class="pre">gcc-7</span></code>.</p>
+<p>There are various ways to go about it.</p>
+<p>If you can install the latest CUDA toolkit it typically should support the newer compiler.</p>
+<p>Alternatively, you could install the lower version of the compiler in addition to the one you already have, or you may
+already have it but it’s not the default one, so the build system can’t see it. If you have <code class="docutils literal notranslate"><span class="pre">gcc-7</span></code> installed but the
+build system complains it can’t find it, the following might do the trick:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo ln -s /usr/bin/gcc-7  /usr/local/cuda-10.2/bin/gcc
+sudo ln -s /usr/bin/g++-7  /usr/local/cuda-10.2/bin/g++
+</pre></div>
+</div>
+<p>Here, we are making a symlink to <code class="docutils literal notranslate"><span class="pre">gcc-7</span></code> from <code class="docutils literal notranslate"><span class="pre">/usr/local/cuda-10.2/bin/gcc</span></code> and since
+<code class="docutils literal notranslate"><span class="pre">/usr/local/cuda-10.2/bin/</span></code> should be in the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable (see the previous problem’s solution), it
+should find <code class="docutils literal notranslate"><span class="pre">gcc-7</span></code> (and <code class="docutils literal notranslate"><span class="pre">g++7</span></code>) and then the build will succeed.</p>
+<p>As always make sure to edit the paths in the example to match your situation.</p>
+<p><strong>If still unsuccessful:</strong></p>
+<p>If after addressing these you still encounter build issues, please, proceed with the GitHub Issue of <a class="reference external" href="https://github.com/facebookresearch/fairscale/issues">FairScale</a> and <a class="reference external" href="https://github.com/microsoft/DeepSpeed/issues">Deepspeed</a>, depending on the project you have the problem with.</p>
+</div>
+<div class="section" id="fairscale">
+<h3>FairScale<a class="headerlink" href="#fairscale" title="Permalink to this headline">¶</a></h3>
+<p>By integrating <a class="reference external" href="https://github.com/facebookresearch/fairscale/">FairScale</a> the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code>
+provides support for the following features from <a class="reference external" href="https://arxiv.org/abs/1910.02054">the ZeRO paper</a>:</p>
+<ol class="arabic simple">
+<li><p>Optimizer State Sharding</p></li>
+<li><p>Gradient Sharding</p></li>
+<li><p>Model Parameters Sharding (new and very experimental)</p></li>
+<li><p>CPU offload (new and very experimental)</p></li>
+</ol>
+<p>You will need at least two GPUs to use this feature.</p>
+<p>To deploy this feature:</p>
+<ol class="arabic">
+<li><p>Install the library via pypi:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install fairscale
+</pre></div>
+</div>
+<p>or find more details on <a class="reference external" href="https://github.com/facebookresearch/fairscale/#installation">the FairScale’s GitHub page</a>.</p>
+</li>
+<li><p>To use the first version of Sharded data-parallelism, add <code class="docutils literal notranslate"><span class="pre">--sharded_ddp</span> <span class="pre">simple</span></code> to the command line arguments,
+and make sure you have added the distributed launcher <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">torch.distributed.launch</span>
+<span class="pre">--nproc_per_node=NUMBER_OF_GPUS_YOU_HAVE</span></code> if you haven’t been using it already.</p></li>
+</ol>
+<p>For example here is how you could use it for <code class="docutils literal notranslate"><span class="pre">run_seq2seq.py</span></code> with 2 GPUs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">2</span> examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+--model_name_or_path t5-small --per_device_train_batch_size <span class="m">1</span>   <span class="se">\</span>
+--output_dir output_dir --overwrite_output_dir <span class="se">\</span>
+--do_train --max_train_samples <span class="m">500</span> --num_train_epochs <span class="m">1</span> <span class="se">\</span>
+--dataset_name wmt16 --dataset_config <span class="s2">&quot;ro-en&quot;</span> <span class="se">\</span>
+--task translation_en_to_ro --source_prefix <span class="s2">&quot;translate English to Romanian: &quot;</span> <span class="se">\</span>
+--fp16 --sharded_ddp simple
+</pre></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>This feature requires distributed training (so multiple GPUs).</p></li>
+<li><p>It is not implemented for TPUs.</p></li>
+<li><p>It works with <code class="docutils literal notranslate"><span class="pre">--fp16</span></code> too, to make things even faster.</p></li>
+<li><p>One of the main benefits of enabling <code class="docutils literal notranslate"><span class="pre">--sharded_ddp</span> <span class="pre">simple</span></code> is that it uses a lot less GPU memory, so you should be
+able to use significantly larger batch sizes using the same hardware (e.g. 3x and even bigger) which should lead to
+significantly shorter training time.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>To use the second version of Sharded data-parallelism, add <code class="docutils literal notranslate"><span class="pre">--sharded_ddp</span> <span class="pre">zero_dp_2</span></code> or <code class="docutils literal notranslate"><span class="pre">--sharded_ddp</span> <span class="pre">zero_dp_3`</span>
+<span class="pre">to</span> <span class="pre">the</span> <span class="pre">command</span> <span class="pre">line</span> <span class="pre">arguments,</span> <span class="pre">and</span> <span class="pre">make</span> <span class="pre">sure</span> <span class="pre">you</span> <span class="pre">have</span> <span class="pre">added</span> <span class="pre">the</span> <span class="pre">distributed</span> <span class="pre">launcher</span> <span class="pre">``-m</span> <span class="pre">torch.distributed.launch</span>
+<span class="pre">--nproc_per_node=NUMBER_OF_GPUS_YOU_HAVE</span></code> if you haven’t been using it already.</p></li>
+</ol>
+<p>For example here is how you could use it for <code class="docutils literal notranslate"><span class="pre">run_seq2seq.py</span></code> with 2 GPUs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">2</span> examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+--model_name_or_path t5-small --per_device_train_batch_size <span class="m">1</span>   <span class="se">\</span>
+--output_dir output_dir --overwrite_output_dir <span class="se">\</span>
+--do_train --max_train_samples <span class="m">500</span> --num_train_epochs <span class="m">1</span> <span class="se">\</span>
+--dataset_name wmt16 --dataset_config <span class="s2">&quot;ro-en&quot;</span> <span class="se">\</span>
+--task translation_en_to_ro --source_prefix <span class="s2">&quot;translate English to Romanian: &quot;</span> <span class="se">\</span>
+--fp16 --sharded_ddp zero_dp_2
+</pre></div>
+</div>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_dp_2</span></code> is an optimized version of the simple wrapper, while <code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_dp_3</span></code> fully shards model weights,
+gradients and optimizer states.</p>
+<p>Both are compatible with adding <code class="xref py py-obj docutils literal notranslate"><span class="pre">cpu_offload</span></code> to enable ZeRO-offload (activate it like this: <code class="xref py py-obj docutils literal notranslate"><span class="pre">--sharded_ddp</span>
+<span class="pre">&quot;zero_dp_2</span> <span class="pre">cpu_offload&quot;</span></code>).</p>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>This feature requires distributed training (so multiple GPUs).</p></li>
+<li><p>It is not implemented for TPUs.</p></li>
+<li><p>It works with <code class="docutils literal notranslate"><span class="pre">--fp16</span></code> too, to make things even faster.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">cpu_offload</span></code> additional option requires <code class="docutils literal notranslate"><span class="pre">--fp16</span></code>.</p></li>
+<li><p>This is an area of active development, so make sure you have a source install of fairscale to use this feature as
+some bugs you encounter may have been fixed there already.</p></li>
+</ul>
+<p>Known caveats:</p>
+<ul class="simple">
+<li><p>This feature is incompatible with <code class="xref py py-obj docutils literal notranslate"><span class="pre">--predict_with_generate</span></code> in the <cite>run_seq2seq.py</cite> script.</p></li>
+<li><p>Using <code class="xref py py-obj docutils literal notranslate"><span class="pre">--sharded_ddp</span> <span class="pre">zero_dp_3</span></code> requires wrapping each layer of the model in the special container
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">FullyShardedDataParallelism</span></code> of fairscale. This is not done automatically by any of the example scripts of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="deepspeed">
+<h3>DeepSpeed<a class="headerlink" href="#deepspeed" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://github.com/microsoft/DeepSpeed">DeepSpeed</a> implements everything described in the <a class="reference external" href="https://arxiv.org/abs/1910.02054">ZeRO paper</a>, except ZeRO’s stage 3. “Parameter Partitioning (Pos+g+p)”. Currently it provides
+full support for:</p>
+<ol class="arabic simple">
+<li><p>Optimizer State Partitioning (ZeRO stage 1)</p></li>
+<li><p>Add Gradient Partitioning (ZeRO stage 2)</p></li>
+<li><p>Custom fp16 handling</p></li>
+<li><p>A range of fast Cuda-extension-based Optimizers</p></li>
+<li><p>ZeRO-Offload</p></li>
+</ol>
+<p>ZeRO-Offload has its own dedicated paper: <a class="reference external" href="https://arxiv.org/abs/2101.06840">ZeRO-Offload: Democratizing Billion-Scale Model Training</a>.</p>
+<p>DeepSpeed is currently used only for training, as all the currently available features are of no use to inference.</p>
+<div class="section" id="installation">
+<h4>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h4>
+<p>Install the library via pypi:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install deepspeed
+</pre></div>
+</div>
+<p>or find more details on <a class="reference external" href="https://github.com/microsoft/deepspeed#installation">the DeepSpeed’s GitHub page</a>.</p>
+</div>
+<div class="section" id="deployment-with-multiple-gpus">
+<h4>Deployment with multiple GPUs<a class="headerlink" href="#deployment-with-multiple-gpus" title="Permalink to this headline">¶</a></h4>
+<p>To deploy this feature with multiple GPUs adjust the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> command line arguments as
+following:</p>
+<ol class="arabic simple">
+<li><p>replace <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">torch.distributed.launch</span></code> with <code class="docutils literal notranslate"><span class="pre">deepspeed</span></code>.</p></li>
+<li><p>add a new argument <code class="docutils literal notranslate"><span class="pre">--deepspeed</span> <span class="pre">ds_config.json</span></code>, where <code class="docutils literal notranslate"><span class="pre">ds_config.json</span></code> is the DeepSpeed configuration file as
+documented <a class="reference external" href="https://www.deepspeed.ai/docs/config-json/">here</a>. The file naming is up to you.</p></li>
+</ol>
+<p>Therefore, if your original command line looked as following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">2</span> your_program.py &lt;normal cl args&gt;
+</pre></div>
+</div>
+<p>Now it should be:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deepspeed --num_gpus<span class="o">=</span><span class="m">2</span> your_program.py &lt;normal cl args&gt; --deepspeed ds_config.json
+</pre></div>
+</div>
+<p>Unlike, <code class="docutils literal notranslate"><span class="pre">torch.distributed.launch</span></code> where you have to specify how many GPUs to use with <code class="docutils literal notranslate"><span class="pre">--nproc_per_node</span></code>, with the
+<code class="docutils literal notranslate"><span class="pre">deepspeed</span></code> launcher you don’t have to use the corresponding <code class="docutils literal notranslate"><span class="pre">--num_gpus</span></code> if you want all of your GPUs used. The
+full details on how to configure various nodes and GPUs can be found <a class="reference external" href="https://www.deepspeed.ai/getting-started/#resource-configuration-multi-node">here</a>.</p>
+<p>In fact, you can continue using <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">torch.distributed.launch</span></code> with DeepSpeed as long as you don’t need to use
+<code class="docutils literal notranslate"><span class="pre">deepspeed</span></code> launcher-specific arguments. Typically if you don’t need a multi-node setup you’re not required to use
+the <code class="docutils literal notranslate"><span class="pre">deepspeed</span></code> launcher. But since in the DeepSpeed documentation it’ll be used everywhere, for consistency we will
+use it here as well.</p>
+<p>Here is an example of running <code class="docutils literal notranslate"><span class="pre">run_seq2seq.py</span></code> under DeepSpeed deploying all available GPUs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deepspeed examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+--deepspeed examples/tests/deepspeed/ds_config.json <span class="se">\</span>
+--model_name_or_path t5-small --per_device_train_batch_size <span class="m">1</span>   <span class="se">\</span>
+--output_dir output_dir --overwrite_output_dir --fp16 <span class="se">\</span>
+--do_train --max_train_samples <span class="m">500</span> --num_train_epochs <span class="m">1</span> <span class="se">\</span>
+--dataset_name wmt16 --dataset_config <span class="s2">&quot;ro-en&quot;</span> <span class="se">\</span>
+--task translation_en_to_ro --source_prefix <span class="s2">&quot;translate English to Romanian: &quot;</span>
+</pre></div>
+</div>
+<p>Note that in the DeepSpeed documentation you are likely to see <code class="docutils literal notranslate"><span class="pre">--deepspeed</span> <span class="pre">--deepspeed_config</span> <span class="pre">ds_config.json</span></code> - i.e.
+two DeepSpeed-related arguments, but for the sake of simplicity, and since there are already so many arguments to deal
+with, we combined the two into a single argument.</p>
+<p>For some practical usage examples, please, see this <a class="reference external" href="https://github.com/huggingface/transformers/issues/8771#issuecomment-759248400">post</a>.</p>
+</div>
+<div class="section" id="deployment-with-one-gpu">
+<h4>Deployment with one GPU<a class="headerlink" href="#deployment-with-one-gpu" title="Permalink to this headline">¶</a></h4>
+<p>To deploy DeepSpeed with one GPU adjust the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> command line arguments as following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deepspeed --num_gpus<span class="o">=</span><span class="m">1</span> examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+--deepspeed examples/tests/deepspeed/ds_config.json <span class="se">\</span>
+--model_name_or_path t5-small --per_device_train_batch_size <span class="m">1</span>   <span class="se">\</span>
+--output_dir output_dir --overwrite_output_dir --fp16 <span class="se">\</span>
+--do_train --max_train_samples <span class="m">500</span> --num_train_epochs <span class="m">1</span> <span class="se">\</span>
+--dataset_name wmt16 --dataset_config <span class="s2">&quot;ro-en&quot;</span> <span class="se">\</span>
+--task translation_en_to_ro --source_prefix <span class="s2">&quot;translate English to Romanian: &quot;</span>
+</pre></div>
+</div>
+<p>This is almost the same as with multiple-GPUs, but here we tell DeepSpeed explicitly to use just one GPU. By default,
+DeepSpeed deploys all GPUs it can see. If you have only 1 GPU to start with, then you don’t need this argument. The
+following <a class="reference external" href="https://www.deepspeed.ai/getting-started/#resource-configuration-multi-node">documentation</a> discusses the
+launcher options.</p>
+<p>Why would you want to use DeepSpeed with just one GPU?</p>
+<ol class="arabic simple">
+<li><p>It has a ZeRO-offload feature which can delegate some computations and memory to the host’s CPU and RAM, and thus
+leave more GPU resources for model’s needs - e.g. larger batch size, or enabling a fitting of a very big model which
+normally won’t fit.</p></li>
+<li><p>It provides a smart GPU memory management system, that minimizes memory fragmentation, which again allows you to fit
+bigger models and data batches.</p></li>
+</ol>
+<p>While we are going to discuss the configuration in details next, the key to getting a huge improvement on a single GPU
+with DeepSpeed is to have at least the following configuration in the configuration file:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;zero_optimization&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;stage&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+     <span class="nt">&quot;allgather_partitions&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+     <span class="nt">&quot;allgather_bucket_size&quot;</span><span class="p">:</span> <span class="mf">2e8</span><span class="p">,</span>
+     <span class="nt">&quot;reduce_scatter&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+     <span class="nt">&quot;reduce_bucket_size&quot;</span><span class="p">:</span> <span class="mf">2e8</span><span class="p">,</span>
+     <span class="nt">&quot;overlap_comm&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+     <span class="nt">&quot;contiguous_gradients&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+     <span class="nt">&quot;cpu_offload&quot;</span><span class="p">:</span> <span class="kc">true</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>which enables <code class="docutils literal notranslate"><span class="pre">cpu_offload</span></code> and some other important features. You may experiment with the buffer sizes, you will
+find more details in the discussion below.</p>
+<p>For a practical usage example of this type of deployment, please, see this <a class="reference external" href="https://github.com/huggingface/transformers/issues/8771#issuecomment-759176685">post</a>.</p>
+<p>Notes:</p>
+<ul>
+<li><p>if you need to run on a specific GPU, which is different from GPU 0, you can’t use <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> to limit
+the visible scope of available GPUs. Instead, you have to use the following syntax:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deepspeed --include localhost:1 examples/seq2seq/run_seq2seq.py ...
+</pre></div>
+</div>
+<p>In this example, we tell DeepSpeed to use GPU 1 (second gpu).</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="deployment-in-notebooks">
+<h4>Deployment in Notebooks<a class="headerlink" href="#deployment-in-notebooks" title="Permalink to this headline">¶</a></h4>
+<p>The problem with running notebook cells as a script is that there is no normal <code class="docutils literal notranslate"><span class="pre">deepspeed</span></code> launcher to rely on, so
+under certain setups we have to emulate it.</p>
+<p>Here is how you’d have to adjust your training code in the notebook to use DeepSpeed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># DeepSpeed requires a distributed environment even when only one process is used.</span>
+<span class="c1"># This emulates a launcher in the notebook</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_ADDR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_PORT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;9994&#39;</span> <span class="c1"># modify if RuntimeError: Address already in use</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;RANK&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LOCAL_RANK&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;WORLD_SIZE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+
+<span class="c1"># Now proceed as normal, plus pass the deepspeed config file</span>
+<span class="n">training_args</span> <span class="o">=</span> <span class="n">TrainingArguments</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">deepspeed</span><span class="o">=</span><span class="s2">&quot;ds_config.json&quot;</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Note: <cite>…</cite> stands for the normal arguments that you’d pass to the functions.</p>
+<p>If you want to create the config file on the fly in the notebook in the current directory, you could have a dedicated
+cell with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">cat</span> <span class="o">&lt;&lt;</span><span class="s1">&#39;EOT&#39;</span> <span class="o">&gt;</span> <span class="n">ds_config</span><span class="o">.</span><span class="n">json</span>
+<span class="p">{</span>
+    <span class="s2">&quot;fp16&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+        <span class="s2">&quot;loss_scale&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;loss_scale_window&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="s2">&quot;hysteresis&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;min_loss_scale&quot;</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;zero_optimization&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;stage&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;allgather_partitions&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+        <span class="s2">&quot;allgather_bucket_size&quot;</span><span class="p">:</span> <span class="mf">2e8</span><span class="p">,</span>
+        <span class="s2">&quot;overlap_comm&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+        <span class="s2">&quot;reduce_scatter&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+        <span class="s2">&quot;reduce_bucket_size&quot;</span><span class="p">:</span> <span class="mf">2e8</span><span class="p">,</span>
+        <span class="s2">&quot;contiguous_gradients&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+        <span class="s2">&quot;cpu_offload&quot;</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;zero_allow_untested_optimizer&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+
+    <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;AdamW&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">3e-5</span><span class="p">,</span>
+            <span class="s2">&quot;betas&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">],</span>
+            <span class="s2">&quot;eps&quot;</span><span class="p">:</span> <span class="mf">1e-8</span><span class="p">,</span>
+            <span class="s2">&quot;weight_decay&quot;</span><span class="p">:</span> <span class="mf">3e-7</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;scheduler&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;WarmupLR&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;warmup_min_lr&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;warmup_max_lr&quot;</span><span class="p">:</span> <span class="mf">3e-5</span><span class="p">,</span>
+            <span class="s2">&quot;warmup_num_steps&quot;</span><span class="p">:</span> <span class="mi">500</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;steps_per_print&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="s2">&quot;wall_clock_breakdown&quot;</span><span class="p">:</span> <span class="n">false</span>
+<span class="p">}</span>
+<span class="n">EOT</span>
+</pre></div>
+</div>
+<p>That’s said if the script is not in the notebook cells, you can launch <code class="docutils literal notranslate"><span class="pre">deepspeed</span></code> normally via shell from a cell
+with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!deepspeed examples/seq2seq/run_seq2seq.py ...
+</pre></div>
+</div>
+<p>or with bash magic, where you can write a multi-line code for the shell to run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+
+<span class="n">cd</span> <span class="o">/</span><span class="n">somewhere</span>
+<span class="n">deepspeed</span> <span class="n">examples</span><span class="o">/</span><span class="n">seq2seq</span><span class="o">/</span><span class="n">run_seq2seq</span><span class="o">.</span><span class="n">py</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration">
+<h4>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h4>
+<p>For the complete guide to the DeepSpeed configuration options that can be used in its configuration file please refer
+to the <a class="reference external" href="https://www.deepspeed.ai/docs/config-json/">following documentation</a>.</p>
+<p>You can find dozens of DeepSpeed configuration examples that address various practical needs in <a class="reference external" href="https://github.com/microsoft/DeepSpeedExamples">the DeepSpeedExamples
+repo</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/microsoft/DeepSpeedExamples
+<span class="nb">cd</span> DeepSpeedExamples
+find . -name <span class="s1">&#39;*json&#39;</span>
+</pre></div>
+</div>
+<p>Continuing the code from above, let’s say you’re looking to configure the Lamb optimizer. So you can search through the
+example <code class="docutils literal notranslate"><span class="pre">.json</span></code> files with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>grep -i Lamb <span class="k">$(</span>find . -name <span class="s1">&#39;*json&#39;</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>Some more examples are to be found in the <a class="reference external" href="https://github.com/microsoft/DeepSpeed">main repo</a> as well.</p>
+<p>While you always have to supply the DeepSpeed configuration file, you can configure the DeepSpeed integration in
+several ways:</p>
+<ol class="arabic simple">
+<li><p>Supply most of the configuration inside the file, and just use a few required command line arguments. This is the
+recommended way as it puts most of the configuration params in one place.</p></li>
+<li><p>Supply just the ZeRO configuration params inside the file, and configure the rest using the normal
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> command line arguments.</p></li>
+<li><p>Any variation of the first two ways.</p></li>
+</ol>
+<p>To get an idea of what DeepSpeed configuration file looks like, here is one that activates ZeRO stage 2 features,
+enables FP16, uses AdamW optimizer and WarmupLR scheduler:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;fp16&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;loss_scale&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&quot;loss_scale_window&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="nt">&quot;hysteresis&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nt">&quot;min_loss_scale&quot;</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">},</span>
+
+   <span class="nt">&quot;zero_optimization&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nt">&quot;stage&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+       <span class="nt">&quot;allgather_partitions&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;allgather_bucket_size&quot;</span><span class="p">:</span> <span class="mf">5e8</span><span class="p">,</span>
+       <span class="nt">&quot;overlap_comm&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;reduce_scatter&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;reduce_bucket_size&quot;</span><span class="p">:</span> <span class="mf">5e8</span><span class="p">,</span>
+       <span class="nt">&quot;contiguous_gradients&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;cpu_offload&quot;</span><span class="p">:</span> <span class="kc">true</span>
+   <span class="p">},</span>
+
+   <span class="nt">&quot;optimizer&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;AdamW&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nt">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">3e-5</span><span class="p">,</span>
+       <span class="nt">&quot;betas&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.999</span> <span class="p">],</span>
+       <span class="nt">&quot;eps&quot;</span><span class="p">:</span> <span class="mf">1e-8</span><span class="p">,</span>
+       <span class="nt">&quot;weight_decay&quot;</span><span class="p">:</span> <span class="mf">3e-7</span>
+     <span class="p">}</span>
+   <span class="p">},</span>
+   <span class="nt">&quot;zero_allow_untested_optimizer&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+   <span class="nt">&quot;scheduler&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;WarmupLR&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nt">&quot;warmup_min_lr&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+       <span class="nt">&quot;warmup_max_lr&quot;</span><span class="p">:</span> <span class="mf">3e-5</span><span class="p">,</span>
+       <span class="nt">&quot;warmup_num_steps&quot;</span><span class="p">:</span> <span class="mi">500</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you already have a command line that you have been using with <code class="xref py py-class docutils literal notranslate"><span class="pre">transformers.Trainer</span></code> args, you can continue
+using those and the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> will automatically convert them into the corresponding DeepSpeed
+configuration at run time. For example, you could use the following configuration file:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="nt">&quot;zero_optimization&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nt">&quot;stage&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+       <span class="nt">&quot;allgather_partitions&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;allgather_bucket_size&quot;</span><span class="p">:</span> <span class="mf">5e8</span><span class="p">,</span>
+       <span class="nt">&quot;overlap_comm&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;reduce_scatter&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;reduce_bucket_size&quot;</span><span class="p">:</span> <span class="mf">5e8</span><span class="p">,</span>
+       <span class="nt">&quot;contiguous_gradients&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;cpu_offload&quot;</span><span class="p">:</span> <span class="kc">true</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and the following command line arguments:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--learning_rate 3e-5 --warmup_steps <span class="m">500</span> --adam_beta1 <span class="m">0</span>.8 --adam_beta2 <span class="m">0</span>.999 --adam_epsilon 1e-8 <span class="se">\</span>
+--weight_decay 3e-7 --lr_scheduler_type constant_with_warmup --fp16 --fp16_backend amp
+</pre></div>
+</div>
+<p>to achieve the same configuration as provided by the longer json file in the first example.</p>
+<p>When you execute the program, DeepSpeed will log the configuration it received from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code>
+to the console, so you can see exactly what the final configuration was passed to it.</p>
+</div>
+<div class="section" id="shared-configuration">
+<h4>Shared Configuration<a class="headerlink" href="#shared-configuration" title="Permalink to this headline">¶</a></h4>
+<p>Some configuration information is required by both the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> and DeepSpeed to function
+correctly, therefore, to prevent conflicting definitions, which could lead to hard to detect errors, we chose to
+configure those via the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> command line arguments.</p>
+<p>Therefore, the following DeepSpeed configuration params shouldn’t be used with the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">train_batch_size</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">train_micro_batch_size_per_gpu</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gradient_accumulation_steps</span></code></p></li>
+</ul>
+<p>as these will be automatically derived from the run time environment and the following 2 command line arguments:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--per_device_train_batch_size <span class="m">8</span> --gradient_accumulation_steps <span class="m">2</span>
+</pre></div>
+</div>
+<p>which are always required to be supplied.</p>
+<p>Of course, you will need to adjust the values in this example to your situation.</p>
+</div>
+<div class="section" id="zero">
+<h4>ZeRO<a class="headerlink" href="#zero" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">zero_optimization</span></code> section of the configuration file is the most important part (<a class="reference external" href="https://www.deepspeed.ai/docs/config-json/#zero-optimizations-for-fp16-training">docs</a>), since that is where you define
+which ZeRO stages you want to enable and how to configure them.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="nt">&quot;zero_optimization&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nt">&quot;stage&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+       <span class="nt">&quot;allgather_partitions&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;allgather_bucket_size&quot;</span><span class="p">:</span> <span class="mf">5e8</span><span class="p">,</span>
+       <span class="nt">&quot;overlap_comm&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;reduce_scatter&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;reduce_bucket_size&quot;</span><span class="p">:</span> <span class="mf">5e8</span><span class="p">,</span>
+       <span class="nt">&quot;contiguous_gradients&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="nt">&quot;cpu_offload&quot;</span><span class="p">:</span> <span class="kc">true</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>enabling <code class="docutils literal notranslate"><span class="pre">cpu_offload</span></code> should reduce GPU RAM usage (it requires <code class="docutils literal notranslate"><span class="pre">&quot;stage&quot;:</span> <span class="pre">2</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;overlap_comm&quot;:</span> <span class="pre">true</span></code> trades off increased GPU RAM usage to lower all-reduce latency. <code class="docutils literal notranslate"><span class="pre">overlap_comm</span></code> uses 4.5x
+the <code class="docutils literal notranslate"><span class="pre">allgather_bucket_size</span></code> and <code class="docutils literal notranslate"><span class="pre">reduce_bucket_size</span></code> values. So if they are set to 5e8, this requires a 9GB
+footprint (<code class="docutils literal notranslate"><span class="pre">5e8</span> <span class="pre">x</span> <span class="pre">2Bytes</span> <span class="pre">x</span> <span class="pre">2</span> <span class="pre">x</span> <span class="pre">4.5</span></code>). Therefore, if you have a GPU with 8GB or less RAM, to avoid getting
+OOM-errors you will need to reduce those parameters to about <code class="docutils literal notranslate"><span class="pre">2e8</span></code>, which would require 3.6GB. You will want to do
+the same on larger capacity GPU as well, if you’re starting to hit OOM.</p></li>
+<li><p>when reducing these buffers you’re trading communication speed to avail more GPU RAM. The smaller the buffer size,
+the slower the communication, and the more GPU RAM will be available to other tasks. So if a bigger batch size is
+important, getting a slightly slower training time could be a good trade.</p></li>
+</ul>
+<p>This section has to be configured exclusively via DeepSpeed configuration - the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> provides
+no equivalent command line arguments.</p>
+</div>
+<div class="section" id="optimizer">
+<h4>Optimizer<a class="headerlink" href="#optimizer" title="Permalink to this headline">¶</a></h4>
+<p>DeepSpeed’s main optimizers are Adam, OneBitAdam, and Lamb. These have been thoroughly tested with ZeRO and are thus
+recommended to be used. It, however, can import other optimizers from <code class="docutils literal notranslate"><span class="pre">torch</span></code>. The full documentation is <a class="reference external" href="https://www.deepspeed.ai/docs/config-json/#optimizer-parameters">here</a>.</p>
+<p>If you don’t configure the <code class="docutils literal notranslate"><span class="pre">optimizer</span></code> entry in the configuration file, the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> will
+automatically set it to <code class="docutils literal notranslate"><span class="pre">AdamW</span></code> and will use the supplied values or the defaults for the following command line
+arguments: <code class="docutils literal notranslate"><span class="pre">--learning_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">--adam_beta1</span></code>, <code class="docutils literal notranslate"><span class="pre">--adam_beta2</span></code>, <code class="docutils literal notranslate"><span class="pre">--adam_epsilon</span></code> and <code class="docutils literal notranslate"><span class="pre">--weight_decay</span></code>.</p>
+<p>Here is an example of the pre-configured <code class="docutils literal notranslate"><span class="pre">optimizer</span></code> entry for AdamW:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="nt">&quot;zero_allow_untested_optimizer&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+   <span class="nt">&quot;optimizer&quot;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;AdamW&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
+         <span class="nt">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+         <span class="nt">&quot;betas&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">],</span>
+         <span class="nt">&quot;eps&quot;</span><span class="p">:</span> <span class="mf">1e-8</span><span class="p">,</span>
+         <span class="nt">&quot;weight_decay&quot;</span><span class="p">:</span> <span class="mf">3e-7</span>
+       <span class="p">}</span>
+     <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Since AdamW isn’t on the list of tested with DeepSpeed/ZeRO optimizers, we have to add
+<code class="docutils literal notranslate"><span class="pre">zero_allow_untested_optimizer</span></code> flag.</p>
+<p>If you want to use one of the officially supported optimizers, configure them explicitly in the configuration file, and
+make sure to adjust the values. e.g. if use Adam you will want <code class="docutils literal notranslate"><span class="pre">weight_decay</span></code> around <code class="docutils literal notranslate"><span class="pre">0.01</span></code>.</p>
+</div>
+<div class="section" id="scheduler">
+<h4>Scheduler<a class="headerlink" href="#scheduler" title="Permalink to this headline">¶</a></h4>
+<p>DeepSpeed supports LRRangeTest, OneCycle, WarmupLR and WarmupDecayLR LR schedulers. The full documentation is <a class="reference external" href="https://www.deepspeed.ai/docs/config-json/#scheduler-parameters">here</a>.</p>
+<p>If you don’t configure the <code class="docutils literal notranslate"><span class="pre">scheduler</span></code> entry in the configuration file, the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> will use
+the value of <code class="docutils literal notranslate"><span class="pre">--lr_scheduler_type</span></code> to configure it. Currently the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> supports only 2 LR
+schedulers that are also supported by DeepSpeed:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">WarmupLR</span></code> via <code class="docutils literal notranslate"><span class="pre">--lr_scheduler_type</span> <span class="pre">constant_with_warmup</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WarmupDecayLR</span></code> via <code class="docutils literal notranslate"><span class="pre">--lr_scheduler_type</span> <span class="pre">linear</span></code>. This is also the default value for <code class="docutils literal notranslate"><span class="pre">--lr_scheduler_type</span></code>,
+therefore, if you don’t configure the scheduler this is scheduler that will get configured by default.</p></li>
+</ul>
+<p>In either case, the values of <code class="docutils literal notranslate"><span class="pre">--learning_rate</span></code> and <code class="docutils literal notranslate"><span class="pre">--warmup_steps</span></code> will be used for the configuration.</p>
+<p>In other words, if you don’t use the configuration file to set the <code class="docutils literal notranslate"><span class="pre">scheduler</span></code> entry, provide either:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--lr_scheduler_type constant_with_warmup --learning_rate 3e-5 --warmup_steps <span class="m">500</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--lr_scheduler_type linear --learning_rate 3e-5 --warmup_steps <span class="m">500</span>
+</pre></div>
+</div>
+<p>with the desired values. If you don’t pass these arguments, reasonable default values will be used instead.</p>
+<p>In the case of WarmupDecayLR <code class="docutils literal notranslate"><span class="pre">total_num_steps</span></code> gets set either via the <code class="docutils literal notranslate"><span class="pre">--max_steps</span></code> command line argument, or if
+it is not provided, derived automatically at run time based on the environment and the size of the dataset and other
+command line arguments.</p>
+<p>Here is an example of the pre-configured <code class="docutils literal notranslate"><span class="pre">scheduler</span></code> entry for WarmupLR (<code class="docutils literal notranslate"><span class="pre">constant_with_warmup</span></code> in the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> API):</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="nt">&quot;scheduler&quot;</span><span class="p">:</span> <span class="p">{</span>
+         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;WarmupLR&quot;</span><span class="p">,</span>
+         <span class="nt">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
+             <span class="nt">&quot;warmup_min_lr&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+             <span class="nt">&quot;warmup_max_lr&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+             <span class="nt">&quot;warmup_num_steps&quot;</span><span class="p">:</span> <span class="mi">1000</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="automatic-mixed-precision">
+<h4>Automatic Mixed Precision<a class="headerlink" href="#automatic-mixed-precision" title="Permalink to this headline">¶</a></h4>
+<p>You can work with FP16 in one of the following ways:</p>
+<ol class="arabic simple">
+<li><p>Pytorch native amp, as documented <a class="reference external" href="https://www.deepspeed.ai/docs/config-json/#fp16-training-options">here</a>.</p></li>
+<li><p>NVIDIA’s apex, as documented <a class="reference external" href="https://www.deepspeed.ai/docs/config-json/#automatic-mixed-precision-amp-training-options">here</a>.</p></li>
+</ol>
+<p>If you want to use an equivalent of the Pytorch native amp, you can either configure the <code class="docutils literal notranslate"><span class="pre">fp16</span></code> entry in the
+configuration file, or use the following command line arguments: <code class="docutils literal notranslate"><span class="pre">--fp16</span> <span class="pre">--fp16_backend</span> <span class="pre">amp</span></code>.</p>
+<p>Here is an example of the <code class="docutils literal notranslate"><span class="pre">fp16</span></code> configuration:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;fp16&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;loss_scale&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nt">&quot;loss_scale_window&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="nt">&quot;hysteresis&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nt">&quot;min_loss_scale&quot;</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you want to use NVIDIA’s apex instead, you can can either configure the <code class="docutils literal notranslate"><span class="pre">amp</span></code> entry in the configuration file, or
+use the following command line arguments: <code class="docutils literal notranslate"><span class="pre">--fp16</span> <span class="pre">--fp16_backend</span> <span class="pre">apex</span> <span class="pre">--fp16_opt_level</span> <span class="pre">01</span></code>.</p>
+<p>Here is an example of the <code class="docutils literal notranslate"><span class="pre">amp</span></code> configuration:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;amp&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;opt_level&quot;</span><span class="p">:</span> <span class="s2">&quot;O1&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gradient-accumulation">
+<h4>Gradient Accumulation<a class="headerlink" href="#gradient-accumulation" title="Permalink to this headline">¶</a></h4>
+<p>While normally DeepSpeed gets gradient accumulation configured with:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;gradient_accumulation_steps&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>in this case, to enable gradient accumulation, pass the command line <cite>–gradient_accumulation_steps</cite> argument as normal
+and it will get injected into the DeepSpeed configuration.</p>
+<p>If you try to add it directly to the configuration file, you will receive an error from the Trainer - this is because
+this setting is needed by the Trainer too, and so this approach ensures that there is a single way of setting this
+value and thus avoid potential subtle errors.</p>
+</div>
+<div class="section" id="gradient-clipping">
+<h4>Gradient Clipping<a class="headerlink" href="#gradient-clipping" title="Permalink to this headline">¶</a></h4>
+<p>If you don’t configure the <code class="docutils literal notranslate"><span class="pre">gradient_clipping</span></code> entry in the configuration file, the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code>
+will use the value of the <code class="docutils literal notranslate"><span class="pre">--max_grad_norm</span></code> command line argument to set it.</p>
+<p>Here is an example of the <code class="docutils literal notranslate"><span class="pre">gradient_clipping</span></code> configuration:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;gradient_clipping&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="notes">
+<h4>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>DeepSpeed works with the PyTorch <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> but not TF <code class="xref py py-class docutils literal notranslate"><span class="pre">TFTrainer</span></code>.</p></li>
+<li><p>While DeepSpeed has a pip installable PyPI package, it is highly recommended that it gets installed from <a class="reference external" href="https://github.com/microsoft/deepspeed#installation">source</a> to best match your hardware and also if you need to enable
+certain features, like 1-bit Adam, which aren’t available in the pypi distribution.</p></li>
+<li><p>You don’t have to use the <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> to use DeepSpeed with HuggingFace <code class="docutils literal notranslate"><span class="pre">transformers</span></code> - you can
+use any model with your own trainer, and you will have to adapt the latter according to <a class="reference external" href="https://www.deepspeed.ai/getting-started/#writing-deepspeed-models">the DeepSpeed integration
+instructions</a>.</p></li>
+</ul>
+</div>
+<div class="section" id="main-deepspeed-resources">
+<h4>Main DeepSpeed Resources<a class="headerlink" href="#main-deepspeed-resources" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/microsoft/deepspeed">Project’s github</a></p></li>
+<li><p><a class="reference external" href="https://www.deepspeed.ai/getting-started/">Usage docs</a></p></li>
+<li><p><a class="reference external" href="https://deepspeed.readthedocs.io/en/latest/index.html">API docs</a></p></li>
+<li><p><a class="reference external" href="https://www.microsoft.com/en-us/research/search/?q=deepspeed">Blog posts</a></p></li>
+</ul>
+<p>Papers:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1910.02054">ZeRO: Memory Optimizations Toward Training Trillion Parameter Models</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2101.06840">ZeRO-Offload: Democratizing Billion-Scale Model Training</a></p></li>
+</ul>
+<p>Finally, please, remember that, HuggingFace <code class="xref py py-class docutils literal notranslate"><span class="pre">Trainer</span></code> only integrates DeepSpeed, therefore if you
+have any problems or questions with regards to DeepSpeed usage, please, file an issue with <a class="reference external" href="https://github.com/microsoft/DeepSpeed/issues">DeepSpeed GitHub</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

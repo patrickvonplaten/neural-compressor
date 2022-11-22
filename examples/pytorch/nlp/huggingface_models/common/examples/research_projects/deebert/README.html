@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeeBERT: Early Exiting for *BERT &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">DeeBERT: Early Exiting for *BERT</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/deebert/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="deebert-early-exiting-for-bert">
+<h1>DeeBERT: Early Exiting for *BERT<a class="headerlink" href="#deebert-early-exiting-for-bert" title="Permalink to this headline">¶</a></h1>
+<p>This is the code base for the paper <a class="reference external" href="https://www.aclweb.org/anthology/2020.acl-main.204/">DeeBERT: Dynamic Early Exiting for Accelerating BERT Inference</a>, modified from its <a class="reference external" href="https://github.com/castorini/deebert">original code base</a>.</p>
+<p>The original code base also has information for downloading sample models that we have trained in advance.</p>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>There are three scripts in the folder which can be run directly.</p>
+<p>In each script, there are several things to modify before running:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PATH_TO_DATA</span></code>: path to the GLUE dataset.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--output_dir</span></code>: path for saving fine-tuned models. Default: <code class="docutils literal notranslate"><span class="pre">./saved_models</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--plot_data_dir</span></code>: path for saving evaluation results. Default: <code class="docutils literal notranslate"><span class="pre">./results</span></code>. Results are printed to stdout and also saved to <code class="docutils literal notranslate"><span class="pre">npy</span></code> files in this directory to facilitate plotting figures and further analyses.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MODEL_TYPE</span></code>: bert or roberta</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MODEL_SIZE</span></code>: base or large</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DATASET</span></code>: SST-2, MRPC, RTE, QNLI, QQP, or MNLI</p></li>
+</ul>
+<div class="section" id="train-deebert-sh">
+<h3>train_deebert.sh<a class="headerlink" href="#train-deebert-sh" title="Permalink to this headline">¶</a></h3>
+<p>This is for fine-tuning DeeBERT models.</p>
+</div>
+<div class="section" id="eval-deebert-sh">
+<h3>eval_deebert.sh<a class="headerlink" href="#eval-deebert-sh" title="Permalink to this headline">¶</a></h3>
+<p>This is for evaluating each exit layer for fine-tuned DeeBERT models.</p>
+</div>
+<div class="section" id="entropy-eval-sh">
+<h3>entropy_eval.sh<a class="headerlink" href="#entropy-eval-sh" title="Permalink to this headline">¶</a></h3>
+<p>This is for evaluating fine-tuned DeeBERT models, given a number of different early exit entropy thresholds.</p>
+</div>
+</div>
+<div class="section" id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>Please cite our paper if you find the resource useful:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@inproceedings</span><span class="p">{</span><span class="n">xin</span><span class="o">-</span><span class="n">etal</span><span class="o">-</span><span class="mi">2020</span><span class="o">-</span><span class="n">deebert</span><span class="p">,</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{D}</span><span class="s2">ee</span><span class="si">{BERT}</span><span class="s2">: Dynamic Early Exiting for Accelerating </span><span class="si">{BERT}</span><span class="s2"> Inference&quot;</span><span class="p">,</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="s2">&quot;Xin, Ji  and</span>
+      <span class="n">Tang</span><span class="p">,</span> <span class="n">Raphael</span>  <span class="ow">and</span>
+      <span class="n">Lee</span><span class="p">,</span> <span class="n">Jaejun</span>  <span class="ow">and</span>
+      <span class="n">Yu</span><span class="p">,</span> <span class="n">Yaoliang</span>  <span class="ow">and</span>
+      <span class="n">Lin</span><span class="p">,</span> <span class="n">Jimmy</span><span class="s2">&quot;,</span>
+    <span class="n">booktitle</span> <span class="o">=</span> <span class="s2">&quot;Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics&quot;</span><span class="p">,</span>
+    <span class="n">month</span> <span class="o">=</span> <span class="n">jul</span><span class="p">,</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="s2">&quot;2020&quot;</span><span class="p">,</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="s2">&quot;Online&quot;</span><span class="p">,</span>
+    <span class="n">publisher</span> <span class="o">=</span> <span class="s2">&quot;Association for Computational Linguistics&quot;</span><span class="p">,</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.aclweb.org/anthology/2020.acl-main.204&quot;</span><span class="p">,</span>
+    <span class="n">pages</span> <span class="o">=</span> <span class="s2">&quot;2246--2251&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Longformer &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Longformer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/longformer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="longformer">
+<h1>Longformer<a class="headerlink" href="#longformer" title="Permalink to this headline">¶</a></h1>
+<p><strong>DISCLAIMER:</strong> This model is still a work in progress, if you see something strange, file a <a class="reference external" href="https://github.com/huggingface/transformers/issues/new?assignees=&amp;labels=&amp;template=bug-report.md&amp;title">Github Issue</a>.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The Longformer model was presented in <a class="reference external" href="https://arxiv.org/pdf/2004.05150.pdf">Longformer: The Long-Document Transformer</a> by Iz Beltagy, Matthew E. Peters, Arman Cohan.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>Transformer-based models are unable to process long sequences due to their self-attention operation, which scales
+quadratically with the sequence length. To address this limitation, we introduce the Longformer with an attention
+mechanism that scales linearly with sequence length, making it easy to process documents of thousands of tokens or
+longer. Longformer’s attention mechanism is a drop-in replacement for the standard self-attention and combines a local
+windowed attention with a task motivated global attention. Following prior work on long-sequence transformers, we
+evaluate Longformer on character-level language modeling and achieve state-of-the-art results on text8 and enwik8. In
+contrast to most prior work, we also pretrain Longformer and finetune it on a variety of downstream tasks. Our
+pretrained Longformer consistently outperforms RoBERTa on long document tasks and sets new state-of-the-art results on
+WikiHop and TriviaQA.</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>Since the Longformer is based on RoBERTa, it doesn’t have <code class="xref py py-obj docutils literal notranslate"><span class="pre">token_type_ids</span></code>. You don’t need to indicate which
+token belongs to which segment. Just separate your segments with the separation token <code class="xref py py-obj docutils literal notranslate"><span class="pre">tokenizer.sep_token</span></code> (or
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">&lt;/s&gt;</span></code>).</p></li>
+</ul>
+<p>The Authors’ code can be found <a class="reference external" href="https://github.com/allenai/longformer">here</a>.</p>
+</div>
+<div class="section" id="longformer-self-attention">
+<h2>Longformer Self Attention<a class="headerlink" href="#longformer-self-attention" title="Permalink to this headline">¶</a></h2>
+<p>Longformer self attention employs self attention on both a “local” context and a “global” context. Most tokens only
+attend “locally” to each other meaning that each token attends to its <span class="math notranslate nohighlight">\(\frac{1}{2} w\)</span> previous tokens and
+<span class="math notranslate nohighlight">\(\frac{1}{2} w\)</span> succeding tokens with <span class="math notranslate nohighlight">\(w\)</span> being the window length as defined in
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">config.attention_window</span></code>. Note that <code class="xref py py-obj docutils literal notranslate"><span class="pre">config.attention_window</span></code> can be of type <code class="xref py py-obj docutils literal notranslate"><span class="pre">List</span></code> to define a
+different <span class="math notranslate nohighlight">\(w\)</span> for each layer. A selected few tokens attend “globally” to all other tokens, as it is
+conventionally done for all tokens in <code class="xref py py-obj docutils literal notranslate"><span class="pre">BertSelfAttention</span></code>.</p>
+<p>Note that “locally” and “globally” attending tokens are projected by different query, key and value matrices. Also note
+that every “locally” attending token not only attends to tokens within its window <span class="math notranslate nohighlight">\(w\)</span>, but also to all “globally”
+attending tokens so that global attention is <em>symmetric</em>.</p>
+<p>The user can define which tokens attend “locally” and which tokens attend “globally” by setting the tensor
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">global_attention_mask</span></code> at run-time appropriately. All Longformer models employ the following logic for
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">global_attention_mask</span></code>:</p>
+<ul class="simple">
+<li><p>0: the token attends “locally”,</p></li>
+<li><p>1: the token attends “globally”.</p></li>
+</ul>
+<p>For more information please also refer to <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code> method.</p>
+<p>Using Longformer self attention, the memory and time complexity of the query-key matmul operation, which usually
+represents the memory and time bottleneck, can be reduced from <span class="math notranslate nohighlight">\(\mathcal{O}(n_s \times n_s)\)</span> to
+<span class="math notranslate nohighlight">\(\mathcal{O}(n_s \times w)\)</span>, with <span class="math notranslate nohighlight">\(n_s\)</span> being the sequence length and <span class="math notranslate nohighlight">\(w\)</span> being the average window
+size. It is assumed that the number of “globally” attending tokens is insignificant as compared to the number of
+“locally” attending tokens.</p>
+<p>For more information, please refer to the official <a class="reference external" href="https://arxiv.org/pdf/2004.05150.pdf">paper</a>.</p>
+</div>
+<div class="section" id="training">
+<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">LongformerForMaskedLM</span></code> is trained the exact same way <code class="xref py py-class docutils literal notranslate"><span class="pre">RobertaForMaskedLM</span></code> is
+trained and should be used as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;This is a sentence from [MASK] training data&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span>
+<span class="n">mlm_labels</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;This is a sentence from the training data&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span>
+
+<span class="n">loss</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">masked_lm_labels</span><span class="o">=</span><span class="n">mlm_labels</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="longformerconfig">
+<h2>LongformerConfig<a class="headerlink" href="#longformerconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longformertokenizer">
+<h2>LongformerTokenizer<a class="headerlink" href="#longformertokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longformertokenizerfast">
+<h2>LongformerTokenizerFast<a class="headerlink" href="#longformertokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longformer-specific-outputs">
+<h2>Longformer specific outputs<a class="headerlink" href="#longformer-specific-outputs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longformermodel">
+<h2>LongformerModel<a class="headerlink" href="#longformermodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longformerformaskedlm">
+<h2>LongformerForMaskedLM<a class="headerlink" href="#longformerformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longformerforsequenceclassification">
+<h2>LongformerForSequenceClassification<a class="headerlink" href="#longformerforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longformerformultiplechoice">
+<h2>LongformerForMultipleChoice<a class="headerlink" href="#longformerformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longformerfortokenclassification">
+<h2>LongformerForTokenClassification<a class="headerlink" href="#longformerfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="longformerforquestionanswering">
+<h2>LongformerForQuestionAnswering<a class="headerlink" href="#longformerforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tflongformermodel">
+<h2>TFLongformerModel<a class="headerlink" href="#tflongformermodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tflongformerformaskedlm">
+<h2>TFLongformerForMaskedLM<a class="headerlink" href="#tflongformerformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tflongformerforquestionanswering">
+<h2>TFLongformerForQuestionAnswering<a class="headerlink" href="#tflongformerforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tflongformerforsequenceclassification">
+<h2>TFLongformerForSequenceClassification<a class="headerlink" href="#tflongformerforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tflongformerfortokenclassification">
+<h2>TFLongformerForTokenClassification<a class="headerlink" href="#tflongformerfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tflongformerformultiplechoice">
+<h2>TFLongformerForMultipleChoice<a class="headerlink" href="#tflongformerformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

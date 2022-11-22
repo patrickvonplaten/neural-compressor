@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zero-shot classifier distillation &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Zero-shot classifier distillation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/research_projects/zero-shot-distillation/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="zero-shot-classifier-distillation">
+<h1>Zero-shot classifier distillation<a class="headerlink" href="#zero-shot-classifier-distillation" title="Permalink to this headline">¶</a></h1>
+<p>Author: &#64;joeddav</p>
+<p>This script provides a way to improve the speed and memory performance of a zero-shot classifier by training a more
+efficient student model from the zero-shot teacher’s predictions over an unlabeled dataset.</p>
+<p>The zero-shot classification pipeline uses a model pre-trained on natural language inference (NLI) to determine the
+compatibility of a set of candidate class names with a given sequence. This serves as a convenient out-of-the-box
+classifier without the need for labeled training data. However, for a given sequence, the method requires each
+possible label to be fed through the large NLI model separately. Thus for <code class="docutils literal notranslate"><span class="pre">N</span></code> sequences and <code class="docutils literal notranslate"><span class="pre">K</span></code> classes, a total of
+<code class="docutils literal notranslate"><span class="pre">N*K</span></code> forward passes through the model are required. This requirement slows inference considerably, particularly as
+<code class="docutils literal notranslate"><span class="pre">K</span></code> grows.</p>
+<p>Given (1) an unlabeled corpus and (2) a set of candidate class names, the provided script trains a student model
+with a standard classification head with <code class="docutils literal notranslate"><span class="pre">K</span></code> output dimensions. The resulting student model can then be used for
+classifying novel text instances with a significant boost in speed and memory performance while retaining similar
+classification performance to the original zero-shot model</p>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>A teacher NLI model can be distilled to a more efficient student model by running <code class="docutils literal notranslate"><span class="pre">distill_classifier.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">distill_classifier</span><span class="o">.</span><span class="n">py</span> \
+<span class="o">--</span><span class="n">data_file</span> <span class="o">&lt;</span><span class="n">unlabeled_data</span><span class="o">.</span><span class="n">txt</span><span class="o">&gt;</span> \
+<span class="o">--</span><span class="n">class_names_file</span> <span class="o">&lt;</span><span class="n">class_names</span><span class="o">.</span><span class="n">txt</span><span class="o">&gt;</span> \
+<span class="o">--</span><span class="n">output_dir</span> <span class="o">&lt;</span><span class="n">output_dir</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;unlabeled_data.txt&gt;</span></code> should be a text file with a single unlabeled example per line. <code class="docutils literal notranslate"><span class="pre">&lt;class_names.txt&gt;</span></code> is a text file with one class name per line.</p>
+<p>Other optional arguments include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--teacher_name_or_path</span></code> (default: <code class="docutils literal notranslate"><span class="pre">roberta-large-mnli</span></code>): The name or path of the NLI teacher model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--student_name_or_path</span></code> (default: <code class="docutils literal notranslate"><span class="pre">distillbert-base-uncased</span></code>): The name or path of the student model which will
+be fine-tuned to copy the teacher predictions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--hypothesis_template</span></code> (default <code class="docutils literal notranslate"><span class="pre">&quot;This</span> <span class="pre">example</span> <span class="pre">is</span> <span class="pre">{}.&quot;</span></code>): The template used to turn each label into an NLI-style
+hypothesis when generating teacher predictions. This template must include a <code class="docutils literal notranslate"><span class="pre">{}</span></code> or similar syntax for the
+candidate label to be inserted into the template. For example, the default template is <code class="docutils literal notranslate"><span class="pre">&quot;This</span> <span class="pre">example</span> <span class="pre">is</span> <span class="pre">{}.&quot;</span></code> With
+the candidate label <code class="docutils literal notranslate"><span class="pre">sports</span></code>, this would be fed into the model like <code class="docutils literal notranslate"><span class="pre">[CLS]</span> <span class="pre">sequence</span> <span class="pre">to</span> <span class="pre">classify</span> <span class="pre">[SEP]</span> <span class="pre">This</span> <span class="pre">example</span> <span class="pre">is</span> <span class="pre">sports</span> <span class="pre">.</span> <span class="pre">[SEP]</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--multi_class</span></code>: Whether or not multiple candidate labels can be true. By default, the scores are normalized such
+that the sum of the label likelihoods for each sequence is 1. If <code class="docutils literal notranslate"><span class="pre">--multi_class</span></code> is passed, the labels are
+considered independent and probabilities are normalized for each candidate by doing a softmax of the entailment
+score vs. the contradiction score. This is sometimes called “multi-class multi-label” classification.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--temperature</span></code> (default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code>): The temperature applied to the softmax of the teacher model predictions. A
+higher temperature results in a student with smoother (lower confidence) predictions than the teacher while a value
+<code class="docutils literal notranslate"><span class="pre">&lt;1</span></code> resultings in a higher-confidence, peaked distribution. The default <code class="docutils literal notranslate"><span class="pre">1.0</span></code> is equivalent to no smoothing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--teacher_batch_size</span></code> (default: <code class="docutils literal notranslate"><span class="pre">32</span></code>): The batch size used for generating a single set of teacher predictions.
+Does not affect training. Use <code class="docutils literal notranslate"><span class="pre">--per_device_train_batch_size</span></code> to change the training batch size.</p></li>
+</ul>
+<p>Any of the arguments in the 🤗 Trainer’s
+<a class="reference external" href="https://huggingface.co/transformers/main_classes/trainer.html?#trainingarguments"><code class="docutils literal notranslate"><span class="pre">TrainingArguments</span></code></a> can also be
+modified, such as <code class="docutils literal notranslate"><span class="pre">--learning_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">--fp16</span></code>, <code class="docutils literal notranslate"><span class="pre">--no_cuda</span></code>, <code class="docutils literal notranslate"><span class="pre">--warmup_steps</span></code>, etc. Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">distill_classifier.py</span> <span class="pre">-h</span></code> for a full list of available arguments or consult the <a class="reference external" href="https://huggingface.co/transformers/main_classes/trainer.html#trainingarguments">Trainer
+documentation</a>.</p>
+<blockquote>
+<div><p><strong>Note</strong>: Distributed and TPU training are not currently supported. Single-node multi-GPU is supported, however,
+and will run automatically if multiple GPUs are available.</p>
+</div></blockquote>
+</div>
+<div class="section" id="example-topic-classification">
+<h2>Example: Topic classification<a class="headerlink" href="#example-topic-classification" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>A full colab demo notebook of this example can be found <a class="reference external" href="https://colab.research.google.com/drive/1mjBjd0cR8G57ZpsnFCS3ngGyo5nCa9ya?usp=sharing">here</a>.</p>
+</div></blockquote>
+<p>Let’s say we’re interested in classifying news articles into one of four topic categories: “the world”, “sports”,
+“business”, or “science/tech”. We have an unlabeled dataset, <a class="reference external" href="https://huggingface.co/datasets/ag_news">AG’s News</a>,
+which corresponds to this problem (in reality AG’s News is annotated, but we will pretend it is not for the sake of
+example).</p>
+<p>We can use an NLI model like <code class="docutils literal notranslate"><span class="pre">roberta-large-mnli</span></code> for zero-shot classification like so:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">class_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;the world&quot;</span><span class="p">,</span> <span class="s2">&quot;sports&quot;</span><span class="p">,</span> <span class="s2">&quot;business&quot;</span><span class="p">,</span> <span class="s2">&quot;science/tech&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hypothesis_template</span> <span class="o">=</span> <span class="s2">&quot;This text is about {}.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span> <span class="o">=</span> <span class="s2">&quot;A new moon has been discovered in Jupiter&#39;s orbit&quot;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zero_shot_classifier</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;zero-shot-classification&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;roberta-large-mnli&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zero_shot_classifier</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">hypothesis_template</span><span class="o">=</span><span class="n">hypothesis_template</span><span class="p">)</span>
+<span class="go">{&#39;sequence&#39;: &quot;A new moon has been discovered in Jupiter&#39;s orbit&quot;,</span>
+<span class="go"> &#39;labels&#39;: [&#39;science/tech&#39;, &#39;the world&#39;, &#39;business&#39;, &#39;sports&#39;],</span>
+<span class="go"> &#39;scores&#39;: [0.7035840153694153, 0.18744826316833496, 0.06027870625257492, 0.04868902638554573]}</span>
+</pre></div>
+</div>
+<p>Unfortunately, inference is slow since each of our 4 class names must be fed through the large model for every
+sequence to be classified. But with our unlabeled data we can distill the model to a small distilbert classifier to
+make future inference much faster.</p>
+<p>To run the script, we will need to put each training example (text only) from AG’s News on its own line in
+<code class="docutils literal notranslate"><span class="pre">agnews/train_unlabeled.txt</span></code>, and each of the four class names in the newline-separated <code class="docutils literal notranslate"><span class="pre">agnews/class_names.txt</span></code>.
+Then we can run distillation with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python distill_classifier.py <span class="se">\</span>
+--data_file ./agnews/unlabeled.txt <span class="se">\</span>
+--class_names_files ./agnews/class_names.txt <span class="se">\</span>
+--teacher_name_or_path roberta-large-mnli <span class="se">\</span>
+--hypothesis_template <span class="s2">&quot;This text is about {}.&quot;</span> <span class="se">\</span>
+--output_dir ./agnews/distilled
+</pre></div>
+</div>
+<p>The script will generate a set of soft zero-shot predictions from <code class="docutils literal notranslate"><span class="pre">roberta-large-mnli</span></code> for each example in
+<code class="docutils literal notranslate"><span class="pre">agnews/unlabeled.txt</span></code>. It will then train a student distilbert classifier on the teacher predictions and
+save the resulting model in <code class="docutils literal notranslate"><span class="pre">./agnews/distilled</span></code>.</p>
+<p>The resulting model can then be loaded and used like any other pre-trained classifier:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForSequenceClassification</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;./agnews/distilled&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;./agnews/distilled&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and even used trivially with a <code class="docutils literal notranslate"><span class="pre">TextClassificationPipeline</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">distilled_classifier</span> <span class="o">=</span> <span class="n">TextClassificationPipeline</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">return_all_scores</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">distilled_classifier</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+<span class="go">[[{&#39;label&#39;: &#39;the world&#39;, &#39;score&#39;: 0.14899294078350067},</span>
+<span class="go">  {&#39;label&#39;: &#39;sports&#39;, &#39;score&#39;: 0.03205857425928116},</span>
+<span class="go">  {&#39;label&#39;: &#39;business&#39;, &#39;score&#39;: 0.05943061783909798},</span>
+<span class="go">  {&#39;label&#39;: &#39;science/tech&#39;, &#39;score&#39;: 0.7595179080963135}]]</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>Tip: pass <code class="docutils literal notranslate"><span class="pre">device=0</span></code> when constructing a pipeline to run on a GPU</p>
+</div></blockquote>
+<p>As we can see, the results of the student closely resemble that of the trainer despite never having seen this
+example during training. Now let’s do a quick &amp; dirty speed comparison simulating 16K examples with a batch size of
+16:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">zero_shot_classifier</span><span class="p">([</span><span class="n">sequence</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span><span class="p">,</span> <span class="n">class_names</span><span class="p">)</span>
+<span class="c1"># runs in 1m 23s on a single V100 GPU</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">time</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">distilled_classifier</span><span class="p">([</span><span class="n">sequence</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span><span class="p">)</span>
+<span class="c1"># runs in 10.3s on a single V100 GPU</span>
+</pre></div>
+</div>
+<p>As we can see, the distilled student model runs an order of magnitude faster than its teacher NLI model. This is
+also a seeting where we only have <code class="docutils literal notranslate"><span class="pre">K=4</span></code> possible labels. The higher the number of classes for a given task, the more
+drastic the speedup will be, since the zero-shot teacher’s complexity scales linearly with the number of classes.</p>
+<p>Since we secretly have access to ground truth labels for AG’s news, we can evaluate the accuracy of each model. The
+original zero-shot model <code class="docutils literal notranslate"><span class="pre">roberta-large-mnli</span></code> gets an accuracy of 69.3% on the held-out test set. After training a
+student on the unlabeled training set, the distilled model gets a similar score of 70.4%.</p>
+<p>Lastly, you can share the distilled model with the community and/or use it with our inference API by <a class="reference external" href="https://huggingface.co/transformers/model_sharing.html">uploading it
+to the 🤗 Hub</a>. We’ve uploaded the distilled model from this
+example at
+<a class="reference external" href="https://huggingface.co/joeddav/distilbert-base-uncased-agnews-student">joeddav/distilbert-base-uncased-agnews-student</a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

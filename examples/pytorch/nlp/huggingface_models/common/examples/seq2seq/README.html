@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sequence to Sequence Training and Evaluation &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Sequence to Sequence Training and Evaluation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/examples/seq2seq/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <!---
+Copyright 2020 The HuggingFace Team. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--><div class="section" id="sequence-to-sequence-training-and-evaluation">
+<h1>Sequence to Sequence Training and Evaluation<a class="headerlink" href="#sequence-to-sequence-training-and-evaluation" title="Permalink to this headline">¶</a></h1>
+<p>This directory contains examples for finetuning and evaluating transformers on summarization and translation tasks.
+Please tag &#64;patil-suraj with any issues/unexpected behaviors, or send a PR!
+For deprecated <code class="docutils literal notranslate"><span class="pre">bertabs</span></code> instructions, see <a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/research_projects/bertabs/README.md"><code class="docutils literal notranslate"><span class="pre">bertabs/README.md</span></code></a>.
+For the old <code class="docutils literal notranslate"><span class="pre">finetune_trainer.py</span></code> and related utils, see <a class="reference external" href="https://github.com/huggingface/transformers/blob/master/examples/legacy/seq2seq"><code class="docutils literal notranslate"><span class="pre">examples/legacy/seq2seq</span></code></a>.</p>
+<div class="section" id="supported-architectures">
+<h2>Supported Architectures<a class="headerlink" href="#supported-architectures" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BartForConditionalGeneration</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MarianMTModel</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PegasusForConditionalGeneration</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MBartForConditionalGeneration</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FSMTForConditionalGeneration</span></code> (translation only)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">T5ForConditionalGeneration</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">run_seq2seq.py</span></code> is a lightweight example of how to download and preprocess a dataset from the <a class="reference external" href="https://github.com/huggingface/datasets">🤗 Datasets</a> library or use your own files (jsonlines or csv), then fine-tune one of the architectures above on it.</p>
+<p>For custom datasets in <code class="docutils literal notranslate"><span class="pre">jsonlines</span></code> format please see: https://huggingface.co/docs/datasets/loading_datasets.html#json-files
+and you also will find examples of these below.</p>
+</div>
+<div class="section" id="summarization">
+<h2>Summarization<a class="headerlink" href="#summarization" title="Permalink to this headline">¶</a></h2>
+<p>Here is an example on a summarization task:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+    --model_name_or_path t5-small <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --task summarization <span class="se">\</span>
+    --dataset_name xsum <span class="se">\</span>
+    --output_dir /tmp/tst-summarization <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --overwrite_output_dir <span class="se">\</span>
+    --predict_with_generate <span class="se">\</span>
+    --max_train_samples <span class="m">500</span> <span class="se">\</span>
+    --max_val_samples <span class="m">500</span>
+</pre></div>
+</div>
+<p>CNN/DailyMail dataset is another commonly used dataset for the task of summarization. To use it replace <code class="docutils literal notranslate"><span class="pre">--dataset_name</span> <span class="pre">xsum</span></code> with <code class="docutils literal notranslate"><span class="pre">--dataset_name</span> <span class="pre">cnn_dailymail</span> <span class="pre">--dataset_config</span> <span class="pre">&quot;3.0.0&quot;</span></code>.</p>
+<p>And here is how you would use it on your own files, after adjusting the values for the arguments
+<code class="docutils literal notranslate"><span class="pre">--train_file</span></code>, <code class="docutils literal notranslate"><span class="pre">--validation_file</span></code>, <code class="docutils literal notranslate"><span class="pre">--text_column</span></code> and <code class="docutils literal notranslate"><span class="pre">--summary_column</span></code> to match your setup:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+    --model_name_or_path t5-small <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --task summarization <span class="se">\</span>
+    --train_file path_to_csv_or_jsonlines_file <span class="se">\</span>
+    --validation_file path_to_csv_or_jsonlines_file <span class="se">\</span>
+    --output_dir /tmp/tst-summarization <span class="se">\</span>
+    --overwrite_output_dir <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --predict_with_generate <span class="se">\</span>
+    --max_train_samples <span class="m">500</span> <span class="se">\</span>
+    --max_val_samples <span class="m">500</span>
+</pre></div>
+</div>
+<p>The task of summarization supports custom CSV and JSONLINES formats.</p>
+<div class="section" id="custom-csv-files">
+<h3>Custom CSV Files<a class="headerlink" href="#custom-csv-files" title="Permalink to this headline">¶</a></h3>
+<p>If it’s a csv file the training and validation files should have a column for the inputs texts and a column for the summaries.</p>
+<p>If the csv file has just two columns as in the following example:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>text,summary
+&quot;I&#39;m sitting here in a boring room. It&#39;s just another rainy Sunday afternoon. I&#39;m wasting my time I got nothing to do. I&#39;m hanging around I&#39;m waiting for you. But nothing ever happens. And I wonder&quot;,&quot;I&#39;m sitting in a room where I&#39;m waiting for something to happen&quot;
+&quot;I see trees so green, red roses too. I see them bloom for me and you. And I think to myself what a wonderful world. I see skies so blue and clouds so white. The bright blessed day, the dark sacred night. And I think to myself what a wonderful world.&quot;,&quot;I&#39;m a gardener and I&#39;m a big fan of flowers.&quot;
+&quot;Christmas time is here. Happiness and cheer. Fun for all that children call. Their favorite time of the year. Snowflakes in the air. Carols everywhere. Olden times and ancient rhymes. Of love and dreams to share&quot;,&quot;It&#39;s that time of year again.&quot;
+</pre></div>
+</div>
+<p>The first column is assumed to be for <code class="docutils literal notranslate"><span class="pre">text</span></code> and the second is for summary.</p>
+<p>If the csv file has multiple columns, you can then specify the names of the columns to use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    --text_column text_column_name <span class="se">\</span>
+    --summary_column summary_column_name <span class="se">\</span>
+</pre></div>
+</div>
+<p>For example if the columns were:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>id,date,text,summary
+</pre></div>
+</div>
+<p>and you wanted to select only <code class="docutils literal notranslate"><span class="pre">text</span></code> and <code class="docutils literal notranslate"><span class="pre">summary</span></code>, then you’d pass these additional arguments:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    --text_column text <span class="se">\</span>
+    --summary_column summary <span class="se">\</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-jsonfiles-files">
+<h3>Custom JSONFILES Files<a class="headerlink" href="#custom-jsonfiles-files" title="Permalink to this headline">¶</a></h3>
+<p>The second supported format is jsonlines. Here is an example of a jsonlines custom data file.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;I&#39;m sitting here in a boring room. It&#39;s just another rainy Sunday afternoon. I&#39;m wasting my time I got nothing to do. I&#39;m hanging around I&#39;m waiting for you. But nothing ever happens. And I wonder&quot;</span><span class="p">,</span> <span class="nt">&quot;summary&quot;</span><span class="p">:</span> <span class="s2">&quot;I&#39;m sitting in a room where I&#39;m waiting for something to happen&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;I see trees so green, red roses too. I see them bloom for me and you. And I think to myself what a wonderful world. I see skies so blue and clouds so white. The bright blessed day, the dark sacred night. And I think to myself what a wonderful world.&quot;</span><span class="p">,</span> <span class="nt">&quot;summary&quot;</span><span class="p">:</span> <span class="s2">&quot;I&#39;m a gardener and I&#39;m a big fan of flowers.&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Christmas time is here. Happiness and cheer. Fun for all that children call. Their favorite time of the year. Snowflakes in the air. Carols everywhere. Olden times and ancient rhymes. Of love and dreams to share&quot;</span><span class="p">,</span> <span class="nt">&quot;summary&quot;</span><span class="p">:</span> <span class="s2">&quot;It&#39;s that time of year again.&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Same as with the CSV files, by default the first value will be used as the text record and the second as the summary record. Therefore you can use any key names for the entries, in this example <code class="docutils literal notranslate"><span class="pre">text</span></code> and <code class="docutils literal notranslate"><span class="pre">summary</span></code> were used.</p>
+<p>And as with the CSV files, you can specify which values to select from the file, by explicitly specifying the corresponding key names. In our example this again would be:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    --text_column text <span class="se">\</span>
+    --summary_column summary <span class="se">\</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="translation">
+<h2>Translation<a class="headerlink" href="#translation" title="Permalink to this headline">¶</a></h2>
+<p>Here is an example of a translation fine-tuning with T5:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+    --model_name_or_path t5-small <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --task translation_en_to_ro <span class="se">\</span>
+    --dataset_name wmt16 <span class="se">\</span>
+    --dataset_config_name ro-en <span class="se">\</span>
+    --source_prefix <span class="s2">&quot;translate English to Romanian: &quot;</span> <span class="se">\</span>
+    --output_dir /tmp/tst-translation <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --overwrite_output_dir <span class="se">\</span>
+    --predict_with_generate <span class="se">\</span>
+    --max_train_samples <span class="m">500</span> <span class="se">\</span>
+    --max_val_samples <span class="m">500</span>
+</pre></div>
+</div>
+<p>And the same with MBart:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+    --model_name_or_path facebook/mbart-large-en-ro  <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --task translation_en_to_ro <span class="se">\</span>
+    --dataset_name wmt16 <span class="se">\</span>
+    --dataset_config_name ro-en <span class="se">\</span>
+    --source_lang en_XX <span class="se">\</span>
+    --target_lang ro_RO <span class="se">\</span>
+    --output_dir /tmp/tst-translation <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --overwrite_output_dir <span class="se">\</span>
+    --predict_with_generate <span class="se">\</span>
+    --max_train_samples <span class="m">500</span> <span class="se">\</span>
+    --max_val_samples <span class="m">500</span>
+</pre></div>
+</div>
+<p>Note, that depending on the used model additional language-specific command-line arguments are sometimes required. Specifically:</p>
+<ul>
+<li><p>MBart models require:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">--</span><span class="n">source_lang</span> <span class="n">en_XX</span> \
+    <span class="o">--</span><span class="n">target_lang</span> <span class="n">ro_RO</span> \
+</pre></div>
+</div>
+</li>
+<li><p>T5 requires:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">--</span><span class="n">source_prefix</span> <span class="s2">&quot;translate English to Romanian: &quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>yet, other models, require nether.</p></li>
+</ul>
+<p>Also, if you switch to a different language pair, make sure to adjust the source and target values in all command line arguments.</p>
+<p>And here is how you would use the translation finetuning on your own files, after adjusting the
+values for the arguments <code class="docutils literal notranslate"><span class="pre">--train_file</span></code>, <code class="docutils literal notranslate"><span class="pre">--validation_file</span></code> to match your setup:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+    --model_name_or_path t5-small <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --task translation_en_to_ro <span class="se">\</span>
+    --dataset_name wmt16 <span class="se">\</span>
+    --dataset_config_name ro-en <span class="se">\</span>
+    --source_prefix <span class="s2">&quot;translate English to Romanian: &quot;</span> <span class="se">\</span>
+    --train_file path_to_jsonlines_file <span class="se">\</span>
+    --validation_file path_to_jsonlines_file <span class="se">\</span>
+    --output_dir /tmp/tst-translation <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --overwrite_output_dir <span class="se">\</span>
+    --predict_with_generate <span class="se">\</span>
+    --max_train_samples <span class="m">500</span> <span class="se">\</span>
+    --max_val_samples <span class="m">500</span>
+</pre></div>
+</div>
+<p>The task of translation supports only custom JSONLINES files, with each line being a dictionary with a key <code class="docutils literal notranslate"><span class="pre">&quot;translation&quot;</span></code> and its value another dictionary whose keys is the language pair. For example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="nt">&quot;translation&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Others have dismissed him as a joke.&quot;</span><span class="p">,</span> <span class="nt">&quot;ro&quot;</span><span class="p">:</span> <span class="s2">&quot;Alții l-au numit o glumă.&quot;</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">{</span> <span class="nt">&quot;translation&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;And some are holding out for an implosion.&quot;</span><span class="p">,</span> <span class="nt">&quot;ro&quot;</span><span class="p">:</span> <span class="s2">&quot;Iar alții așteaptă implozia.&quot;</span> <span class="p">}</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Here the languages are Romanian (<code class="docutils literal notranslate"><span class="pre">ro</span></code>) and English (<code class="docutils literal notranslate"><span class="pre">en</span></code>).</p>
+<p>If you want to use a pre-processed dataset that leads to high bleu scores, but for the <code class="docutils literal notranslate"><span class="pre">en-de</span></code> language pair, you can use <code class="docutils literal notranslate"><span class="pre">--dataset_name</span> <span class="pre">wmt14-en-de-pre-processed</span></code>, as following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python examples/seq2seq/run_seq2seq.py <span class="se">\</span>
+    --model_name_or_path t5-small <span class="se">\</span>
+    --do_train <span class="se">\</span>
+    --do_eval <span class="se">\</span>
+    --task translation_en_to_de <span class="se">\</span>
+    --dataset_name wmt14-en-de-pre-processed <span class="se">\</span>
+    --source_prefix <span class="s2">&quot;translate English to German: &quot;</span> <span class="se">\</span>
+    --output_dir /tmp/tst-translation <span class="se">\</span>
+    --per_device_train_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --per_device_eval_batch_size<span class="o">=</span><span class="m">4</span> <span class="se">\</span>
+    --overwrite_output_dir <span class="se">\</span>
+    --predict_with_generate <span class="se">\</span>
+    --max_train_samples <span class="m">500</span> <span class="se">\</span>
+    --max_val_samples <span class="m">500</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

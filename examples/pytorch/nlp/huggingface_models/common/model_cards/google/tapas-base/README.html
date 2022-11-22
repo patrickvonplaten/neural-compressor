@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TAPAS base model &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">TAPAS base model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/model_cards/google/tapas-base/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <hr class="docutils" />
+<p>language: en
+tags:</p>
+<ul class="simple">
+<li><p>tapas</p></li>
+<li><p>masked-lm
+license: apache-2.0</p></li>
+</ul>
+<hr class="docutils" />
+<div class="section" id="tapas-base-model">
+<h1>TAPAS base model<a class="headerlink" href="#tapas-base-model" title="Permalink to this headline">¶</a></h1>
+<p>This model corresponds to the <code class="docutils literal notranslate"><span class="pre">tapas_inter_masklm_base_reset</span></code> checkpoint of the <a class="reference external" href="https://github.com/google-research/tapas">original Github repository</a>.</p>
+<p>Disclaimer: The team releasing TAPAS did not write a model card for this model so this model card has been written by
+the Hugging Face team and contributors.</p>
+<div class="section" id="model-description">
+<h2>Model description<a class="headerlink" href="#model-description" title="Permalink to this headline">¶</a></h2>
+<p>TAPAS is a BERT-like transformers model pretrained on a large corpus of English data from Wikipedia in a self-supervised fashion.
+This means it was pretrained on the raw tables and associated texts only, with no humans labelling them in any way (which is why it
+can use lots of publicly available data) with an automatic process to generate inputs and labels from those texts. More precisely, it
+was pretrained with two objectives:</p>
+<ul class="simple">
+<li><p>Masked language modeling (MLM): taking a (flattened) table and associated context, the model randomly masks 15% of the words in
+the input, then runs the entire (partially masked) sequence through the model. The model then has to predict the masked words.
+This is different from traditional recurrent neural networks (RNNs) that usually see the words one after the other,
+or from autoregressive models like GPT which internally mask the future tokens. It allows the model to learn a bidirectional
+representation of a table and associated text.</p></li>
+<li><p>Intermediate pre-training: to encourage numerical reasoning on tables, the authors additionally pre-trained the model by creating
+a balanced dataset of millions of syntactically created training examples. Here, the model must predict (classify) whether a sentence
+is supported or refuted by the contents of a table. The training examples are created based on synthetic as well as counterfactual statements.</p></li>
+</ul>
+<p>This way, the model learns an inner representation of the English language used in tables and associated texts, which can then be used
+to extract features useful for downstream tasks such as answering questions about a table, or determining whether a sentence is entailed
+or refuted by the contents of a table. Fine-tuning is done by adding classification heads on top of the pre-trained model, and then jointly
+train the randomly initialized classification heads with the base model on a labelled dataset.</p>
+</div>
+<div class="section" id="intended-uses-limitations">
+<h2>Intended uses &amp; limitations<a class="headerlink" href="#intended-uses-limitations" title="Permalink to this headline">¶</a></h2>
+<p>You can use the raw model for masked language modeling, but it’s mostly intended to be fine-tuned on a downstream task.
+See the <a class="reference external" href="https://huggingface.co/models?filter=tapas">model hub</a> to look for fine-tuned versions on a task that interests you.</p>
+<p>Here is how to use this model to get the features of a given table-text pair in PyTorch:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TapasTokenizer</span><span class="p">,</span> <span class="n">TapasModel</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">TapasTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;tapase-base&#39;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">TapasModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;tapas-base&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Actors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Brad Pitt&quot;</span><span class="p">,</span> <span class="s2">&quot;Leonardo Di Caprio&quot;</span><span class="p">,</span> <span class="s2">&quot;George Clooney&quot;</span><span class="p">],</span>
+         <span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;56&quot;</span><span class="p">,</span> <span class="s2">&quot;45&quot;</span><span class="p">,</span> <span class="s2">&quot;59&quot;</span><span class="p">],</span>
+         <span class="s1">&#39;Number of movies&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;87&quot;</span><span class="p">,</span> <span class="s2">&quot;53&quot;</span><span class="p">,</span> <span class="s2">&quot;69&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">queries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;How many movies has George Clooney played in?&quot;</span><span class="p">]</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Replace me by any text you&#39;d like.&quot;</span>
+<span class="n">encoded_input</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">queries</span><span class="o">=</span><span class="n">queries</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">encoded_input</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="training-data">
+<h2>Training data<a class="headerlink" href="#training-data" title="Permalink to this headline">¶</a></h2>
+<p>For masked language modeling (MLM), a collection of 6.2 million tables was extracted from English Wikipedia: 3.3M of class <a class="reference external" href="https://en.wikipedia.org/wiki/Help:Infobox">Infobox</a>
+and 2.9M of class WikiTable. The author only considered tables with at most 500 cells. As a proxy for questions that appear in the
+downstream tasks, the authros extracted the table caption, article title, article description, segment title and text of the segment
+the table occurs in as relevant text snippets. In this way, 21.3M snippets were created. For more info, see the original <a class="reference external" href="https://www.aclweb.org/anthology/2020.acl-main.398.pdf">TAPAS paper</a>.</p>
+<p>For intermediate pre-training, 2 tasks are introduced: one based on synthetic and the other from counterfactual statements. The first one
+generates a sentence by sampling from a set of logical expressions that filter, combine and compare the information on the table, which is
+required in table entailment (e.g., knowing that Gerald Ford is taller than the average president requires summing
+all presidents and dividing by the number of presidents). The second one corrupts sentences about tables appearing on Wikipedia by swapping
+entities for plausible alternatives. Examples of the two tasks can be seen in Figure 1. The procedure is described in detail in section 3 of
+the <a class="reference external" href="https://www.aclweb.org/anthology/2020.findings-emnlp.27.pdf">TAPAS follow-up paper</a>.</p>
+</div>
+<div class="section" id="training-procedure">
+<h2>Training procedure<a class="headerlink" href="#training-procedure" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="preprocessing">
+<h3>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h3>
+<p>The texts are lowercased and tokenized using WordPiece and a vocabulary size of 30,000. The inputs of the model are
+then of the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">CLS</span><span class="p">]</span> <span class="n">Context</span> <span class="p">[</span><span class="n">SEP</span><span class="p">]</span> <span class="n">Flattened</span> <span class="n">table</span> <span class="p">[</span><span class="n">SEP</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The details of the masking procedure for each sequence are the following:</p>
+<ul class="simple">
+<li><p>15% of the tokens are masked.</p></li>
+<li><p>In 80% of the cases, the masked tokens are replaced by <code class="docutils literal notranslate"><span class="pre">[MASK]</span></code>.</p></li>
+<li><p>In 10% of the cases, the masked tokens are replaced by a random token (different) from the one they replace.</p></li>
+<li><p>In the 10% remaining cases, the masked tokens are left as is.</p></li>
+</ul>
+<p>The details of the creation of the synthetic and counterfactual examples can be found in the <a class="reference external" href="https://arxiv.org/abs/2010.00571">follow-up paper</a>.</p>
+</div>
+<div class="section" id="pretraining">
+<h3>Pretraining<a class="headerlink" href="#pretraining" title="Permalink to this headline">¶</a></h3>
+<p>The model was trained on 32 Cloud TPU v3 cores for one million steps with maximum sequence length 512 and batch size of 512.
+In this setup, pre-training takes around 3 days. The optimizer used is Adam with a learning rate of 5e-5, and a warmup ratio
+of 0.10.</p>
+</div>
+<div class="section" id="bibtex-entry-and-citation-info">
+<h3>BibTeX entry and citation info<a class="headerlink" href="#bibtex-entry-and-citation-info" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">herzig2020tapas</span><span class="p">,</span>
+      <span class="na">title</span><span class="p">=</span><span class="s">{TAPAS: Weakly Supervised Table Parsing via Pre-training}</span><span class="p">,</span> 
+      <span class="na">author</span><span class="p">=</span><span class="s">{Jonathan Herzig and Paweł Krzysztof Nowak and Thomas Müller and Francesco Piccinno and Julian Martin Eisenschlos}</span><span class="p">,</span>
+      <span class="na">year</span><span class="p">=</span><span class="s">{2020}</span><span class="p">,</span>
+      <span class="na">eprint</span><span class="p">=</span><span class="s">{2004.02349}</span><span class="p">,</span>
+      <span class="na">archivePrefix</span><span class="p">=</span><span class="s">{arXiv}</span><span class="p">,</span>
+      <span class="na">primaryClass</span><span class="p">=</span><span class="s">{cs.IR}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">eisenschlos2020understanding</span><span class="p">,</span>
+      <span class="na">title</span><span class="p">=</span><span class="s">{Understanding tables with intermediate pre-training}</span><span class="p">,</span> 
+      <span class="na">author</span><span class="p">=</span><span class="s">{Julian Martin Eisenschlos and Syrine Krichene and Thomas Müller}</span><span class="p">,</span>
+      <span class="na">year</span><span class="p">=</span><span class="s">{2020}</span><span class="p">,</span>
+      <span class="na">eprint</span><span class="p">=</span><span class="s">{2010.00571}</span><span class="p">,</span>
+      <span class="na">archivePrefix</span><span class="p">=</span><span class="s">{arXiv}</span><span class="p">,</span>
+      <span class="na">primaryClass</span><span class="p">=</span><span class="s">{cs.CL}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

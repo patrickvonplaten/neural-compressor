@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utilities for Generation &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Utilities for Generation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/internal/generation_utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="utilities-for-generation">
+<h1>Utilities for Generation<a class="headerlink" href="#utilities-for-generation" title="Permalink to this headline">¶</a></h1>
+<p>This page lists all the utility functions used by <code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">greedy_search()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">sample()</span></code>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">beam_search()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">beam_sample()</span></code>, and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">group_beam_search()</span></code>.</p>
+<p>Most of those are only useful if you are studying the code of the generate methods in the library.</p>
+<div class="section" id="generate-outputs">
+<h2>Generate Outputs<a class="headerlink" href="#generate-outputs" title="Permalink to this headline">¶</a></h2>
+<p>The output of <code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code> is an instance of a subclass of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ModelOutput</span></code>. This output is a data structure containing all the information returned
+by <code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code>, but that can also be used as tuple or dictionary.</p>
+<p>Here’s an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">GPT2Tokenizer</span><span class="p">,</span> <span class="n">GPT2LMHeadModel</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;gpt2&#39;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GPT2LMHeadModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;gpt2&#39;</span><span class="p">)</span>
+
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s2">&quot;Hello, my dog is cute and &quot;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="n">generation_output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">return_dict_in_generate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_scores</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">generation_output</span></code> object is a <code class="xref py py-class docutils literal notranslate"><span class="pre">GreedySearchDecoderOnlyOutput</span></code>, as we can
+see in the documentation of that class below, it means it has the following attributes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sequences</span></code>: the generated sequences of tokens</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scores</span></code> (optional): the prediction scores of the language modelling head, for each generation step</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hidden_states</span></code> (optional): the hidden states of the model, for each generation step</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">attentions</span></code> (optional): the attention weights of the model, for each generation step</p></li>
+</ul>
+<p>Here we have the <code class="docutils literal notranslate"><span class="pre">scores</span></code> since we passed along <code class="docutils literal notranslate"><span class="pre">output_scores=True</span></code>, but we don’t have <code class="docutils literal notranslate"><span class="pre">hidden_states</span></code> and
+<code class="docutils literal notranslate"><span class="pre">attentions</span></code> because we didn’t pass <code class="docutils literal notranslate"><span class="pre">output_hidden_states=True</span></code> or <code class="docutils literal notranslate"><span class="pre">output_attentions=True</span></code>.</p>
+<p>You can access each attribute as you would usually do, and if that attribute has not been returned by the model, you
+will get <code class="docutils literal notranslate"><span class="pre">None</span></code>. Here for instance <code class="docutils literal notranslate"><span class="pre">generation_output.scores</span></code> are all the generated prediction scores of the
+language modeling head, and <code class="docutils literal notranslate"><span class="pre">generation_output.attentions</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>When using our <code class="docutils literal notranslate"><span class="pre">generation_output</span></code> object as a tuple, it only keeps the attributes that don’t have <code class="docutils literal notranslate"><span class="pre">None</span></code> values.
+Here, for instance, it has two elements, <code class="docutils literal notranslate"><span class="pre">loss</span></code> then <code class="docutils literal notranslate"><span class="pre">logits</span></code>, so</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">generation_output</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>will return the tuple <code class="docutils literal notranslate"><span class="pre">(generation_output.sequences,</span> <span class="pre">generation_output.scores)</span></code> for instance.</p>
+<p>When using our <code class="docutils literal notranslate"><span class="pre">generation_output</span></code> object as a dictionary, it only keeps the attributes that don’t have <code class="docutils literal notranslate"><span class="pre">None</span></code>
+values. Here, for instance, it has two keys that are <code class="docutils literal notranslate"><span class="pre">sequences</span></code> and <code class="docutils literal notranslate"><span class="pre">scores</span></code>.</p>
+<p>We document here all output types.</p>
+<div class="section" id="greedysearchoutput">
+<h3>GreedySearchOutput<a class="headerlink" href="#greedysearchoutput" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="sampleoutput">
+<h3>SampleOutput<a class="headerlink" href="#sampleoutput" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="beamsearchoutput">
+<h3>BeamSearchOutput<a class="headerlink" href="#beamsearchoutput" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="beamsampleoutput">
+<h3>BeamSampleOutput<a class="headerlink" href="#beamsampleoutput" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="logitsprocessor">
+<h2>LogitsProcessor<a class="headerlink" href="#logitsprocessor" title="Permalink to this headline">¶</a></h2>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">LogitsProcessor</span></code> can be used to modify the prediction scores of a language model head for
+generation.</p>
+</div>
+<div class="section" id="beamsearch">
+<h2>BeamSearch<a class="headerlink" href="#beamsearch" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

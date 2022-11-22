@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LayoutLM &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">LayoutLM</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/layoutlm.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="layoutlm">
+<h1>LayoutLM<a class="headerlink" href="#layoutlm" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<span id="id1"></span><h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The LayoutLM model was proposed in the paper <a class="reference external" href="https://arxiv.org/abs/1912.13318">LayoutLM: Pre-training of Text and Layout for Document Image
+Understanding</a> by Yiheng Xu, Minghao Li, Lei Cui, Shaohan Huang, Furu Wei, and
+Ming Zhou. It’s a simple but effective pretraining method of text and layout for document image understanding and
+information extraction tasks, such as form understanding and receipt understanding. It obtains state-of-the-art results
+on several downstream tasks:</p>
+<ul class="simple">
+<li><p>form understanding: the <a class="reference external" href="https://guillaumejaume.github.io/FUNSD/">FUNSD</a> dataset (a collection of 199 annotated
+forms comprising more than 30,000 words).</p></li>
+<li><p>receipt understanding: the <a class="reference external" href="https://rrc.cvc.uab.es/?ch=13">SROIE</a> dataset (a collection of 626 receipts for
+training and 347 receipts for testing).</p></li>
+<li><p>document image classification: the <a class="reference external" href="https://www.cs.cmu.edu/~aharley/rvl-cdip/">RVL-CDIP</a> dataset (a collection of
+400,000 images belonging to one of 16 classes).</p></li>
+</ul>
+<p>The abstract from the paper is the following:</p>
+<p><em>Pre-training techniques have been verified successfully in a variety of NLP tasks in recent years. Despite the
+widespread use of pretraining models for NLP applications, they almost exclusively focus on text-level manipulation,
+while neglecting layout and style information that is vital for document image understanding. In this paper, we propose
+the LayoutLM to jointly model interactions between text and layout information across scanned document images, which is
+beneficial for a great number of real-world document image understanding tasks such as information extraction from
+scanned documents. Furthermore, we also leverage image features to incorporate words’ visual information into LayoutLM.
+To the best of our knowledge, this is the first time that text and layout are jointly learned in a single framework for
+document-level pretraining. It achieves new state-of-the-art results in several downstream tasks, including form
+understanding (from 70.72 to 79.27), receipt understanding (from 94.02 to 95.24) and document image classification
+(from 93.07 to 94.42).</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>In addition to <cite>input_ids</cite>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code> also expects the input <code class="xref py py-obj docutils literal notranslate"><span class="pre">bbox</span></code>, which are
+the bounding boxes (i.e. 2D-positions) of the input tokens. These can be obtained using an external OCR engine such
+as Google’s <a class="reference external" href="https://github.com/tesseract-ocr/tesseract">Tesseract</a> (there’s a <a class="reference external" href="https://pypi.org/project/pytesseract/">Python wrapper</a> available). Each bounding box should be in (x0, y0, x1, y1) format, where
+(x0, y0) corresponds to the position of the upper left corner in the bounding box, and (x1, y1) represents the
+position of the lower right corner. Note that one first needs to normalize the bounding boxes to be on a 0-1000
+scale. To normalize, you can use the following function:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">normalize_bbox</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+     <span class="k">return</span> <span class="p">[</span>
+         <span class="nb">int</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">width</span><span class="p">)),</span>
+         <span class="nb">int</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">height</span><span class="p">)),</span>
+         <span class="nb">int</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">width</span><span class="p">)),</span>
+         <span class="nb">int</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">height</span><span class="p">)),</span>
+     <span class="p">]</span>
+</pre></div>
+</div>
+<p>Here, <code class="xref py py-obj docutils literal notranslate"><span class="pre">width</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">height</span></code> correspond to the width and height of the original document in which the token
+occurs. Those can be obtained using the Python Image Library (PIL) library for example, as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;name_of_your_document - can be a png file, pdf, etc.&quot;</span><span class="p">)</span>
+
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">size</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>For a demo which shows how to fine-tune <code class="xref py py-class docutils literal notranslate"><span class="pre">LayoutLMForTokenClassification</span></code> on the <a class="reference external" href="https://guillaumejaume.github.io/FUNSD/">FUNSD dataset</a> (a collection of annotated forms), see <a class="reference external" href="https://github.com/NielsRogge/Transformers-Tutorials/blob/master/LayoutLM/Fine_tuning_LayoutLMForTokenClassification_on_FUNSD.ipynb">this notebook</a>.
+It includes an inference part, which shows how to use Google’s Tesseract on a new document.</p></li>
+</ul>
+<p>The original code can be found <a class="reference external" href="https://github.com/microsoft/unilm/tree/master/layoutlm">here</a>.</p>
+</div>
+<div class="section" id="layoutlmconfig">
+<h2>LayoutLMConfig<a class="headerlink" href="#layoutlmconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="layoutlmtokenizer">
+<h2>LayoutLMTokenizer<a class="headerlink" href="#layoutlmtokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="layoutlmtokenizerfast">
+<h2>LayoutLMTokenizerFast<a class="headerlink" href="#layoutlmtokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="layoutlmmodel">
+<h2>LayoutLMModel<a class="headerlink" href="#layoutlmmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="layoutlmformaskedlm">
+<h2>LayoutLMForMaskedLM<a class="headerlink" href="#layoutlmformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="layoutlmforsequenceclassification">
+<h2>LayoutLMForSequenceClassification<a class="headerlink" href="#layoutlmforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="layoutlmfortokenclassification">
+<h2>LayoutLMForTokenClassification<a class="headerlink" href="#layoutlmfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

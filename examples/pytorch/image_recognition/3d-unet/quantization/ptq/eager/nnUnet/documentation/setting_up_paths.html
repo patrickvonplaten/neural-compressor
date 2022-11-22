@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setting up Paths &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../../" src="../../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Setting up Paths</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../../_sources/examples/pytorch/image_recognition/3d-unet/quantization/ptq/eager/nnUnet/documentation/setting_up_paths.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="setting-up-paths">
+<h1>Setting up Paths<a class="headerlink" href="#setting-up-paths" title="Permalink to this headline">¶</a></h1>
+<p>nnU-Net relies on environment variables to know where raw data, preprocessed data and trained model weights are stored.
+To use the full functionality of nnU-Net, the following three environment variables must be set:</p>
+<ol>
+<li><p>nnUNet_raw_data_base: This is where nnU-Net finds the raw data and stored the cropped data. The folder located at
+nnUNet_raw_data_base must have at least the subfolder nnUNet_raw_data, which in turn contains one subfolder for each Task.
+It is the responsibility of the user to bring the raw data into the appropriate format - nnU-Net will then take care of
+the rest ;-) For more information on the required raw data format, see <a class="reference internal" href="dataset_conversion.html"><span class="doc">here</span></a>.</p>
+<p>Example tree structure:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nnUNet_raw_data_base/nnUNet_raw_data/Task002_Heart
+├── dataset.json
+├── imagesTr
+│   ├── la_003_0000.nii.gz
+│   ├── la_004_0000.nii.gz
+│   ├── ...
+├── imagesTs
+│   ├── la_001_0000.nii.gz
+│   ├── la_002_0000.nii.gz
+│   ├── ...
+└── labelsTr
+    ├── la_003.nii.gz
+    ├── la_004.nii.gz
+    ├── ...
+nnUNet_raw_data_base/nnUNet_raw_data/Task005_Prostate/
+├── dataset.json
+├── imagesTr
+│   ├── prostate_00_0000.nii.gz
+│   ├── prostate_00_0001.nii.gz
+│   ├── ...
+├── imagesTs
+│   ├── prostate_03_0000.nii.gz
+│   ├── prostate_03_0001.nii.gz
+│   ├── ...
+└── labelsTr
+    ├── prostate_00.nii.gz
+    ├── prostate_01.nii.gz
+    ├── ...
+</pre></div>
+</div>
+</li>
+<li><p>nnUNet_preprocessed: This is the folder where the preprocessed data will be saved. The data will also be read from
+this folder during training. Therefore it is important that it is located on a drive with low access latency and high
+throughput (a regular sata or nvme SSD is sufficient).</p></li>
+<li><p>RESULTS_FOLDER: This specifies where nnU-Net will save the model weights. If pretrained models are downloaded, this
+is where it will save them.</p></li>
+</ol>
+<div class="section" id="how-to-set-environment-variables">
+<h2>How to set environment variables<a class="headerlink" href="#how-to-set-environment-variables" title="Permalink to this headline">¶</a></h2>
+<p>(nnU-Net was developed for Ubuntu/Linux. The following guide is intended for this operating system and will not work on
+others. We do not provide support for other operating systems!)</p>
+<p>There are several ways you can do this. The most common one is to set the paths in your .bashrc file, which is located
+in your home directory. For me, this file is located at /home/fabian/.bashrc. You can open it with any text editor of
+choice. If you do not see the file, that may be because it is hidden by default. You can run <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-al</span> <span class="pre">/home/fabian</span></code> to
+ensure that you see it. In rare cases it may not be present and you can simply create it with <code class="docutils literal notranslate"><span class="pre">touch</span> <span class="pre">/home/fabian/.bashrc</span></code>.</p>
+<p>Once the file is open in a text editor, add the following lines to the bottom:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">nnUNet_raw_data_base</span><span class="o">=</span><span class="s2">&quot;/media/fabian/nnUNet_raw&quot;</span>
+<span class="nb">export</span> <span class="nv">nnUNet_preprocessed</span><span class="o">=</span><span class="s2">&quot;/media/fabian/nnUNet_preprocessed&quot;</span>
+<span class="nb">export</span> <span class="nv">RESULTS_FOLDER</span><span class="o">=</span><span class="s2">&quot;/media/fabian/nnUNet_trained_models&quot;</span>
+</pre></div>
+</div>
+<p>(of course adapt the paths to your system and remember that nnUNet_preprocessed should be located on an SSD!)</p>
+<p>Then save and exit. To be save, make sure to reload the .bashrc by running <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">/home/fabian/.bashrc</span></code>. Reloading
+needs only be done on terminal sessions that were already open before you saved the changes. Any new terminal you open
+after will have these paths set. You can verify that the paths are set up properly by typing <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">$RESULTS_FOLDER</span></code>
+etc and it should print out the correct folder.</p>
+</div>
+<div class="section" id="an-alternative-way-of-setting-these-paths">
+<h2>An alternative way of setting these paths<a class="headerlink" href="#an-alternative-way-of-setting-these-paths" title="Permalink to this headline">¶</a></h2>
+<p>The method above sets the paths permanently (until you delete the lines from your .bashrc) on your system. If you wish
+to set them only temporarily, you can run the export commands in your terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">nnUNet_raw_data_base</span><span class="o">=</span><span class="s2">&quot;/media/fabian/nnUNet_raw&quot;</span>
+<span class="nb">export</span> <span class="nv">nnUNet_preprocessed</span><span class="o">=</span><span class="s2">&quot;/media/fabian/nnUNet_preprocessed&quot;</span>
+<span class="nb">export</span> <span class="nv">RESULTS_FOLDER</span><span class="o">=</span><span class="s2">&quot;/media/fabian/nnUNet_trained_models&quot;</span>
+</pre></div>
+</div>
+<p>This will set the paths for the current terminal session only (the variables will be lost if you close the terminal
+and need to be reset every time).</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

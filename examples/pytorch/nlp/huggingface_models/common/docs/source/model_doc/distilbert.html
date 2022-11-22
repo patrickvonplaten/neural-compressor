@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DistilBERT &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">DistilBERT</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/model_doc/distilbert.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="distilbert">
+<h1>DistilBERT<a class="headerlink" href="#distilbert" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The DistilBERT model was proposed in the blog post <a class="reference external" href="https://medium.com/huggingface/distilbert-8cf3380435b5">Smaller, faster, cheaper, lighter: Introducing DistilBERT, a
+distilled version of BERT</a>, and the paper <a class="reference external" href="https://arxiv.org/abs/1910.01108">DistilBERT, a
+distilled version of BERT: smaller, faster, cheaper and lighter</a>. DistilBERT is a
+small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40% less parameters than
+<cite>bert-base-uncased</cite>, runs 60% faster while preserving over 95% of BERT’s performances as measured on the GLUE language
+understanding benchmark.</p>
+<p>The abstract from the paper is the following:</p>
+<p><em>As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural Language Processing (NLP),
+operating these large models in on-the-edge and/or under constrained computational training or inference budgets
+remains challenging. In this work, we propose a method to pre-train a smaller general-purpose language representation
+model, called DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like its larger
+counterparts. While most prior work investigated the use of distillation for building task-specific models, we leverage
+knowledge distillation during the pretraining phase and show that it is possible to reduce the size of a BERT model by
+40%, while retaining 97% of its language understanding capabilities and being 60% faster. To leverage the inductive
+biases learned by larger models during pretraining, we introduce a triple loss combining language modeling,
+distillation and cosine-distance losses. Our smaller, faster and lighter model is cheaper to pre-train and we
+demonstrate its capabilities for on-device computations in a proof-of-concept experiment and a comparative on-device
+study.</em></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>DistilBERT doesn’t have <code class="xref py py-obj docutils literal notranslate"><span class="pre">token_type_ids</span></code>, you don’t need to indicate which token belongs to which segment. Just
+separate your segments with the separation token <code class="xref py py-obj docutils literal notranslate"><span class="pre">tokenizer.sep_token</span></code> (or <code class="xref py py-obj docutils literal notranslate"><span class="pre">[SEP]</span></code>).</p></li>
+<li><p>DistilBERT doesn’t have options to select the input positions (<code class="xref py py-obj docutils literal notranslate"><span class="pre">position_ids</span></code> input). This could be added if
+necessary though, just let us know if you need this option.</p></li>
+</ul>
+<p>The original code can be found <a class="reference external" href="https://github.com/huggingface/transformers/tree/master/examples/distillation">here</a>.</p>
+</div>
+<div class="section" id="distilbertconfig">
+<h2>DistilBertConfig<a class="headerlink" href="#distilbertconfig" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distilberttokenizer">
+<h2>DistilBertTokenizer<a class="headerlink" href="#distilberttokenizer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distilberttokenizerfast">
+<h2>DistilBertTokenizerFast<a class="headerlink" href="#distilberttokenizerfast" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distilbertmodel">
+<h2>DistilBertModel<a class="headerlink" href="#distilbertmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distilbertformaskedlm">
+<h2>DistilBertForMaskedLM<a class="headerlink" href="#distilbertformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distilbertforsequenceclassification">
+<h2>DistilBertForSequenceClassification<a class="headerlink" href="#distilbertforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distilbertformultiplechoice">
+<h2>DistilBertForMultipleChoice<a class="headerlink" href="#distilbertformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distilbertfortokenclassification">
+<h2>DistilBertForTokenClassification<a class="headerlink" href="#distilbertfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distilbertforquestionanswering">
+<h2>DistilBertForQuestionAnswering<a class="headerlink" href="#distilbertforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfdistilbertmodel">
+<h2>TFDistilBertModel<a class="headerlink" href="#tfdistilbertmodel" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfdistilbertformaskedlm">
+<h2>TFDistilBertForMaskedLM<a class="headerlink" href="#tfdistilbertformaskedlm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfdistilbertforsequenceclassification">
+<h2>TFDistilBertForSequenceClassification<a class="headerlink" href="#tfdistilbertforsequenceclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfdistilbertformultiplechoice">
+<h2>TFDistilBertForMultipleChoice<a class="headerlink" href="#tfdistilbertformultiplechoice" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfdistilbertfortokenclassification">
+<h2>TFDistilBertForTokenClassification<a class="headerlink" href="#tfdistilbertfortokenclassification" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="tfdistilbertforquestionanswering">
+<h2>TFDistilBertForQuestionAnswering<a class="headerlink" href="#tfdistilbertforquestionanswering" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

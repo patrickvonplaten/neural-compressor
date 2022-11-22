@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi-lingual models &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../" src="../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Multi-lingual models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/common/docs/source/multilingual.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="multi-lingual-models">
+<h1>Multi-lingual models<a class="headerlink" href="#multi-lingual-models" title="Permalink to this headline">¶</a></h1>
+<p>Most of the models available in this library are mono-lingual models (English, Chinese and German). A few multi-lingual
+models are available and have a different mechanisms than mono-lingual models. This page details the usage of these
+models.</p>
+<p>The two models that currently support multiple languages are BERT and XLM.</p>
+<div class="section" id="xlm">
+<h2>XLM<a class="headerlink" href="#xlm" title="Permalink to this headline">¶</a></h2>
+<p>XLM has a total of 10 different checkpoints, only one of which is mono-lingual. The 9 remaining model checkpoints can
+be split in two categories: the checkpoints that make use of language embeddings, and those that don’t</p>
+<div class="section" id="xlm-language-embeddings">
+<h3>XLM &amp; Language Embeddings<a class="headerlink" href="#xlm-language-embeddings" title="Permalink to this headline">¶</a></h3>
+<p>This section concerns the following checkpoints:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-mlm-ende-1024</span></code> (Masked language modeling, English-German)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-mlm-enfr-1024</span></code> (Masked language modeling, English-French)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-mlm-enro-1024</span></code> (Masked language modeling, English-Romanian)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-mlm-xnli15-1024</span></code> (Masked language modeling, XNLI languages)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-mlm-tlm-xnli15-1024</span></code> (Masked language modeling + Translation, XNLI languages)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-clm-enfr-1024</span></code> (Causal language modeling, English-French)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-clm-ende-1024</span></code> (Causal language modeling, English-German)</p></li>
+</ul>
+<p>These checkpoints require language embeddings that will specify the language used at inference time. These language
+embeddings are represented as a tensor that is of the same shape as the input ids passed to the model. The values in
+these tensors depend on the language used and are identifiable using the <code class="docutils literal notranslate"><span class="pre">lang2id</span></code> and <code class="docutils literal notranslate"><span class="pre">id2lang</span></code> attributes from
+the tokenizer.</p>
+<p>Here is an example using the <code class="docutils literal notranslate"><span class="pre">xlm-clm-enfr-1024</span></code> checkpoint (Causal language modeling, English-French):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="k">import</span> <span class="n">XLMTokenizer</span><span class="p">,</span> <span class="n">XLMWithLMHeadModel</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">XLMTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;xlm-clm-enfr-1024&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">XLMWithLMHeadModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;xlm-clm-enfr-1024&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The different languages this model/tokenizer handles, as well as the ids of these languages are visible using the
+<code class="docutils literal notranslate"><span class="pre">lang2id</span></code> attribute:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">lang2id</span><span class="p">)</span>
+<span class="go">{&#39;en&#39;: 0, &#39;fr&#39;: 1}</span>
+</pre></div>
+</div>
+<p>These ids should be used when passing a language parameter during a model pass. Let’s define our inputs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Wikipedia was used to&quot;</span><span class="p">)])</span> <span class="c1"># batch size of 1</span>
+</pre></div>
+</div>
+<p>We should now define the language embedding by using the previously defined language id. We want to create a tensor
+filled with the appropriate language ids, of the same size as input_ids. For english, the id is 0:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">language_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">lang2id</span><span class="p">[</span><span class="s1">&#39;en&#39;</span><span class="p">]</span>  <span class="c1"># 0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">langs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">language_id</span><span class="p">]</span> <span class="o">*</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># torch.tensor([0, 0, 0, ..., 0])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># We reshape it to be of size (batch_size, sequence_length)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">langs</span> <span class="o">=</span> <span class="n">langs</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># is now of shape [1, sequence_length] (we have a batch size of 1)</span>
+</pre></div>
+</div>
+<p>You can then feed it all as input to your model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">langs</span><span class="o">=</span><span class="n">langs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The example <a href="#id1"><span class="problematic" id="id2">:prefix_link:`run_generation.py &lt;examples/text-generation/run_generation.py&gt;`</span></a> can generate text using the
+CLM checkpoints from XLM, using the language embeddings.</p>
+</div>
+<div class="section" id="xlm-without-language-embeddings">
+<h3>XLM without Language Embeddings<a class="headerlink" href="#xlm-without-language-embeddings" title="Permalink to this headline">¶</a></h3>
+<p>This section concerns the following checkpoints:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-mlm-17-1280</span></code> (Masked language modeling, 17 languages)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-mlm-100-1280</span></code> (Masked language modeling, 100 languages)</p></li>
+</ul>
+<p>These checkpoints do not require language embeddings at inference time. These models are used to have generic sentence
+representations, differently from previously-mentioned XLM checkpoints.</p>
+</div>
+</div>
+<div class="section" id="bert">
+<h2>BERT<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h2>
+<p>BERT has two checkpoints that can be used for multi-lingual tasks:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bert-base-multilingual-uncased</span></code> (Masked language modeling + Next sentence prediction, 102 languages)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bert-base-multilingual-cased</span></code> (Masked language modeling + Next sentence prediction, 104 languages)</p></li>
+</ul>
+<p>These checkpoints do not require language embeddings at inference time. They should identify the language used in the
+context and infer accordingly.</p>
+</div>
+<div class="section" id="xlm-roberta">
+<h2>XLM-RoBERTa<a class="headerlink" href="#xlm-roberta" title="Permalink to this headline">¶</a></h2>
+<p>XLM-RoBERTa was trained on 2.5TB of newly created clean CommonCrawl data in 100 languages. It provides strong gains
+over previously released multi-lingual models like mBERT or XLM on downstream tasks like classification, sequence
+labeling and question answering.</p>
+<p>Two XLM-RoBERTa checkpoints can be used for multi-lingual tasks:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-roberta-base</span></code> (Masked language modeling, 100 languages)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xlm-roberta-large</span></code> (Masked language modeling, 100 languages)</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

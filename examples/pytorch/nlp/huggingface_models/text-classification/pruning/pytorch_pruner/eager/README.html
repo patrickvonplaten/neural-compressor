@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pytorch Pruner &mdash; Intel® Neural Compressor  documentation</title><link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../../../../../" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Pytorch Pruner</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/nlp/huggingface_models/text-classification/pruning/pytorch_pruner/eager/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="pytorch-pruner">
+<h1>Pytorch Pruner<a class="headerlink" href="#pytorch-pruner" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="intro">
+<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/intel/neural-compressor/tree/master/neural_compressor/experimental/pytorch_pruner"><strong>Pytorch Pruner</strong></a> is an INC build-in API which supports a wide range of pruning algorithms, patterns as well as pruning schedules. Features below are currently supported:</p>
+<blockquote>
+<div><p>algorithms: magnitude, snip, snip-momentum<br />patterns: NxM, N:M<br />pruning schedulers: iterative pruning scheduler, oneshot pruning scheduler.</p>
+</div></blockquote>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="write-a-config-yaml-file">
+<h3>Write a config yaml file<a class="headerlink" href="#write-a-config-yaml-file" title="Permalink to this headline">¶</a></h3>
+<p>Pytorch pruner is developed based on <a class="reference external" href="https://github.com/intel/neural-compressor/blob/master/neural_compressor/experimental/pruning.py">pruning</a>, therefore most usages are identical. Our API reads in a yaml configuration file to define a Pruning object. Here is an bert-mini example of it:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0</span>
+
+<span class="nt">model</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;bert-mini&quot;</span>
+  <span class="nt">framework</span><span class="p">:</span> <span class="s">&quot;pytorch&quot;</span>
+
+<span class="nt">pruning</span><span class="p">:</span>
+  <span class="nt">approach</span><span class="p">:</span>
+    <span class="nt">weight_compression_pytorch</span><span class="p">:</span>
+      <span class="c1"># if start step equals to end step, oneshot pruning scheduler is enabled. Otherwise the API automatically implements iterative pruning scheduler.</span>
+      <span class="nt">start_step</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span> <span class="c1"># step which pruning process begins</span>
+      <span class="nt">end_step</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span> <span class="c1"># step which pruning process ends</span>
+      <span class="nt">excluded_names</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;classifier&quot;</span><span class="p p-Indicator">,</span> <span class="s">&quot;pooler&quot;</span><span class="p p-Indicator">,</span> <span class="s">&quot;.*embeddings*&quot;</span><span class="p p-Indicator">]</span> <span class="c1"># a global announcement of layers which you do not wish to prune. </span>
+      <span class="nt">prune_layer_type</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;Linear&quot;</span><span class="p p-Indicator">]</span> <span class="c1"># the module type which you want to prune (Linear, Conv2d, etc.)</span>
+      <span class="nt">target_sparsity</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.9</span> <span class="c1"># the sparsity you want the model to be pruned.</span>
+      <span class="nt">max_sparsity_ratio_per_layer</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.98</span> <span class="c1"># the sparsity ratio&#39;s maximum which one layer can reach.</span>
+
+      <span class="nt">pruners</span><span class="p">:</span> <span class="c1"># below each &quot;Pruner&quot; defines a pruning process for a group of layers. This enables us to apply different pruning methods for different layers in one model.</span>
+        <span class="p p-Indicator">-</span> <span class="kt">!Pruner</span>
+            <span class="nt">extra_excluded_names</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;.*query&quot;</span><span class="p p-Indicator">,</span> <span class="s">&quot;.*key&quot;</span><span class="p p-Indicator">,</span> <span class="s">&quot;.*value&quot;</span><span class="p p-Indicator">]</span> <span class="c1"># list of regular expressions, containing the layer names you wish not to be included in this pruner</span>
+            <span class="nt">pattern</span><span class="p">:</span> <span class="s">&quot;1x1&quot;</span> <span class="c1"># pattern type, we support &quot;NxM&quot; and &quot;N:M&quot;</span>
+            <span class="nt">update_frequency_on_step</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">100</span> <span class="c1"># if use iterative pruning scheduler, this define the pruning frequency.</span>
+            <span class="nt">prune_domain</span><span class="p">:</span> <span class="s">&quot;global&quot;</span> <span class="c1"># one in [&quot;global&quot;, &quot;local&quot;], refers to the score map is computed out of entire parameters or its corresponding layer&#39;s weight.</span>
+            <span class="nt">prune_type</span><span class="p">:</span> <span class="s">&quot;snip_momentum&quot;</span> <span class="c1"># pruning algorithms, refer to pytorch_pruner/pruner.py</span>
+            <span class="nt">sparsity_decay_type</span><span class="p">:</span> <span class="s">&quot;exp&quot;</span> <span class="c1"># [&quot;linear&quot;, &quot;cos&quot;, &quot;exp&quot;, &quot;cube&quot;] ways to determine the target sparsity during iterative pruning.</span>
+        <span class="p p-Indicator">-</span> <span class="kt">!Pruner</span>
+            <span class="nt">extra_excluded_names</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;.*output&quot;</span><span class="p p-Indicator">,</span> <span class="s">&quot;.*intermediate&quot;</span><span class="p p-Indicator">]</span>
+            <span class="nt">pattern</span><span class="p">:</span> <span class="s">&quot;4x1&quot;</span>
+            <span class="nt">update_frequency_on_step</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">100</span>
+            <span class="nt">prune_domain</span><span class="p">:</span> <span class="s">&quot;global&quot;</span>
+            <span class="nt">prune_type</span><span class="p">:</span> <span class="s">&quot;snip_momentum&quot;</span>
+            <span class="nt">sparsity_decay_type</span><span class="p">:</span> <span class="s">&quot;exp&quot;</span>
+</pre></div>
+</div>
+<p>Please be awared that when the keywords appear in both global and local settings, we select the <strong>local settings</strong> as priority.</p>
+</div>
+<div class="section" id="coding-template">
+<h3>Coding template:<a class="headerlink" href="#coding-template" title="Permalink to this headline">¶</a></h3>
+<p>With a settled config file ready, we provide a template of implementing pytorch_pruner API:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">Criterion</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="p">()</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">Args</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">neural_compressor.experimental.pytorch_pruner.pruning</span> <span class="kn">import</span> <span class="n">Pruning</span>
+
+<span class="n">pruner</span> <span class="o">=</span> <span class="n">Pruning</span><span class="p">(</span><span class="s2">&quot;path/to/your/config.yaml&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">do_prune</span><span class="p">:</span>
+    <span class="n">pruner</span><span class="o">.</span><span class="n">update_items_for_all_pruners</span><span class="p">(</span><span class="n">start_step</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">sparsity_warm_epochs</span> <span class="o">*</span> <span class="n">num_iterations</span><span class="p">),</span> <span class="n">end_step</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">total_iterations</span><span class="p">))</span>  <span class="c1">##iterative</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">pruner</span><span class="o">.</span><span class="n">update_items_for_all_pruners</span><span class="p">(</span><span class="n">start_step</span><span class="o">=</span><span class="n">total_iterations</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end_step</span><span class="o">=</span><span class="n">total_iterations</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="c1">##removing the pruner</span>
+<span class="n">pruner</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+<span class="n">pruner</span><span class="o">.</span><span class="n">on_train_begin</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">):</span>
+        <span class="n">pruner</span><span class="o">.</span><span class="n">on_step_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">loss</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">pruner</span><span class="o">.</span><span class="n">on_before_optimizer_step</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">pruner</span><span class="o">.</span><span class="n">on_after_optimizer_step</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">val_dataloader</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>For more usage, please refer to our example codes below.</p>
+</div>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>we have provided several pruning examples, which are trained on different datasets/tasks, use different sparsity patterns, etc. We are working on sharing our sparse models on HuggingFace.</p>
+<div class="section" id="glue">
+<h3><a class="reference external" href="https://github.com/intel/neural-compressor/tree/master/examples/pytorch/nlp/huggingface_models/text-classification/pruning">Glue</a><a class="headerlink" href="#glue" title="Permalink to this headline">¶</a></h3>
+<p>We can train a sparse model with NxM (2:4) pattern on mrpc and sst2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">./</span><span class="n">run_glue_no_trainer</span><span class="o">.</span><span class="n">py</span> \
+            <span class="o">--</span><span class="n">model_name_or_path</span> <span class="s2">&quot;/baseline_mrpc/&quot;</span> \
+            <span class="o">--</span><span class="n">pruning_config</span> <span class="s2">&quot;./bert_mini_mrpc_2in4.yaml&quot;</span> \
+            <span class="o">--</span><span class="n">task_name</span> <span class="s2">&quot;mrpc&quot;</span> \
+            <span class="o">--</span><span class="n">max_length</span> <span class="s2">&quot;128&quot;</span> \
+            <span class="o">--</span><span class="n">per_device_train_batch_size</span> <span class="s2">&quot;16&quot;</span> \
+            <span class="o">--</span><span class="n">learning_rate</span> <span class="s2">&quot;5e-5&quot;</span> \
+            <span class="o">--</span><span class="n">num_train_epochs</span> <span class="s2">&quot;10&quot;</span> \
+            <span class="o">--</span><span class="n">weight_decay</span> <span class="s2">&quot;5e-5&quot;</span>   \
+            <span class="o">--</span><span class="n">lr_scheduler_type</span> <span class="s2">&quot;constant&quot;</span>\
+	    <span class="o">--</span><span class="n">seed</span> <span class="s2">&quot;9&quot;</span> \
+	    <span class="o">--</span><span class="n">sparsity_warm_epochs</span> <span class="s2">&quot;1&quot;</span>\
+	    <span class="o">--</span><span class="n">cooldown_epochs</span> <span class="s2">&quot;0&quot;</span>\
+	    <span class="o">--</span><span class="n">do_prune</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">./</span><span class="n">run_glue_no_trainer</span><span class="o">.</span><span class="n">py</span> \
+            <span class="o">--</span><span class="n">model_name_or_path</span> <span class="s2">&quot;/baseline_sst2/&quot;</span> \
+            <span class="o">--</span><span class="n">pruning_config</span> <span class="s2">&quot;./bert_mini_sst2_2in4.yaml&quot;</span> \
+            <span class="o">--</span><span class="n">task_name</span> <span class="s2">&quot;sst2&quot;</span> \
+            <span class="o">--</span><span class="n">max_length</span> <span class="s2">&quot;128&quot;</span> \
+            <span class="o">--</span><span class="n">per_device_train_batch_size</span> <span class="s2">&quot;16&quot;</span> \
+            <span class="o">--</span><span class="n">learning_rate</span> <span class="s2">&quot;5e-5&quot;</span> \
+	    <span class="o">--</span><span class="n">weight_decay</span> <span class="s2">&quot;1e-4&quot;</span> \
+            <span class="o">--</span><span class="n">num_train_epochs</span> <span class="s2">&quot;6&quot;</span> \
+            <span class="o">--</span><span class="n">sparsity_warm_epochs</span> <span class="s2">&quot;0&quot;</span> \
+	    <span class="o">--</span><span class="n">seed</span> <span class="s2">&quot;12&quot;</span>
+</pre></div>
+</div>
+<p>We can also choose a NxM (4x1) pattern:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">./</span><span class="n">run_glue_no_trainer</span><span class="o">.</span><span class="n">py</span> \
+        <span class="o">--</span><span class="n">model_name_or_path</span> <span class="s2">&quot;./mrpcbaseline/bert-mini/&quot;</span> \
+        <span class="o">--</span><span class="n">pruning_config</span> <span class="s2">&quot;./bert_mini_mrpc_4x1.yaml&quot;</span> \
+        <span class="o">--</span><span class="n">task_name</span> <span class="s2">&quot;mrpc&quot;</span> \
+        <span class="o">--</span><span class="n">max_length</span> <span class="s2">&quot;128&quot;</span> \
+        <span class="o">--</span><span class="n">per_device_train_batch_size</span> <span class="s2">&quot;16&quot;</span> \
+        <span class="o">--</span><span class="n">learning_rate</span> <span class="s2">&quot;1e-3&quot;</span> \
+        <span class="o">--</span><span class="n">num_train_epochs</span> <span class="s2">&quot;15&quot;</span> \
+        <span class="o">--</span><span class="n">weight_decay</span> <span class="s2">&quot;1e-3&quot;</span>  \
+        <span class="o">--</span><span class="n">cooldown_epochs</span> <span class="s2">&quot;5&quot;</span> \
+        <span class="o">--</span><span class="n">sparsity_warm_epochs</span> <span class="s2">&quot;1&quot;</span>\
+        <span class="o">--</span><span class="n">lr_scheduler_type</span> <span class="s2">&quot;constant&quot;</span>\
+        <span class="o">--</span><span class="n">distill_loss_weight</span> <span class="s2">&quot;5&quot;</span>\
+        <span class="o">--</span><span class="n">do_prune</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">./</span><span class="n">run_glue_no_trainer</span><span class="o">.</span><span class="n">py</span> \
+        <span class="o">--</span><span class="n">model_name_or_path</span> <span class="s2">&quot;./sst2_baseline/bert-mini/&quot;</span> \
+        <span class="o">--</span><span class="n">pruning_config</span> <span class="s2">&quot;./bert_mini_sst2_4x1.yaml&quot;</span> \
+        <span class="o">--</span><span class="n">task_name</span> <span class="s2">&quot;sst2&quot;</span> \
+        <span class="o">--</span><span class="n">max_length</span> <span class="s2">&quot;128&quot;</span> \
+        <span class="o">--</span><span class="n">per_device_train_batch_size</span> <span class="s2">&quot;16&quot;</span> \
+        <span class="o">--</span><span class="n">learning_rate</span> <span class="s2">&quot;5e-5&quot;</span> \
+        <span class="o">--</span><span class="n">distill_loss_weight</span> <span class="s2">&quot;2.0&quot;</span> \
+        <span class="o">--</span><span class="n">num_train_epochs</span> <span class="s2">&quot;15&quot;</span> \
+        <span class="o">--</span><span class="n">weight_decay</span> <span class="s2">&quot;5e-5&quot;</span>   \
+        <span class="o">--</span><span class="n">cooldown_epochs</span> <span class="s2">&quot;5&quot;</span> \
+        <span class="o">--</span><span class="n">sparsity_warm_epochs</span> <span class="s2">&quot;0&quot;</span>\
+        <span class="o">--</span><span class="n">lr_scheduler_type</span> <span class="s2">&quot;constant&quot;</span>\
+        <span class="o">--</span><span class="n">do_prune</span>
+</pre></div>
+</div>
+<p>We can also train a dense model on glue datasets (by setting –do_prune to False):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_glue_no_trainer</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">model_name_or_path</span> <span class="s2">&quot;./bert-mini&quot;</span> <span class="o">--</span><span class="n">task_name</span> <span class="s2">&quot;sst2&quot;</span> <span class="o">--</span><span class="n">max_length</span> <span class="s2">&quot;128&quot;</span> <span class="o">--</span><span class="n">per_device_train_batch_size</span> <span class="s2">&quot;32&quot;</span> <span class="o">--</span><span class="n">learning_rate</span> <span class="s2">&quot;5e-5&quot;</span> <span class="o">--</span><span class="n">num_train_epochs</span> <span class="s2">&quot;10&quot;</span> <span class="o">--</span><span class="n">output_dir</span> <span class="s2">&quot;result/&quot;</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span> <span class="o">|</span> <span class="n">tee</span>  <span class="n">sst2_orig</span><span class="o">.</span><span class="n">log</span>
+</pre></div>
+</div>
+<p>or for mrpc,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">run_glue_no_trainer</span><span class="o">.</span><span class="n">py</span>  <span class="o">--</span><span class="n">model_name_or_path</span> <span class="s2">&quot;./bert-mini&quot;</span>  <span class="o">--</span><span class="n">task_name</span> <span class="s2">&quot;mrpc&quot;</span> <span class="o">--</span><span class="n">max_length</span> <span class="s2">&quot;128&quot;</span> <span class="o">--</span><span class="n">per_device_train_batch_size</span> <span class="s2">&quot;16&quot;</span> <span class="o">--</span><span class="n">learning_rate</span> <span class="s2">&quot;5e-5&quot;</span> <span class="o">--</span><span class="n">num_train_epoch</span> <span class="s2">&quot;5&quot;</span> <span class="o">--</span><span class="n">weight_decay</span> <span class="s2">&quot;5e-5&quot;</span> <span class="o">--</span><span class="n">output_dir</span> <span class="s2">&quot;result/&quot;</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">sst2_snip</span><span class="o">.</span><span class="n">log</span> 
+</pre></div>
+</div>
+</div>
+<div class="section" id="results">
+<h3>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="mrpc">
+<h4>MRPC<a class="headerlink" href="#mrpc" title="Permalink to this headline">¶</a></h4>
+<p>|  Model  | Dataset  | Sparsity pattern | Pruning methods |Element-wise/matmul, Gemm, conv ratio | Init model | Dense F1 (mean/max) | Sparse F1 (mean/max) | Relative drop |
+|  :—-:  | :—-:  | :—-: | :—-: |:—-:|:—-:| :—-: | :—-: | :—-: |
+| Bert-Mini  | MRPC |  4x1  |Snip-momentum| 0.8804 | Dense &amp; Finetuned | 0.8619/0.8752 | 0.8610/0.8722 | -0.34% |
+| Bert-Mini  | MRPC |  2:4  |Snip-momentum| 0.4795 | Dense &amp; Finetuned | 0.8619/0.8752| 0.8562/0.8695 | -0.65% |</p>
+</div>
+<div class="section" id="sst-2">
+<h4>SST-2<a class="headerlink" href="#sst-2" title="Permalink to this headline">¶</a></h4>
+<p>|  Model  | Dataset  |  Sparsity pattern | Pruning methods |Element-wise/matmul, Gemm, conv ratio | Init model | Dense Accuracy (mean/max) | Sparse Accuracy (mean/max)| Relative drop|
+|  :—-:  | :—-:  | :—-: | :—-: |:—-:|:—-:| :—-: | :—-: | :—-: |
+| Bert-Mini  | SST-2 |  4x1  |Snip-momentum| 0.8815 | Dense &amp; Finetuned | 0.8660/0.8761 | 0.8651/0.8692 | -0.79% |
+| Bert-Mini  | SST-2 |  2:4  |Snip-momentum| 0.4795 | Dense &amp; Finetuned | 0.8660/0.8761 | 0.8609/0.8693| -0.78% |</p>
+</div>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1810.02340">SNIP: Single-shot Network Pruning based on Connection Sensitivity</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2203.14001">Knowledge Distillation with the Reused Teacher Classifier</a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
