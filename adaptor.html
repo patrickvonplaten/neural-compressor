@@ -278,7 +278,7 @@ following information on the current runtime framework.</p>
 <li><p>The supported sequence of each quantizable op.</p></li>
 <li><p>The instance of each sequence.</p></li>
 </ul>
-<p>In the past, the above information was generally defined and hidden in every corner of the code which made effective maintenance difficult. With the Query API, we only need to create one unified yaml file and call the corresponding API to get the information. For example, the <a class="reference external" href="https://github.com/intel/neural-compressor/blob/c38c5980f82854bc2b82c583bf29cf7c5191ae13/../neural_compressor/adaptor/tensorflow.yaml">tensorflow.yaml</a> keeps the current Tensorflow framework ability. We recommend that the end user not make modifications if requirements are not clear.</p>
+<p>In the past, the above information was generally defined and hidden in every corner of the code which made effective maintenance difficult. With the Query API, we only need to create one unified yaml file and call the corresponding API to get the information. For example, the <a class="reference external" href="https://github.com/intel/neural-compressor/blob/4ad630e3d07ca19ed177c5cb6e8fa3ad961d3cdd/../neural_compressor/adaptor/tensorflow.yaml">tensorflow.yaml</a> keeps the current Tensorflow framework ability. We recommend that the end user not make modifications if requirements are not clear.</p>
 </div>
 <div class="section" id="unify-config-introduction">
 <h4>Unify Config Introduction<a class="headerlink" href="#unify-config-introduction" title="Permalink to this headline">¶</a></h4>
@@ -421,7 +421,7 @@ following information on the current runtime framework.</p>
 </div>
 <div class="section" id="query-api-introduction">
 <h4>Query API Introduction<a class="headerlink" href="#query-api-introduction" title="Permalink to this headline">¶</a></h4>
-<p>The abstract class <code class="docutils literal notranslate"><span class="pre">QueryBackendCapability</span></code> is defined in <a class="reference external" href="https://github.com/intel/neural-compressor/blob/c38c5980f82854bc2b82c583bf29cf7c5191ae13/../neural_compressor/adaptor/query.py">query.py</a>. Each framework should inherit it and implement the member function if needed. Refer to Tensorflow implementation <a class="reference external" href="https://github.com/intel/neural-compressor/blob/c38c5980f82854bc2b82c583bf29cf7c5191ae13/../neural_compressor/adaptor/tensorflow.py">TensorflowQuery</a>.</p>
+<p>The abstract class <code class="docutils literal notranslate"><span class="pre">QueryBackendCapability</span></code> is defined in <a class="reference external" href="https://github.com/intel/neural-compressor/blob/4ad630e3d07ca19ed177c5cb6e8fa3ad961d3cdd/../neural_compressor/adaptor/query.py">query.py</a>. Each framework should inherit it and implement the member function if needed. Refer to Tensorflow implementation <a class="reference external" href="https://github.com/intel/neural-compressor/blob/4ad630e3d07ca19ed177c5cb6e8fa3ad961d3cdd/../neural_compressor/adaptor/tensorflow.py">TensorflowQuery</a>.</p>
 </div>
 </div>
 </div>
@@ -513,7 +513,7 @@ the original model:</p>
 </div></blockquote>
 </li>
 <li><p>Do quantization</p>
-<p>This part depends on your backend implementations. Refer to <a class="reference external" href="https://github.com/intel/neural-compressor/blob/c38c5980f82854bc2b82c583bf29cf7c5191ae13/../neural_compressor/adaptor/onnxrt.py">onnxruntime</a> as an example.</p>
+<p>This part depends on your backend implementations. Refer to <a class="reference external" href="https://github.com/intel/neural-compressor/blob/4ad630e3d07ca19ed177c5cb6e8fa3ad961d3cdd/../neural_compressor/adaptor/onnxrt.py">onnxruntime</a> as an example.</p>
 </li>
 </ol>
 </div>
