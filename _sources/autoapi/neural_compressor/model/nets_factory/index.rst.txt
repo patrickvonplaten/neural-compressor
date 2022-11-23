@@ -1,8 +1,0 @@
-:orphan:
-
-:py:mod:`neural_compressor.model.nets_factory`
-==============================================
-
-.. py:module:: neural_compressor.model.nets_factory
-
-

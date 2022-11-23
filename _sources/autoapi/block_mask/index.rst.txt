@@ -1,8 +1,0 @@
-:orphan:
-
-:py:mod:`block_mask`
-====================
-
-.. py:module:: block_mask
-
-

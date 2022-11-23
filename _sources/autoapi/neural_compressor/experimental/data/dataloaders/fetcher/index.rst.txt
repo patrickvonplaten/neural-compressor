@@ -1,8 +1,0 @@
-:orphan:
-
-:py:mod:`neural_compressor.experimental.data.dataloaders.fetcher`
-=================================================================
-
-.. py:module:: neural_compressor.experimental.data.dataloaders.fetcher
-
-

@@ -1,8 +1,0 @@
-:orphan:
-
-:py:mod:`neural_compressor.adaptor.ox_utils.operators.pooling`
-==============================================================
-
-.. py:module:: neural_compressor.adaptor.ox_utils.operators.pooling
-
-

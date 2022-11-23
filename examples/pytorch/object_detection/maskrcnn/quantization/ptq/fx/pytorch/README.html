@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faster R-CNN and Mask R-CNN in PyTorch 1.0 &mdash; Intel® Neural Compressor  documentation</title>
+      <link rel="stylesheet" href="../../../../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../../../../" id="documentation_options" src="../../../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../../../../../_static/doctools.js"></script>
+        <script src="../../../../../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../../../../index.html" class="icon icon-home"> Intel® Neural Compressor
+          </a>
+              <div class="version">
+                1.14.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../README.html">Intel® Neural Compressor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/examples_readme.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api-documentation/apis.html">APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/releases_info.html">Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/contributions.html">Contribution Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../docs/legal_information.html">Legal Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/intel/neural-compressor">Intel® Neural Compressor repository</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Intel® Neural Compressor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Faster R-CNN and Mask R-CNN in PyTorch 1.0</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../../../../_sources/examples/pytorch/object_detection/maskrcnn/quantization/ptq/fx/pytorch/README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="faster-r-cnn-and-mask-r-cnn-in-pytorch-1-0">
+<h1>Faster R-CNN and Mask R-CNN in PyTorch 1.0<a class="headerlink" href="#faster-r-cnn-and-mask-r-cnn-in-pytorch-1-0" title="Permalink to this heading"></a></h1>
+<p>This project aims at providing the necessary building blocks for easily
+creating detection and segmentation models using PyTorch 1.0.</p>
+<p><img alt="alt text" src="examples/pytorch/object_detection/maskrcnn/quantization/ptq/fx/pytorch/demo/demo_e2e_mask_rcnn_X_101_32x8d_FPN_1x.png" /></p>
+<section id="highlights">
+<h2>Highlights<a class="headerlink" href="#highlights" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>PyTorch 1.0:</strong> RPN, Faster R-CNN and Mask R-CNN implementations that matches or exceeds Detectron accuracies</p></li>
+<li><p><strong>Very fast</strong>: up to <strong>2x</strong> faster than <a class="reference external" href="https://github.com/facebookresearch/Detectron">Detectron</a> and <strong>30%</strong> faster than <a class="reference external" href="https://github.com/open-mmlab/mmdetection">mmdetection</a> during training. See <a class="reference internal" href="MODEL_ZOO.html"><span class="doc">MODEL_ZOO.md</span></a> for more details.</p></li>
+<li><p><strong>Memory efficient:</strong> uses roughly 500MB less GPU memory than mmdetection during training</p></li>
+<li><p><strong>Multi-GPU training and inference</strong></p></li>
+<li><p><strong>Batched inference:</strong> can perform inference using multiple images per batch per GPU</p></li>
+<li><p><strong>CPU support for inference:</strong> runs on CPU in inference time. See our <a class="reference external" href="demo">webcam demo</a> for an example</p></li>
+<li><p>Provides pre-trained models for almost all reference Mask R-CNN and Faster R-CNN configurations with 1x schedule.</p></li>
+</ul>
+</section>
+<section id="webcam-and-jupyter-notebook-demo">
+<h2>Webcam and Jupyter notebook demo<a class="headerlink" href="#webcam-and-jupyter-notebook-demo" title="Permalink to this heading"></a></h2>
+<p>We provide a simple webcam demo that illustrates how you can use <code class="docutils literal notranslate"><span class="pre">maskrcnn_benchmark</span></code> for inference:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> demo
+<span class="c1"># by default, it runs on the GPU</span>
+<span class="c1"># for best results, use min-image-size 800</span>
+python webcam.py --min-image-size <span class="m">800</span>
+<span class="c1"># can also run it on the CPU</span>
+python webcam.py --min-image-size <span class="m">300</span> MODEL.DEVICE cpu
+<span class="c1"># or change the model that you want to use</span>
+python webcam.py --config-file ../configs/caffe2/e2e_mask_rcnn_R_101_FPN_1x_caffe2.yaml --min-image-size <span class="m">300</span> MODEL.DEVICE cpu
+<span class="c1"># in order to see the probability heatmaps, pass --show-mask-heatmaps</span>
+python webcam.py --min-image-size <span class="m">300</span> --show-mask-heatmaps MODEL.DEVICE cpu
+<span class="c1"># for the keypoint demo</span>
+python webcam.py --config-file ../configs/caffe2/e2e_keypoint_rcnn_R_50_FPN_1x_caffe2.yaml --min-image-size <span class="m">300</span> MODEL.DEVICE cpu
+</pre></div>
+</div>
+<p>A notebook with the demo can be found in <a class="reference external" href="demo/Mask_R-CNN_demo.ipynb">demo/Mask_R-CNN_demo.ipynb</a>.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<p>Check <a class="reference internal" href="INSTALL.html"><span class="doc">INSTALL.md</span></a> for installation instructions.</p>
+</section>
+<section id="model-zoo-and-baselines">
+<h2>Model Zoo and Baselines<a class="headerlink" href="#model-zoo-and-baselines" title="Permalink to this heading"></a></h2>
+<p>Pre-trained models, baselines and comparison with Detectron and mmdetection
+can be found in <a class="reference internal" href="MODEL_ZOO.html"><span class="doc">MODEL_ZOO.md</span></a></p>
+</section>
+<section id="inference-in-a-few-lines">
+<h2>Inference in a few lines<a class="headerlink" href="#inference-in-a-few-lines" title="Permalink to this heading"></a></h2>
+<p>We provide a helper class to simplify writing inference pipelines using pre-trained models.
+Here is how we would do it. Run this from the <code class="docutils literal notranslate"><span class="pre">demo</span></code> folder:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">maskrcnn_benchmark.config</span> <span class="kn">import</span> <span class="n">cfg</span>
+<span class="kn">from</span> <span class="nn">predictor</span> <span class="kn">import</span> <span class="n">COCODemo</span>
+
+<span class="n">config_file</span> <span class="o">=</span> <span class="s2">&quot;../configs/caffe2/e2e_mask_rcnn_R_50_FPN_1x_caffe2.yaml&quot;</span>
+
+<span class="c1"># update the config options with the config file</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">merge_from_file</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+<span class="c1"># manual override some options</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">merge_from_list</span><span class="p">([</span><span class="s2">&quot;MODEL.DEVICE&quot;</span><span class="p">,</span> <span class="s2">&quot;cpu&quot;</span><span class="p">])</span>
+
+<span class="n">coco_demo</span> <span class="o">=</span> <span class="n">COCODemo</span><span class="p">(</span>
+    <span class="n">cfg</span><span class="p">,</span>
+    <span class="n">min_image_size</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+    <span class="n">confidence_threshold</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># load image and then run prediction</span>
+<span class="n">image</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">coco_demo</span><span class="o">.</span><span class="n">run_on_opencv_image</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="perform-training-on-coco-dataset">
+<h2>Perform training on COCO dataset<a class="headerlink" href="#perform-training-on-coco-dataset" title="Permalink to this heading"></a></h2>
+<p>For the following examples to work, you need to first install <code class="docutils literal notranslate"><span class="pre">maskrcnn_benchmark</span></code>.</p>
+<p>You will also need to download the COCO dataset.
+We recommend to symlink the path to the coco dataset to <code class="docutils literal notranslate"><span class="pre">datasets/</span></code> as follows</p>
+<p>We use <code class="docutils literal notranslate"><span class="pre">minival</span></code> and <code class="docutils literal notranslate"><span class="pre">valminusminival</span></code> sets from <a class="reference external" href="https://github.com/facebookresearch/Detectron/blob/master/detectron/datasets/data/README.md#coco-minival-annotations">Detectron</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># symlink the coco dataset</span>
+<span class="nb">cd</span> ~/github/maskrcnn-benchmark
+mkdir -p datasets/coco
+ln -s /path_to_coco_dataset/annotations datasets/coco/annotations
+ln -s /path_to_coco_dataset/train2014 datasets/coco/train2014
+ln -s /path_to_coco_dataset/test2014 datasets/coco/test2014
+ln -s /path_to_coco_dataset/val2014 datasets/coco/val2014
+<span class="c1"># or use COCO 2017 version</span>
+ln -s /path_to_coco_dataset/annotations datasets/coco/annotations
+ln -s /path_to_coco_dataset/train2017 datasets/coco/train2017
+ln -s /path_to_coco_dataset/test2017 datasets/coco/test2017
+ln -s /path_to_coco_dataset/val2017 datasets/coco/val2017
+
+<span class="c1"># for pascal voc dataset:</span>
+ln -s /path_to_VOCdevkit_dir datasets/voc
+</pre></div>
+</div>
+<p>P.S. <code class="docutils literal notranslate"><span class="pre">COCO_2017_train</span></code> = <code class="docutils literal notranslate"><span class="pre">COCO_2014_train</span></code> + <code class="docutils literal notranslate"><span class="pre">valminusminival</span></code> , <code class="docutils literal notranslate"><span class="pre">COCO_2017_val</span></code> = <code class="docutils literal notranslate"><span class="pre">minival</span></code></p>
+<p>You can also configure your own paths to the datasets.
+For that, all you need to do is to modify <code class="docutils literal notranslate"><span class="pre">maskrcnn_benchmark/config/paths_catalog.py</span></code> to
+point to the location where your dataset is stored.
+You can also create a new <code class="docutils literal notranslate"><span class="pre">paths_catalog.py</span></code> file which implements the same two classes,
+and pass it as a config argument <code class="docutils literal notranslate"><span class="pre">PATHS_CATALOG</span></code> during training.</p>
+<section id="single-gpu-training">
+<h3>Single GPU training<a class="headerlink" href="#single-gpu-training" title="Permalink to this heading"></a></h3>
+<p>Most of the configuration files that we provide assume that we are running on 8 GPUs.
+In order to be able to run it on fewer GPUs, there are a few possibilities:</p>
+<p><strong>1. Run the following without modifications</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python /path_to_maskrcnn_benchmark/tools/train_net.py --config-file <span class="s2">&quot;/path/to/config/file.yaml&quot;</span>
+</pre></div>
+</div>
+<p>This should work out of the box and is very similar to what we should do for multi-GPU training.
+But the drawback is that it will use much more GPU memory. The reason is that we set in the
+configuration files a global batch size that is divided over the number of GPUs. So if we only
+have a single GPU, this means that the batch size for that GPU will be 8x larger, which might lead
+to out-of-memory errors.</p>
+<p>If you have a lot of memory available, this is the easiest solution.</p>
+<p><strong>2. Modify the cfg parameters</strong></p>
+<p>If you experience out-of-memory errors, you can reduce the global batch size. But this means that
+you’ll also need to change the learning rate, the number of iterations and the learning rate schedule.</p>
+<p>Here is an example for Mask R-CNN R-50 FPN with the 1x schedule:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python tools/train_net.py --config-file <span class="s2">&quot;configs/e2e_mask_rcnn_R_50_FPN_1x.yaml&quot;</span> SOLVER.IMS_PER_BATCH <span class="m">2</span> SOLVER.BASE_LR <span class="m">0</span>.0025 SOLVER.MAX_ITER <span class="m">720000</span> SOLVER.STEPS <span class="s2">&quot;(480000, 640000)&quot;</span> TEST.IMS_PER_BATCH <span class="m">1</span>
+</pre></div>
+</div>
+<p>This follows the <a class="reference external" href="https://github.com/facebookresearch/Detectron/blob/master/configs/getting_started/tutorial_1gpu_e2e_faster_rcnn_R-50-FPN.yaml#L14-L30">scheduling rules from Detectron.</a>
+Note that we have multiplied the number of iterations by 8x (as well as the learning rate schedules),
+and we have divided the learning rate by 8x.</p>
+<p>We also changed the batch size during testing, but that is generally not necessary because testing
+requires much less memory than training.</p>
+</section>
+<section id="multi-gpu-training">
+<h3>Multi-GPU training<a class="headerlink" href="#multi-gpu-training" title="Permalink to this heading"></a></h3>
+<p>We use internally <code class="docutils literal notranslate"><span class="pre">torch.distributed.launch</span></code> in order to launch
+multi-gpu training. This utility function from PyTorch spawns as many
+Python processes as the number of GPUs we want to use, and each Python
+process will only use a single GPU.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">NGPUS</span><span class="o">=</span><span class="m">8</span>
+python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="nv">$NGPUS</span> /path_to_maskrcnn_benchmark/tools/train_net.py --config-file <span class="s2">&quot;path/to/config/file.yaml&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="abstractions">
+<h2>Abstractions<a class="headerlink" href="#abstractions" title="Permalink to this heading"></a></h2>
+<p>For more information on some of the main abstractions in our implementation, see <a class="reference internal" href="ABSTRACTIONS.html"><span class="doc">ABSTRACTIONS.md</span></a>.</p>
+</section>
+<section id="adding-your-own-dataset">
+<h2>Adding your own dataset<a class="headerlink" href="#adding-your-own-dataset" title="Permalink to this heading"></a></h2>
+<p>This implementation adds support for COCO-style datasets.
+But adding support for training on a new dataset can be done as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">maskrcnn_benchmark.structures.bounding_box</span> <span class="kn">import</span> <span class="n">BoxList</span>
+
+<span class="k">class</span> <span class="nc">MyDataset</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
+        <span class="c1"># as you would do normally</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="c1"># load the image as a PIL Image</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="o">...</span>
+
+        <span class="c1"># load the bounding boxes as a list of list of boxes</span>
+        <span class="c1"># in this case, for illustrative purposes, we use</span>
+        <span class="c1"># x1, y1, x2, y2 order.</span>
+        <span class="n">boxes</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]]</span>
+        <span class="c1"># and labels</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+
+        <span class="c1"># create a BoxList from the boxes</span>
+        <span class="n">boxlist</span> <span class="o">=</span> <span class="n">BoxList</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;xyxy&quot;</span><span class="p">)</span>
+        <span class="c1"># add the labels to the boxlist</span>
+        <span class="n">boxlist</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">:</span>
+            <span class="n">image</span><span class="p">,</span> <span class="n">boxlist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">boxlist</span><span class="p">)</span>
+
+        <span class="c1"># return the image, the boxlist and the idx in your dataset</span>
+        <span class="k">return</span> <span class="n">image</span><span class="p">,</span> <span class="n">boxlist</span><span class="p">,</span> <span class="n">idx</span>
+
+    <span class="k">def</span> <span class="nf">get_img_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="c1"># get img_height and img_width. This is used if</span>
+        <span class="c1"># we want to split the batches according to the aspect ratio</span>
+        <span class="c1"># of the image, as it can be more efficient than loading the</span>
+        <span class="c1"># image from disk</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="n">img_height</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">img_width</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>That’s it. You can also add extra fields to the boxlist, such as segmentation masks
+(using <code class="docutils literal notranslate"><span class="pre">structures.segmentation_mask.SegmentationMask</span></code>), or even your own instance type.</p>
+<p>For a full example of how the <code class="docutils literal notranslate"><span class="pre">COCODataset</span></code> is implemented, check <a class="reference external" href="https://github.com/intel/neural-compressor/blob/8f13848c0924b32905fb850c3dfdd412902872c8/examples/pytorch/object_detection/maskrcnn/quantization/ptq/fx/pytorch/maskrcnn_benchmark/data/datasets/coco.py"><code class="docutils literal notranslate"><span class="pre">maskrcnn_benchmark/data/datasets/coco.py</span></code></a>.</p>
+<section id="note">
+<h3>Note:<a class="headerlink" href="#note" title="Permalink to this heading"></a></h3>
+<p>While the aforementioned example should work for training, we leverage the
+cocoApi for computing the accuracies during testing. Thus, test datasets
+should currently follow the cocoApi for now.</p>
+</section>
+</section>
+<section id="finetuning-from-detectron-weights-on-custom-datasets">
+<h2>Finetuning from Detectron weights on custom datasets<a class="headerlink" href="#finetuning-from-detectron-weights-on-custom-datasets" title="Permalink to this heading"></a></h2>
+<p>Create a script <code class="docutils literal notranslate"><span class="pre">tools/trim_detectron_model.py</span></code> like <a class="reference external" href="https://gist.github.com/wangg12/aea194aa6ab6a4de088f14ee193fd968">here</a>.
+You can decide which keys to be removed and which keys to be kept by modifying the script.</p>
+<p>Then you can simply point the converted model path in the config file by changing <code class="docutils literal notranslate"><span class="pre">MODEL.WEIGHT</span></code>.</p>
+<p>For further information, please refer to <a class="reference external" href="https://github.com/facebookresearch/maskrcnn-benchmark/issues/15">#15</a>.</p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading"></a></h2>
+<p>If you have issues running or compiling this code, we have compiled a list of common issues in
+<a class="reference internal" href="TROUBLESHOOTING.html"><span class="doc">TROUBLESHOOTING.md</span></a>. If your issue is not present there, please feel
+free to open a new issue.</p>
+</section>
+<section id="citations">
+<h2>Citations<a class="headerlink" href="#citations" title="Permalink to this heading"></a></h2>
+<p>Please consider citing this project in your publications if it helps your research. The following is a BibTeX reference. The BibTeX entry requires the <code class="docutils literal notranslate"><span class="pre">url</span></code> LaTeX package.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@misc</span><span class="p">{</span><span class="n">massa2018mrcnn</span><span class="p">,</span>
+<span class="n">author</span> <span class="o">=</span> <span class="p">{</span><span class="n">Massa</span><span class="p">,</span> <span class="n">Francisco</span> <span class="ow">and</span> <span class="n">Girshick</span><span class="p">,</span> <span class="n">Ross</span><span class="p">},</span>
+<span class="n">title</span> <span class="o">=</span> <span class="p">{{</span><span class="n">maskrnn</span><span class="o">-</span><span class="n">benchmark</span><span class="p">:</span> <span class="n">Fast</span><span class="p">,</span> <span class="n">modular</span> <span class="n">reference</span> <span class="n">implementation</span> <span class="n">of</span> <span class="n">Instance</span> <span class="n">Segmentation</span> <span class="ow">and</span> <span class="n">Object</span> <span class="n">Detection</span> <span class="n">algorithms</span> <span class="ow">in</span> <span class="n">PyTorch</span><span class="p">}},</span>
+<span class="n">year</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2018</span><span class="p">},</span>
+<span class="n">howpublished</span> <span class="o">=</span> <span class="p">{</span>\<span class="n">url</span><span class="p">{</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">facebookresearch</span><span class="o">/</span><span class="n">maskrcnn</span><span class="o">-</span><span class="n">benchmark</span><span class="p">}},</span>
+<span class="n">note</span> <span class="o">=</span> <span class="p">{</span><span class="n">Accessed</span><span class="p">:</span> <span class="p">[</span><span class="n">Insert</span> <span class="n">date</span> <span class="n">here</span><span class="p">]}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="projects-using-maskrcnn-benchmark">
+<h2>Projects using maskrcnn-benchmark<a class="headerlink" href="#projects-using-maskrcnn-benchmark" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1901.03353">RetinaMask: Learning to predict masks improves state-of-the-art single-shot detection for free</a>.
+Cheng-Yang Fu, Mykhailo Shvets, and Alexander C. Berg.
+Tech report, arXiv,1901.03353.</p></li>
+</ul>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h2>
+<p>maskrcnn-benchmark is released under the MIT license. See <a class="reference external" href="https://github.com/intel/neural-compressor/blob/8f13848c0924b32905fb850c3dfdd412902872c8/examples/pytorch/object_detection/maskrcnn/quantization/ptq/fx/pytorch/LICENSE">LICENSE</a> for additional details.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Intel® Neural Compressor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
