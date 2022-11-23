@@ -166,10 +166,10 @@ the <code class="docutils literal notranslate"><span class="pre">neural_compress
 <p>The <code class="docutils literal notranslate"><span class="pre">conf_fname_or_obj</span></code> parameter used in the class initialization is the path to the user yaml configuration file or Quantization_Conf class. This yaml file is used to control the entire tuning behavior on the model.</p>
 <p><strong>Neural Compressor User YAML Syntax</strong></p>
 <blockquote>
-<div><p>Intel® Neural Compressor provides template yaml files for <a class="reference external" href="https://github.com/intel/neural-compressor/blob/d5037591933fe7e54b4a1ce4f5c50bc313728a7b/docs/../neural_compressor/template/ptq.yaml">Post-Training Quantization</a>, <a class="reference external" href="https://github.com/intel/neural-compressor/blob/d5037591933fe7e54b4a1ce4f5c50bc313728a7b/docs/../neural_compressor/template/qat.yaml">Quantization-Aware Training</a>, and <a class="reference external" href="https://github.com/intel/neural-compressor/blob/d5037591933fe7e54b4a1ce4f5c50bc313728a7b/docs/../neural_compressor/template/pruning.yaml">Pruning</a> scenarios. Refer to these template files to understand the meaning of each field.</p>
+<div><p>Intel® Neural Compressor provides template yaml files for <a class="reference external" href="https://github.com/intel/neural-compressor/blob/40e9e5678de339e93fc1f3ac702d218720e1e5e1/docs/../neural_compressor/template/ptq.yaml">Post-Training Quantization</a>, <a class="reference external" href="https://github.com/intel/neural-compressor/blob/40e9e5678de339e93fc1f3ac702d218720e1e5e1/docs/../neural_compressor/template/qat.yaml">Quantization-Aware Training</a>, and <a class="reference external" href="https://github.com/intel/neural-compressor/blob/40e9e5678de339e93fc1f3ac702d218720e1e5e1/docs/../neural_compressor/template/pruning.yaml">Pruning</a> scenarios. Refer to these template files to understand the meaning of each field.</p>
 </div></blockquote>
 <blockquote>
-<div><p>Note that most fields in the yaml templates are optional. View the <a class="reference external" href="https://github.com/intel/neural-compressor/blob/d5037591933fe7e54b4a1ce4f5c50bc313728a7b/docs/../examples/helloworld/tf_example2/conf.yaml">HelloWorld Yaml</a> example for reference.</p>
+<div><p>Note that most fields in the yaml templates are optional. View the <a class="reference external" href="https://github.com/intel/neural-compressor/blob/40e9e5678de339e93fc1f3ac702d218720e1e5e1/docs/../examples/helloworld/tf_example2/conf.yaml">HelloWorld Yaml</a> example for reference.</p>
 </div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Typical Launcher code</span>
 <span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span><span class="p">,</span> <span class="n">common</span>
@@ -288,7 +288,7 @@ the <code class="docutils literal notranslate"><span class="pre">neural_compress
 <section id="default-user-facing-apis">
 <h2>Default user-facing APIs<a class="headerlink" href="#default-user-facing-apis" title="Permalink to this heading"></a></h2>
 <p>The default user-facing APIs exist for backwards compatibility from the v1.0 release. Refer to <a class="reference external" href="https://github.com/intel/neural-compressor/blob/v1.1/docs/introduction.md">v1.1 API</a> to understand how the default user-facing APIs work.</p>
-<p>View the <a class="reference external" href="https://github.com/intel/neural-compressor/tree/d5037591933fe7e54b4a1ce4f5c50bc313728a7b/examples/helloworld/tf_example6">HelloWorld example</a> that uses default user-facing APIs for user reference.</p>
+<p>View the <a class="reference external" href="https://github.com/intel/neural-compressor/tree/40e9e5678de339e93fc1f3ac702d218720e1e5e1/examples/helloworld/tf_example6">HelloWorld example</a> that uses default user-facing APIs for user reference.</p>
 <p>Full examples using default user-facing APIs can be found <a class="reference external" href="https://github.com/intel/neural-compressor/tree/v1.1/examples">here</a>.</p>
 </section>
 </section>
