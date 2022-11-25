@@ -35,9 +35,7 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Release" href="releases_info.html" />
-    <link rel="prev" title="Adaptor" href="adaptor.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -145,11 +143,11 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="README.html">Intel® Neural Compressor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_readme.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api-documentation/apis.html">APIs</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="doclist.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doclist.html">Developer Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="releases_info.html">Release</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributions.html">Contribution Guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="legal_information.html">Legal Information</a></li>
@@ -196,8 +194,6 @@
         </a> &gt;
       </li>
 
-        
-          <li><a href="doclist.html">Developer Documentation</a> &gt;</li>
         
       <li>Tuning Strategies</li>
     
@@ -259,7 +255,7 @@ tuning phase stops when the <code class="docutils literal notranslate"><span cla
 </section>
 <section id="configurations">
 <h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this heading">¶</a></h2>
-<p>Detailed configuration templates can be found <a class="reference external" href="https://github.com/intel/neural-compressor/tree/c7125ec4d39a846f41c89689bb9af5b2a16b330a/../neural_compressor/template">here</a>.</p>
+<p>Detailed configuration templates can be found <a class="reference external" href="https://github.com/intel/neural-compressor/tree/38753d1727bdd9ef8f00a829df81463b8289cb75/../neural_compressor/template">here</a>.</p>
 <section id="model-specific-configurations">
 <h3>Model-specific configurations<a class="headerlink" href="#model-specific-configurations" title="Permalink to this heading">¶</a></h3>
 <p>For model-specific configurations, users can set the quantization approach.
@@ -573,7 +569,7 @@ and registering this strategy by <code class="docutils literal notranslate"><spa
 <p>The <code class="docutils literal notranslate"><span class="pre">next_tune_cfg</span></code> function is used to yield the next tune configuration according to some algorithm or strategy. <code class="docutils literal notranslate"><span class="pre">TuneStrategy</span></code> base class will traverse
 all the tuning space till a quantization configuration meets pre-defined accuracy criterion.</p>
 <p>If the traverse behavior of <code class="docutils literal notranslate"><span class="pre">TuneStrategy</span></code> base class does not meet new strategy requirement, it could re-implement <code class="docutils literal notranslate"><span class="pre">traverse</span></code> function with self own logic.
-An example like this is under <a class="reference external" href="https://github.com/intel/neural-compressor/blob/c7125ec4d39a846f41c89689bb9af5b2a16b330a/../neural_compressor/strategy/strategy.py">TPE Strategy</a>.</p>
+An example like this is under <a class="reference external" href="https://github.com/intel/neural-compressor/blob/38753d1727bdd9ef8f00a829df81463b8289cb75/../neural_compressor/strategy/strategy.py">TPE Strategy</a>.</p>
 </section>
 </section>
 
@@ -582,15 +578,6 @@ An example like this is under <a class="reference external" href="https://github
              
             </div>
             <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="releases_info.html" class="btn btn-neutral float-right" title="Release" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
-      
-      
-        <a href="adaptor.html" class="btn btn-neutral" title="Adaptor" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
-      
-    </div>
   
 
   <hr/>

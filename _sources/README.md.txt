@@ -146,7 +146,7 @@ inc_bench
 > Set the environment variable ``TF_ENABLE_ONEDNN_OPTS=1`` to enable oneDNN optimizations if you are using TensorFlow v2.6 to v2.8. oneDNN is the default for TensorFlow v2.9.
 
 ### Validated Models
-Intel® Neural Compressor validated 420+ [examples](./examples) for quantization with a performance speedup geomean of 2.2x and up to 4.2x on VNNI while minimizing accuracy loss. Over 30 pruning and knowledge distillation samples are also available. More details for validated models are available [here](./validated_model_list.html).
+Intel® Neural Compressor validated 420+ [examples](https://github.com/intel/neural-compressor/tree/master/examples) for quantization with a performance speedup geomean of 2.2x and up to 4.2x on VNNI while minimizing accuracy loss. Over 30 pruning and knowledge distillation samples are also available. More details for validated models are available [here](./validated_model_list.html).
 
 <div style = "width: 77%; margin-bottom: 2%;">
   <a target="_blank" href="./_static/imgs/release_data.png">
@@ -165,7 +165,7 @@ Intel® Neural Compressor validated 420+ [examples](./examples) for quantization
   <tbody>
     <tr>
       <td colspan="3" align="center"><a href="./design.html">Architecture</a></td>
-      <td colspan="2" align="center"><a href="https://github.com/intel/neural-compressor/tree/master/examples">Examples</a></td>
+      <td colspan="2" align="center"><a href="https://github.com/intel/neural-compressor/tree/mastehttps://github.com/intel/neural-compressor/tree/master/examples">Examples</a></td>
       <td colspan="2" align="center"><a href="./bench.html">GUI</a></td>
       <td colspan="2" align="center"><a href="./api-introduction.html">APIs</a></td>
     </tr>

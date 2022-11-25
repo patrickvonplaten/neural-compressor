@@ -522,7 +522,7 @@ Attributes
 
       Return dataset.
 
-      :param dataset_typ: dataset type
+      :param dataset_type: dataset type
 
       :returns: dataset class
       :rtype: class
