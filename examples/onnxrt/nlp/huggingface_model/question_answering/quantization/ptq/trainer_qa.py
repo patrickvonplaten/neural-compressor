@@ -264,8 +264,20 @@ class QuestionAnsweringTrainer(Trainer):
         all_labels = None
         all_inputs = None
         # Will be useful when we have an iterable dataset so don't know its length.
-
-        onnx_session = onnxruntime.InferenceSession(onnx_model.SerializeToString(), None)
+        
+        if 'XLMRobertaForQuestionAnswering' in str(type(model)):
+            import os
+            if not os.path.exists('./big-workspace'):
+                os.mkdir('./big-workspace')
+            onnx.save_model(onnx_model,
+                            './big-workspace/eval.onnx',
+                            save_as_external_data=True,
+                            all_tensors_to_one_file=True,
+                            location="weights.pb",
+                            convert_attribute=False)
+            onnx_session = onnxruntime.InferenceSession('./big-workspace/eval.onnx', None)
+        else:
+            onnx_session = onnxruntime.InferenceSession(onnx_model.SerializeToString(), None)
         observed_num_examples = 0
         # Main evaluation loop
         for step, inputs in enumerate(dataloader):
@@ -476,9 +488,13 @@ class QuestionAnsweringTrainer(Trainer):
                 else:
                     loss = None
                     with self.compute_loss_context_manager():
-                        data = {"input_ids": np.array(inputs['input_ids'], dtype=np.int64),
-                                "attention_mask": np.array(inputs['token_type_ids'], dtype=np.int64),
-                                "token_type_ids": np.array(inputs['attention_mask'], dtype=np.int64)}
+                        if 'token_type_ids' in inputs:
+                            data = {"input_ids": np.array(inputs['input_ids'], dtype=np.int64),
+                                    "attention_mask": np.array(inputs['attention_mask'], dtype=np.int64),
+                                    "token_type_ids": np.array(inputs['token_type_ids'], dtype=np.int64)}
+                        else:
+                            data = {"input_ids": np.array(inputs['input_ids'], dtype=np.int64),
+                                    "attention_mask": np.array(inputs['attention_mask'], dtype=np.int64)}
                         outputs2 = onnx_session.run(None, data)
                     logits2 = tuple((torch.from_numpy(outputs2[0]), torch.from_numpy(outputs2[1])))
                     # TODO: this needs to be fixed and made cleaner later.

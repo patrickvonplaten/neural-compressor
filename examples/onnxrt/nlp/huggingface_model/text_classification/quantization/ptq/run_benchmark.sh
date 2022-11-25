@@ -65,6 +65,10 @@ function run_benchmark {
         model_name_or_path="Intel/MiniLM-L12-H384-uncased-mrpc"
         TASK_NAME='mrpc'
     fi
+    if [[ "${input_model}" =~ "bert-base-cased" ]]; then
+        model_name_or_path="bert-base-cased-finetuned-mrpc"
+        TASK_NAME='mrpc'
+    fi
 
     python main.py \
             --model_name_or_path ${model_name_or_path} \

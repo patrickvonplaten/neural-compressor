@@ -59,8 +59,8 @@ class GemmOperator(Operator):
 
     def convert_check(self, convert_format):
         node = self.node
-        assert convert_format in ['static'], \
-            "convert format for {} should be in ['static']".format(node.op_type)
+        # assert convert_format in ['static'], \
+        #     "convert format for {} should be in ['static']".format(node.op_type)
         
         children = self.quantizer.model.get_children(node)
         if len(children) == 0 or not node.name.endswith('_quant'):

@@ -31,8 +31,8 @@ class LSTMOperator(Operator):
     
     def convert_check(self, convert_format): 
         node = self.node
-        assert convert_format in ['dynamic'], \
-            "convert format for {} should be in ['dynamic']".format(node.op_type)
+        # assert convert_format in ['dynamic'], \
+        #     "convert format for {} should be in ['dynamic']".format(node.op_type)
             
         if (not self.quantizer.is_valid_quantize_weight(node.input[1]) or
             not self.quantizer.is_valid_quantize_weight(node.input[2])): # pragma: no cover

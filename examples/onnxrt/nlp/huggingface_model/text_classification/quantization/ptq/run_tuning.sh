@@ -79,6 +79,12 @@ function run_tuning {
         num_heads=12
         hidden_size=384
     fi
+    if [[ "${input_model}" =~ "bert-base-cased" ]]; then
+        model_name_or_path="bert-base-cased-finetuned-mrpc"
+        TASK_NAME='mrpc'
+        num_heads=12
+        hidden_size=384
+    fi
 
     python main.py \
             --model_name_or_path ${model_name_or_path} \
