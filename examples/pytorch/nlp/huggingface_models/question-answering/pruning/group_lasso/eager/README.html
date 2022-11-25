@@ -145,7 +145,7 @@ curl -LO https://api.ngc.nvidia.com/v2/models/nvidia/bert_pyt_ckpt_large_pretrai
 </section>
 <section id="run">
 <h2>3. Run<a class="headerlink" href="#run" title="Permalink to this heading"></a></h2>
-<p>Enter your created conda env, then run the script. Below command shows how to train with sparsity for a simplified BERT with <a class="reference external" href="https://github.com/intel/neural-compressor/blob/693360db88bd90561e8f73bb372b1581849da07a/examples/pytorch/nlp/huggingface_models/question-answering/pruning/group_lasso/eager/prune_bert.yaml">one sparse GEMM layer</a>.</p>
+<p>Enter your created conda env, then run the script. Below command shows how to train with sparsity for a simplified BERT with <a class="reference external" href="https://github.com/intel/neural-compressor/blob/c5a65b11990781695ddac423f2c3e4ec43825281/examples/pytorch/nlp/huggingface_models/question-answering/pruning/group_lasso/eager/prune_bert.yaml">one sparse GEMM layer</a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash scripts/run_squad_sparse.sh /path/to/model.pt <span class="m">2</span>.0 <span class="m">16</span> 5e-5 tf32 /path/to/data /path/to/outdir prune_bert.yaml
 </pre></div>
 </div>
@@ -160,7 +160,7 @@ curl -LO https://api.ngc.nvidia.com/v2/models/nvidia/bert_pyt_ckpt_large_pretrai
 <span class="nv">prune_config</span><span class="o">=</span><span class="si">${</span><span class="nv">8</span><span class="k">:-</span><span class="s2">&quot;prune_bert.yaml&quot;</span><span class="si">}</span>
 </pre></div>
 </div>
-<p>We also provided an example of BERT with <a class="reference external" href="https://github.com/intel/neural-compressor/blob/693360db88bd90561e8f73bb372b1581849da07a/examples/pytorch/nlp/huggingface_models/question-answering/pruning/group_lasso/eager/prune_all.yaml">full sparse layers</a>.</p>
+<p>We also provided an example of BERT with <a class="reference external" href="https://github.com/intel/neural-compressor/blob/c5a65b11990781695ddac423f2c3e4ec43825281/examples/pytorch/nlp/huggingface_models/question-answering/pruning/group_lasso/eager/prune_all.yaml">full sparse layers</a>.</p>
 </section>
 </section>
 <section id="original-bert-readme">
