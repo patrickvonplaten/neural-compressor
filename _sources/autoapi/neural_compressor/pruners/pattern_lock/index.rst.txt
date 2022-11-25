@@ -1,0 +1,8 @@
+:orphan:
+
+:py:mod:`neural_compressor.pruners.pattern_lock`
+================================================
+
+.. py:module:: neural_compressor.pruners.pattern_lock
+
+
