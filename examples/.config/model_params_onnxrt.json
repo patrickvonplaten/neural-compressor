@@ -139,8 +139,8 @@
       "model_src_dir": "nlp/onnx_model_zoo/gpt2/quantization/ptq",
       "dataset_location": "/tf_dataset2/datasets/wikitext/wikitext-2-raw/",
       "input_model": "/tf_dataset2/models/onnx/gpt2/gpt2_lm_head_wikitext_model_zoo.onnx",
-      "yaml": "gpt2.yaml",
-      "strategy": "basic",
+      "yaml": "gpt2_static.yaml",
+      "strategy": "conservative",
       "batch_size": 1,
       "new_benchmark": false
     },
