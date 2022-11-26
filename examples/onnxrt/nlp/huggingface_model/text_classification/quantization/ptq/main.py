@@ -375,8 +375,6 @@ if __name__ == "__main__":
                 ort_inputs.update({inputs_names[i]: inputs[i]})
             predictions = session.run(None, ort_inputs)
             metric.update(predictions[0], labels)
-        print(metric.result())
-        exit(0)
         return metric.result()
 
     if args.benchmark:
