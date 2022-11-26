@@ -420,5 +420,6 @@ if __name__ == "__main__":
         quantize = Quantization(args.config)
         quantize.model = model
         quantize.eval_func = eval_func
+        quantize.calib_dataloader = dataloader
         q_model = quantize()
         q_model.save(args.output_model)
