@@ -782,7 +782,7 @@
       "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
       "dataset_location": "/tf_dataset2/datasets/squad",
       "input_model": "/tf_dataset2/models/onnx/hf_xlm-roberta-large_dynamic/xlm-roberta-large-squad2/xlm-roberta-large-squad2/xlm-roberta-large-squad2.onnx",
-      "yaml": "qa_dynamic.yaml",
+      "yaml": "xlm-roberta-large-dynamic.yaml",
       "strategy": "basic",
       "batch_size": 1,
       "new_benchmark": true
