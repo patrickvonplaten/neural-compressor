@@ -60,6 +60,7 @@ class FuseNodeStartWithFusedBatchNormV3(QuantizeNodeBase):
             all_input_names[2]
         ]
 
+        bn_next_node = {}
         for _, node in enumerate(self.input_graph.node):
             if node.name in skip_node_name:
                 self.logger.debug("skip node {}".format(node.name))
@@ -136,8 +137,12 @@ class FuseNodeStartWithFusedBatchNormV3(QuantizeNodeBase):
                     performance_only=self.performance_only
                     )
 
+                for i in self.node_name_mapping[node.name].output:
+                    bn_next_node[i] = node.name
             else:
                 new_node = node_def_pb2.NodeDef()
+                if self.performance_only and bn_next_node.get(node.name):
+                    node.input[0] = bn_next_node[node.name]
                 new_node.CopyFrom(node)
                 self.add_output_graph_node(new_node)
 
@@ -162,6 +167,7 @@ class FuseNodeStartWithFusedBatchNormV3(QuantizeNodeBase):
             all_input_names[2]
         ]
 
+        bn_next_node = {}
         for _, node in enumerate(self.input_graph.node):
             if node.name in skip_node_name:
                 self.logger.debug("skip node {}".format(node.name))
@@ -238,8 +244,12 @@ class FuseNodeStartWithFusedBatchNormV3(QuantizeNodeBase):
                     performance_only=self.performance_only
                     )
 
+                for i in self.node_name_mapping[node.name].output:
+                    bn_next_node[i] = node.name
             else:
                 new_node = node_def_pb2.NodeDef()
+                if self.performance_only and bn_next_node.get(node.name):
+                    node.input[0] = bn_next_node[node.name]
                 new_node.CopyFrom(node)
                 self.add_output_graph_node(new_node)
 
