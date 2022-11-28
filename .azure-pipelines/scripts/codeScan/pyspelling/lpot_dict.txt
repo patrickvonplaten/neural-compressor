@@ -2374,3 +2374,8 @@ LeakyRelu
 ONNXRTAdaptor
 QLinearOpsAdaptor
 onnxrtadaptor
+constfold
+grappler
+amsgrad
+qoperator
+apis
