@@ -147,7 +147,6 @@
 <li class="toctree-l1"><a class="reference internal" href="README.html">Intel® Neural Compressor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_readme.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api-documentation/apis.html">APIs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="doclist.html">Developer Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="releases_info.html">Release</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributions.html">Contribution Guidelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="legal_information.html">Legal Information</a></li>
@@ -296,10 +295,10 @@ the <code class="docutils literal notranslate"><span class="pre">neural_compress
 <p>The <code class="docutils literal notranslate"><span class="pre">conf_fname_or_obj</span></code> parameter used in the class initialization is the path to the user yaml configuration file or Quantization_Conf class. This yaml file is used to control the entire tuning behavior on the model.</p>
 <p><strong>Neural Compressor User YAML Syntax</strong></p>
 <blockquote>
-<div><p>Intel® Neural Compressor provides template yaml files for <a class="reference external" href="https://github.com/intel/neural-compressor/blob/8e81f7cce4fef686535b65044ecf2001b29dbc6c/../neural_compressor/template/ptq.yaml">Post-Training Quantization</a>, <a class="reference external" href="https://github.com/intel/neural-compressor/blob/8e81f7cce4fef686535b65044ecf2001b29dbc6c/../neural_compressor/template/qat.yaml">Quantization-Aware Training</a>, and <a class="reference external" href="https://github.com/intel/neural-compressor/blob/8e81f7cce4fef686535b65044ecf2001b29dbc6c/../neural_compressor/template/pruning.yaml">Pruning</a> scenarios. Refer to these template files to understand the meaning of each field.</p>
+<div><p>Intel® Neural Compressor provides template yaml files for <a class="reference external" href="https://github.com/intel/neural-compressor/blob/1c3a42bcb2fce82294b459091e7733792204a30a/../neural_compressor/template/ptq.yaml">Post-Training Quantization</a>, <a class="reference external" href="https://github.com/intel/neural-compressor/blob/1c3a42bcb2fce82294b459091e7733792204a30a/../neural_compressor/template/qat.yaml">Quantization-Aware Training</a>, and <a class="reference external" href="https://github.com/intel/neural-compressor/blob/1c3a42bcb2fce82294b459091e7733792204a30a/../neural_compressor/template/pruning.yaml">Pruning</a> scenarios. Refer to these template files to understand the meaning of each field.</p>
 </div></blockquote>
 <blockquote>
-<div><p>Note that most fields in the yaml templates are optional. View the <a class="reference external" href="https://github.com/intel/neural-compressor/blob/8e81f7cce4fef686535b65044ecf2001b29dbc6c/../examples/helloworld/tf_example2/conf.yaml">HelloWorld Yaml</a> example for reference.</p>
+<div><p>Note that most fields in the yaml templates are optional. View the <a class="reference external" href="https://github.com/intel/neural-compressor/blob/1c3a42bcb2fce82294b459091e7733792204a30a/../examples/helloworld/tf_example2/conf.yaml">HelloWorld Yaml</a> example for reference.</p>
 </div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Typical Launcher code</span>
 <span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span><span class="p">,</span> <span class="n">common</span>
