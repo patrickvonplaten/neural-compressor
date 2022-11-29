@@ -42,7 +42,7 @@ function run_benchmark {
     elif [[ "${input_model}" =~ "xlm-roberta-large" ]]; then
         model_name_or_path="deepset/xlm-roberta-large-squad2"
         extra_cmd='--version_2_with_negative=True'
-    elif [[ "${input_model}" =~ "bert-large-uncased-whole-word-masking" ]]; then
+    elif [[ "${input_model}" =~ "bert-large-uncased" ]]; then
         model_name_or_path="bert-large-uncased-whole-word-masking-finetuned-squad"
         extra_cmd='--version_2_with_negative=False'
     elif [[ "${input_model}" =~ "roberta-large" ]]; then
