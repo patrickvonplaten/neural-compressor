@@ -6,6 +6,8 @@ model:                                               # mandatory. used to specif
 
 quantization:
   approach: post_training_dynamic_quant              # optional. default value is post_training_static_quant.
+  alibration:
+    sampling_size: 8
 
   op_wise: {
      'MatMul_2924':{
