@@ -740,7 +740,7 @@
     },
 
 
-    "hf_distilbert-squad_dynamic": {
+    "hf_distilbert-base-uncased_dynamic": {
       "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
       "dataset_location": "/tf_dataset2/datasets/squad",
       "input_model": "/tf_dataset2/models/onnx/hf_distilbert-squad_dynamic/distilbert-base-uncased-distilled-squad.onnx",
@@ -749,7 +749,7 @@
       "batch_size": 1,
       "new_benchmark": true
     },
-    "hf_distilbert-squad_static": {
+    "hf_distilbert-base-uncased_static": {
       "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
       "dataset_location": "/tf_dataset2/datasets/squad",
       "input_model": "/tf_dataset2/models/onnx/hf_distilbert-squad_static/distilbert-base-uncased-distilled-squad.onnx",
