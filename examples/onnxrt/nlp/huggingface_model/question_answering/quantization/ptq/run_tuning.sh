@@ -48,7 +48,7 @@ function run_tuning {
         num_heads=16
         hidden_size=1024
         extra_cmd='--version_2_with_negative=True'
-    elif [[ "${input_model}" =~ "bert-large-uncased-whole-word-masking" ]]; then
+    elif [[ "${input_model}" =~ "bert-large-uncased" ]]; then
         model_name_or_path="bert-large-uncased-whole-word-masking-finetuned-squad"
         num_heads=16
         hidden_size=1024
