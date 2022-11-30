@@ -797,7 +797,7 @@
       "new_benchmark": true
     },
 
-    "hf_bert-large-uncase_dynamic": {
+    "hf_bert-large-uncased_dynamic": {
       "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
       "dataset_location": "/tf_dataset2/datasets/squad",
       "input_model": "/tf_dataset2/models/onnx/hf_bert-large_dynamic/bert-large-uncased-whole-word-masking-finetuned-squad.onnx",
@@ -806,7 +806,7 @@
       "batch_size": 1,
       "new_benchmark": true
     },
-    "hf_bert-large-uncase_static": {
+    "hf_bert-large-uncased_static": {
       "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
       "dataset_location": "/tf_dataset2/datasets/squad",
       "input_model": "/tf_dataset2/models/onnx/hf_bert-large_static/bert-large-uncased-whole-word-masking-finetuned-squad.onnx",
