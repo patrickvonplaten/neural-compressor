@@ -195,35 +195,6 @@ def get_quantizable_onnx_ops(
     return quantize_nodes
 
 
-def get_scale_info(
-    int8_model,
-    q_config,
-):
-    """Fetch scale information from q_config.
-
-    Args:
-        int8_model (torch.nn.Module): PyTorch int8 model.
-        q_config (dict): quantization configuration.
-
-    Returns:
-        int8_scale_info: int8 scale infomation.
-    """
-    # get output scale and zp from module
-    int8_scale_info = {}
-    for name, scale_info in q_config['input_scale_info'].items():
-        int8_scale_info[name] = {
-            'input_scale': scale_info['scale'],
-            'input_zeropoint': scale_info['zero_point'],
-        }
-    for name, module in int8_model.named_modules():
-        if name in int8_scale_info:
-            int8_scale_info[name].update({
-                'output_scale': module.scale,
-                'output_zeropoint': module.zero_point,
-            })
-    return int8_scale_info
-
-
 def build_scale_mapping(
     fp32_onnx_path,
     module_node_mapping,
@@ -242,14 +213,21 @@ def build_scale_mapping(
     node_module_mapping = {}
     for module_name, node_name in module_node_mapping.items():
         node_module_mapping[node_name] = module_name
-    # match scale and zeropoint from PyTorch to ONNX node
+    # Match scale and zeropoint from PyTorch to ONNX node
     scale_zp_dict = {}
     fp32_onnx_model = onnx.load(fp32_onnx_path)
     for node in fp32_onnx_model.graph.node:
         if node.name in node_module_mapping:
             module_name = node_module_mapping[node.name]
-            if module_name not in int8_scale_info:
+
+            # For fine-grained fx and fuse pattern
+            if module_name + '.module' in int8_scale_info:
                 module_name = module_name + '.module'
+            elif module_name + '.0' in int8_scale_info:
+                module_name = module_name + '.0'
+            elif module_name + '.module.0' in int8_scale_info:
+                module_name = module_name + '.module.0'
+
             if module_name in int8_scale_info:
                 recoder = int8_scale_info[module_name]
                 input_scale_args = node.input[0] + '_scale'
@@ -447,7 +425,7 @@ def qdq_model_use_output_scale_zp(
 def qop_model_default(
     int8_onnx_model
 ):
-    # nn.quantized.Lienar module will be converted to the following format:
+    # nn.quantized.Linear module will be converted to the following format:
     #     QuantizeLinear
     #           |
     #  MatMulIntegerToFloat
@@ -696,7 +674,7 @@ def torch_to_int8_onnx(
     if q_config['approach'] == 'quant_aware_training':
         update_weight_bias(int8_model, fp32_onnx_path)
     if q_config['approach'] != 'post_training_dynamic_quant':
-        int8_scale_info = get_scale_info(int8_model, q_config)
+        int8_scale_info = q_config['scale_info']
         scale_mapping = build_scale_mapping(fp32_onnx_path, module_node_mapping, int8_scale_info)
 
     quant_format = ortq.QuantFormat.QOperator if quant_format != 'QDQ' else ortq.QuantFormat.QDQ

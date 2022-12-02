@@ -62,7 +62,7 @@ class DummyDataReader(ortq.CalibrationDataReader):
             for dim in node.shape:
                 shape.append(dim if isinstance(dim, int) else 1)
             dtype = ONNX2Numpy_dtype(node.type)
-            input[node.name] = np.ones(shape).astype(dtype)
+            input[node.name] = np.zeros(shape).astype(dtype)
         self.data = [input]
         self.data = iter(self.data)
 

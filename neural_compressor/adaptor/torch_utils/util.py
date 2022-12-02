@@ -44,6 +44,23 @@ def get_embedding_contiguous(model):
             child.register_forward_pre_hook(contiguous_hook)
 
 
+def is_fused_module(module):
+    """This is a helper function for `_propagate_qconfig_helper` to detecte
+        if this module is fused.
+
+    Args:
+        module (object): input module
+
+    Returns:
+        (bool): is fused or not
+    """
+    op_type = str(type(module))
+    if 'fused' in op_type:
+        return True
+    else:
+        return False
+
+
 def _set_input_scale_hook(model, op_cfgs):
     """Insert hooks to observer input scale and zeropoint.
 
@@ -55,19 +72,24 @@ def _set_input_scale_hook(model, op_cfgs):
         hook_list (list): input observer hooks
     """
     def input_scale_hook(module, input):
-        module.input_observer = module.input_config.activation()
+        module.input_observer = module.qconfig.activation()
         module.input_observer(input[0])
         return input
+
+    def output_scale_hook(module, input, output):
+        module.output_observer = module.qconfig.activation()
+        module.output_observer(output)
+        return output
 
     hook_list = []
     for name, module in model.named_modules():
         if 'Conv' in str(module.__class__.__name__) or \
           'Linear' in str(module.__class__.__name__):
-            if name not in op_cfgs or op_cfgs[name] is None:
+            if is_fused_module(module):
                 continue
-            module.input_config = op_cfgs[name]
-            handle = module.register_forward_pre_hook(input_scale_hook)
-            hook_list.append(handle)
+            handle_in = module.register_forward_pre_hook(input_scale_hook)
+            handle_out = module.register_forward_hook(output_scale_hook)
+            hook_list.extend([handle_in, handle_out])
     return hook_list
 
 
@@ -81,19 +103,20 @@ def _get_input_scale(model, hook_list):
     Returns:
         input_scale_info (dict): input scale and zero_point of each modules
     """
-    input_scale_info = {}
+    scale_info = {}
     for name, module in model.named_modules():
-        if hasattr(module, "input_observer"):
-            scale, zero_point = module.input_observer.calculate_qparams()
-            input_scale_info[name] = {
-                'scale': float(scale),
-                'zero_point': int(zero_point)
+        if hasattr(module, "input_observer") and hasattr(module, "output_observer"):
+            scale_in, zero_point_in = module.input_observer.calculate_qparams()
+            scale_out, zero_point_out = module.output_observer.calculate_qparams()
+            scale_info[name] = {
+                'input_scale': float(scale_in),
+                'input_zeropoint': int(zero_point_in),
+                'output_scale': float(scale_out),
+                'output_zeropoint': int(zero_point_out)
             }
-        if hasattr(module, "input_config"):
-            del module.input_config
     for h in hook_list:
         h.remove()
-    return input_scale_info
+    return scale_info
 
 
 def collate_torch_preds(results):
