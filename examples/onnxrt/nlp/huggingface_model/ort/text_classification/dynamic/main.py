@@ -420,6 +420,6 @@ if __name__ == "__main__":
                 args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
                 args.output_model,
         )
-
+        print('save ortq dynamic quantize model to', args.output_model)
         if os.path.exists(args.model_name_or_path.split('/')[-1] + '-optimized.onnx'):
             os.remove(args.model_name_or_path.split('/')[-1] + '-optimized.onnx')

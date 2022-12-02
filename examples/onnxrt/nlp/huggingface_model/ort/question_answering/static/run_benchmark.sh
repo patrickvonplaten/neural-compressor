@@ -32,22 +32,22 @@ function run_benchmark {
 
     if [[ "${input_model}" =~ "spanbert" ]]; then
         model_name_or_path="mrm8488/spanbert-finetuned-squadv1"
-        extra_cmd='--version_2_with_negative=False'
+        extra_cmd='--version_2_with_negative=False --dataset_name=squad'
     elif [[ "${input_model}" =~ "bert-base-multilingual" ]]; then
         model_name_or_path="salti/bert-base-multilingual-cased-finetuned-squad"
-        extra_cmd='--version_2_with_negative=False'
+        extra_cmd='--version_2_with_negative=False --dataset_name=squad'
     elif [[ "${input_model}" =~ "distilbert-base-uncased" ]]; then
         model_name_or_path="distilbert-base-uncased-distilled-squad"
-        extra_cmd='--version_2_with_negative=False'
+        extra_cmd='--version_2_with_negative=False --dataset_name=squad'
     elif [[ "${input_model}" =~ "xlm-roberta-large" ]]; then
         model_name_or_path="deepset/xlm-roberta-large-squad2"
-        extra_cmd='--version_2_with_negative=True'
+        extra_cmd='--version_2_with_negative=True --dataset_name=squad'
     elif [[ "${input_model}" =~ "bert-large-uncased" ]]; then
         model_name_or_path="bert-large-uncased-whole-word-masking-finetuned-squad"
-        extra_cmd='--version_2_with_negative=False'
+        extra_cmd='--version_2_with_negative=False --dataset_name=squad'
     elif [[ "${input_model}" =~ "roberta-large" ]]; then
         model_name_or_path="deepset/roberta-large-squad2"
-        extra_cmd='--version_2_with_negative=True'
+        extra_cmd='--version_2_with_negative=True --dataset_name=squad'
     fi
 
     python main.py \

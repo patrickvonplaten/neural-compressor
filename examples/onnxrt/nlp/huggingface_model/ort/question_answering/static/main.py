@@ -702,7 +702,7 @@ def main():
                         static_dataset,
                         quant_format=QuantFormat.QOperator,
                         )
-        print('static Calibrated and quantized model saved.')
+        print('static Calibrated and quantized model saved to', model_args.save_path)
 
         if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
             if os.path.exists('./' + model_args.model_name_or_path.split('/')[-1]):
