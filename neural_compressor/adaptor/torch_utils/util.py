@@ -44,6 +44,58 @@ def get_embedding_contiguous(model):
             child.register_forward_pre_hook(contiguous_hook)
 
 
+def _set_input_scale_hook(model, op_cfgs):
+    """Insert hooks to observer input scale and zeropoint.
+
+    Args:
+        model (object): input model
+        op_cfgs (dict): dictionary of quantization configure for each op
+
+    Returns:
+        hook_list (list): input observer hooks
+    """
+    def input_scale_hook(module, input):
+        module.input_observer = module.input_config.activation()
+        module.input_observer(input[0])
+        return input
+
+    hook_list = []
+    for name, module in model.named_modules():
+        if 'Conv' in str(module.__class__.__name__) or \
+          'Linear' in str(module.__class__.__name__):
+            if name not in op_cfgs or op_cfgs[name] is None:
+                continue
+            module.input_config = op_cfgs[name]
+            handle = module.register_forward_pre_hook(input_scale_hook)
+            hook_list.append(handle)
+    return hook_list
+
+
+def _get_input_scale(model, hook_list):
+    """Fetch input scale and zeropoint from observer.
+
+    Args:
+        model (object): input model
+        hook_list (list): input observer hooks
+
+    Returns:
+        input_scale_info (dict): input scale and zero_point of each modules
+    """
+    input_scale_info = {}
+    for name, module in model.named_modules():
+        if hasattr(module, "input_observer"):
+            scale, zero_point = module.input_observer.calculate_qparams()
+            input_scale_info[name] = {
+                'scale': float(scale),
+                'zero_point': int(zero_point)
+            }
+        if hasattr(module, "input_config"):
+            del module.input_config
+    for h in hook_list:
+        h.remove()
+    return input_scale_info
+
+
 def collate_torch_preds(results):
     batch = results[0]
     if isinstance(batch, list):
