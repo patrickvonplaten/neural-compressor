@@ -30,54 +30,6 @@ ort = LazyImport('onnxruntime')
 ortq = LazyImport('onnxruntime.quantization')
 
 
-def ONNX2Numpy_dtype(onnx_node_type):
-    """Get Numpy data type from onnx data type.
-
-    Args:
-        onnx_node_type (str): data type description.
-
-    Returns:
-        dtype: numpy data type
-    """
-    # Only record sepcial data type
-    ONNX2Numpy_dtype_mapping = {
-        "tensor(float)": np.float32,
-        "tensor(double)": np.float64,
-    }
-    if onnx_node_type in ONNX2Numpy_dtype_mapping:
-        dtype = ONNX2Numpy_dtype_mapping[onnx_node_type]
-        return dtype
-    else:
-        tmp = onnx_node_type.lstrip('tensor(').rstrip(')')
-        dtype = eval(f'np.{tmp}')
-        return dtype
-
-
-class DummyDataReader(ortq.CalibrationDataReader):
-    """Build dummy datareader for onnx static quantization."""
-
-    def __init__(self, fp32_onnx_path):
-        """Initialize data reader.
-
-        Args:
-            fp32_onnx_path (str): path to onnx file
-        """
-        session = ort.InferenceSession(fp32_onnx_path, None)
-        input_tensors = session.get_inputs()
-        input = {}
-        for node in input_tensors:
-            shape = []
-            for dim in node.shape:
-                shape.append(dim if isinstance(dim, int) else 1)
-            dtype = ONNX2Numpy_dtype(node.type)
-            input[node.name] = np.ones(shape).astype(dtype)
-        self.data = [input]
-        self.data = iter(self.data)
-    def get_next(self):
-        """Generate next data."""
-        return next(self.data, None)
-
-
 def update_weight_bias(
     int8_model,
     fp32_onnx_path,
@@ -469,6 +421,7 @@ def torch_to_int8_onnx(
         )
 
     else:
+        from .utils import DummyDataReader
         dummy_datareader = DummyDataReader(fp32_onnx_path)
         ortq.quantize_static(
             fp32_onnx_path,
