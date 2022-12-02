@@ -127,10 +127,15 @@ def get_node_mapping(
         for name, value in module_dict.items():
             if value.shape == data.shape:
                 if (value == data).all():
+                    module_dict.pop(name)
                     return name
-                # Convolution weight data mismatch.
-                elif op_type == 'Conv' and np.allclose(value, data):
-                    return name
+                elif op_type == 'Conv':
+                    # Convolution weight data have fluction and BN fusion will insert scale.
+                    # We use the weight scale of the first output channel to check.
+                    weight_scale = value[0] / data[0]
+                    if np.allclose(weight_scale - np.mean(weight_scale), 0, atol=1.e-5):
+                        module_dict.pop(name)
+                        return name
         return None
 
     module_dict = {}
