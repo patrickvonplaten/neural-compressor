@@ -1,5 +1,6 @@
 import argparse
-
+import onnx
+import onnxruntime
 import torch
 from transformers import AutoConfig, AutoModelForSequenceClassification
 
@@ -20,26 +21,32 @@ def export_onnx_model(args, model):
                             do_constant_folding=True,           # whether to execute constant folding
                             input_names=['input_ids',           # the model's input names
                                         'attention_mask'],
+                            output_names=['logits'],
                             dynamic_axes={'input_ids': symbolic_names,        # variable length axes
                                         'attention_mask' : symbolic_names})
         else:
             inputs = {'input_ids':      torch.ones(1, args.max_len, dtype=torch.int64),
-                      'token_type_ids': torch.ones(1, args.max_len, dtype=torch.int64),
-                    'attention_mask': torch.ones(1, args.max_len, dtype=torch.int64)}
+                      'attention_mask': torch.ones(1, args.max_len, dtype=torch.int64),
+                    'token_type_ids': torch.ones(1, args.max_len, dtype=torch.int64)}
             torch.onnx.export(model,                            # model being run
                             (inputs['input_ids'],               # model input (or a tuple for multiple inputs) 
-                            inputs['token_type_ids'],
-                            inputs['attention_mask']),          
+                            inputs['attention_mask'],
+                            inputs['token_type_ids']),          
                             args.output_model,                  # where to save the model (can be a file or file-like object)
                             opset_version=14,                   # the ONNX version to export the model
                             do_constant_folding=True,           # whether to execute constant folding
                             input_names=['input_ids',           # the model's input names
-                                        'token_type_ids',
-                                        'attention_mask'],
+                                        'attention_mask',
+                                        'token_type_ids'],
+                            output_names=['logits'],
                             dynamic_axes={'input_ids': symbolic_names,        # variable length axes
-                                        'token_type_ids' : symbolic_names,
-                                        'attention_mask' : symbolic_names})
+                                        'attention_mask' : symbolic_names,
+                                        'token_type_ids' : symbolic_names})
         print("ONNX Model exported to {0}".format(args.output_model))
+        onnx_model = onnx.load(args.output_model)
+        sess = onnxruntime.InferenceSession(onnx_model.SerializeToString())
+        print([node.name for node in sess.get_inputs()])
+        print([node.name for node in sess.get_outputs()])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -55,7 +62,8 @@ if __name__ == "__main__":
                 'distilbert-base-uncased-finetuned-sst-2-english',
                 'Alireza1044/albert-base-v2-sst2',
                 'philschmid/MiniLM-L6-H384-uncased-sst2',
-                'Intel/MiniLM-L12-H384-uncased-mrpc'],
+                'Intel/MiniLM-L12-H384-uncased-mrpc',
+                'bert-base-cased-finetuned-mrpc'],
         help='pretrained model name or path')
     parser.add_argument(
         '--max_len',

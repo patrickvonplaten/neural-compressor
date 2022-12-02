@@ -20,6 +20,7 @@ import logging
 import argparse
 import onnx
 import onnxruntime as ort
+import onnxruntime.quantization as ortq
 import transformers
 import os
 import torch
@@ -413,13 +414,12 @@ if __name__ == "__main__":
             hidden_size=args.hidden_size,
             optimization_options=opt_options)
         model = model_optimizer.model
+        onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
 
-        from neural_compressor import options
-        from neural_compressor.experimental import Quantization, common
-        options.onnxrt.graph_optimization.level = 'ENABLE_BASIC'
-        quantize = Quantization(args.config)
-        quantize.model = model
-        quantize.eval_func = eval_func
-        quantize.calib_dataloader = dataloader
-        q_model = quantize()
-        q_model.save(args.output_model)
+        ortq.quantize_dynamic(
+                args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
+                args.output_model,
+        )
+
+        if os.path.exists(args.model_name_or_path.split('/')[-1] + '-optimized.onnx'):
+            os.remove(args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
