@@ -275,6 +275,15 @@ def set_scale_info(
 
 
 def remove_nodes_by_name(int8_onnx_model, node_names):
+    """Remove nodes from model by names.
+
+    Args:
+        int8_onnx_model (ModelProto): onnx int8 model to process.
+        node_names (list): names of nodes to remove.
+
+    Returns:
+        int8_onnx_model: processed onnx int8 model.
+    """
     while node_names:
         for node in int8_onnx_model.graph.node:
             if node.name in node_names:
@@ -283,7 +292,7 @@ def remove_nodes_by_name(int8_onnx_model, node_names):
     return int8_onnx_model
 
 
-def generate_int32_bias_structure(
+def sub_graph_with_int32_bias(
     int8_onnx_model, 
     node,
     a_info,
@@ -291,6 +300,19 @@ def generate_int32_bias_structure(
     bias_name,
     output_name,
 ):
+    """Generate a sub graph with int32 bias.
+
+    Args:
+        int8_onnx_model (ModelProto): onnx int8 model to process.
+        node (NodeProto): MatMul node belonging to nn.quantized.Linear module.
+        a_info (list): info of input a for nn.quantized.Linear module.
+        b_info (list): info of input b for nn.quantized.Linear module.
+        bias_name (str): name of bias.
+        output_name (_type_): output name of the sub graph.
+
+    Returns:
+        int8_onnx_model: processed onnx int8 model.
+    """
     from onnx import TensorProto
     a, a_scale, a_zero_point = a_info
     b, b_scale, b_zero_point = b_info
@@ -344,7 +366,16 @@ def qdq_model_use_int32_bias(
     int8_onnx_model,
     quantize_nodes,
 ):
-    # nn.quantized.Lienar module will be converted to the following format:
+    """Export a QDQ model with recalculated int32 bias and remapped input scale and zero point 
+    for nn.quantized.Linear module.
+
+    Args:
+        int8_onnx_model (ModelProto): onnx int8 model to process.
+
+    Returns:
+        int8_onnx_model: processed onnx int8 model.
+    """
+    # nn.quantized.Linear module will be converted to the following format:
     #  QuantizeLinear
     #        |
     #  MatMulInteger
@@ -372,7 +403,7 @@ def qdq_model_use_int32_bias(
                 if grand_parent:
                     replace_input[parent.output[0]] = grand_parent[0].input[0]
 
-            int8_onnx_model = generate_int32_bias_structure(int8_onnx_model, 
+            int8_onnx_model = sub_graph_with_int32_bias(int8_onnx_model, 
                                                             node, 
                                                             parents[0].input[:3],
                                                             parents[1].input[:3],
@@ -394,7 +425,16 @@ def qdq_model_use_output_scale_zp(
     int8_onnx_model,
     quantize_nodes,
 ):
-    # nn.quantized.Lienar module will be converted to the following format:
+    """Export a QDQ model with FP32 bias and remapped in/output scale and zero point 
+    for nn.quantized.Linear module.
+
+    Args:
+        int8_onnx_model (ModelProto): onnx int8 model to process.
+
+    Returns:
+        int8_onnx_model: processed onnx int8 model.
+    """
+    # nn.quantized.Linear module will be converted to the following format:
     # QuantizeLinear
     #        |
     # DequantizeLinear   DequantizeLinear
@@ -425,6 +465,15 @@ def qdq_model_use_output_scale_zp(
 def qop_model_default(
     int8_onnx_model
 ):
+    """Export a QOperator model with FP32 bias and remapped input scale and zero point 
+    for nn.quantized.Linear module.
+
+    Args:
+        int8_onnx_model (ModelProto): onnx int8 model to process.
+
+    Returns:
+        int8_onnx_model: processed onnx int8 model.
+    """
     # nn.quantized.Linear module will be converted to the following format:
     #     QuantizeLinear
     #           |
@@ -461,7 +510,16 @@ def qop_model_default(
 def qop_model_use_int32_bias(
     int8_onnx_model
 ):
-    # nn.quantized.Lienar module will be converted to the following format:
+    """Export a QOperator model with recalculated int32 bias and remapped input scale and zero point 
+    for nn.quantized.Linear module.
+
+    Args:
+        int8_onnx_model (ModelProto): onnx int8 model to process.
+
+    Returns:
+        int8_onnx_model: processed onnx int8 model.
+    """
+    # nn.quantized.Linear module will be converted to the following format:
     #  QuantizeLinear
     #        |
     #  MatMulInteger
@@ -484,7 +542,7 @@ def qop_model_use_int32_bias(
             if not bias_name: # pragma: no cover 
                 continue
 
-            int8_onnx_model = generate_int32_bias_structure(int8_onnx_model, 
+            int8_onnx_model = sub_graph_with_int32_bias(int8_onnx_model, 
                                                             node, 
                                                             node.input[:3],
                                                             node.input[3:6],
@@ -501,6 +559,15 @@ def qop_model_use_int32_bias(
 def qop_model_use_output_scale_zp(
     int8_onnx_model
 ):
+    """Export a QOperator model with FP32 bias and remapped in/output scale and zero point 
+    for nn.quantized.Linear module.
+
+    Args:
+        int8_onnx_model (ModelProto): onnx int8 model to process.
+
+    Returns:
+        int8_onnx_model: processed onnx int8 model.
+    """
     # nn.quantized.Lienar module will be converted to the following format:
     #     QuantizeLinear
     #           |
@@ -627,11 +694,11 @@ def torch_to_int8_onnx(
         quant_format (str, optional): quantization format of ONNX model. Defaults to 'QDQ'.
         dtype (str, optional): data types of activation and weight of ONNX model. Defaults to 'U8S8'.
         linear_options (dict, optionl): Recipe with options for processing nn.quantized.Linear module. 
-                                        Recipe 1: use fp32 bias, map input scale and zero point from PyTorch model.
-                                        Recipe 2: use int32 bias, map input scale and zero point from PyTorch model.
-                                        Recipe 3: use fp32 bias, map input and otput scale and zero point from PyTorch model.
-                                        Defaults to recipe 1: {'use_int32_bias': False,
-                                                               'use_output_scale_zp': False}
+                Recipe 1: use fp32 bias, map input scale and zero point from PyTorch model.
+                Recipe 2: use int32 bias, map input scale and zero point from PyTorch model.
+                Recipe 3: use fp32 bias, map input and otput scale and zero point from PyTorch model.
+                Defaults to recipe 1: {'use_int32_bias': False,
+                                       'use_output_scale_zp': False}
     """
     global op_types_to_quantize
     if q_config['approach'] == 'post_training_dynamic_quant':
