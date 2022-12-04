@@ -181,8 +181,8 @@ class Benchmark(object):
         assert cfg.evaluation is not None, 'benchmark evaluation filed should not be None...'
         assert sys.platform in ['linux', 'win32'], 'only support platform windows and linux...'
         set_all_env_var(deep_get(cfg, 'evaluation.{}.configs'.format(mode)))
-        # disable multi-instance for accuracy mode
-        if mode == "accuracy":
+        # disable multi-instance for accuracy mode or running bechmark on GPU device
+        if mode == "accuracy" or cfg.device == 'gpu':
             set_env_var('NC_ENV_CONF', True, overwrite_existing=True)
 
         logger.info("Start to run Benchmark.")
@@ -299,7 +299,8 @@ class Benchmark(object):
         framework_specific_info = {'device': cfg.device, \
                                    'approach': cfg.quantization.approach, \
                                    'random_seed': cfg.tuning.random_seed,
-                                   'backend': cfg.model.get('backend', 'default')}
+                                   'backend': cfg.model.get('backend', 'default'),
+                                   'format': cfg.model.get('output_format', 'default')}
         framework = cfg.model.framework.lower()
         if 'tensorflow' in framework:
             framework_specific_info.update({"inputs": cfg.model.inputs, \
