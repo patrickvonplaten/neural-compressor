@@ -425,6 +425,7 @@ if __name__ == "__main__":
                         quant_format=QuantFormat.QOperator,
                         )
         print('save ortq static quantize model to', args.output_model)
+        print('model which meet accuracy goal.')
 
         if os.path.exists(args.model_name_or_path.split('/')[-1] + '-optimized.onnx'):
             os.remove(args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
