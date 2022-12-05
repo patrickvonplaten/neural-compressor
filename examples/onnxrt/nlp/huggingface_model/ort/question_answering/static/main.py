@@ -703,6 +703,7 @@ def main():
                         quant_format=QuantFormat.QOperator,
                         )
         print('static Calibrated and quantized model saved to', model_args.save_path)
+        print('model which meet accuracy goal.')
 
         if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
             if os.path.exists('./' + model_args.model_name_or_path.split('/')[-1]):
