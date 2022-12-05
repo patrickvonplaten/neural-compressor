@@ -366,8 +366,10 @@ def qdq_model_use_int32_bias(
     int8_onnx_model,
     quantize_nodes,
 ):
-    """Export a QDQ model with recalculated int32 bias and remapped input scale and zero point 
-    for nn.quantized.Linear module.
+    """Excute post-process on QDQ int8 model with recipe 2.
+
+    Export a QDQ model with recalculated int32 bias and remapped input scale 
+    and zero point for nn.quantized.Linear module.
 
     Args:
         int8_onnx_model (ModelProto): onnx int8 model to process.
@@ -425,7 +427,9 @@ def qdq_model_use_output_scale_zp(
     int8_onnx_model,
     quantize_nodes,
 ):
-    """Export a QDQ model with FP32 bias and remapped in/output scale and zero point 
+    """Excute post-process on QDQ int8 model with recipe 3.
+    
+    Export a QDQ model with FP32 bias and remapped in/output scale and zero point 
     for nn.quantized.Linear module.
 
     Args:
@@ -465,7 +469,9 @@ def qdq_model_use_output_scale_zp(
 def qop_model_default(
     int8_onnx_model
 ):
-    """Export a QOperator model with FP32 bias and remapped input scale and zero point 
+    """Excute post-process on QOperator int8 model with recipe 1.
+    
+    Export a QOperator model with FP32 bias and remapped input scale and zero point 
     for nn.quantized.Linear module.
 
     Args:
@@ -510,7 +516,9 @@ def qop_model_default(
 def qop_model_use_int32_bias(
     int8_onnx_model
 ):
-    """Export a QOperator model with recalculated int32 bias and remapped input scale and zero point 
+    """Excute post-process on QOperator int8 model with recipe 2.
+    
+    Export a QOperator model with recalculated int32 bias and remapped input scale and zero point 
     for nn.quantized.Linear module.
 
     Args:
@@ -559,7 +567,9 @@ def qop_model_use_int32_bias(
 def qop_model_use_output_scale_zp(
     int8_onnx_model
 ):
-    """Export a QOperator model with FP32 bias and remapped in/output scale and zero point 
+    """Excute post-process on QOperator int8 model with recipe 3.
+    
+    Export a QOperator model with FP32 bias and remapped in/output scale and zero point 
     for nn.quantized.Linear module.
 
     Args:
