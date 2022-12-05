@@ -86,6 +86,8 @@ parser.add_argument("--tuned_checkpoint", default='./saved_results', type=str, m
                     help='path to checkpoint tuned by Neural Compressor (default: ./)')
 parser.add_argument('--int8', dest='int8', action='store_true',
                     help='run benchmark')
+parser.add_argument('--onnx', dest='onnx', action='store_true',
+                    help='generate onnx model')
 
 best_acc1 = 0
 
@@ -199,6 +201,42 @@ def main():
         quantizer.eval_dataloader = val_loader
         q_model = quantizer.fit()
         q_model.save(args.tuned_checkpoint)
+
+        if args.onnx:
+            from neural_compressor.config import Torch2ONNXConfig
+            fp32_onnx_config = Torch2ONNXConfig(
+                dtype="fp32",
+                example_inputs=torch.randn(1, 3, 224, 224),
+                input_names=['input'],
+                output_names=['output'],
+                dynamic_axes={"input": {0: "batch_size"},
+                                "output": {0: "batch_size"}},
+            )
+            q_model.export('fp32-cv-model.onnx', fp32_onnx_config)
+
+            int8_onnx_config = Torch2ONNXConfig(
+                dtype="int8",
+                opset_version=14,
+                quant_format="QDQ",
+                example_inputs=torch.randn(1, 3, 224, 224),
+                input_names=['input'],
+                output_names=['output'],
+                dynamic_axes={"input": {0: "batch_size"},
+                                "output": {0: "batch_size"}},
+            )
+            q_model.export('int8-cv-qdq-model.onnx', int8_onnx_config)
+
+            int8_onnx_config = Torch2ONNXConfig(
+                dtype="int8",
+                opset_version=14,
+                quant_format="QLinear",
+                example_inputs=torch.randn(1, 3, 224, 224),
+                input_names=['input'],
+                output_names=['output'],
+                dynamic_axes={"input": {0: "batch_size"},
+                                "output": {0: "batch_size"}},
+            )
+            q_model.export('int8-cv-qlinear-model.onnx', int8_onnx_config)
         return
 
     if args.benchmark:

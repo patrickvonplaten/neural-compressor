@@ -61,6 +61,7 @@ function run_tuning {
             -t \
             -a $topology \
             -b 30 \
+            --onnx \
             ${extra_cmd}
 
 }

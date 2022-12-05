@@ -50,6 +50,7 @@ function run_tuning {
             -a $topology \
             -j 1 \
             -b 128 \
+            --onnx \
             --config ${yaml} \
             ${extra_cmd}
 

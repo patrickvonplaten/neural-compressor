@@ -130,3 +130,18 @@ q_model = quantizer.fit()
 ```
 
 The quantizer.fit() function will return a best quantized model during timeout constrain.
+
+
+# Appendix
+
+## Export to ONNX
+
+Right now, we experimentally support exporting PyTorch model to ONNX model, includes FP32 and INT8 model.
+
+By enabling `--onnx` argument, Intel Neural Compressor will export fp32 ONNX model, INT8 QDQ ONNX model, and INT8 QLinear ONNX model.
+
+To validate ONNX model, please fill in dataset path in `resnet50_onnx.yaml`, then use the command below:
+
+```shell
+bash run_benchmark_onnx.sh --config=resnet50_onnx.yaml --input_model=[fp32-model.onnx|int8-cv-qdq-model.onnx|int8-cv-qlinear-model.onnx] --mode=[accuracy|benchmark]
+```
