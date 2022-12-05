@@ -26,8 +26,8 @@ class ArgMaxOperator(Operator):
 
     def convert_check(self, convert_format):
         node = self.node
-        assert convert_format in ['static'], \
-            "convert format for {} should be in ['static']".format(node.op_type)
+        # assert convert_format in ['static'], \
+        #     "convert format for {} should be in ['static']".format(node.op_type)
         return True
 
     def convert(self, convert_format):

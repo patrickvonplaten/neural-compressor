@@ -41,8 +41,8 @@ class MatMulOperator(Operator):
 
     def convert_check(self, convert_format): 
         node = self.node
-        assert convert_format in ['dynamic', 'static'], \
-            "convert format for {} should be in ['dynamic', 'static']".format(node.op_type)
+        # assert convert_format in ['dynamic', 'static'], \
+        #     "convert format for {} should be in ['dynamic', 'static']".format(node.op_type)
         return True
 
     def convert(self, convert_format):

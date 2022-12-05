@@ -29,7 +29,6 @@ from datasets import load_dataset, load_metric
 
 from torch.utils.data import Dataset, DataLoader
 
-import sys
 import onnx
 import onnxruntime as ort
 import numpy as np
@@ -60,6 +59,13 @@ require_version("datasets>=1.8.0", "To fix: pip install -r examples/pytorch/ques
 
 logger = logging.getLogger(__name__)
 
+
+def del_files(dir_path):
+    for root, dirs, files in os.walk(dir_path, topdown=False):
+        for name in files:
+            os.remove(os.path.join(root, name))
+        for name in dirs:
+            os.rmdir(os.path.join(root, name))
 
 @dataclass
 class ModelArguments:
@@ -257,18 +263,22 @@ class SquadDataset(Dataset):
         self.input_ids = []
         self.token_type_ids = []
         self.attention_mask = []
+        self.with_token_type_ids = False
         for idx, inputs in enumerate(self.dataloader):
             self.input_ids.append(np.array(inputs['input_ids'], dtype=np.int64))
-            self.token_type_ids.append(np.array(inputs['token_type_ids'], dtype=np.int64))
+            if 'token_type_ids' in inputs:
+                self.with_token_type_ids = True
+                self.token_type_ids.append(np.array(inputs['token_type_ids'], dtype=np.int64))
             self.attention_mask.append(np.array(inputs['attention_mask'], dtype=np.int64))
     
     def __getitem__(self, index):
-        return (self.input_ids[index:index + self.bs][0][0], self.token_type_ids[index:index + self.bs][0][0], self.attention_mask[index:index + self.bs][0][0]), 0
-        # return (self.input_ids[index:index + self.bs][0], self.attention_mask[index:index + self.bs][0], self.token_type_ids[index:index + self.bs][0]), 0
+        if self.with_token_type_ids:
+            return (self.input_ids[index:index + self.bs][0][0], self.token_type_ids[index:index + self.bs][0][0], self.attention_mask[index:index + self.bs][0][0]), 0
+        else:
+            return (self.input_ids[index:index + self.bs][0][0], self.attention_mask[index:index + self.bs][0][0]), 0
 
     def __len__(self):
         assert len(self.input_ids) == len(self.attention_mask)
-        assert len(self.input_ids) == len(self.token_type_ids)
         return len(self.input_ids)
     
 
@@ -281,7 +291,7 @@ def main():
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
     training_args.do_eval = True
-    training_args.per_device_eval_batch_size = 1
+    # training_args.per_device_eval_batch_size = 1
 
     # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
     # information sent is the one passed as arguments along with your Python/PyTorch versions.
@@ -376,6 +386,7 @@ def main():
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
+        force_download=True,
     )
     tokenizer = AutoTokenizer.from_pretrained(
         model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
@@ -383,6 +394,7 @@ def main():
         use_fast=True,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
+        force_download=True,
     )
     model = AutoModelForQuestionAnswering.from_pretrained(
         model_args.model_name_or_path,
@@ -391,6 +403,7 @@ def main():
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
+        force_download=True,
     )
 
     # Tokenizer check: this script requires a fast tokenizer.
@@ -564,6 +577,7 @@ def main():
     if model_args.tune:
         from onnxruntime.transformers import optimizer
         from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
+        
         opt_options = BertOptimizationOptions('bert')
         opt_options.enable_embed_layer_norm = False
 
@@ -575,19 +589,40 @@ def main():
             optimization_options=opt_options)
         model = model_optimizer.model
 
+        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+            os.mkdir('./' + model_args.model_name_or_path.split('/')[-1])
+            optimize_save_path = './' + model_args.model_name_or_path.split('/')[-1] + '/' + model_args.model_name_or_path.split('/')[-1] + '.optimized.onnx'
+            onnx.save(model, 
+                optimize_save_path,
+                save_as_external_data=True,
+                all_tensors_to_one_file=True,
+                location="weights.pb",
+                convert_attribute=False)
+
         b_dataloader = SquadDataset(eval_dataloader)
         b_dataloader = DataLoader(b_dataloader)
         from neural_compressor.experimental import Quantization, common
         quantize = Quantization(model_args.config)
-        quantize.model = common.Model(model)
+        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+            quantize.model = common.Model(optimize_save_path)
+        else:
+            quantize.model = common.Model(model)
         quantize.calib_dataloader = b_dataloader
         quantize.eval_func = eval_func
         q_model = quantize()
         q_model.save(model_args.save_path)
 
+        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+            if os.path.exists('./' + model_args.model_name_or_path.split('/')[-1]):
+                del_files('./' + model_args.model_name_or_path.split('/')[-1])
+            if os.path.exists('./big-workspace'):
+                del_files('./big-workspace')
+
+
     if model_args.benchmark:
         from neural_compressor.experimental import Benchmark, common
-        model = onnx.load(model_args.model_path)
+        if model_args.model_name_or_path != 'deepset/xlm-roberta-large-squad2':
+            model = onnx.load(model_args.model_path)
         if model_args.mode == 'performance':
             from neural_compressor.data import DATALOADERS, DATASETS
             session = ort.InferenceSession(model_args.model_path, None)
@@ -598,7 +633,10 @@ def main():
             onnx_datasets = DATASETS('onnxrt_integerops')
             dummy_dataset = onnx_datasets['dummy'](shape=shape, low=1, high=1, dtype='int64', label=True)
             evaluator = Benchmark(model_args.config)
-            evaluator.model = common.Model(model)
+            if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+                evaluator.model = common.Model(model_args.model_path)
+            else:
+                evaluator.model = common.Model(model)
             evaluator.b_dataloader = common.DataLoader(dummy_dataset)
             evaluator(model_args.mode)
         elif model_args.mode == 'accuracy':
@@ -607,8 +645,16 @@ def main():
             evaluator = Benchmark(model_args.config)
             evaluator.b_dataloader = b_dataloader
             evaluator.b_func = eval_func
-            evaluator.model = common.Model(model)
+            if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+                 evaluator.model = common.Model(model_args.model_path)
+            else:
+                evaluator.model = common.Model(model)
             evaluator(model_args.mode)
+        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+            if os.path.exists('./' + model_args.model_name_or_path.split('/')[-1]):
+                del_files('./' + model_args.model_name_or_path.split('/')[-1])
+            if os.path.exists('./big-workspace'):
+                del_files('./big-workspace')
 
 if __name__ == "__main__":
     main()
