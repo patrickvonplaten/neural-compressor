@@ -24,7 +24,7 @@ requirements:
     - hyperopt
     - pandas
     - pycocotools
-    - opencv
+    - opencv-python-headless
     - psutil
     - Pillow
     - requests
