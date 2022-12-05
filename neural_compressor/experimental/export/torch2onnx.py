@@ -121,7 +121,6 @@ def get_node_mapping(
 
     Returns:
         module_node_mapping: op mapping from PyTorch to ONNX.
-        linear_matmul_list: contains matmul that comes from linear.
     """
     def check_data(op_type, data, module_dict):
         for name, value in module_dict.items():
@@ -148,7 +147,6 @@ def get_node_mapping(
                 module_dict[name] = value
 
     module_node_mapping = {}
-    linear_matmul_list = []
     fp32_onnx_model = onnx.load(fp32_onnx_path)
     initializer_data = {tensor.name: tensor for tensor in fp32_onnx_model.graph.initializer}
     from onnx import numpy_helper
@@ -165,9 +163,7 @@ def get_node_mapping(
             pt_name = check_data(node.op_type, data, module_dict)
             if pt_name:
                 module_node_mapping[pt_name] = node.name
-                if node.op_type == 'MatMul':
-                    linear_matmul_list.append(node.name)
-    return module_node_mapping, linear_matmul_list
+    return module_node_mapping
 
 
 def get_quantizable_onnx_ops(
@@ -190,8 +186,9 @@ def get_quantizable_onnx_ops(
           'Linear' in str(module.__class__.__name__):
             if hasattr(module, 'weight') and callable(module.weight):
                 if module.weight().dtype in [torch.qint8, torch.quint8]:
-                    node = module_node_mapping[name.split('.module')[0]]
-                    quantize_nodes.append(node)
+                    if name.split('.module')[0] in module_node_mapping:
+                        node = module_node_mapping[name.split('.module')[0]]
+                        quantize_nodes.append(node)
     return quantize_nodes
 
 
@@ -243,7 +240,7 @@ def build_scale_mapping(
 
 
 def set_scale_info(
-    int8_onnx_path,
+    int8_onnx_model,
     scale_zp_dict,
     activation_type,
 ):
@@ -256,7 +253,6 @@ def set_scale_info(
     """
     # set scale and zeropoint from PyTorch int8 model to ONNX int8 model
     from onnx import helper
-    int8_onnx_model = onnx.load(int8_onnx_path)
     tensor_list = [tensor for tensor in int8_onnx_model.graph.initializer]
     for tensor in tensor_list:
         if tensor.name in scale_zp_dict:
@@ -271,6 +267,61 @@ def set_scale_info(
             )
             int8_onnx_model.graph.initializer.remove(tensor)
             int8_onnx_model.graph.initializer.append(new_tensor)
+    return int8_onnx_model
+
+
+def recalculate_bias(
+    int8_onnx_path,
+    scale_zp_dict,
+    quantize_nodes,
+    quant_format,
+):  
+    """Recalculate bias.
+    Args:
+        int8_onnx_model (ModelProto): onnx int8 model to process.
+        scale_zp_dict (dict): scale zero_point dict.
+        quantize_nodes (list): quantize nodes list.
+        quant_format (QuantFormat): quantization format.
+    Returns:
+        int8_onnx_model: processed onnx int8 model.
+    """
+    int8_onnx_model = onnx.load(int8_onnx_path)
+    model = ortq.onnx_model.ONNXModel(int8_onnx_model)
+    if quant_format == ortq.QuantFormat.QDQ:
+        for node in int8_onnx_model.graph.node:
+            if node.name in quantize_nodes and (node.op_type == 'Conv' or node.op_type == 'Gemm'):
+                input_name, weight_name, bias_name = node.input[:3]
+                for parent in model.get_parents(node):
+                    if parent.output[0] == input_name:
+                        input_scale_name = parent.input[1]
+                    elif parent.output[0] == weight_name:
+                        weight_scale_name = parent.input[1]
+                    elif parent.output[0] == bias_name:
+                        bias_quantized_name = parent.input[0]
+                        bias_scale_name = parent.input[1]
+                weight_scale_data = onnx.numpy_helper.to_array(model.get_initializer(weight_scale_name))
+                new_input_scale_data = scale_zp_dict[input_scale_name]
+                origin_bias_quantized_data = onnx.numpy_helper.to_array(model.get_initializer(bias_quantized_name))
+                origin_bias_scale_data = onnx.numpy_helper.to_array(model.get_initializer(bias_scale_name))
+                origin_bias_data = origin_bias_quantized_data * origin_bias_scale_data
+                new_bias_scale_data = new_input_scale_data * weight_scale_data
+                new_bias_quantized_data = (origin_bias_data / new_bias_scale_data).round().astype(np.int32)
+                model.get_initializer(bias_scale_name).raw_data = new_bias_scale_data.tobytes()
+                model.get_initializer(bias_quantized_name).raw_data = new_bias_quantized_data.tobytes()
+    elif quant_format == ortq.QuantFormat.QOperator:
+        for node in int8_onnx_model.graph.node:
+            if node.op_type == 'QLinearConv' or node.op_type == 'QGemm':
+                input_scale_name, weight_scale_name = node.input[1], node.input[4]
+                bias_quantized_name = node.input[8] if node.op_type == 'QLinearConv' else node.input[6]
+                weight_scale_data = onnx.numpy_helper.to_array(model.get_initializer(weight_scale_name))
+                new_input_scale_data = scale_zp_dict[input_scale_name]
+                origin_input_scale_data = onnx.numpy_helper.to_array(model.get_initializer(input_scale_name))
+                origin_bias_quantized_data = onnx.numpy_helper.to_array(model.get_initializer(bias_quantized_name))
+                origin_bias_scale_data = origin_input_scale_data * weight_scale_data
+                origin_bias_data = origin_bias_quantized_data * origin_bias_scale_data
+                new_bias_scale_data = new_input_scale_data * weight_scale_data
+                new_bias_quantized_data = (origin_bias_data / new_bias_scale_data).round().astype(np.int32)
+                model.get_initializer(bias_quantized_name).raw_data = new_bias_quantized_data.tobytes()
     return int8_onnx_model
 
 
@@ -745,7 +796,7 @@ def torch_to_int8_onnx(
     )
 
     activation_type, weight_type = set_data_type(dtype)
-    module_node_mapping, linear_matmul_list = get_node_mapping(fp32_model, fp32_onnx_path)
+    module_node_mapping = get_node_mapping(fp32_model, fp32_onnx_path)
     quantize_nodes = get_quantizable_onnx_ops(int8_model, module_node_mapping)
 
     if q_config['approach'] == 'quant_aware_training':
@@ -786,8 +837,9 @@ def torch_to_int8_onnx(
             nodes_to_exclude=[],
             extra_options=extra_options,
         )
+        int8_onnx_model = recalculate_bias(save_path, scale_mapping, quantize_nodes, quant_format)
+        int8_onnx_model = set_scale_info(int8_onnx_model, scale_mapping, activation_type)
 
-        int8_onnx_model = set_scale_info(save_path, scale_mapping, activation_type)
         if quant_format == ortq.QuantFormat.QDQ:
             if use_int32_bias:
                 int8_onnx_model = qdq_model_use_int32_bias(int8_onnx_model, quantize_nodes)

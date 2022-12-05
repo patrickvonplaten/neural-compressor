@@ -81,15 +81,48 @@ def _set_input_scale_hook(model, op_cfgs):
         module.output_observer(output)
         return output
 
+    def ConvReLU2d_scale_hook(module, input):
+        module.input_observer = module.qconfig.activation()
+        module.input_observer(input[0])
+        output = module._conv_forward(input[0], module.weight_fake_quant(module.weight), module.bias)
+        module.output_observer = module.qconfig.activation()
+        module.output_observer(output)
+        return input
+
+    def LinearReLU_scale_hook(module, input):
+        import torch.nn.functional as F
+        module.input_observer = module.qconfig.activation()
+        module.input_observer(input[0])
+        output = F.linear(input[0], module.weight_fake_quant(module.weight), module.bias)
+        module.output_observer = module.qconfig.activation()
+        module.output_observer(output)
+        return input
+
     hook_list = []
     for name, module in model.named_modules():
         if 'Conv' in str(module.__class__.__name__) or \
           'Linear' in str(module.__class__.__name__):
-            if is_fused_module(module):
+            if not hasattr(module, 'qconfig') or not module.qconfig:
                 continue
-            handle_in = module.register_forward_pre_hook(input_scale_hook)
-            handle_out = module.register_forward_hook(output_scale_hook)
-            hook_list.extend([handle_in, handle_out])
+            from torch.nn.intrinsic.qat import ConvBn2d, ConvReLU2d, ConvBnReLU2d, LinearReLU
+            if type(module) in [ConvBn2d, ConvBnReLU2d]:
+                handle_in = module.register_forward_pre_hook(input_scale_hook)
+                # module[0] == torch.nn.BatchNorm2d
+                module[0].qconfig = module.qconfig
+                handle_out = module[0].register_forward_hook(output_scale_hook)
+                hook_list.extend([handle_in, handle_out])
+            elif type(module) in [ConvReLU2d]:
+                handle_in_out = module.register_forward_pre_hook(ConvReLU2d_scale_hook)
+                hook_list.extend([handle_in_out])
+            elif type(module) in [LinearReLU]:
+                handle_in_out = module.register_forward_pre_hook(LinearReLU_scale_hook)
+                hook_list.extend([handle_in_out])
+            else:
+                if is_fused_module(module):
+                    continue
+                handle_in = module.register_forward_pre_hook(input_scale_hook)
+                handle_out = module.register_forward_hook(output_scale_hook)
+                hook_list.extend([handle_in, handle_out])
     return hook_list
 
 
@@ -105,7 +138,18 @@ def _get_input_scale(model, hook_list):
     """
     scale_info = {}
     for name, module in model.named_modules():
-        if hasattr(module, "input_observer") and hasattr(module, "output_observer"):
+        from torch.nn.intrinsic.qat import ConvBn2d, ConvBnReLU2d
+        if type(module) in [ConvBn2d, ConvBnReLU2d]:
+            if hasattr(module, "input_observer") and hasattr(module[0], "output_observer"):
+                scale_in, zero_point_in = module.input_observer.calculate_qparams()
+                scale_out, zero_point_out = module[0].output_observer.calculate_qparams()
+                scale_info[name] = {
+                    'input_scale': float(scale_in),
+                    'input_zeropoint': int(zero_point_in),
+                    'output_scale': float(scale_out),
+                    'output_zeropoint': int(zero_point_out)
+                }
+        elif hasattr(module, "input_observer") and hasattr(module, "output_observer"):
             scale_in, zero_point_in = module.input_observer.calculate_qparams()
             scale_out, zero_point_out = module.output_observer.calculate_qparams()
             scale_info[name] = {

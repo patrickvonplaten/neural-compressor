@@ -2701,7 +2701,6 @@ class PyTorch_FXAdaptor(TemplateAdaptor):
                 repr(e)))
             q_model = model
         q_model._model.eval()
-        hook_list = torch_utils.util._set_input_scale_hook(q_model._model, op_cfgs)
         if q_model.kwargs is not None:
             self.prepare_custom_config_dict = q_model.kwargs.get('prepare_custom_config_dict',
                                                                  None)
@@ -2739,6 +2738,8 @@ class PyTorch_FXAdaptor(TemplateAdaptor):
             # q_func can be created by neural_compressor internal or passed by user. It's critical to
             # distinguish how q_func is passed since neural_compressor built-in functions accept
             # neural_compressor model and user defined func should accept framework model.
+            # For export API
+            hook_list = torch_utils.util._set_input_scale_hook(q_model._model, op_cfgs)
             q_model._model = q_func(
                 q_model if getattr(q_func, 'builtin', None) else q_model._model)
             assert q_model._model is not None, "Please return a trained model in train function!"
@@ -2766,6 +2767,8 @@ class PyTorch_FXAdaptor(TemplateAdaptor):
                                                     q_model._model,
                                                     prefix='',
                                                     example_inputs=example_inputs)
+            # For export API
+            hook_list = torch_utils.util._set_input_scale_hook(q_model._model, op_cfgs)
             if self.approach in ['post_training_static_quant', 'post_training_auto_quant']:
                 iterations = tune_cfg.get('calib_iteration', 1)
                 if q_func is not None:
@@ -2777,6 +2780,7 @@ class PyTorch_FXAdaptor(TemplateAdaptor):
                                            calib_sampling_size=tune_cfg.get('calib_sampling_size', 1))
 
         if self.approach != 'post_training_dynamic_quant':
+            # For export API
             scale_info = torch_utils.util._get_input_scale(q_model._model, hook_list)
 
         if self.sub_module_list is None:
@@ -2935,10 +2939,12 @@ class PyTorch_FXAdaptor(TemplateAdaptor):
             'sub_module_list': self.sub_module_list,
             'approach': 'quant_aware_training'
         }
+        # For export API
         global hook_list
         hook_list = torch_utils.util._set_input_scale_hook(self.model._model, quantized_ops)
 
     def _post_hook_for_qat(self):
+        # For export API
         scale_info = torch_utils.util._get_input_scale(self.model._model, hook_list)
         self.model.q_config['scale_info'] = scale_info
         from torch.quantization.quantize_fx import convert_fx
