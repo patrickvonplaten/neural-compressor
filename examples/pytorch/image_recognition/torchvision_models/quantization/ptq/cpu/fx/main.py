@@ -181,6 +181,7 @@ def main():
             from neural_compressor.config import Torch2ONNXConfig
             fp32_onnx_config = Torch2ONNXConfig(
                 dtype="fp32",
+                opset_version=14,
                 example_inputs=torch.randn(1, 3, 224, 224),
                 input_names=['input'],
                 output_names=['output'],

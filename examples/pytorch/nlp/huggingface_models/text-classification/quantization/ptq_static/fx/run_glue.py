@@ -519,7 +519,6 @@ def main():
             fp32_onnx_config = Torch2ONNXConfig(
                 dtype="fp32",
                 opset_version=14,
-                quant_format="QDQ",
                 example_inputs=tuple(input.values()),
                 input_names=list(input.keys()),
                 output_names=['labels'],
