@@ -201,7 +201,7 @@ To validate ONNX model, please fill in dataset path in `bert_onnx.yaml`.
 To prepare dataset:
 
 ```shell
-bash prepare_onnx_dataset.sh --data_dir=mrpc --task_name=MRPC
+bash prepare_onnx_dataset.sh --data_dir=/path/to/dataset --task_name=${task_name}
 ```
 
 Then, Please use the command below to test accuracy and performance:
@@ -210,7 +210,7 @@ Then, Please use the command below to test accuracy and performance:
 bash run_benchmark_onnx.sh --config=bert_onnx.yaml \
                            --input_model=[fp32-model.onnx|int8-nlp-qdq-model.onnx|int8-nlp-qlinear-model.onnx] \
                            --mode=[accuracy|benchmark] \
-                           --model_name_or_path=distilbert-base-uncased-finetuned-sst-2-english \
-                           --task=sst-2 \
+                           --model_name_or_path=${input_model} \
+                           --task=${task_name} \
                            --data_path=/path/to/dataset
 ```
