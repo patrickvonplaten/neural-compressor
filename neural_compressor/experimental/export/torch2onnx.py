@@ -250,6 +250,9 @@ def set_scale_info(
         int8_onnx_path (str): path to onnx file.
         scale_zp_dict (dict): scale zero_point dict.
         activation_type : activation type.
+
+    Returns:
+        int8_onnx_model: int8 onnx model object.
     """
     # set scale and zeropoint from PyTorch int8 model to ONNX int8 model
     from onnx import helper
@@ -277,11 +280,13 @@ def recalculate_bias(
     quant_format,
 ):  
     """Recalculate bias.
+
     Args:
         int8_onnx_model (ModelProto): onnx int8 model to process.
         scale_zp_dict (dict): scale zero_point dict.
         quantize_nodes (list): quantize nodes list.
         quant_format (QuantFormat): quantization format.
+
     Returns:
         int8_onnx_model: processed onnx int8 model.
     """
@@ -837,8 +842,12 @@ def torch_to_int8_onnx(
             nodes_to_exclude=[],
             extra_options=extra_options,
         )
+
+        int8_onnx_model = onnx.load(save_path)
+        onnx.save(int8_onnx_model, 'test.onnx')
         int8_onnx_model = recalculate_bias(save_path, scale_mapping, quantize_nodes, quant_format)
         int8_onnx_model = set_scale_info(int8_onnx_model, scale_mapping, activation_type)
+        onnx.save(int8_onnx_model, 'test1.onnx')
 
         if quant_format == ortq.QuantFormat.QDQ:
             if use_int32_bias:

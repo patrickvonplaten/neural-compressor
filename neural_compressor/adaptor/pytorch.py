@@ -2767,9 +2767,9 @@ class PyTorch_FXAdaptor(TemplateAdaptor):
                                                     q_model._model,
                                                     prefix='',
                                                     example_inputs=example_inputs)
-            # For export API
-            hook_list = torch_utils.util._set_input_scale_hook(q_model._model, op_cfgs)
             if self.approach in ['post_training_static_quant', 'post_training_auto_quant']:
+                # For export API
+                hook_list = torch_utils.util._set_input_scale_hook(q_model._model, op_cfgs)
                 iterations = tune_cfg.get('calib_iteration', 1)
                 if q_func is not None:
                     q_func(q_model._model)
