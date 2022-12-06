@@ -175,7 +175,6 @@ def main():
         quantizer.model = common.Model(model)
         q_model = quantizer.fit()
         q_model.save(args.tuned_checkpoint)
-        import pdb;pdb.set_trace()
 
         if args.onnx:
             from neural_compressor.config import Torch2ONNXConfig
