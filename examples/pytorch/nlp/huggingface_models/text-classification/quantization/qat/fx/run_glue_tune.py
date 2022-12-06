@@ -195,7 +195,7 @@ class ModelArguments:
         default=False, metadata={"help": "get benchmark instead of accuracy"}
     )
     onnx: bool = field(
-        default=False, metadata={"help": "tune quantized model with Neural Compressor"}
+        default=False, metadata={"help": "convert PyTorch model to ONNX"}
     )
 
 
