@@ -22,6 +22,15 @@ function init_params {
       --mode=*)
           mode=$(echo $var |cut -f2 -d=)
       ;;
+      --data_path=*)
+          data_path=$(echo $var |cut -f2 -d=)
+      ;;
+      --model_name_or_path=*)
+          model_name_or_path=$(echo $var |cut -f2 -d=)
+      ;;
+      --task=*)
+          task=$(echo $var |cut -f2 -d=)
+      ;;
     esac
   done
 
@@ -30,9 +39,12 @@ function init_params {
 # run_benchmark
 function run_benchmark {
 
-    python main_onnx.py \
+    python main.py \
+            --model_name_or_path ${model_name_or_path} \
             --model_path ${input_model} \
             --config ${config} \
+            --data_path ${data_path} \
+            --task ${task} \
             --mode=${mode} \
             --benchmark
             

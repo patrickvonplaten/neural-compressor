@@ -207,5 +207,10 @@ bash prepare_onnx_dataset.sh --data_dir=mrpc --task_name=MRPC
 Then, Please use the command below to test accuracy and performance:
 
 ```shell
-bash run_benchmark_onnx.sh --config=bert_onnx.yaml --input_model=[fp32-model.onnx|int8-nlp-qdq-model.onnx|int8-nlp-qlinear-model.onnx] --mode=[accuracy|benchmark]
+bash run_benchmark_onnx.sh --config=bert_onnx.yaml \
+                           --input_model=[fp32-model.onnx|int8-nlp-qdq-model.onnx|int8-nlp-qlinear-model.onnx] \
+                           --mode=[accuracy|benchmark] \
+                           --model_name_or_path=distilbert-base-uncased-finetuned-sst-2-english \
+                           --task=sst-2 \
+                           --data_path=/path/to/dataset
 ```
