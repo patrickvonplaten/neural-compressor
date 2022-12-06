@@ -126,8 +126,6 @@ Right now, we experimentally support exporting PyTorch model to ONNX model, incl
 
 By enabling `--onnx` argument, Intel Neural Compressor will export fp32 ONNX model, INT8 QDQ ONNX model, and INT8 QLinear ONNX model.
 
-To validate ONNX model, please fill in dataset path in `bert_onnx.yaml`.
-
 To prepare dataset:
 
 ```shell

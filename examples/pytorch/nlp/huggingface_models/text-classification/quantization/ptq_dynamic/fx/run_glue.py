@@ -195,6 +195,9 @@ class ModelArguments:
     accuracy_only: bool = field(
         default=False, metadata={"help": "get accuracy"}
     )
+    onnx: bool = field(
+        default=False, metadata={"help": "convert PyTorch model to ONNX"}
+    )
 
 
 def main():
@@ -504,9 +507,26 @@ def main():
         quantizer.eval_func = eval_func
         quantizer.calib_dataloader = calib_dataloader
         quantizer.model = common.Model(model)
-        model = quantizer.fit()
+        q_model = quantizer.fit()
         from neural_compressor.utils.load_huggingface import save_for_huggingface_upstream
-        save_for_huggingface_upstream(model, tokenizer, training_args.output_dir)
+        save_for_huggingface_upstream(q_model, tokenizer, training_args.output_dir)
+
+        if model_args.onnx:
+            it = iter(eval_dataloader)
+            input = next(it)
+            input.pop('labels')
+            symbolic_names = {0: 'batch_size', 1: 'max_seq_len'}
+            dynamic_axes = {k: symbolic_names for k in input.keys()}
+            from neural_compressor.config import Torch2ONNXConfig
+            int8_onnx_config = Torch2ONNXConfig(
+                dtype="int8",
+                opset_version=14,
+                example_inputs=tuple(input.values()),
+                input_names=list(input.keys()),
+                output_names=['labels'],
+                dynamic_axes=dynamic_axes,
+            )
+            q_model.export('int8-nlp-model.onnx', int8_onnx_config)
         return
 
     if model_args.benchmark or model_args.accuracy_only:
