@@ -17,6 +17,7 @@ Subpackages
 
    common/index.rst
    data/index.rst
+   export/index.rst
    metric/index.rst
    nas/index.rst
    pruning_recipes/index.rst

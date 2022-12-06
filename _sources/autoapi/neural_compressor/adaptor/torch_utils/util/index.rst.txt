@@ -16,6 +16,7 @@ Functions
 .. autoapisummary::
 
    neural_compressor.adaptor.torch_utils.util.get_embedding_contiguous
+   neural_compressor.adaptor.torch_utils.util.is_fused_module
    neural_compressor.adaptor.torch_utils.util.append_attr
 
 
@@ -29,6 +30,18 @@ Functions
    :type model: object
 
    :returns: None
+
+
+.. py:function:: is_fused_module(module)
+
+   This is a helper function for `_propagate_qconfig_helper` to detecte
+       if this module is fused.
+
+   :param module: input module
+   :type module: object
+
+   :returns: is fused or not
+   :rtype: (bool)
 
 
 .. py:function:: append_attr(fx_model, model)

@@ -234,7 +234,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.get_embedding_contiguous" title="neural_compressor.adaptor.torch_utils.util.get_embedding_contiguous"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_embedding_contiguous</span></code></a>(model)</p></td>
 <td><p>This is a helper function for nn.Embedding,</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.append_attr" title="neural_compressor.adaptor.torch_utils.util.append_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_attr</span></code></a>(fx_model, model)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.is_fused_module" title="neural_compressor.adaptor.torch_utils.util.is_fused_module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_fused_module</span></code></a>(module)</p></td>
+<td><p>This is a helper function for <cite>_propagate_qconfig_helper</cite> to detecte</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.append_attr" title="neural_compressor.adaptor.torch_utils.util.append_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_attr</span></code></a>(fx_model, model)</p></td>
 <td><p>a helper method to append attributes for the symbolic traced model.</p></td>
 </tr>
 </tbody>
@@ -252,6 +255,26 @@
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.torch_utils.util.is_fused_module">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.torch_utils.util.</span></span><span class="sig-name descname"><span class="pre">is_fused_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.torch_utils.util.is_fused_module" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This is a helper function for <cite>_propagate_qconfig_helper</cite> to detecte</dt><dd><p>if this module is fused.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>module</strong> (<em>object</em>) – input module</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>is fused or not</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(bool)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -310,8 +333,10 @@
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.get_embedding_contiguous"><code class="docutils literal notranslate"><span class="pre">get_embedding_contiguous()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.is_fused_module"><code class="docutils literal notranslate"><span class="pre">is_fused_module()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.append_attr"><code class="docutils literal notranslate"><span class="pre">append_attr()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.get_embedding_contiguous">get_embedding_contiguous</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.is_fused_module">is_fused_module</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.append_attr">append_attr</a></li>
 </ul>
 </li>
