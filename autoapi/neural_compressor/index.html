@@ -354,45 +354,17 @@
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.Quantization" title="neural_compressor.Quantization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quantization</span></code></a></p></td>
-<td><p>Quantization class automatically searches for optimal quantization recipes for low</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.Pruning" title="neural_compressor.Pruning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pruning</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.Pruning" title="neural_compressor.Pruning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pruning</span></code></a></p></td>
 <td><p>This is base class of pruning object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.Benchmark" title="neural_compressor.Benchmark"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Benchmark</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.Benchmark" title="neural_compressor.Benchmark"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Benchmark</span></code></a></p></td>
 <td><p>Benchmark class can be used to evaluate the model performance, with the objective</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.DistillationConfig" title="neural_compressor.DistillationConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistillationConfig</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.DistillationConfig" title="neural_compressor.DistillationConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistillationConfig</span></code></a></p></td>
 <td><p>Config of distillation.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_compressor.Quantization">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">Quantization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Quantization" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl>
-<dt>Quantization class automatically searches for optimal quantization recipes for low</dt><dd><p>precision model inference, achieving best tuning objectives like inference performance
-within accuracy loss constraints.</p>
-<p>Tuner abstracts out the differences of quantization APIs across various DL frameworks
-and brings a unified API for automatic quantization that works on frameworks including
-tensorflow, pytorch and mxnet.</p>
-<p>Since DL use cases vary in the accuracy metrics (Top-1, MAP, ROC etc.), loss criteria
-(&lt;1% or &lt;0.1% etc.) and tuning objectives (performance, memory footprint etc.).
-Tuner class provides a flexible configuration interface via YAML for users to specify
-these parameters.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>conf_fname_or_obj</strong> (<em>string</em><em> or </em><em>obj</em>) – The path to the YAML configuration file or
-Quantization_Conf class containing accuracy goal, tuning objective and preferred
-calibration &amp; quantization tuning space etc.</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.Pruning">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">Pruning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning" title="Permalink to this definition">¶</a></dt>
@@ -504,7 +476,6 @@ Defaults to None.</p></li>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
-<li><a class="reference internal" href="#neural_compressor.Quantization"><code class="docutils literal notranslate"><span class="pre">Quantization</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning"><code class="docutils literal notranslate"><span class="pre">Pruning</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_epoch_begin"><code class="docutils literal notranslate"><span class="pre">Pruning.on_epoch_begin()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_step_begin"><code class="docutils literal notranslate"><span class="pre">Pruning.on_step_begin()</span></code></a></li>
@@ -514,7 +485,6 @@ Defaults to None.</p></li>
 </li>
 <li><a class="reference internal" href="#neural_compressor.Benchmark"><code class="docutils literal notranslate"><span class="pre">Benchmark</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.DistillationConfig"><code class="docutils literal notranslate"><span class="pre">DistillationConfig</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.Quantization">Quantization</a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning">Pruning</a><ul>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_epoch_begin">on_epoch_begin</a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_step_begin">on_step_begin</a></li>

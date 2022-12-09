@@ -227,16 +227,6 @@
 <span id="neural-compressor-quantization"></span><h1><a class="reference internal" href="#module-neural_compressor.quantization" title="neural_compressor.quantization"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.quantization</span></code></a><a class="headerlink" href="#module-neural_compressor.quantization" title="Permalink to this heading">¶</a></h1>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
-<section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.quantization.Quantization" title="neural_compressor.quantization.Quantization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quantization</span></code></a></p></td>
-<td><p>Quantization class automatically searches for optimal quantization recipes for low</p></td>
-</tr>
-</tbody>
-</table>
-</section>
 <section id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
@@ -246,31 +236,6 @@
 </tr>
 </tbody>
 </table>
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_compressor.quantization.Quantization">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.quantization.</span></span><span class="sig-name descname"><span class="pre">Quantization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.quantization.Quantization" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl>
-<dt>Quantization class automatically searches for optimal quantization recipes for low</dt><dd><p>precision model inference, achieving best tuning objectives like inference performance
-within accuracy loss constraints.</p>
-<p>Tuner abstracts out the differences of quantization APIs across various DL frameworks
-and brings a unified API for automatic quantization that works on frameworks including
-tensorflow, pytorch and mxnet.</p>
-<p>Since DL use cases vary in the accuracy metrics (Top-1, MAP, ROC etc.), loss criteria
-(&lt;1% or &lt;0.1% etc.) and tuning objectives (performance, memory footprint etc.).
-Tuner class provides a flexible configuration interface via YAML for users to specify
-these parameters.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>conf_fname_or_obj</strong> (<em>string</em><em> or </em><em>obj</em>) – The path to the YAML configuration file or
-Quantization_Conf class containing accuracy goal, tuning objective and preferred
-calibration &amp; quantization tuning space etc.</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.quantization.fit">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.quantization.</span></span><span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.quantization.fit" title="Permalink to this definition">¶</a></dt>
@@ -368,11 +333,8 @@ return accuracy</p>
               <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.quantization</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
-<li><a class="reference internal" href="#neural_compressor.quantization.Quantization"><code class="docutils literal notranslate"><span class="pre">Quantization</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.quantization.fit"><code class="docutils literal notranslate"><span class="pre">fit()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.quantization.Quantization">Quantization</a></li>
 <li><a class="reference internal" href="#neural_compressor.quantization.fit">fit</a></li>
 </ul>
 </li>

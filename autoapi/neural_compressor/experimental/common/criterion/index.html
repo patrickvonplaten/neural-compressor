@@ -1112,6 +1112,27 @@ PyTorchIntermediateLayersKnowledgeDistillationLoss.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.teacher_model_forward">
+<span class="sig-name descname"><span class="pre">teacher_model_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teacher_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.teacher_model_forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Teacher model forward.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<em>tensor</em>) – input data</p></li>
+<li><p><strong>teacher_model</strong> (<em>torch.nn.model</em><em>, </em><em>optional</em>) – teacher model. Defaults to None.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em><em>, </em><em>optional</em>) – device. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>output</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -1234,6 +1255,7 @@ PyTorchIntermediateLayersKnowledgeDistillationLoss.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.L2Divergence"><code class="docutils literal notranslate"><span class="pre">PyTorchSelfKnowledgeDistillationLoss.L2Divergence()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.init_loss_funcs"><code class="docutils literal notranslate"><span class="pre">PyTorchSelfKnowledgeDistillationLoss.init_loss_funcs()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.loss_cal"><code class="docutils literal notranslate"><span class="pre">PyTorchSelfKnowledgeDistillationLoss.loss_cal()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.teacher_model_forward"><code class="docutils literal notranslate"><span class="pre">PyTorchSelfKnowledgeDistillationLoss.teacher_model_forward()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLossWrapper"><code class="docutils literal notranslate"><span class="pre">PyTorchSelfKnowledgeDistillationLossWrapper</span></code></a></li>
@@ -1316,6 +1338,7 @@ PyTorchIntermediateLayersKnowledgeDistillationLoss.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.L2Divergence">L2Divergence</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.init_loss_funcs">init_loss_funcs</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.loss_cal">loss_cal</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLoss.teacher_model_forward">teacher_model_forward</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.common.criterion.PyTorchSelfKnowledgeDistillationLossWrapper">PyTorchSelfKnowledgeDistillationLossWrapper</a></li>

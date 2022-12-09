@@ -648,6 +648,21 @@ Functions
       :rtype: tensor
 
 
+   .. py:method:: teacher_model_forward(input, teacher_model=None, device=None)
+
+      Teacher model forward.
+
+      :param input: input data
+      :type input: tensor
+      :param teacher_model: teacher model. Defaults to None.
+      :type teacher_model: torch.nn.model, optional
+      :param device: device. Defaults to None.
+      :type device: torch.device, optional
+
+      :returns: output
+      :rtype: tensor
+
+
 
 .. py:class:: PyTorchSelfKnowledgeDistillationLossWrapper(param_dict)
 
