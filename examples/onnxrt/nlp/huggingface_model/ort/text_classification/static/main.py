@@ -418,7 +418,7 @@ if __name__ == "__main__":
         model = model_optimizer.model
         onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
 
-        dr = ONNXRTBertDatasetForINC(data_dir=args.data_path) 
+        dr = ONNXRTBertDatasetForINC(data_dir=args.data_path, augmented_model_path=args.model_name_or_path.split('/')[-1] + '-optimized.onnx') 
         quantize_static(args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
                         args.output_model,
                         dr,
