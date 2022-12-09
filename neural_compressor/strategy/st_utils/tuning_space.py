@@ -27,6 +27,7 @@ PRECISION_SET = {'bf16', 'fp32'}
 QUANT_MODE_SET = {'static', 'dynamic'}
 QUNAT_BIT_SET = {'int8', 'uint8', 'int4', 'uint4'}
 
+# TODO can be removed
 TUNING_ITEMS_LST = [('activation','scheme'), ('activation','algorithm'), ('activation','granularity'),
                     ('weight','scheme'), ('weight','algorithm'), ('weight','granularity'),
                     'sampling_size']
@@ -354,18 +355,29 @@ class TuningSpace:
             },
             ],
         """
+        def _mapping_unsigned(data_type_name : str):
+            if data_type_name.startswith('u'):
+                return data_type_name[1:]
+            else:
+                return data_type_name
+            
         parsed_cap = OrderedDict()
         for op_name_type, op_cap_lst in cap.items():
             parsed_op_cap = {'precision': [], 'quant': OrderedDict()}
             for op_cap in op_cap_lst:
+                # quant_mode(static, dynamic) for quantization int4/int8
                 if 'quant_mode' in op_cap['activation']:
                     quant_mode = op_cap['activation']['quant_mode']
                     quant_mode = quant_mode[0] if isinstance(quant_mode, list) else quant_mode
                     act_quant_flag =  op_cap['activation']['dtype'] != ['fp32']
-                    # change the 'int8' to adapt the quantization with different numbers of bits in future
-                    quant_mode_flag = (quant_mode, 'int8', act_quant_flag) 
+                    original_data_type = op_cap['activation']['dtype'][0]
+                    data_type = _mapping_unsigned(original_data_type)
+                    # TODO change the 'int8' to adapt the quantization with different numbers of bits in future
+                    # quant_data_type = _mapping_unsigned()
+                    quant_mode_flag = (quant_mode, data_type, act_quant_flag) 
                     parsed_op_cap['quant'][quant_mode_flag] = op_cap
                 else:
+                    # not quant_mode for lower precision bf16/fp16
                     if isinstance(op_cap['activation']['dtype'], list):
                         parsed_op_cap['precision'] += op_cap['activation']['dtype']
                     else:
