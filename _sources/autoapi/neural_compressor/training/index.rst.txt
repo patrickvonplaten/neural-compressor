@@ -63,7 +63,7 @@ Functions
       :type root: str
 
 
-   .. py:method:: export(save_path: str, input, target_model_type: str = 'ONNX', quant_mode: str = 'QDQ', opset_version: int = 14, *args, **kwargs)
+   .. py:method:: export(save_path: str, conf)
 
       Convert the model to another type model, like `onnx` model and so on.
 

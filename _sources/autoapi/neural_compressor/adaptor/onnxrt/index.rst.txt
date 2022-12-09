@@ -14,9 +14,8 @@ Classes
 
 .. autoapisummary::
 
-   neural_compressor.adaptor.onnxrt.ONNXRTAdaptor
+   neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor
    neural_compressor.adaptor.onnxrt.ONNXRT_QLinearOpsAdaptor
-   neural_compressor.adaptor.onnxrt.ONNXRT_QOperatorAdaptor
    neural_compressor.adaptor.onnxrt.ONNXRT_IntegerOpsAdaptor
    neural_compressor.adaptor.onnxrt.ONNXRT_QDQAdaptor
    neural_compressor.adaptor.onnxrt.ONNXRTQuery
@@ -24,7 +23,7 @@ Classes
 
 
 
-.. py:class:: ONNXRTAdaptor(framework_specific_info)
+.. py:class:: ONNXRUNTIMEAdaptor(framework_specific_info)
 
    Bases: :py:obj:`neural_compressor.adaptor.adaptor.Adaptor`
 
@@ -132,17 +131,7 @@ Classes
 
 .. py:class:: ONNXRT_QLinearOpsAdaptor(framework_specific_info)
 
-   Bases: :py:obj:`ONNXRTAdaptor`
-
-   The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.
-
-   :param framework_specific_info: framework specific configuration for quantization.
-   :type framework_specific_info: dict
-
-
-.. py:class:: ONNXRT_QOperatorAdaptor(framework_specific_info)
-
-   Bases: :py:obj:`ONNXRTAdaptor`
+   Bases: :py:obj:`ONNXRUNTIMEAdaptor`
 
    The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.
 
@@ -152,7 +141,7 @@ Classes
 
 .. py:class:: ONNXRT_IntegerOpsAdaptor(framework_specific_info)
 
-   Bases: :py:obj:`ONNXRTAdaptor`
+   Bases: :py:obj:`ONNXRUNTIMEAdaptor`
 
    The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.
 
@@ -162,7 +151,7 @@ Classes
 
 .. py:class:: ONNXRT_QDQAdaptor(framework_specific_info)
 
-   Bases: :py:obj:`ONNXRTAdaptor`
+   Bases: :py:obj:`ONNXRUNTIMEAdaptor`
 
    The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.
 

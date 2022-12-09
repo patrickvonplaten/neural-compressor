@@ -18,6 +18,14 @@ Classes
 
 
 
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.benchmark.fit
+
+
 
 .. py:class:: Benchmark(conf_fname_or_obj)
 
@@ -30,5 +38,20 @@ Classes
                              Benchmark_Conf class containing accuracy goal, tuning objective and preferred
                              calibration & quantization tuning space etc.
    :type conf_fname_or_obj: string or obj
+
+
+.. py:function:: fit(model, config=None, b_dataloader=None, b_func=None)
+
+   Benchmark the model performance with the configure.
+
+   :param model: The model to be benchmarked.
+   :type model: object
+   :param config: The configuration for benchmark containing accuracy goal,
+                  tuning objective and preferred calibration & quantization
+                  tuning space etc.
+   :type config: BenchmarkConfig
+   :param b_dataloader: The dataloader for frameworks.
+   :param b_func: customized benchmark function. if user passes the dataloader,
+                  than b_func is not needed.
 
 

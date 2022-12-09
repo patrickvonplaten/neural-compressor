@@ -19,7 +19,7 @@ Classes
 
 
 
-.. py:class:: DistillationConfig(teacher_model, criterion=criterion, optimizer={'SGD': {'learning_rate': 0.0001}})
+.. py:class:: DistillationConfig(teacher_model=None, criterion=criterion, optimizer={'SGD': {'learning_rate': 0.0001}})
 
    Config of distillation.
 

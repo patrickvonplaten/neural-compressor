@@ -231,29 +231,26 @@
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRTAdaptor</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor</span></code></a></p></td>
 <td><p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QLinearOpsAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRT_QLinearOpsAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRT_QLinearOpsAdaptor</span></code></a></p></td>
 <td><p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QOperatorAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRT_QOperatorAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRT_QOperatorAdaptor</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_IntegerOpsAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRT_IntegerOpsAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRT_IntegerOpsAdaptor</span></code></a></p></td>
 <td><p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_IntegerOpsAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRT_IntegerOpsAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRT_IntegerOpsAdaptor</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QDQAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRT_QDQAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRT_QDQAdaptor</span></code></a></p></td>
 <td><p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QDQAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRT_QDQAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRT_QDQAdaptor</span></code></a></p></td>
-<td><p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTQuery" title="neural_compressor.adaptor.onnxrt.ONNXRTQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRTQuery</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTQuery" title="neural_compressor.adaptor.onnxrt.ONNXRTQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRTQuery</span></code></a></p></td>
 <td><p>Base class that defines Query Interface.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
-<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.onnxrt.</span></span><span class="sig-name descname"><span class="pre">ONNXRTAdaptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework_specific_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.onnxrt.</span></span><span class="sig-name descname"><span class="pre">ONNXRUNTIMEAdaptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework_specific_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../adaptor/index.html#neural_compressor.adaptor.adaptor.Adaptor" title="neural_compressor.adaptor.adaptor.Adaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.adaptor.adaptor.Adaptor</span></code></a></p>
 <p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p>
 <dl class="field-list simple">
@@ -262,8 +259,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.quantize">
-<span class="sig-name descname"><span class="pre">quantize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tune_cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.quantize" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.quantize">
+<span class="sig-name descname"><span class="pre">quantize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tune_cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.quantize" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>The function is used to do calibration and quanitization in post-training</dt><dd><p>quantization.</p>
 </dd>
@@ -288,8 +285,8 @@ unimplement yet for onnx.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.recover">
-<span class="sig-name descname"><span class="pre">recover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.recover" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.recover">
+<span class="sig-name descname"><span class="pre">recover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.recover" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute the recover process on the specified model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -308,14 +305,14 @@ unimplement yet for onnx.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.inspect_tensor">
-<span class="sig-name descname"><span class="pre">inspect_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inspect_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'activation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_to_disk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantization_cfg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.inspect_tensor" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.inspect_tensor">
+<span class="sig-name descname"><span class="pre">inspect_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inspect_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'activation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_to_disk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantization_cfg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.inspect_tensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>The function is used by tune strategy class for dumping tensor info.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.set_tensor">
-<span class="sig-name descname"><span class="pre">set_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.set_tensor" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.set_tensor">
+<span class="sig-name descname"><span class="pre">set_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.set_tensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>The function is used by tune strategy class for setting tensor back to model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -339,8 +336,8 @@ The dict format is something like:
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.query_fw_capability">
-<span class="sig-name descname"><span class="pre">query_fw_capability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.query_fw_capability" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.query_fw_capability">
+<span class="sig-name descname"><span class="pre">query_fw_capability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.query_fw_capability" title="Permalink to this definition">¶</a></dt>
 <dd><p>The function is used to query framework capability.
 TODO: will be replaced by framework query API</p>
 <dl class="field-list simple">
@@ -357,8 +354,8 @@ TODO: will be replaced by framework query API</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.evaluate">
-<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensorboard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp32_baseline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.evaluate" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensorboard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp32_baseline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.evaluate" title="Permalink to this definition">¶</a></dt>
 <dd><p>The function is for evaluation if no given eval func</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -380,8 +377,8 @@ TODO: will be replaced by framework query API</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.save" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>save model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -398,19 +395,7 @@ TODO: will be replaced by framework query API</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRT_QLinearOpsAdaptor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.onnxrt.</span></span><span class="sig-name descname"><span class="pre">ONNXRT_QLinearOpsAdaptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework_specific_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QLinearOpsAdaptor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRTAdaptor</span></code></a></p>
-<p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>framework_specific_info</strong> (<em>dict</em>) – framework specific configuration for quantization.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRT_QOperatorAdaptor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.onnxrt.</span></span><span class="sig-name descname"><span class="pre">ONNXRT_QOperatorAdaptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework_specific_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QOperatorAdaptor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRTAdaptor</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor</span></code></a></p>
 <p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -422,7 +407,7 @@ TODO: will be replaced by framework query API</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRT_IntegerOpsAdaptor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.onnxrt.</span></span><span class="sig-name descname"><span class="pre">ONNXRT_IntegerOpsAdaptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework_specific_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRT_IntegerOpsAdaptor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRTAdaptor</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor</span></code></a></p>
 <p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -434,7 +419,7 @@ TODO: will be replaced by framework query API</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.onnxrt.ONNXRT_QDQAdaptor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.onnxrt.</span></span><span class="sig-name descname"><span class="pre">ONNXRT_QDQAdaptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework_specific_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QDQAdaptor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRTAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRTAdaptor</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor" title="neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor</span></code></a></p>
 <p>The ONNXRT adaptor layer, do onnx-rt quantization, calibration, inspect layer tensors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -565,18 +550,17 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.onnxrt</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor"><code class="docutils literal notranslate"><span class="pre">ONNXRTAdaptor</span></code></a><ul>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.quantize"><code class="docutils literal notranslate"><span class="pre">ONNXRTAdaptor.quantize()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.recover"><code class="docutils literal notranslate"><span class="pre">ONNXRTAdaptor.recover()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.inspect_tensor"><code class="docutils literal notranslate"><span class="pre">ONNXRTAdaptor.inspect_tensor()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.set_tensor"><code class="docutils literal notranslate"><span class="pre">ONNXRTAdaptor.set_tensor()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.query_fw_capability"><code class="docutils literal notranslate"><span class="pre">ONNXRTAdaptor.query_fw_capability()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.evaluate"><code class="docutils literal notranslate"><span class="pre">ONNXRTAdaptor.evaluate()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.save"><code class="docutils literal notranslate"><span class="pre">ONNXRTAdaptor.save()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor"><code class="docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.quantize"><code class="docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor.quantize()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.recover"><code class="docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor.recover()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.inspect_tensor"><code class="docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor.inspect_tensor()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.set_tensor"><code class="docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor.set_tensor()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.query_fw_capability"><code class="docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor.query_fw_capability()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.evaluate"><code class="docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor.evaluate()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.save"><code class="docutils literal notranslate"><span class="pre">ONNXRUNTIMEAdaptor.save()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QLinearOpsAdaptor"><code class="docutils literal notranslate"><span class="pre">ONNXRT_QLinearOpsAdaptor</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QOperatorAdaptor"><code class="docutils literal notranslate"><span class="pre">ONNXRT_QOperatorAdaptor</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_IntegerOpsAdaptor"><code class="docutils literal notranslate"><span class="pre">ONNXRT_IntegerOpsAdaptor</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QDQAdaptor"><code class="docutils literal notranslate"><span class="pre">ONNXRT_QDQAdaptor</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTQuery"><code class="docutils literal notranslate"><span class="pre">ONNXRTQuery</span></code></a><ul>
@@ -588,18 +572,17 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTQuery.get_graph_optimization"><code class="docutils literal notranslate"><span class="pre">ONNXRTQuery.get_graph_optimization()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor">ONNXRTAdaptor</a><ul>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.quantize">quantize</a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.recover">recover</a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.inspect_tensor">inspect_tensor</a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.set_tensor">set_tensor</a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.query_fw_capability">query_fw_capability</a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.evaluate">evaluate</a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTAdaptor.save">save</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor">ONNXRUNTIMEAdaptor</a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.quantize">quantize</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.recover">recover</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.inspect_tensor">inspect_tensor</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.set_tensor">set_tensor</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.query_fw_capability">query_fw_capability</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.evaluate">evaluate</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRUNTIMEAdaptor.save">save</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QLinearOpsAdaptor">ONNXRT_QLinearOpsAdaptor</a></li>
-<li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QOperatorAdaptor">ONNXRT_QOperatorAdaptor</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_IntegerOpsAdaptor">ONNXRT_IntegerOpsAdaptor</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRT_QDQAdaptor">ONNXRT_QDQAdaptor</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.onnxrt.ONNXRTQuery">ONNXRTQuery</a><ul>
