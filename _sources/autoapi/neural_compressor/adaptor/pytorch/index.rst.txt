@@ -66,6 +66,20 @@ Functions
       :rtype: (bool)
 
 
+   .. py:method:: calculate_hessian_trace(fp32_model, dataloader, q_model, criterion, enable_act=False)
+
+      Calculate hessian trace.
+
+      :param fp32_model: The original fp32 model.
+      :param criterion: The loss function for calculate the hessian trace. # loss = criterion(output, target)
+      :param dataloader: The dataloader for calculate the gradient.
+      :param q_model: The INT8 AMAP model.
+      :param enable_act: Enabling quantization error or not.
+
+      :returns: (op_name, op_type); value: hessian trace.
+      :rtype: hessian_trace(Dict[Tuple, float]), key
+
+
 
 .. py:class:: PyTorchAdaptor(framework_specific_info)
 

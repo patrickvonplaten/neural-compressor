@@ -309,6 +309,29 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.pytorch.TemplateAdaptor.calculate_hessian_trace">
+<span class="sig-name descname"><span class="pre">calculate_hessian_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp32_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criterion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_act</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.pytorch.TemplateAdaptor.calculate_hessian_trace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate hessian trace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fp32_model</strong> – The original fp32 model.</p></li>
+<li><p><strong>criterion</strong> – The loss function for calculate the hessian trace. # loss = criterion(output, target)</p></li>
+<li><p><strong>dataloader</strong> – The dataloader for calculate the gradient.</p></li>
+<li><p><strong>q_model</strong> – The INT8 AMAP model.</p></li>
+<li><p><strong>enable_act</strong> – Enabling quantization error or not.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(op_name, op_type); value: hessian trace.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>hessian_trace(Dict[Tuple, float]), key</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -985,6 +1008,7 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.get_ops_recursively"><code class="docutils literal notranslate"><span class="pre">get_ops_recursively()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.TemplateAdaptor"><code class="docutils literal notranslate"><span class="pre">TemplateAdaptor</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.TemplateAdaptor.is_fused_module"><code class="docutils literal notranslate"><span class="pre">TemplateAdaptor.is_fused_module()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.TemplateAdaptor.calculate_hessian_trace"><code class="docutils literal notranslate"><span class="pre">TemplateAdaptor.calculate_hessian_trace()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorchAdaptor"><code class="docutils literal notranslate"><span class="pre">PyTorchAdaptor</span></code></a><ul>
@@ -1029,6 +1053,7 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.get_ops_recursively">get_ops_recursively</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.TemplateAdaptor">TemplateAdaptor</a><ul>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.TemplateAdaptor.is_fused_module">is_fused_module</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.TemplateAdaptor.calculate_hessian_trace">calculate_hessian_trace</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorchAdaptor">PyTorchAdaptor</a><ul>
