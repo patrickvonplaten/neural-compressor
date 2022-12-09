@@ -18,6 +18,7 @@ Functions
    neural_compressor.adaptor.torch_utils.util.get_embedding_contiguous
    neural_compressor.adaptor.torch_utils.util.is_fused_module
    neural_compressor.adaptor.torch_utils.util.append_attr
+   neural_compressor.adaptor.torch_utils.util.get_mse_order_per_fp32
 
 
 
@@ -55,5 +56,19 @@ Functions
 
    :returns: The symbolic traced model with additional attributes.
    :rtype: fx_model (dir)
+
+
+.. py:function:: get_mse_order_per_fp32(adaptor, model, example_inp, tune_cfg)
+
+   a helper method to check the mse influence to last module after QDQ(quant/dequant).
+   :param model: A torch model.
+   :type model: torch.fx.GraphModule/torch.nn.Module
+   :param dataloader: The calibration dataloader.
+   :type dataloader: torch.utils.data.DataLoader
+   :param tune_cfg: dictionary of quantization configuration.
+   :type tune_cfg: dict
+
+   :returns: The fallback order for strategy.
+   :rtype: fallback_order (dict/list)
 
 

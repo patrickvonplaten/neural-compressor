@@ -867,6 +867,31 @@ path (string): No used.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.calculate_op_sensitivity">
+<span class="sig-name descname"><span class="pre">calculate_op_sensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tune_cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_op_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_batches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fallback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requantize_cfgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.calculate_op_sensitivity" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This is a helper function for <cite>query_fw_capability</cite>,</dt><dd><p>and it will get all quantizable ops from model.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>object</em>) – INC model containing fp32 model</p></li>
+<li><p><strong>dataloader</strong> (<em>string</em>) – dataloader contains real data.</p></li>
+<li><p><strong>tune_cfg</strong> (<em>dict</em>) – dictionary of tune configure for each op.</p></li>
+<li><p><strong>fallback</strong> (<em>bool</em>) – switch method in fallback stage and re-quantize stage</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>sorted op list by sensitivity</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ops_lst (list)</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -992,6 +1017,7 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.convert_sub_graph"><code class="docutils literal notranslate"><span class="pre">PyTorch_FXAdaptor.convert_sub_graph()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.query_fw_capability"><code class="docutils literal notranslate"><span class="pre">PyTorch_FXAdaptor.query_fw_capability()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.fuse_fx_model"><code class="docutils literal notranslate"><span class="pre">PyTorch_FXAdaptor.fuse_fx_model()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.calculate_op_sensitivity"><code class="docutils literal notranslate"><span class="pre">PyTorch_FXAdaptor.calculate_op_sensitivity()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorchQuery"><code class="docutils literal notranslate"><span class="pre">PyTorchQuery</span></code></a><ul>
@@ -1035,6 +1061,7 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.convert_sub_graph">convert_sub_graph</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.query_fw_capability">query_fw_capability</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.fuse_fx_model">fuse_fx_model</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorch_FXAdaptor.calculate_op_sensitivity">calculate_op_sensitivity</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.pytorch.PyTorchQuery">PyTorchQuery</a><ul>

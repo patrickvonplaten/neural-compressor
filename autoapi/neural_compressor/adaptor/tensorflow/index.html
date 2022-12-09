@@ -526,6 +526,40 @@ scale (float): The scale for dataloader to generate quantized input</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.calculate_op_sensitivity">
+<span class="sig-name descname"><span class="pre">calculate_op_sensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tune_cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_op_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_batches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fallback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requantize_cfgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.calculate_op_sensitivity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the op sensitivity.</p>
+<p>The sensitivity metric is the mse between the output of the last quantized op of
+the quantized model and the output of its corresponding op in the fp32 model.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Backup the tune cfg</p></li>
+<li><p>Fallback each int8 op and compute its mse if use fallback (with ‘fallback == True’),</p></li>
+</ol>
+<blockquote>
+<div><p>or re-quantize each fp32 op(fallen back in the previous stage) and compute its MSE if not.</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Sorted op name list according to its MSE</p></li>
+</ol>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fp32_model</strong> – The fp32 model.</p></li>
+<li><p><strong>dataloader</strong> – the dataloader with full dataset.</p></li>
+<li><p><strong>tune_cfg</strong> – tuning config</p></li>
+<li><p><strong>fallback</strong> – denote fallback stage or re-quantize stage</p></li>
+<li><p><strong>requantize_cfgs</strong> – the dict of tuning configs for all re-quantizable ops</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of op names, sorted by its MSE sensitivity.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -742,6 +776,7 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.save"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.save()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.convert"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.convert()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.recover_tuned_model"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.recover_tuned_model()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.calculate_op_sensitivity"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.calculate_op_sensitivity()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.Tensorflow_ITEXAdaptor"><code class="docutils literal notranslate"><span class="pre">Tensorflow_ITEXAdaptor</span></code></a><ul>
@@ -775,6 +810,7 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.save">save</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.convert">convert</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.recover_tuned_model">recover_tuned_model</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.calculate_op_sensitivity">calculate_op_sensitivity</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.Tensorflow_ITEXAdaptor">Tensorflow_ITEXAdaptor</a><ul>

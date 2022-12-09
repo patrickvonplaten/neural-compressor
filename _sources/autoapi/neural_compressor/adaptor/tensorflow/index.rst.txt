@@ -234,6 +234,27 @@ Classes
       :rtype: tf.compat.v1.GraphDef
 
 
+   .. py:method:: calculate_op_sensitivity(model, dataloader, tune_cfg, output_op_names, confidence_batches, fallback=True, requantize_cfgs=None)
+
+      Compute the op sensitivity.
+
+      The sensitivity metric is the mse between the output of the last quantized op of
+      the quantized model and the output of its corresponding op in the fp32 model.
+
+        1. Backup the tune cfg
+        2. Fallback each int8 op and compute its mse if use fallback (with 'fallback == True'),
+          or re-quantize each fp32 op(fallen back in the previous stage) and compute its MSE if not.
+        3. Sorted op name list according to its MSE
+
+      :param fp32_model: The fp32 model.
+      :param dataloader: the dataloader with full dataset.
+      :param tune_cfg: tuning config
+      :param fallback: denote fallback stage or re-quantize stage
+      :param requantize_cfgs: the dict of tuning configs for all re-quantizable ops
+
+      :returns: A list of op names, sorted by its MSE sensitivity.
+
+
 
 .. py:class:: Tensorflow_ITEXAdaptor(framework_specific_info)
 

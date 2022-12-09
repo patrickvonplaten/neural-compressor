@@ -254,7 +254,7 @@ tuning phase stops when the <code class="docutils literal notranslate"><span cla
 </section>
 <section id="configurations">
 <h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this heading">¶</a></h2>
-<p>Detailed configuration templates can be found <a class="reference external" href="https://github.com/intel/neural-compressor/tree/7ffd5e5ce53d298d4405b84be3653e7da686068f/../neural_compressor/template">here</a>.</p>
+<p>Detailed configuration templates can be found <a class="reference external" href="https://github.com/intel/neural-compressor/tree/80311f60cdcf4d70ba59b250d60eda0833384ea8/../neural_compressor/template">here</a>.</p>
 <section id="model-specific-configurations">
 <h3>Model-specific configurations<a class="headerlink" href="#model-specific-configurations" title="Permalink to this heading">¶</a></h3>
 <p>For model-specific configurations, users can set the quantization approach.
@@ -418,10 +418,43 @@ included.</p>
 </div>
 </section>
 </section>
-<section id="tpe">
-<h3>TPE<a class="headerlink" href="#tpe" title="Permalink to this heading">¶</a></h3>
+<section id="mse-v2">
+<h3>MSE_v2<a class="headerlink" href="#mse-v2" title="Permalink to this heading">¶</a></h3>
 <section id="id5">
 <h4>Design<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">MSE_v2</span></code> is a two-stage fallback strategy for few-shot mixed quantization,
+which is composed of three key components. First, a multi-batch order
+combination based on per-layer fallback MSE values helps evaluate layer
+sensitivity with few-shot. Second, a sensitivity gradient is proposed to
+better evaluate the sensitivity, together with the beam search to solve
+the local optimum problem. Third, a quantize-again procedure is introduced
+to remove redundancy in fallback layers to protect performance. MSE_v2 performs
+better especially in models with a long full-dataset evaluation time and a
+large number of tuning counts.</p>
+</section>
+<section id="id6">
+<h4>Usage<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">MSE_v2</span></code> is similar to <code class="docutils literal notranslate"><span class="pre">MSE</span></code> in usage. To use the <code class="docutils literal notranslate"><span class="pre">MSE_v2</span></code> tuning strategy,
+the specific strategy name of <code class="docutils literal notranslate"><span class="pre">mse_v2</span></code> must be included. Also, the option
+<code class="docutils literal notranslate"><span class="pre">confidence_batches</span></code> can be included optionally to specify the count of batches
+in sensitivity calculation process.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tuning</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">strategy</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mse_v2</span><span class="w"></span>
+<span class="w">    </span><span class="nt">confidence_batches</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span><span class="w"></span>
+<span class="w">  </span><span class="nt">accuracy_criterion</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">relative</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">0.01</span><span class="w"></span>
+<span class="w">  </span><span class="nt">exit_policy</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"></span>
+<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9527</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="tpe">
+<h3>TPE<a class="headerlink" href="#tpe" title="Permalink to this heading">¶</a></h3>
+<section id="id7">
+<h4>Design<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">TPE</span></code> uses sequential model-based optimization methods (SMBOs). **Sequential
 ** refers to running trials one after another and selecting a better
 <strong>hyperparameter</strong> to evaluate based on previous trials. A hyperparameter is
@@ -460,8 +493,8 @@ on a dataset and latency measurements using a benchmark–this process can
 take from 24 hours to few days to complete, depending on the model.</p>
 </div></blockquote>
 </section>
-<section id="id6">
-<h4>Usage<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h4>
+<section id="id8">
+<h4>Usage<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">TPE</span></code> usage is similar to <code class="docutils literal notranslate"><span class="pre">Bayesian</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tuning</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">strategy</span><span class="p">:</span><span class="w"></span>
@@ -479,15 +512,15 @@ take from 24 hours to few days to complete, depending on the model.</p>
 </section>
 <section id="exhaustive">
 <h3>Exhaustive<a class="headerlink" href="#exhaustive" title="Permalink to this heading">¶</a></h3>
-<section id="id7">
-<h4>Design<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h4>
+<section id="id9">
+<h4>Design<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">Exhaustive</span></code> strategy is used to sequentially traverse all possible tuning
 configurations in a tuning space. From the perspective of the impact on
 performance, we currently only traverse all possible quantize tuning
 configs. Same reason as <code class="docutils literal notranslate"><span class="pre">Bayesian</span></code>, fallback datatypes are not included for now.</p>
 </section>
-<section id="id8">
-<h4>Usage<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h4>
+<section id="id10">
+<h4>Usage<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">Exhaustive</span></code> usage is similar to <code class="docutils literal notranslate"><span class="pre">Basic</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tuning</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">strategy</span><span class="p">:</span><span class="w"></span>
@@ -503,14 +536,14 @@ configs. Same reason as <code class="docutils literal notranslate"><span class="
 </section>
 <section id="random">
 <h3>Random<a class="headerlink" href="#random" title="Permalink to this heading">¶</a></h3>
-<section id="id9">
-<h4>Design<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h4>
+<section id="id11">
+<h4>Design<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">Random</span></code> strategy is used to randomly choose tuning configurations from the
 tuning space. As with <code class="docutils literal notranslate"><span class="pre">Exhaustive</span></code> strategy, it also only considers quantize
 tuning configs to generate a better-performance quantized model.</p>
 </section>
-<section id="id10">
-<h4>Usage<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h4>
+<section id="id12">
+<h4>Usage<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">Random</span></code> usage is similar to <code class="docutils literal notranslate"><span class="pre">Basic</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tuning</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">strategy</span><span class="p">:</span><span class="w"></span>
@@ -526,12 +559,12 @@ tuning configs to generate a better-performance quantized model.</p>
 </section>
 <section id="sigopt">
 <h3>SigOpt<a class="headerlink" href="#sigopt" title="Permalink to this heading">¶</a></h3>
-<section id="id11">
-<h4>Design<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h4>
+<section id="id13">
+<h4>Design<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">SigOpt</span></code> strategy is to use <a class="reference external" href="https://app.sigopt.com/docs/overview/optimization">SigOpt Optimization Loop</a> method to accelerate and visualize the traversal of the tuning configurations from the tuning space. The metrics add accuracy as constraint and optimize for latency to improve the performance. <a class="reference external" href="https://app.sigopt.com/">SigOpt Projects</a> can show the result of each tuning experiment.</p>
 </section>
-<section id="id12">
-<h4>Usage<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h4>
+<section id="id14">
+<h4>Usage<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h4>
 <p>Compare to <code class="docutils literal notranslate"><span class="pre">Basic</span></code>, <code class="docutils literal notranslate"><span class="pre">sigopt_api_token</span></code> and <code class="docutils literal notranslate"><span class="pre">sigopt_project_id</span></code> is necessary for <code class="docutils literal notranslate"><span class="pre">SigOpt</span></code>.<code class="docutils literal notranslate"><span class="pre">sigopt_experiment_name</span></code> is optional, the default name is <code class="docutils literal notranslate"><span class="pre">nc-tune</span></code>.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tuning</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">strategy</span><span class="p">:</span><span class="w"></span>
@@ -568,7 +601,7 @@ and registering this strategy by <code class="docutils literal notranslate"><spa
 <p>The <code class="docutils literal notranslate"><span class="pre">next_tune_cfg</span></code> function is used to yield the next tune configuration according to some algorithm or strategy. <code class="docutils literal notranslate"><span class="pre">TuneStrategy</span></code> base class will traverse
 all the tuning space till a quantization configuration meets pre-defined accuracy criterion.</p>
 <p>If the traverse behavior of <code class="docutils literal notranslate"><span class="pre">TuneStrategy</span></code> base class does not meet new strategy requirement, it could re-implement <code class="docutils literal notranslate"><span class="pre">traverse</span></code> function with self own logic.
-An example like this is under <a class="reference external" href="https://github.com/intel/neural-compressor/blob/7ffd5e5ce53d298d4405b84be3653e7da686068f/../neural_compressor/strategy/strategy.py">TPE Strategy</a>.</p>
+An example like this is under <a class="reference external" href="https://github.com/intel/neural-compressor/blob/80311f60cdcf4d70ba59b250d60eda0833384ea8/../neural_compressor/strategy/strategy.py">TPE Strategy</a>.</p>
 </section>
 </section>
 
@@ -619,24 +652,29 @@ An example like this is under <a class="reference external" href="https://github
 <li><a class="reference internal" href="#id4">Usage</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tpe">TPE</a><ul>
+<li><a class="reference internal" href="#mse-v2">MSE_v2</a><ul>
 <li><a class="reference internal" href="#id5">Design</a></li>
 <li><a class="reference internal" href="#id6">Usage</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#exhaustive">Exhaustive</a><ul>
+<li><a class="reference internal" href="#tpe">TPE</a><ul>
 <li><a class="reference internal" href="#id7">Design</a></li>
 <li><a class="reference internal" href="#id8">Usage</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#random">Random</a><ul>
+<li><a class="reference internal" href="#exhaustive">Exhaustive</a><ul>
 <li><a class="reference internal" href="#id9">Design</a></li>
 <li><a class="reference internal" href="#id10">Usage</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sigopt">SigOpt</a><ul>
+<li><a class="reference internal" href="#random">Random</a><ul>
 <li><a class="reference internal" href="#id11">Design</a></li>
 <li><a class="reference internal" href="#id12">Usage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sigopt">SigOpt</a><ul>
+<li><a class="reference internal" href="#id13">Design</a></li>
+<li><a class="reference internal" href="#id14">Usage</a></li>
 </ul>
 </li>
 </ul>

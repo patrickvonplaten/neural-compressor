@@ -240,6 +240,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.append_attr" title="neural_compressor.adaptor.torch_utils.util.append_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_attr</span></code></a>(fx_model, model)</p></td>
 <td><p>a helper method to append attributes for the symbolic traced model.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.get_mse_order_per_fp32" title="neural_compressor.adaptor.torch_utils.util.get_mse_order_per_fp32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mse_order_per_fp32</span></code></a>(adaptor, model, example_inp, ...)</p></td>
+<td><p>a helper method to check the mse influence to last module after QDQ(quant/dequant).</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -299,6 +302,26 @@
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.torch_utils.util.get_mse_order_per_fp32">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.torch_utils.util.</span></span><span class="sig-name descname"><span class="pre">get_mse_order_per_fp32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adaptor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">example_inp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tune_cfg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.torch_utils.util.get_mse_order_per_fp32" title="Permalink to this definition">¶</a></dt>
+<dd><p>a helper method to check the mse influence to last module after QDQ(quant/dequant).
+:param model: A torch model.
+:type model: torch.fx.GraphModule/torch.nn.Module
+:param dataloader: The calibration dataloader.
+:type dataloader: torch.utils.data.DataLoader
+:param tune_cfg: dictionary of quantization configuration.
+:type tune_cfg: dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The fallback order for strategy.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>fallback_order (dict/list)</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -335,9 +358,11 @@
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.get_embedding_contiguous"><code class="docutils literal notranslate"><span class="pre">get_embedding_contiguous()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.is_fused_module"><code class="docutils literal notranslate"><span class="pre">is_fused_module()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.append_attr"><code class="docutils literal notranslate"><span class="pre">append_attr()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.get_mse_order_per_fp32"><code class="docutils literal notranslate"><span class="pre">get_mse_order_per_fp32()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.get_embedding_contiguous">get_embedding_contiguous</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.is_fused_module">is_fused_module</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.append_attr">append_attr</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.torch_utils.util.get_mse_order_per_fp32">get_mse_order_per_fp32</a></li>
 </ul>
 </li>
 </ul>
