@@ -237,10 +237,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.model.model.TensorflowSavedModelModel" title="neural_compressor.model.model.TensorflowSavedModelModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorflowSavedModelModel</span></code></a></p></td>
 <td><p>Build TensorflowBaseModel object</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.model.model.TensorflowCheckpointModel" title="neural_compressor.model.model.TensorflowCheckpointModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorflowCheckpointModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.model.model.TensorflowQATModel" title="neural_compressor.model.model.TensorflowQATModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorflowQATModel</span></code></a></p></td>
 <td><p>Build TensorflowBaseModel object</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.model.model.MXNetModel" title="neural_compressor.model.model.MXNetModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MXNetModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.model.model.TensorflowCheckpointModel" title="neural_compressor.model.model.TensorflowCheckpointModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorflowCheckpointModel</span></code></a></p></td>
+<td><p>Build TensorflowBaseModel object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.model.model.MXNetModel" title="neural_compressor.model.model.MXNetModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MXNetModel</span></code></a></p></td>
 <td><p>Build MXNetModel object</p></td>
 </tr>
 </tbody>
@@ -597,6 +600,33 @@ total_sparsity (float): total sparsity of model</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.model.model.TensorflowQATModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.model.</span></span><span class="sig-name descname"><span class="pre">TensorflowQATModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.model.TensorflowQATModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.model.model.TensorflowSavedModelModel" title="neural_compressor.model.model.TensorflowSavedModelModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorflowSavedModelModel</span></code></a></p>
+<p>Build TensorflowBaseModel object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>string</em><em> or </em><em>tensorflow model object</em>) – model path or model object</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – other required parameters, like input_fn</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.model.model.TensorflowQATModel.model">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#neural_compressor.model.model.TensorflowQATModel.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>return model itself</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.model.model.TensorflowQATModel.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.model.TensorflowQATModel.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>abstract method of model saving</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.model.model.TensorflowCheckpointModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.model.</span></span><span class="sig-name descname"><span class="pre">TensorflowCheckpointModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.model.TensorflowCheckpointModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#neural_compressor.model.model.TensorflowBaseModel" title="neural_compressor.model.model.TensorflowBaseModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorflowBaseModel</span></code></a></p>
@@ -702,6 +732,11 @@ total_sparsity (float): total sparsity of model</p>
 <li><a class="reference internal" href="#neural_compressor.model.model.TensorflowSavedModelModel.save"><code class="docutils literal notranslate"><span class="pre">TensorflowSavedModelModel.save()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#neural_compressor.model.model.TensorflowQATModel"><code class="docutils literal notranslate"><span class="pre">TensorflowQATModel</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.model.model.TensorflowQATModel.model"><code class="docutils literal notranslate"><span class="pre">TensorflowQATModel.model</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.model.model.TensorflowQATModel.save"><code class="docutils literal notranslate"><span class="pre">TensorflowQATModel.save()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.model.model.TensorflowCheckpointModel"><code class="docutils literal notranslate"><span class="pre">TensorflowCheckpointModel</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.model.model.MXNetModel"><code class="docutils literal notranslate"><span class="pre">MXNetModel</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.model.model.MXNetModel.model"><code class="docutils literal notranslate"><span class="pre">MXNetModel.model</span></code></a></li>
@@ -734,6 +769,11 @@ total_sparsity (float): total sparsity of model</p>
 <li><a class="reference internal" href="#neural_compressor.model.model.TensorflowSavedModelModel.model">model</a></li>
 <li><a class="reference internal" href="#neural_compressor.model.model.TensorflowSavedModelModel.report_sparsity">report_sparsity</a></li>
 <li><a class="reference internal" href="#neural_compressor.model.model.TensorflowSavedModelModel.save">save</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.model.model.TensorflowQATModel">TensorflowQATModel</a><ul>
+<li><a class="reference internal" href="#neural_compressor.model.model.TensorflowQATModel.model">model</a></li>
+<li><a class="reference internal" href="#neural_compressor.model.model.TensorflowQATModel.save">save</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.model.model.TensorflowCheckpointModel">TensorflowCheckpointModel</a></li>

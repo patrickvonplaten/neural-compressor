@@ -63,6 +63,10 @@ Classes
 
       Get `q_func` attribute.
 
+   .. py:property:: model
+
+      Override model getter method to handle quantization aware training case.
+
    .. py:method:: pre_process()
 
       Prepare dataloaders, qfuncs for Component.

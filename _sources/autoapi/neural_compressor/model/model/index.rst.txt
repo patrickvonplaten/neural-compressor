@@ -16,6 +16,7 @@ Classes
 
    neural_compressor.model.model.TensorflowBaseModel
    neural_compressor.model.model.TensorflowSavedModelModel
+   neural_compressor.model.model.TensorflowQATModel
    neural_compressor.model.model.TensorflowCheckpointModel
    neural_compressor.model.model.MXNetModel
 
@@ -303,6 +304,27 @@ Functions
                 total_sparsity (float): total sparsity of model
       :rtype: df (DataFrame)
 
+
+   .. py:method:: save(root=None)
+
+      abstract method of model saving
+
+
+
+.. py:class:: TensorflowQATModel(model='', **kwargs)
+
+   Bases: :py:obj:`TensorflowSavedModelModel`
+
+   Build TensorflowBaseModel object
+
+   :param model: model path or model object
+   :type model: string or tensorflow model object
+   :param kwargs: other required parameters, like input_fn
+   :type kwargs: dict
+
+   .. py:property:: model
+
+      return model itself
 
    .. py:method:: save(root=None)
 

@@ -219,6 +219,19 @@ Classes
       :type destination: string
 
 
+   .. py:method:: qat_convert(model, quantize_recipe=None)
+
+      Convert a fp32 'tf.keras' model to be a int8 one with quantization aware training implementation.
+
+      :param model: The model to be quantized, expected to be a Keras Functional or Sequential model.
+      :type model: tf.keras.Model
+      :param quantize_recipe: A dict that decide whether given layers should be quantized.
+      :type quantize_recipe: dict
+
+      :returns: Quantized model with fake quant nodes inserted.
+      :rtype: converted_model (tf.keras.Model)
+
+
    .. py:method:: recover_tuned_model(model, q_config)
 
       Execute the recover process on the specified model.

@@ -506,6 +506,26 @@ scale (float): The scale for dataloader to generate quantized input</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.qat_convert">
+<span class="sig-name descname"><span class="pre">qat_convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantize_recipe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.qat_convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a fp32 ‘tf.keras’ model to be a int8 one with quantization aware training implementation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>tf.keras.Model</em>) – The model to be quantized, expected to be a Keras Functional or Sequential model.</p></li>
+<li><p><strong>quantize_recipe</strong> (<em>dict</em>) – A dict that decide whether given layers should be quantized.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Quantized model with fake quant nodes inserted.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>converted_model (tf.keras.Model)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.recover_tuned_model">
 <span class="sig-name descname"><span class="pre">recover_tuned_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.recover_tuned_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute the recover process on the specified model.</p>
@@ -775,6 +795,7 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.get_optype_wise_ability"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.get_optype_wise_ability()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.save"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.save()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.convert"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.convert()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.qat_convert"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.qat_convert()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.recover_tuned_model"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.recover_tuned_model()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.calculate_op_sensitivity"><code class="docutils literal notranslate"><span class="pre">TensorFlowAdaptor.calculate_op_sensitivity()</span></code></a></li>
 </ul>
@@ -809,6 +830,7 @@ and value is a dict that describes all op types’ quantization capability.</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.get_optype_wise_ability">get_optype_wise_ability</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.save">save</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.convert">convert</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.qat_convert">qat_convert</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.recover_tuned_model">recover_tuned_model</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.tensorflow.TensorFlowAdaptor.calculate_op_sensitivity">calculate_op_sensitivity</a></li>
 </ul>
