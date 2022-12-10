@@ -430,16 +430,21 @@ output_tensors: List of output tensors.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.model.model.keras_session">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.model.model.</span></span><span class="sig-name descname"><span class="pre">keras_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_tensor_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_tensor_names</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.model.keras_session" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build session with keras model</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>string</em><em> or </em><em>tf.keras.Model</em>) – model path or tf.keras.Model object</p></li>
-<li><p><strong>input_tensor_names</strong> (<em>list</em><em> of </em><em>string</em>) – input_tensor_names of model</p></li>
-<li><p><strong>output_tensor_names</strong> – output_tensor_names of model</p></li>
-</ul>
+<dd><p>Build session with keras model
+:param model: model path or tf.keras.Model object
+:type model: string or tf.keras.Model
+:param input_tensor_names: input_tensor_names of model
+:type input_tensor_names: list of string
+:param output_tensor_names: output_tensor_names of model
+:type output_tensor_names: list of string</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Returns:</dt><dd><p>sess (tf.compat.v1.Session): tf.compat.v1.Session object
+input_tensor_names (list of string): validated input_tensor_names
+output_tensor_names (list of string): validated output_tensor_names</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">

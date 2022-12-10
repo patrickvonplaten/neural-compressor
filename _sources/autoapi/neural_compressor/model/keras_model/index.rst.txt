@@ -1,0 +1,63 @@
+:orphan:
+
+:py:mod:`neural_compressor.model.keras_model`
+=============================================
+
+.. py:module:: neural_compressor.model.keras_model
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.model.keras_model.KerasModel
+
+
+
+
+.. py:class:: KerasModel(model, **kwargs)
+
+   Bases: :py:obj:`neural_compressor.model.base_model.BaseModel`
+
+   Build KerasModel object
+
+   :param model: model path or model object
+   :type model: string or keras model object
+   :param kwargs: other required parameters
+   :type kwargs: dict
+
+   .. py:property:: model
+
+      return model itself
+
+   .. py:property:: graph_info
+
+      'conv2d'}
+
+      :type: return {Node
+
+      :type: Node_type} like {'conv0'
+
+   .. py:method:: save(root, *args, **kwargs)
+      :abstractmethod:
+
+      abstract method of model saving
+
+
+   .. py:method:: export(save_path: str, conf)
+      :abstractmethod:
+
+      abstract method of model convertion to ONNX
+
+
+   .. py:method:: framework()
+      :abstractmethod:
+
+      abstract method of model framework
+
+
+
