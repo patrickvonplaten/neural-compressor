@@ -1,9 +1,23 @@
-:orphan:
-
 :py:mod:`neural_compressor.data`
 ================================
 
 .. py:module:: neural_compressor.data
+
+.. autoapi-nested-parse::
+
+   Built-in dataloaders, datasets, transforms, filters for multiple framework backends.
+
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   datasets/index.rst
+   filters/index.rst
+   transforms/index.rst
 
 
 Package Contents
@@ -14,12 +28,13 @@ Classes
 
 .. autoapisummary::
 
-   neural_compressor.data.DataLoader
-   neural_compressor.data.DATASETS
+   neural_compressor.data.Datasets
    neural_compressor.data.Dataset
    neural_compressor.data.IterableDataset
+   neural_compressor.data.DataLoader
    neural_compressor.data.TRANSFORMS
    neural_compressor.data.BaseTransform
+   neural_compressor.data.Postprocess
    neural_compressor.data.FILTERS
    neural_compressor.data.Filter
 
@@ -44,16 +59,7 @@ Attributes
    neural_compressor.data.DATALOADERS
 
 
-.. py:class:: DataLoader
-
-   Bases: :py:obj:`object`
-
-   Entrance of all configured DataLoaders. Will dispatch the DataLoaders to framework
-   specific one. Users will be not aware of the dispatching, and the Interface is unified.
-
-
-
-.. py:class:: DATASETS(framework)
+.. py:class:: Datasets(framework)
 
    Bases: :py:obj:`object`
 
@@ -102,6 +108,15 @@ Attributes
    :rtype: cls
 
 
+
+.. py:class:: DataLoader
+
+   Bases: :py:obj:`object`
+
+   Entrance of all configured DataLoaders. Will dispatch the DataLoaders to framework
+   specific one. Users will be not aware of the dispatching, and the Interface is unified.
+
+
 .. py:class:: TRANSFORMS(framework, process)
 
    Bases: :py:obj:`object`
@@ -145,6 +160,12 @@ Attributes
    :returns: The class of register.
    :rtype: cls
 
+
+.. py:class:: Postprocess(postprocess_cls, name='user_postprocess', **kwargs)
+
+   Bases: :py:obj:`object`
+
+   Just collect the infos to construct a Postprocess.
 
 
 .. py:class:: FILTERS(framework)

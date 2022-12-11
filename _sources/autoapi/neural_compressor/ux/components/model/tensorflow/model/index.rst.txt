@@ -29,7 +29,7 @@ Classes
    Abstract TensorFlow Model class.
 
    .. py:property:: nc_model_instance
-      :type: neural_compressor.model.model.TensorflowBaseModel
+      :type: neural_compressor.model.tensorflow_model.TensorflowBaseModel
 
       Get Neural Compressor Model instance.
 

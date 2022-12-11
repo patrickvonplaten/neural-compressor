@@ -225,23 +225,53 @@
               
   <section id="module-neural_compressor.data">
 <span id="neural-compressor-data"></span><h1><a class="reference internal" href="#module-neural_compressor.data" title="neural_compressor.data"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data</span></code></a><a class="headerlink" href="#module-neural_compressor.data" title="Permalink to this heading">¶</a></h1>
+<p>Built-in dataloaders, datasets, transforms, filters for multiple framework backends.</p>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datasets/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datasets/bert_dataset/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.bert_dataset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets/coco_dataset/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.coco_dataset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets/dataset/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.dataset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets/dummy_dataset/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.dummy_dataset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets/dummy_dataset_v2/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.dummy_dataset_v2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets/imagenet_dataset/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.imagenet_dataset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets/style_transfer_dataset/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.style_transfer_dataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="filters/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.filters</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="filters/coco_filter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.filters.coco_filter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="filters/filter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.filters.filter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="transforms/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.transforms</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="transforms/imagenet_transform/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.transforms.imagenet_transform</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms/postprocess/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.transforms.postprocess</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms/tokenization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.transforms.tokenization</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="transforms/transform/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.transforms.transform</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
 <section id="package-contents">
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.DataLoader" title="neural_compressor.data.DataLoader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataLoader</span></code></a></p></td>
-<td><p>Entrance of all configured DataLoaders. Will dispatch the DataLoaders to framework</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.data.DATASETS" title="neural_compressor.data.DATASETS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DATASETS</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.Datasets" title="neural_compressor.data.Datasets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasets</span></code></a></p></td>
 <td><p>A base class for all framework datasets.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.Dataset" title="neural_compressor.data.Dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dataset</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.data.Dataset" title="neural_compressor.data.Dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dataset</span></code></a></p></td>
 <td><p>The base class of dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.data.IterableDataset" title="neural_compressor.data.IterableDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IterableDataset</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.IterableDataset" title="neural_compressor.data.IterableDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IterableDataset</span></code></a></p></td>
 <td><p>An iterable Dataset.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.data.DataLoader" title="neural_compressor.data.DataLoader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataLoader</span></code></a></p></td>
+<td><p>Entrance of all configured DataLoaders. Will dispatch the DataLoaders to framework</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.TRANSFORMS" title="neural_compressor.data.TRANSFORMS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TRANSFORMS</span></code></a></p></td>
 <td><p>Transforms collection class.</p></td>
@@ -249,10 +279,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.data.BaseTransform" title="neural_compressor.data.BaseTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseTransform</span></code></a></p></td>
 <td><p>The base class for transform.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.FILTERS" title="neural_compressor.data.FILTERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FILTERS</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.Postprocess" title="neural_compressor.data.Postprocess"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Postprocess</span></code></a></p></td>
+<td><p>Just collect the infos to construct a Postprocess.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.data.FILTERS" title="neural_compressor.data.FILTERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FILTERS</span></code></a></p></td>
 <td><p>The filter register for all frameworks.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.data.Filter" title="neural_compressor.data.Filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Filter</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.Filter" title="neural_compressor.data.Filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Filter</span></code></a></p></td>
 <td><p>The base class for transform.</p></td>
 </tr>
 </tbody>
@@ -284,16 +317,8 @@
 </tbody>
 </table>
 <dl class="py class">
-<dt class="sig sig-object py" id="neural_compressor.data.DataLoader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.</span></span><span class="sig-name descname"><span class="pre">DataLoader</span></span><a class="headerlink" href="#neural_compressor.data.DataLoader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Entrance of all configured DataLoaders. Will dispatch the DataLoaders to framework
-specific one. Users will be not aware of the dispatching, and the Interface is unified.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_compressor.data.DATASETS">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.</span></span><span class="sig-name descname"><span class="pre">DATASETS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.data.DATASETS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.data.Datasets">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.</span></span><span class="sig-name descname"><span class="pre">Datasets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.data.Datasets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A base class for all framework datasets.</p>
 <dl class="field-list simple">
@@ -346,6 +371,14 @@ specific one. Users will be not aware of the dispatching, and the Interface is u
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.data.DataLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.</span></span><span class="sig-name descname"><span class="pre">DataLoader</span></span><a class="headerlink" href="#neural_compressor.data.DataLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Entrance of all configured DataLoaders. Will dispatch the DataLoaders to framework
+specific one. Users will be not aware of the dispatching, and the Interface is unified.</p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.data.TRANSFORMS">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.</span></span><span class="sig-name descname"><span class="pre">TRANSFORMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.data.TRANSFORMS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -395,6 +428,13 @@ and provide __getitem__ method to get Transforms according to Transforms type.</
 <dd class="field-odd"><p>cls</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.data.Postprocess">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.</span></span><span class="sig-name descname"><span class="pre">Postprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">postprocess_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'user_postprocess'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.data.Postprocess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Just collect the infos to construct a Postprocess.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -472,35 +512,38 @@ and provide __getitem__ method to get Transforms according to Transforms type.</
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data</span></code></a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#attributes">Attributes</a><ul>
-<li><a class="reference internal" href="#neural_compressor.data.DataLoader"><code class="docutils literal notranslate"><span class="pre">DataLoader</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.data.DATASETS"><code class="docutils literal notranslate"><span class="pre">DATASETS</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.data.Datasets"><code class="docutils literal notranslate"><span class="pre">Datasets</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.Dataset"><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.IterableDataset"><code class="docutils literal notranslate"><span class="pre">IterableDataset</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.dataset_registry"><code class="docutils literal notranslate"><span class="pre">dataset_registry()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.data.DataLoader"><code class="docutils literal notranslate"><span class="pre">DataLoader</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.TRANSFORMS"><code class="docutils literal notranslate"><span class="pre">TRANSFORMS</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.data.TRANSFORMS.register"><code class="docutils literal notranslate"><span class="pre">TRANSFORMS.register()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.data.BaseTransform"><code class="docutils literal notranslate"><span class="pre">BaseTransform</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.transform_registry"><code class="docutils literal notranslate"><span class="pre">transform_registry()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.data.Postprocess"><code class="docutils literal notranslate"><span class="pre">Postprocess</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.FILTERS"><code class="docutils literal notranslate"><span class="pre">FILTERS</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.filter_registry"><code class="docutils literal notranslate"><span class="pre">filter_registry()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.data.DataLoader">DataLoader</a></li>
-<li><a class="reference internal" href="#neural_compressor.data.DATASETS">DATASETS</a></li>
+<li><a class="reference internal" href="#neural_compressor.data.Datasets">Datasets</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.Dataset">Dataset</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.IterableDataset">IterableDataset</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.dataset_registry">dataset_registry</a></li>
+<li><a class="reference internal" href="#neural_compressor.data.DataLoader">DataLoader</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.TRANSFORMS">TRANSFORMS</a><ul>
 <li><a class="reference internal" href="#neural_compressor.data.TRANSFORMS.register">register</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.data.BaseTransform">BaseTransform</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.transform_registry">transform_registry</a></li>
+<li><a class="reference internal" href="#neural_compressor.data.Postprocess">Postprocess</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.FILTERS">FILTERS</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.Filter">Filter</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.filter_registry">filter_registry</a></li>

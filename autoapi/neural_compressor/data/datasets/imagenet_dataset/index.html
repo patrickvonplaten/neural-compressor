@@ -225,12 +225,25 @@
               
   <section id="module-neural_compressor.data.datasets.imagenet_dataset">
 <span id="neural-compressor-data-datasets-imagenet-dataset"></span><h1><a class="reference internal" href="#module-neural_compressor.data.datasets.imagenet_dataset" title="neural_compressor.data.datasets.imagenet_dataset"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.imagenet_dataset</span></code></a><a class="headerlink" href="#module-neural_compressor.data.datasets.imagenet_dataset" title="Permalink to this heading">¶</a></h1>
+<p>Dataset for ImageNet data generation on multiple framework backends.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw" title="neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImagenetRaw</span></code></a></p></td>
+<td><p>Configuration for ImageNet raw dataset.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.PytorchImagenetRaw" title="neural_compressor.data.datasets.imagenet_dataset.PytorchImagenetRaw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PytorchImagenetRaw</span></code></a></p></td>
+<td><p>Dataset for ImageNet data generation on pytorch backend.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.MXNetImagenetRaw" title="neural_compressor.data.datasets.imagenet_dataset.MXNetImagenetRaw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MXNetImagenetRaw</span></code></a></p></td>
+<td><p>Dataset for ImageNet data generation on mxnet backend.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetRaw" title="neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetRaw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorflowImagenetRaw</span></code></a></p></td>
+<td><p>Dataset for ImageNet data generation on tensorflow/inteltensorflow/tensorflow_itex backend.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetDataset" title="neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorflowImagenetDataset</span></code></a></p></td>
 <td><p>Configuration for Imagenet dataset.</p></td>
 </tr>
@@ -240,16 +253,53 @@
 </tbody>
 </table>
 <dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.datasets.imagenet_dataset.</span></span><span class="sig-name descname"><span class="pre">ImagenetRaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../dataset/index.html#neural_compressor.data.datasets.dataset.Dataset" title="neural_compressor.data.datasets.dataset.Dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.dataset.Dataset</span></code></a></p>
+<p>Configuration for ImageNet raw dataset.</p>
+<dl class="simple">
+<dt>Please arrange data in this way:</dt><dd><p>data_path/img1.jpg
+data_path/img2.jpg
+…
+data_path/imgx.jpg</p>
+</dd>
+</dl>
+<p>dataset will read name and label of each image from image_list file,
+if user set image_list to None, it will read from data_path/val_map.txt automatically.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.data.datasets.imagenet_dataset.PytorchImagenetRaw">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.datasets.imagenet_dataset.</span></span><span class="sig-name descname"><span class="pre">PytorchImagenetRaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.data.datasets.imagenet_dataset.PytorchImagenetRaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw" title="neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImagenetRaw</span></code></a></p>
+<p>Dataset for ImageNet data generation on pytorch backend.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.data.datasets.imagenet_dataset.MXNetImagenetRaw">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.datasets.imagenet_dataset.</span></span><span class="sig-name descname"><span class="pre">MXNetImagenetRaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.data.datasets.imagenet_dataset.MXNetImagenetRaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw" title="neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImagenetRaw</span></code></a></p>
+<p>Dataset for ImageNet data generation on mxnet backend.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetRaw">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.datasets.imagenet_dataset.</span></span><span class="sig-name descname"><span class="pre">TensorflowImagenetRaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetRaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw" title="neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImagenetRaw</span></code></a></p>
+<p>Dataset for ImageNet data generation on tensorflow/inteltensorflow/tensorflow_itex backend.</p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetDataset">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.datasets.imagenet_dataset.</span></span><span class="sig-name descname"><span class="pre">TensorflowImagenetDataset</span></span><a class="headerlink" href="#neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetDataset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../../../experimental/data/datasets/index.html#neural_compressor.experimental.data.datasets.IterableDataset" title="neural_compressor.experimental.data.datasets.IterableDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.experimental.data.datasets.IterableDataset</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../dataset/index.html#neural_compressor.data.datasets.dataset.IterableDataset" title="neural_compressor.data.datasets.dataset.IterableDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.dataset.IterableDataset</span></code></a></p>
 <p>Configuration for Imagenet dataset.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.data.datasets.imagenet_dataset.ONNXRTImagenetDataset">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.data.datasets.imagenet_dataset.</span></span><span class="sig-name descname"><span class="pre">ONNXRTImagenetDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'val'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">28</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.data.datasets.imagenet_dataset.ONNXRTImagenetDataset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../../../experimental/data/datasets/index.html#neural_compressor.experimental.data.datasets.Dataset" title="neural_compressor.experimental.data.datasets.Dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.experimental.data.datasets.Dataset</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../dataset/index.html#neural_compressor.data.datasets.dataset.Dataset" title="neural_compressor.data.datasets.dataset.Dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.dataset.Dataset</span></code></a></p>
 <p>Configuration for Imagenet dataset.</p>
 </dd></dl>
 
@@ -286,8 +336,16 @@
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.data.datasets.imagenet_dataset</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw"><code class="docutils literal notranslate"><span class="pre">ImagenetRaw</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.PytorchImagenetRaw"><code class="docutils literal notranslate"><span class="pre">PytorchImagenetRaw</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.MXNetImagenetRaw"><code class="docutils literal notranslate"><span class="pre">MXNetImagenetRaw</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetRaw"><code class="docutils literal notranslate"><span class="pre">TensorflowImagenetRaw</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetDataset"><code class="docutils literal notranslate"><span class="pre">TensorflowImagenetDataset</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.ONNXRTImagenetDataset"><code class="docutils literal notranslate"><span class="pre">ONNXRTImagenetDataset</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.ImagenetRaw">ImagenetRaw</a></li>
+<li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.PytorchImagenetRaw">PytorchImagenetRaw</a></li>
+<li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.MXNetImagenetRaw">MXNetImagenetRaw</a></li>
+<li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetRaw">TensorflowImagenetRaw</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.TensorflowImagenetDataset">TensorflowImagenetDataset</a></li>
 <li><a class="reference internal" href="#neural_compressor.data.datasets.imagenet_dataset.ONNXRTImagenetDataset">ONNXRTImagenetDataset</a></li>
 </ul>

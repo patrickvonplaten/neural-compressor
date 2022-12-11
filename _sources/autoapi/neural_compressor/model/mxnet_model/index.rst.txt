@@ -1,0 +1,45 @@
+:orphan:
+
+:py:mod:`neural_compressor.model.mxnet_model`
+=============================================
+
+.. py:module:: neural_compressor.model.mxnet_model
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.model.mxnet_model.MXNetModel
+
+
+
+
+.. py:class:: MXNetModel(model, **kwargs)
+
+   Bases: :py:obj:`neural_compressor.model.base_model.BaseModel`
+
+   Build MXNetModel object
+
+   :param model: model path
+   :type model: mxnet model
+
+   .. py:property:: model
+
+      return model itself
+
+   .. py:method:: framework()
+
+      abstract method of model framework
+
+
+   .. py:method:: save(root=None)
+
+      abstract method of model saving
+
+
+

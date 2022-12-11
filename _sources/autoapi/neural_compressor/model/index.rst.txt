@@ -14,6 +14,7 @@ Classes
 
 .. autoapisummary::
 
+   neural_compressor.model.Model
    neural_compressor.model.BaseModel
 
 
@@ -26,6 +27,13 @@ Attributes
 
    neural_compressor.model.MODELS
 
+
+
+.. py:class:: Model
+
+   Bases: :py:obj:`object`
+
+   A wrapper of the information needed to construct a Model.
 
 
 .. py:class:: BaseModel(model, **kwargs)

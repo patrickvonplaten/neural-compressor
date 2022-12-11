@@ -32,7 +32,7 @@ Classes
 
 .. autoapisummary::
 
-   neural_compressor.experimental.data.datasets.DATASETS
+   neural_compressor.experimental.data.datasets.Datasets
    neural_compressor.experimental.data.datasets.Dataset
    neural_compressor.experimental.data.datasets.IterableDataset
 
@@ -47,7 +47,7 @@ Functions
 
 
 
-.. py:class:: DATASETS(framework)
+.. py:class:: Datasets(framework)
 
    Bases: :py:obj:`object`
 

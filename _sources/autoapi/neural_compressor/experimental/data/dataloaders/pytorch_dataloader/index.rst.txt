@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Initialize the DATASETS class.
+   Initialize the Datasets class.
 
 
 

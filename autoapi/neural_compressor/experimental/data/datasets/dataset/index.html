@@ -253,7 +253,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.PytorchMxnetWrapFunction" title="neural_compressor.experimental.data.datasets.dataset.PytorchMxnetWrapFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PytorchMxnetWrapFunction</span></code></a></p></td>
 <td><p>The Helper class for PytorchMxnetWrapDataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.DATASETS" title="neural_compressor.experimental.data.datasets.dataset.DATASETS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DATASETS</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.Datasets" title="neural_compressor.experimental.data.datasets.dataset.Datasets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datasets</span></code></a></p></td>
 <td><p>A base class for all framework datasets.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.Dataset" title="neural_compressor.experimental.data.datasets.dataset.Dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dataset</span></code></a></p></td>
@@ -431,13 +431,13 @@ conditions.</p></li>
 <p>User could add new datasets by implementing new Dataset subclass under this directory.
 The naming convention of new dataset subclass should be something like ImageClassifier, user
 could choose this dataset by setting “imageclassifier” string in tuning.strategy field of yaml.</p>
-<p>DATASETS variable is used to store all implemented Dataset subclasses to support
+<p>Datasets variable is used to store all implemented Dataset subclasses to support
 model specific dataset.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="neural_compressor.experimental.data.datasets.dataset.DATASETS">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.data.datasets.dataset.</span></span><span class="sig-name descname"><span class="pre">DATASETS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.data.datasets.dataset.DATASETS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.experimental.data.datasets.dataset.Datasets">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.data.datasets.dataset.</span></span><span class="sig-name descname"><span class="pre">Datasets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.data.datasets.dataset.Datasets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A base class for all framework datasets.</p>
 <dl class="field-list simple">
@@ -950,7 +950,7 @@ filter (Filter objects, default=None): filter out examples according</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.PytorchMxnetWrapDataset"><code class="docutils literal notranslate"><span class="pre">PytorchMxnetWrapDataset</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.PytorchMxnetWrapFunction"><code class="docutils literal notranslate"><span class="pre">PytorchMxnetWrapFunction</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.framework_datasets"><code class="docutils literal notranslate"><span class="pre">framework_datasets</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.DATASETS"><code class="docutils literal notranslate"><span class="pre">DATASETS</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.Datasets"><code class="docutils literal notranslate"><span class="pre">Datasets</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.dataset_registry"><code class="docutils literal notranslate"><span class="pre">dataset_registry()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.Dataset"><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.IterableDataset"><code class="docutils literal notranslate"><span class="pre">IterableDataset</span></code></a></li>
@@ -1000,7 +1000,7 @@ filter (Filter objects, default=None): filter out examples according</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.PytorchMxnetWrapDataset">PytorchMxnetWrapDataset</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.PytorchMxnetWrapFunction">PytorchMxnetWrapFunction</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.framework_datasets">framework_datasets</a></li>
-<li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.DATASETS">DATASETS</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.Datasets">Datasets</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.dataset_registry">dataset_registry</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.Dataset">Dataset</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.data.datasets.dataset.IterableDataset">IterableDataset</a></li>

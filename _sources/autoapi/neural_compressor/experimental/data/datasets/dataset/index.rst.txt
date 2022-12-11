@@ -24,7 +24,7 @@ Classes
    neural_compressor.experimental.data.datasets.dataset.ONNXRTITDatasets
    neural_compressor.experimental.data.datasets.dataset.PytorchMxnetWrapDataset
    neural_compressor.experimental.data.datasets.dataset.PytorchMxnetWrapFunction
-   neural_compressor.experimental.data.datasets.dataset.DATASETS
+   neural_compressor.experimental.data.datasets.dataset.Datasets
    neural_compressor.experimental.data.datasets.dataset.Dataset
    neural_compressor.experimental.data.datasets.dataset.IterableDataset
    neural_compressor.experimental.data.datasets.dataset.CIFAR10
@@ -137,10 +137,10 @@ Attributes
    The naming convention of new dataset subclass should be something like ImageClassifier, user
    could choose this dataset by setting "imageclassifier" string in tuning.strategy field of yaml.
 
-   DATASETS variable is used to store all implemented Dataset subclasses to support
+   Datasets variable is used to store all implemented Dataset subclasses to support
    model specific dataset.
 
-.. py:class:: DATASETS(framework)
+.. py:class:: Datasets(framework)
 
    Bases: :py:obj:`object`
 

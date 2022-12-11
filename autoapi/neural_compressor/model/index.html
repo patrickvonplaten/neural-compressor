@@ -231,7 +231,10 @@
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.model.BaseModel" title="neural_compressor.model.BaseModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.model.Model" title="neural_compressor.model.Model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Model</span></code></a></p></td>
+<td><p>A wrapper of the information needed to construct a Model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.model.BaseModel" title="neural_compressor.model.BaseModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p></td>
 <td><p>base class of all neural_compressor.model, will play graph role</p></td>
 </tr>
 </tbody>
@@ -246,6 +249,13 @@
 </tr>
 </tbody>
 </table>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.model.Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><a class="headerlink" href="#neural_compressor.model.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A wrapper of the information needed to construct a Model.</p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.model.BaseModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.BaseModel" title="Permalink to this definition">¶</a></dt>
@@ -324,6 +334,7 @@
 <li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#attributes">Attributes</a><ul>
+<li><a class="reference internal" href="#neural_compressor.model.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.model.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.model.BaseModel.model"><code class="docutils literal notranslate"><span class="pre">BaseModel.model</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.model.BaseModel.graph_info"><code class="docutils literal notranslate"><span class="pre">BaseModel.graph_info</span></code></a></li>
@@ -332,6 +343,7 @@
 <li><a class="reference internal" href="#neural_compressor.model.BaseModel.framework"><code class="docutils literal notranslate"><span class="pre">BaseModel.framework()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#neural_compressor.model.Model">Model</a></li>
 <li><a class="reference internal" href="#neural_compressor.model.BaseModel">BaseModel</a><ul>
 <li><a class="reference internal" href="#neural_compressor.model.BaseModel.model">model</a></li>
 <li><a class="reference internal" href="#neural_compressor.model.BaseModel.graph_info">graph_info</a></li>

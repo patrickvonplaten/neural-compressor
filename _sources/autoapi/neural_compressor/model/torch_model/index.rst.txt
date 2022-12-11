@@ -17,7 +17,7 @@ Classes
    neural_compressor.model.torch_model.PyTorchBaseModel
    neural_compressor.model.torch_model.PyTorchModel
    neural_compressor.model.torch_model.PyTorchFXModel
-   neural_compressor.model.torch_model.PyTorchIpexModel
+   neural_compressor.model.torch_model.IPEXModel
 
 
 
@@ -168,11 +168,11 @@ Classes
    :type model: onnx model
 
 
-.. py:class:: PyTorchIpexModel(model, **kwargs)
+.. py:class:: IPEXModel(model, **kwargs)
 
    Bases: :py:obj:`PyTorchBaseModel`
 
-   Build PyTorchIpexModel object
+   Build IPEXModel object
 
    :param model: model path
    :type model: onnx model

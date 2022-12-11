@@ -240,8 +240,8 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchFXModel" title="neural_compressor.model.torch_model.PyTorchFXModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyTorchFXModel</span></code></a></p></td>
 <td><p>Build PyTorchFXModel object</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchIpexModel" title="neural_compressor.model.torch_model.PyTorchIpexModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyTorchIpexModel</span></code></a></p></td>
-<td><p>Build PyTorchIpexModel object</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.model.torch_model.IPEXModel" title="neural_compressor.model.torch_model.IPEXModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IPEXModel</span></code></a></p></td>
+<td><p>Build IPEXModel object</p></td>
 </tr>
 </tbody>
 </table>
@@ -442,18 +442,18 @@ total_sparsity (float): total sparsity of model</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="neural_compressor.model.torch_model.PyTorchIpexModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.torch_model.</span></span><span class="sig-name descname"><span class="pre">PyTorchIpexModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.torch_model.PyTorchIpexModel" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.model.torch_model.IPEXModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.torch_model.</span></span><span class="sig-name descname"><span class="pre">IPEXModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.torch_model.IPEXModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchBaseModel" title="neural_compressor.model.torch_model.PyTorchBaseModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyTorchBaseModel</span></code></a></p>
-<p>Build PyTorchIpexModel object</p>
+<p>Build IPEXModel object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model</strong> (<em>onnx model</em>) – model path</p>
 </dd>
 </dl>
 <dl class="py property">
-<dt class="sig sig-object py" id="neural_compressor.model.torch_model.PyTorchIpexModel.graph_info">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">graph_info</span></span><a class="headerlink" href="#neural_compressor.model.torch_model.PyTorchIpexModel.graph_info" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.model.torch_model.IPEXModel.graph_info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">graph_info</span></span><a class="headerlink" href="#neural_compressor.model.torch_model.IPEXModel.graph_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘conv2d’}</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -466,8 +466,8 @@ total_sparsity (float): total sparsity of model</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.model.torch_model.PyTorchIpexModel.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.torch_model.PyTorchIpexModel.save" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.model.torch_model.IPEXModel.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.torch_model.IPEXModel.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>abstract method of model saving</p>
 </dd></dl>
 
@@ -526,9 +526,9 @@ total_sparsity (float): total sparsity of model</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchFXModel"><code class="docutils literal notranslate"><span class="pre">PyTorchFXModel</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchIpexModel"><code class="docutils literal notranslate"><span class="pre">PyTorchIpexModel</span></code></a><ul>
-<li><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchIpexModel.graph_info"><code class="docutils literal notranslate"><span class="pre">PyTorchIpexModel.graph_info</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchIpexModel.save"><code class="docutils literal notranslate"><span class="pre">PyTorchIpexModel.save()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.model.torch_model.IPEXModel"><code class="docutils literal notranslate"><span class="pre">IPEXModel</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.model.torch_model.IPEXModel.graph_info"><code class="docutils literal notranslate"><span class="pre">IPEXModel.graph_info</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.model.torch_model.IPEXModel.save"><code class="docutils literal notranslate"><span class="pre">IPEXModel.save()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchBaseModel">PyTorchBaseModel</a><ul>
@@ -551,9 +551,9 @@ total_sparsity (float): total sparsity of model</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchFXModel">PyTorchFXModel</a></li>
-<li><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchIpexModel">PyTorchIpexModel</a><ul>
-<li><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchIpexModel.graph_info">graph_info</a></li>
-<li><a class="reference internal" href="#neural_compressor.model.torch_model.PyTorchIpexModel.save">save</a></li>
+<li><a class="reference internal" href="#neural_compressor.model.torch_model.IPEXModel">IPEXModel</a><ul>
+<li><a class="reference internal" href="#neural_compressor.model.torch_model.IPEXModel.graph_info">graph_info</a></li>
+<li><a class="reference internal" href="#neural_compressor.model.torch_model.IPEXModel.save">save</a></li>
 </ul>
 </li>
 </ul>

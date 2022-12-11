@@ -22,7 +22,6 @@ Functions
 .. py:function:: fit(model, conf, calib_dataloader=None, calib_func=None, eval_dataloader=None, eval_func=None, eval_metric=None, **kwargs)
 
    Quantize the model with a given configure.
-
    :param model: For Tensorflow model, it could be a path
                  to frozen pb,loaded graph_def object or
                  a path to ckpt/savedmodel folder.
@@ -72,9 +71,7 @@ Functions
                      encapsulated in this function implementation
                      and outputs a higher-is-better accuracy scalar
                      value.
-
                      The pseudo code should be something like:
-
                      def eval_func(model):
                           input, label = dataloader()
                           output = model(input)

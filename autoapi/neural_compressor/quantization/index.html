@@ -239,17 +239,19 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.quantization.fit">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.quantization.</span></span><span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.quantization.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Quantize the model with a given configure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – For Tensorflow model, it could be a path
-to frozen pb,loaded graph_def object or
+<dd><p>Quantize the model with a given configure.
+:param model: For Tensorflow model, it could be a path</p>
+<blockquote>
+<div><p>to frozen pb,loaded graph_def object or
 a path to ckpt/savedmodel folder.
 For PyTorch model, it’s torch.nn.model
 instance.
 For MXNet model, it’s mxnet.symbol.Symbol
-or gluon.HybirdBlock instance.</p></li>
+or gluon.HybirdBlock instance.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
 <li><p><strong>conf</strong> (<em>string</em><em> or </em><em>obj</em>) – The path to the YAML configuration file or
 QuantConf class containing accuracy goal,
 tuning objective and preferred calibration &amp;
@@ -286,15 +288,15 @@ This function takes model as parameter,
 and evaluation dataset and metrics should be
 encapsulated in this function implementation
 and outputs a higher-is-better accuracy scalar
-value.</p>
-<p>The pseudo code should be something like:</p>
-<dl class="simple">
-<dt>def eval_func(model):</dt><dd><p>input, label = dataloader()
+value.
+The pseudo code should be something like:
+def eval_func(model):</p>
+<blockquote>
+<div><p>input, label = dataloader()
 output = model(input)
 accuracy = metric(output, label)
 return accuracy</p>
-</dd>
-</dl>
+</div></blockquote>
 </p></li>
 </ul>
 </dd>

@@ -225,6 +225,21 @@
               
   <section id="module-neural_compressor.metric">
 <span id="neural-compressor-metric"></span><h1><a class="reference internal" href="#module-neural_compressor.metric" title="neural_compressor.metric"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric</span></code></a><a class="headerlink" href="#module-neural_compressor.metric" title="Permalink to this heading">¶</a></h1>
+<p>Intel Neural Compressor Metric.</p>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bleu/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric.bleu</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="bleu_util/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric.bleu_util</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="coco_label_map/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric.coco_label_map</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="coco_tools/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric.coco_tools</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluate_squad/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric.evaluate_squad</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="f1/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric.f1</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="metric/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric.metric</span></code></a></li>
+</ul>
+</div>
+</section>
 <section id="package-contents">
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
@@ -234,7 +249,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.metric.METRICS" title="neural_compressor.metric.METRICS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">METRICS</span></code></a></p></td>
 <td><p>Intel Neural Compressor Metrics.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.metric.BaseMetric" title="neural_compressor.metric.BaseMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.metric.Metric" title="neural_compressor.metric.Metric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Metric</span></code></a></p></td>
+<td><p>A wrapper of the information needed to construct a Metric.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.metric.BaseMetric" title="neural_compressor.metric.BaseMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p></td>
 <td><p>The base class of Metric.</p></td>
 </tr>
 </tbody>
@@ -274,6 +292,16 @@
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.metric.Metric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.metric.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'user_metric'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.metric.Metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A wrapper of the information needed to construct a Metric.</p>
+<p>The metric class should take the outputs of the model as the metric’s inputs,
+neural_compressor built-in metric always take (predictions, labels) as inputs, it’s
+recommended to design metric_cls to take (predictions, labels) as inputs.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -398,6 +426,7 @@ as one of tensorflow, pytorch, mxnet, onnxrt.</p>
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric</span></code></a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
@@ -406,6 +435,7 @@ as one of tensorflow, pytorch, mxnet, onnxrt.</p>
 <li><a class="reference internal" href="#neural_compressor.metric.METRICS.register"><code class="docutils literal notranslate"><span class="pre">METRICS.register()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#neural_compressor.metric.Metric"><code class="docutils literal notranslate"><span class="pre">Metric</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.metric.BaseMetric"><code class="docutils literal notranslate"><span class="pre">BaseMetric</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.metric.BaseMetric.metric"><code class="docutils literal notranslate"><span class="pre">BaseMetric.metric</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.metric.BaseMetric.hvd"><code class="docutils literal notranslate"><span class="pre">BaseMetric.hvd</span></code></a></li>
@@ -420,6 +450,7 @@ as one of tensorflow, pytorch, mxnet, onnxrt.</p>
 <li><a class="reference internal" href="#neural_compressor.metric.METRICS.register">register</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#neural_compressor.metric.Metric">Metric</a></li>
 <li><a class="reference internal" href="#neural_compressor.metric.BaseMetric">BaseMetric</a><ul>
 <li><a class="reference internal" href="#neural_compressor.metric.BaseMetric.metric">metric</a></li>
 <li><a class="reference internal" href="#neural_compressor.metric.BaseMetric.hvd">hvd</a></li>

@@ -12,7 +12,9 @@ Subpackages
    :titlesonly:
    :maxdepth: 3
 
+   data/index.rst
    experimental/index.rst
+   metric/index.rst
    ux/index.rst
 
 

@@ -1,9 +1,27 @@
-:orphan:
-
 :py:mod:`neural_compressor.metric`
 ==================================
 
 .. py:module:: neural_compressor.metric
+
+.. autoapi-nested-parse::
+
+   Intel Neural Compressor Metric.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   bleu/index.rst
+   bleu_util/index.rst
+   coco_label_map/index.rst
+   coco_tools/index.rst
+   evaluate_squad/index.rst
+   f1/index.rst
+   metric/index.rst
 
 
 Package Contents
@@ -15,6 +33,7 @@ Classes
 .. autoapisummary::
 
    neural_compressor.metric.METRICS
+   neural_compressor.metric.Metric
    neural_compressor.metric.BaseMetric
 
 
@@ -45,6 +64,17 @@ Functions
       :param name: The name of metric.
       :param metric_cls: The metric class.
 
+
+
+.. py:class:: Metric(metric_cls, name='user_metric', **kwargs)
+
+   Bases: :py:obj:`object`
+
+   A wrapper of the information needed to construct a Metric.
+
+   The metric class should take the outputs of the model as the metric's inputs,
+   neural_compressor built-in metric always take (predictions, labels) as inputs, it's
+   recommended to design metric_cls to take (predictions, labels) as inputs.
 
 
 .. py:class:: BaseMetric(metric, single_output=False, hvd=None)

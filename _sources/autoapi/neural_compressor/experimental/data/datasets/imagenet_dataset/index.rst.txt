@@ -21,6 +21,8 @@ Classes
    neural_compressor.experimental.data.datasets.imagenet_dataset.PytorchImagenetRaw
    neural_compressor.experimental.data.datasets.imagenet_dataset.MXNetImagenetRaw
    neural_compressor.experimental.data.datasets.imagenet_dataset.TensorflowImagenetRaw
+   neural_compressor.experimental.data.datasets.imagenet_dataset.TensorflowImagenetDataset
+   neural_compressor.experimental.data.datasets.imagenet_dataset.ONNXRTImagenetDataset
 
 
 
@@ -59,5 +61,19 @@ Classes
    Bases: :py:obj:`ImagenetRaw`
 
    Dataset for ImageNet data generation on tensorflow/inteltensorflow/tensorflow_itex backend.
+
+
+.. py:class:: TensorflowImagenetDataset
+
+   Bases: :py:obj:`neural_compressor.experimental.data.datasets.dataset.IterableDataset`
+
+   Configuration for Imagenet dataset.
+
+
+.. py:class:: ONNXRTImagenetDataset(root, subset='val', num_cores=28, transform=None, filter=None)
+
+   Bases: :py:obj:`neural_compressor.experimental.data.datasets.dataset.Dataset`
+
+   Configuration for Imagenet dataset.
 
 
