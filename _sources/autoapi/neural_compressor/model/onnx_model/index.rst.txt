@@ -68,4 +68,9 @@ Classes
       Save model to external data, which is needed for model size > 2GB
 
 
+   .. py:method:: export(save_path, conf)
+
+      abstract method of model convertion to ONNX
+
+
 

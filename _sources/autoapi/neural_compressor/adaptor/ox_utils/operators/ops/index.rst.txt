@@ -16,12 +16,21 @@ Functions
 .. autoapisummary::
 
    neural_compressor.adaptor.ox_utils.operators.ops.op_registry
+   neural_compressor.adaptor.ox_utils.operators.ops.qop_registry
 
 
 
 .. py:function:: op_registry(op_types)
 
    The class decorator used to register all Operator subclasses.
+
+   :param cls: The class of register.
+   :type cls: class
+
+
+.. py:function:: qop_registry(op_types)
+
+   The class decorator used to register all qOperator subclasses.
 
    :param cls: The class of register.
    :type cls: class

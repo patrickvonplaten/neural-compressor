@@ -15,6 +15,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   qlinear2qdq/index.rst
    torch2onnx/index.rst
    utils/index.rst
 
@@ -30,6 +31,7 @@ Functions
 
    neural_compressor.experimental.export.torch_to_fp32_onnx
    neural_compressor.experimental.export.torch_to_int8_onnx
+   neural_compressor.experimental.export.onnx_qlinear_to_qdq
 
 
 
@@ -93,5 +95,15 @@ Functions
                   'QDQ_OP_FP32_BIAS_QDQ': inserting QDQ before and after quantizable op and using fp32 bias.
                   Defaults to 'QDQ_OP_FP32_BIAS'.
    :type recipe: str, optionl
+
+
+.. py:function:: onnx_qlinear_to_qdq(model, input_name_to_nodes)
+
+   Export ONNX QLinearops model into QDQ model.
+
+   :param model: int8 onnx model.
+   :type model: ModelProto
+   :param input_name_to_nodes: the mapping of tensor name and its destination nodes.
+   :type input_name_to_nodes: dict
 
 
