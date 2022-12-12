@@ -18,6 +18,7 @@ Classes
 .. autoapisummary::
 
    neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager
+   neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding
 
 
 
@@ -106,6 +107,38 @@ Classes
 
       Create a sklearn compatible test/train set from an imported results csv
       after "import_csv" method is run.
+
+
+
+.. py:class:: TransformerLTEncoding(param_dict: dict, verbose: bool = False, seed: int = 0)
+
+   Bases: :py:obj:`ParameterManager`
+
+   The ParameterManager class.
+
+   It handles the super-network encoding representation and translates between
+   the 1-hot predictor, pymoo, and super-network dictionary formats during search.
+
+   :param param_dict: the search space dictionary.
+   :type param_dict: dict
+
+   .. py:method:: import_csv(filepath: str, config: str, objective: str, column_names: List[str] = None, drop_duplicates: bool = True) -> pandas.DataFrame
+
+      Import a csv file generated from a supernetwork search for the purpose of training a predictor.
+
+      filepath - path of the csv to be imported.
+      config - the subnetwork configuration
+      objective - target/label for the subnet configuration (e.g. accuracy, latency)
+      column_names - a list of column names for the dataframe
+      df - the output dataframe that contains the original config dict, pymoo, and 1-hot
+           equivalent vector for training.
+
+
+   .. py:method:: create_training_set(dataframe: pandas.DataFrame, train_with_all: bool = True, split: float = 0.33, seed: bool = None) -> Tuple[list, list, list, list]
+
+      Create a sklearn compatible test/train.
+
+      The set is created from an imported results csv after "import_csv" method is run.
 
 
 

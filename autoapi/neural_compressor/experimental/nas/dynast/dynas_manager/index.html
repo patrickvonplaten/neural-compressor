@@ -235,6 +235,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager" title="neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParameterManager</span></code></a></p></td>
 <td><p>The ParameterManager class.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding" title="neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransformerLTEncoding</span></code></a></p></td>
+<td><p>The ParameterManager class.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py class">
@@ -342,6 +345,41 @@ after “import_csv” method is run.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_manager.</span></span><span class="sig-name descname"><span class="pre">TransformerLTEncoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager" title="neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParameterManager</span></code></a></p>
+<p>The ParameterManager class.</p>
+<p>It handles the super-network encoding representation and translates between
+the 1-hot predictor, pymoo, and super-network dictionary formats during search.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>param_dict</strong> (<em>dict</em>) – the search space dictionary.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding.import_csv">
+<span class="sig-name descname"><span class="pre">import_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_duplicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding.import_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import a csv file generated from a supernetwork search for the purpose of training a predictor.</p>
+<p>filepath - path of the csv to be imported.
+config - the subnetwork configuration
+objective - target/label for the subnet configuration (e.g. accuracy, latency)
+column_names - a list of column names for the dataframe
+df - the output dataframe that contains the original config dict, pymoo, and 1-hot</p>
+<blockquote>
+<div><p>equivalent vector for training.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding.create_training_set">
+<span class="sig-name descname"><span class="pre">create_training_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_with_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.33</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding.create_training_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a sklearn compatible test/train.</p>
+<p>The set is created from an imported results csv after “import_csv” method is run.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -387,6 +425,11 @@ after “import_csv” method is run.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager.create_training_set"><code class="docutils literal notranslate"><span class="pre">ParameterManager.create_training_set()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding"><code class="docutils literal notranslate"><span class="pre">TransformerLTEncoding</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding.import_csv"><code class="docutils literal notranslate"><span class="pre">TransformerLTEncoding.import_csv()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding.create_training_set"><code class="docutils literal notranslate"><span class="pre">TransformerLTEncoding.create_training_set()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager">ParameterManager</a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager.process_param_dict">process_param_dict</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager.onehot_generic">onehot_generic</a></li>
@@ -397,6 +440,11 @@ after “import_csv” method is run.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager.import_csv">import_csv</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager.set_seed">set_seed</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager.create_training_set">create_training_set</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding">TransformerLTEncoding</a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding.import_csv">import_csv</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_manager.TransformerLTEncoding.create_training_set">create_training_set</a></li>
 </ul>
 </li>
 </ul>

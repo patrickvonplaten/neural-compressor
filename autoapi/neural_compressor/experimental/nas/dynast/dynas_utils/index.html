@@ -238,14 +238,20 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.OFARunner" title="neural_compressor.experimental.nas.dynast.dynas_utils.OFARunner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OFARunner</span></code></a></p></td>
 <td><p>The OFARunner class.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface" title="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluationInterface</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner" title="neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransformerLTRunner</span></code></a></p></td>
+<td><p>The Runner base class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface" title="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluationInterface</span></code></a></p></td>
 <td><p>Evaluation Interface class.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceResNet50" title="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceResNet50"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluationInterfaceResNet50</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceResNet50" title="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceResNet50"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluationInterfaceResNet50</span></code></a></p></td>
 <td><p>Evaluation Interface class for ResNet50.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3" title="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluationInterfaceMobileNetV3</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3" title="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluationInterfaceMobileNetV3</span></code></a></p></td>
 <td><p>Evaluation Interface class for MobileNetV3.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT" title="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluationInterfaceTransformerLT</span></code></a></p></td>
+<td><p>Evaluation Interface class.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TorchVisionReference" title="neural_compressor.experimental.nas.dynast.dynas_utils.TorchVisionReference"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TorchVisionReference</span></code></a></p></td>
 <td><p>Baseline of the torchvision model.</p></td>
@@ -316,7 +322,7 @@ If ‘None’ it will be adjusted automatically w.r.t batch size.</p></li>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_utils.OFARunner">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_utils.</span></span><span class="sig-name descname"><span class="pre">OFARunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supernet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acc_predictor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_predictor/index.html#neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor" title="neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">macs_predictor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_predictor/index.html#neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor" title="neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency_predictor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_predictor/index.html#neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor" title="neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">imagenetpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.OFARunner" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_utils.</span></span><span class="sig-name descname"><span class="pre">OFARunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supernet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acc_predictor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_predictor/index.html#neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor" title="neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">macs_predictor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_predictor/index.html#neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor" title="neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency_predictor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_predictor/index.html#neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor" title="neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasetpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.OFARunner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.Runner" title="neural_compressor.experimental.nas.dynast.dynas_utils.Runner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Runner</span></code></a></p>
 <p>The OFARunner class.</p>
 <p>The OFARunner class manages the sub-network selection from the OFA super-network and
@@ -423,6 +429,41 @@ are currently supported. Imagenet is required for these super-networks <cite>ima
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_utils.</span></span><span class="sig-name descname"><span class="pre">TransformerLTRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supernet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acc_predictor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_predictor/index.html#neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor" title="neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">macs_predictor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_predictor/index.html#neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor" title="neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency_predictor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_predictor/index.html#neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor" title="neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasetpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.Runner" title="neural_compressor.experimental.nas.dynast.dynas_utils.Runner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Runner</span></code></a></p>
+<p>The Runner base class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner.validate_macs">
+<span class="sig-name descname"><span class="pre">validate_macs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subnet_cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner.validate_macs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measure Torch model’s FLOPs/MACs as per FVCore calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>subnet_cfg</strong> – sub-network Torch model</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>macs</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner.measure_latency">
+<span class="sig-name descname"><span class="pre">measure_latency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subnet_cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner.measure_latency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measure model’s latency.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>subnet_cfg</strong> – sub-network Torch model</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>mean latency; std latency</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_utils.</span></span><span class="sig-name descname"><span class="pre">EvaluationInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evaluator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.Runner" title="neural_compressor.experimental.nas.dynast.dynas_utils.Runner"><span class="pre">Runner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_manager/index.html#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager" title="neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['acc',</span> <span class="pre">'macs']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictor_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluation Interface class.</p>
@@ -491,6 +532,36 @@ framework as it controls how evaluation calls are made from DyNAS-T.</p>
 <dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3.eval_subnet">
 <span class="sig-name descname"><span class="pre">eval_subnet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3.eval_subnet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the subnet.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_utils.</span></span><span class="sig-name descname"><span class="pre">EvaluationInterfaceTransformerLT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evaluator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.Runner" title="neural_compressor.experimental.nas.dynast.dynas_utils.Runner"><span class="pre">Runner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../dynas_manager/index.html#neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager" title="neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager"><span class="pre">neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['acc',</span> <span class="pre">'macs']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictor_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface" title="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluationInterface</span></code></a></p>
+<p>Evaluation Interface class.</p>
+<p>The interface class update is required to be updated for each unique SuperNetwork
+framework as it controls how evaluation calls are made from DyNAS-T.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>evaluator</strong> (<em>class</em>) – The ‘runner’ that performs the validation or prediction.</p></li>
+<li><p><strong>manager</strong> (<em>class</em>) – The DyNAS-T manager that translates between PyMoo and the parameter dict.</p></li>
+<li><p><strong>csv_path</strong> (<em>str</em><em>, </em><em>Optional</em>) – The csv file that get written to during the subnetwork search.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT.eval_subnet">
+<span class="sig-name descname"><span class="pre">eval_subnet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT.eval_subnet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the subnet.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT.clear_csv">
+<span class="sig-name descname"><span class="pre">clear_csv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT.clear_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the csv file.</p>
 </dd></dl>
 
 </dd></dl>
@@ -605,6 +676,11 @@ framework as it controls how evaluation calls are made from DyNAS-T.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.OFARunner.get_subnet"><code class="docutils literal notranslate"><span class="pre">OFARunner.get_subnet()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner"><code class="docutils literal notranslate"><span class="pre">TransformerLTRunner</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner.validate_macs"><code class="docutils literal notranslate"><span class="pre">TransformerLTRunner.validate_macs()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner.measure_latency"><code class="docutils literal notranslate"><span class="pre">TransformerLTRunner.measure_latency()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface"><code class="docutils literal notranslate"><span class="pre">EvaluationInterface</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface.eval_subnet"><code class="docutils literal notranslate"><span class="pre">EvaluationInterface.eval_subnet()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface.clear_csv"><code class="docutils literal notranslate"><span class="pre">EvaluationInterface.clear_csv()</span></code></a></li>
@@ -616,6 +692,11 @@ framework as it controls how evaluation calls are made from DyNAS-T.</p>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3"><code class="docutils literal notranslate"><span class="pre">EvaluationInterfaceMobileNetV3</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3.eval_subnet"><code class="docutils literal notranslate"><span class="pre">EvaluationInterfaceMobileNetV3.eval_subnet()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT"><code class="docutils literal notranslate"><span class="pre">EvaluationInterfaceTransformerLT</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT.eval_subnet"><code class="docutils literal notranslate"><span class="pre">EvaluationInterfaceTransformerLT.eval_subnet()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT.clear_csv"><code class="docutils literal notranslate"><span class="pre">EvaluationInterfaceTransformerLT.clear_csv()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.get_torchvision_model"><code class="docutils literal notranslate"><span class="pre">get_torchvision_model()</span></code></a></li>
@@ -638,6 +719,11 @@ framework as it controls how evaluation calls are made from DyNAS-T.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.OFARunner.get_subnet">get_subnet</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner">TransformerLTRunner</a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner.validate_macs">validate_macs</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner.measure_latency">measure_latency</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface">EvaluationInterface</a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface.eval_subnet">eval_subnet</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface.clear_csv">clear_csv</a></li>
@@ -649,6 +735,11 @@ framework as it controls how evaluation calls are made from DyNAS-T.</p>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3">EvaluationInterfaceMobileNetV3</a><ul>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3.eval_subnet">eval_subnet</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT">EvaluationInterfaceTransformerLT</a><ul>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT.eval_subnet">eval_subnet</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT.clear_csv">clear_csv</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.nas.dynast.dynas_utils.get_torchvision_model">get_torchvision_model</a></li>

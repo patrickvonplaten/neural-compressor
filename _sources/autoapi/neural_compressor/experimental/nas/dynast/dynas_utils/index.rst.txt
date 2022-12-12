@@ -19,9 +19,11 @@ Classes
 
    neural_compressor.experimental.nas.dynast.dynas_utils.Runner
    neural_compressor.experimental.nas.dynast.dynas_utils.OFARunner
+   neural_compressor.experimental.nas.dynast.dynas_utils.TransformerLTRunner
    neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterface
    neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceResNet50
    neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceMobileNetV3
+   neural_compressor.experimental.nas.dynast.dynas_utils.EvaluationInterfaceTransformerLT
    neural_compressor.experimental.nas.dynast.dynas_utils.TorchVisionReference
 
 
@@ -76,7 +78,7 @@ Functions
    The Runner base class.
 
 
-.. py:class:: OFARunner(supernet: str, acc_predictor: neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor, macs_predictor: neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor, latency_predictor: neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor, imagenetpath: str, batch_size: int)
+.. py:class:: OFARunner(supernet: str, acc_predictor: neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor, macs_predictor: neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor, latency_predictor: neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor, datasetpath: str, batch_size: int, **kwargs)
 
    Bases: :py:obj:`Runner`
 
@@ -157,6 +159,31 @@ Functions
 
 
 
+.. py:class:: TransformerLTRunner(supernet: str, acc_predictor: neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor, macs_predictor: neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor, latency_predictor: neural_compressor.experimental.nas.dynast.dynas_predictor.Predictor, datasetpath: str, batch_size: int, checkpoint_path: str, **kwargs)
+
+   Bases: :py:obj:`Runner`
+
+   The Runner base class.
+
+   .. py:method:: validate_macs(subnet_cfg: dict) -> float
+
+      Measure Torch model's FLOPs/MACs as per FVCore calculation.
+
+      :param subnet_cfg: sub-network Torch model
+
+      :returns: `macs`
+
+
+   .. py:method:: measure_latency(subnet_cfg: dict) -> Tuple[float, float]
+
+      Measure model's latency.
+
+      :param subnet_cfg: sub-network Torch model
+
+      :returns: mean latency; std latency
+
+
+
 .. py:class:: EvaluationInterface(evaluator: Runner, manager: neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager, metrics: list = ['acc', 'macs'], predictor_mode: bool = False, csv_path: str = None)
 
    Evaluation Interface class.
@@ -217,6 +244,33 @@ Functions
    .. py:method:: eval_subnet(x: list) -> Tuple[dict, float, float]
 
       Evaluate the subnet.
+
+
+
+.. py:class:: EvaluationInterfaceTransformerLT(evaluator: Runner, manager: neural_compressor.experimental.nas.dynast.dynas_manager.ParameterManager, metrics=['acc', 'macs'], predictor_mode=False, csv_path=None)
+
+   Bases: :py:obj:`EvaluationInterface`
+
+   Evaluation Interface class.
+
+   The interface class update is required to be updated for each unique SuperNetwork
+   framework as it controls how evaluation calls are made from DyNAS-T.
+
+   :param evaluator: The 'runner' that performs the validation or prediction.
+   :type evaluator: class
+   :param manager: The DyNAS-T manager that translates between PyMoo and the parameter dict.
+   :type manager: class
+   :param csv_path: The csv file that get written to during the subnetwork search.
+   :type csv_path: str, Optional
+
+   .. py:method:: eval_subnet(x: list) -> Tuple[dict, float, float]
+
+      Evaluate the subnet.
+
+
+   .. py:method:: clear_csv() -> None
+
+      Clear the csv file.
 
 
 
