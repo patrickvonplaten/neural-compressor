@@ -1,0 +1,103 @@
+:py:mod:`neural_compressor.pruner.regs`
+=======================================
+
+.. py:module:: neural_compressor.pruner.regs
+
+.. autoapi-nested-parse::
+
+   Regularizer.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.pruner.regs.BaseReg
+   neural_compressor.pruner.regs.GroupLasso
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.pruner.regs.register_reg
+   neural_compressor.pruner.regs.get_reg_type
+   neural_compressor.pruner.regs.get_reg
+
+
+
+.. py:function:: register_reg(name)
+
+   Register a regularizator to the registry.
+
+
+.. py:function:: get_reg_type(config)
+
+   Obtain the regularizer type.
+
+
+.. py:function:: get_reg(config, modules, pattern)
+
+   Get registered regularizator class.
+
+
+.. py:class:: BaseReg(config: dict, modules: dict, pattern: neural_compressor.pruner.patterns.BasePattern)
+
+   Regularizer.
+
+   The class which performs regularization.
+
+   :param modules: A dict {"module_name": Tensor}. Store the pruning modules' weights.
+   :param config: A config dict object that includes information of the regularizer.
+   :param pattern: A config dict object. The pattern related part in args config.
+
+   .. py:method:: on_before_optimizer_step()
+
+      Implement before optimizer.step().
+
+
+   .. py:method:: on_after_optimizer_step()
+
+      Implement after optimizer.step().
+
+
+
+.. py:class:: GroupLasso(config: dict, modules: dict, pattern: neural_compressor.pruner.patterns.BasePattern, coeff)
+
+   Bases: :py:obj:`BaseReg`
+
+   Regularizer.
+
+   A regularizer class derived from BaseReg. In this class, the Group-lasso regularization will be performed.
+   Group-lasso is a variable-selection and regularization method.
+
+   :param modules: A dict {"module_name": Tensor}. Store the pruning modules' weights.
+   :param config: A config dict object that includes information of the regularizer.
+   :param pattern: A config dict object. The pattern related part in args config.
+
+   .. attribute:: reg_terms
+
+      A dict {"module_name": Tensor} of regularization terms.
+
+   .. attribute:: alpha
+
+      A float representing the coeffient related to group lasso.
+
+   .. py:method:: on_before_optimizer_step()
+
+      Calculate the group-lasso score map.
+
+
+   .. py:method:: on_after_optimizer_step()
+
+      Perform group lasso regularization after optimization.
+
+
+

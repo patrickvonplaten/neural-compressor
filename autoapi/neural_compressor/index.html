@@ -330,6 +330,16 @@
 <li class="toctree-l2"><a class="reference internal" href="metric/metric/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.metric.metric</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="pruner/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pruner/criteria/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.criteria</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pruner/logger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.logger</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pruner/patterns/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.patterns</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pruner/pruners/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.pruners</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pruner/regs/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.regs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pruner/schedulers/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.schedulers</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pruner/utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.utils</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ux/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.ux</span></code></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ux/components/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.ux.components</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="ux/components/benchmark/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.ux.components.benchmark</span></code></a></li>
@@ -383,6 +393,14 @@
 </ul>
 </div>
 </section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pruning/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruning</span></code></a></li>
+</ul>
+</div>
+</section>
 <section id="package-contents">
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
@@ -390,7 +408,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.Pruning" title="neural_compressor.Pruning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pruning</span></code></a></p></td>
-<td><p>This is base class of pruning object.</p></td>
+<td><p>Pruning.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.Benchmark" title="neural_compressor.Benchmark"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Benchmark</span></code></a></p></td>
 <td><p>Benchmark class can be used to evaluate the model performance, with the objective</p></td>
@@ -402,43 +420,122 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.Pruning">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">Pruning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is base class of pruning object.</p>
-<blockquote>
-<div><p>Since DL use cases vary in the accuracy metrics (Top-1, MAP, ROC etc.), loss criteria
-(&lt;1% or &lt;0.1% etc.) and pruning objectives (performance, memory footprint etc.).
-Pruning class provides a flexible configuration interface via YAML for users to specify
-these parameters.</p>
-</div></blockquote>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">Pruning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pruning.</p>
+<p>The main class that users will used in codes to do pruning.
+Contain at least one Pruner object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>conf_fname_or_obj</strong> (<em>string</em><em> or </em><em>obj</em>) – The path to the YAML configuration file or
-Pruning_Conf class containing accuracy goal, pruning objective and related
-dataloaders etc.</p>
+<dd class="field-odd"><p><strong>config</strong> – a string. The path to a config file. For config file template, please refer to
+<a class="reference external" href="https://github.com/intel/neural-compressor/tree/master/examples/pytorch/nlp/huggingface_models/text-classification/pruning/pytorch_pruner/eager/">https://github.com/intel/neural-compressor/tree/master/examples/pytorch/nlp/huggingface_models/text-classification/pruning/pytorch_pruner/eager/</a></p>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#neural_compressor.Pruning.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model object to prune.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.config_file_path">
+<span class="sig-name descname"><span class="pre">config_file_path</span></span><a class="headerlink" href="#neural_compressor.Pruning.config_file_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string. The path to a config file.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.pruners">
+<span class="sig-name descname"><span class="pre">pruners</span></span><a class="headerlink" href="#neural_compressor.Pruning.pruners" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list. A list of Pruner objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.pruner_info">
+<span class="sig-name descname"><span class="pre">pruner_info</span></span><a class="headerlink" href="#neural_compressor.Pruning.pruner_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>A config dict object. Contains pruners’ information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.update_config">
+<span class="sig-name descname"><span class="pre">update_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.update_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add user-defined arguments to the original configurations.</p>
+<p>The original config of pruning is read from a file.
+However, users can still modify configurations by passing key-value arguments in this function.
+Please note that the key-value arguments’ keys are analysable in current configuration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.get_sparsity_ratio">
+<span class="sig-name descname"><span class="pre">get_sparsity_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.get_sparsity_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate sparsity ratio of a module/layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Three floats.
+elementwise_over_matmul_gemm_conv refers to zero elements’ ratio in pruning layers.
+elementwise_over_all refers to zero elements’ ratio in all layers in the model.
+blockwise_over_matmul_gemm_conv refers to all-zero blocks’ ratio in pruning layers.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.on_train_begin">
+<span class="sig-name descname"><span class="pre">on_train_begin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_train_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement at the beginning of training process.</p>
+<p>Before training, ensure that pruners are generated.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.Pruning.on_epoch_begin">
 <span class="sig-name descname"><span class="pre">on_epoch_begin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_epoch_begin" title="Permalink to this definition">¶</a></dt>
-<dd><p>called on the begining of epochs</p>
+<dd><p>Implement at the beginning of every epoch.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.Pruning.on_step_begin">
-<span class="sig-name descname"><span class="pre">on_step_begin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_step_begin" title="Permalink to this definition">¶</a></dt>
-<dd><p>called on the begining of batches</p>
+<span class="sig-name descname"><span class="pre">on_step_begin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_step</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_step_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement at the beginning of every step.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.on_before_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_before_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_before_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement before optimizer.step().</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.Pruning.on_step_end">
 <span class="sig-name descname"><span class="pre">on_step_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_step_end" title="Permalink to this definition">¶</a></dt>
-<dd><p>called on the end of batches</p>
+<dd><p>Implement at the end of every step.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.Pruning.on_epoch_end">
 <span class="sig-name descname"><span class="pre">on_epoch_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_epoch_end" title="Permalink to this definition">¶</a></dt>
-<dd><p>called on the end of epochs</p>
+<dd><p>Implement the end of every epoch.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.on_train_end">
+<span class="sig-name descname"><span class="pre">on_train_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_train_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the end of training phase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.on_before_eval">
+<span class="sig-name descname"><span class="pre">on_before_eval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_before_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement at the beginning of evaluation phase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.on_after_eval">
+<span class="sig-name descname"><span class="pre">on_after_eval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_after_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement at the end of evaluation phase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.Pruning.on_after_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_after_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Pruning.on_after_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement after optimizer.step().</p>
 </dd></dl>
 
 </dd></dl>
@@ -509,22 +606,47 @@ Defaults to None.</p></li>
               <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor</span></code></a><ul>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#neural_compressor.Pruning"><code class="docutils literal notranslate"><span class="pre">Pruning</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.Pruning.model"><code class="docutils literal notranslate"><span class="pre">Pruning.model</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.config_file_path"><code class="docutils literal notranslate"><span class="pre">Pruning.config_file_path</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.pruners"><code class="docutils literal notranslate"><span class="pre">Pruning.pruners</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.pruner_info"><code class="docutils literal notranslate"><span class="pre">Pruning.pruner_info</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.update_config"><code class="docutils literal notranslate"><span class="pre">Pruning.update_config()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.get_sparsity_ratio"><code class="docutils literal notranslate"><span class="pre">Pruning.get_sparsity_ratio()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_train_begin"><code class="docutils literal notranslate"><span class="pre">Pruning.on_train_begin()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_epoch_begin"><code class="docutils literal notranslate"><span class="pre">Pruning.on_epoch_begin()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_step_begin"><code class="docutils literal notranslate"><span class="pre">Pruning.on_step_begin()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_before_optimizer_step"><code class="docutils literal notranslate"><span class="pre">Pruning.on_before_optimizer_step()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_step_end"><code class="docutils literal notranslate"><span class="pre">Pruning.on_step_end()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_epoch_end"><code class="docutils literal notranslate"><span class="pre">Pruning.on_epoch_end()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_train_end"><code class="docutils literal notranslate"><span class="pre">Pruning.on_train_end()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_before_eval"><code class="docutils literal notranslate"><span class="pre">Pruning.on_before_eval()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_after_eval"><code class="docutils literal notranslate"><span class="pre">Pruning.on_after_eval()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_after_optimizer_step"><code class="docutils literal notranslate"><span class="pre">Pruning.on_after_optimizer_step()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.Benchmark"><code class="docutils literal notranslate"><span class="pre">Benchmark</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.DistillationConfig"><code class="docutils literal notranslate"><span class="pre">DistillationConfig</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning">Pruning</a><ul>
+<li><a class="reference internal" href="#neural_compressor.Pruning.model">model</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.config_file_path">config_file_path</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.pruners">pruners</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.pruner_info">pruner_info</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.update_config">update_config</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.get_sparsity_ratio">get_sparsity_ratio</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_train_begin">on_train_begin</a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_epoch_begin">on_epoch_begin</a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_step_begin">on_step_begin</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_before_optimizer_step">on_before_optimizer_step</a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_step_end">on_step_end</a></li>
 <li><a class="reference internal" href="#neural_compressor.Pruning.on_epoch_end">on_epoch_end</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_train_end">on_train_end</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_before_eval">on_before_eval</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_after_eval">on_after_eval</a></li>
+<li><a class="reference internal" href="#neural_compressor.Pruning.on_after_optimizer_step">on_after_optimizer_step</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.Benchmark">Benchmark</a></li>

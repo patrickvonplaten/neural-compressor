@@ -1,0 +1,76 @@
+:py:mod:`neural_compressor.pruner.utils`
+========================================
+
+.. py:module:: neural_compressor.pruner.utils
+
+.. autoapi-nested-parse::
+
+   prune utils.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.pruner.utils.WeightPruningConfig
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.pruner.utils.check_config
+   neural_compressor.pruner.utils.reset_none_to_default
+   neural_compressor.pruner.utils.process_config
+   neural_compressor.pruner.utils.parse_to_prune
+
+
+
+.. py:class:: WeightPruningConfig(pruning_configs=[{}], target_sparsity=0.9, pruning_type='snip_momentum', pattern='4x1', op_names=[], excluded_op_names=[], start_step=0, end_step=0, pruning_scope='global', pruning_frequency=1, min_sparsity_ratio_per_op=0.0, max_sparsity_ratio_per_op=0.98, sparsity_decay_type='exp', pruning_op_types=['Conv', 'Linear'], **kwargs)
+
+   similiar to torch optimizer's interface
+
+
+.. py:function:: check_config(prune_config)
+
+   Functions that check key-value is valid to run Pruning object.
+
+   :param prune_config: A config dict object. Contains Pruning parameters and configurations.
+
+   :returns: None if everything is correct.
+
+   :raises AssertionError.:
+
+
+.. py:function:: reset_none_to_default(obj, key, default)
+
+   Functions that add up undefined configurations.
+
+   If some configurations are not defined in the configuration, set it to a default value.
+
+   :param obj: A dict{key: value}
+   :param key: A string. Key in obj.
+   :param default: When the key is not in obj, Add key: default item in original obj.
+
+
+.. py:function:: process_config(config)
+
+   Obtain a config dict object from a config file.
+
+   :param config: A string. The path to configuration file.
+
+   :returns: A config dict object.
+
+
+.. py:function:: parse_to_prune(config, model)
+
+   Keep target pruned layers.
+
+

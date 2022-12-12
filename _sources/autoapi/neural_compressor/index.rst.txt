@@ -15,7 +15,17 @@ Subpackages
    data/index.rst
    experimental/index.rst
    metric/index.rst
+   pruner/index.rst
    ux/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   pruning/index.rst
 
 
 Package Contents
@@ -33,38 +43,101 @@ Classes
 
 
 
-.. py:class:: Pruning(conf_fname_or_obj)
+.. py:class:: Pruning(config)
 
-   This is base class of pruning object.
+   Pruning.
 
-      Since DL use cases vary in the accuracy metrics (Top-1, MAP, ROC etc.), loss criteria
-      (<1% or <0.1% etc.) and pruning objectives (performance, memory footprint etc.).
-      Pruning class provides a flexible configuration interface via YAML for users to specify
-      these parameters.
+   The main class that users will used in codes to do pruning.
+   Contain at least one Pruner object.
 
-   :param conf_fname_or_obj: The path to the YAML configuration file or
-                             Pruning_Conf class containing accuracy goal, pruning objective and related
-                             dataloaders etc.
-   :type conf_fname_or_obj: string or obj
+   :param config: a string. The path to a config file. For config file template, please refer to
+                  https://github.com/intel/neural-compressor/tree/master/examples/pytorch/nlp/huggingface_models/text-classification/pruning/pytorch_pruner/eager/
+
+   .. attribute:: model
+
+      The model object to prune.
+
+   .. attribute:: config_file_path
+
+      A string. The path to a config file.
+
+   .. attribute:: pruners
+
+      A list. A list of Pruner objects.
+
+   .. attribute:: pruner_info
+
+      A config dict object. Contains pruners' information.
+
+   .. py:method:: update_config(*args, **kwargs)
+
+      Add user-defined arguments to the original configurations.
+
+      The original config of pruning is read from a file.
+      However, users can still modify configurations by passing key-value arguments in this function.
+      Please note that the key-value arguments' keys are analysable in current configuration.
+
+
+   .. py:method:: get_sparsity_ratio()
+
+      Calculate sparsity ratio of a module/layer.
+
+      :returns: Three floats.
+                elementwise_over_matmul_gemm_conv refers to zero elements' ratio in pruning layers.
+                elementwise_over_all refers to zero elements' ratio in all layers in the model.
+                blockwise_over_matmul_gemm_conv refers to all-zero blocks' ratio in pruning layers.
+
+
+   .. py:method:: on_train_begin()
+
+      Implement at the beginning of training process.
+
+      Before training, ensure that pruners are generated.
+
 
    .. py:method:: on_epoch_begin(epoch)
 
-      called on the begining of epochs
+      Implement at the beginning of every epoch.
 
 
-   .. py:method:: on_step_begin(batch_id)
+   .. py:method:: on_step_begin(local_step)
 
-      called on the begining of batches
+      Implement at the beginning of every step.
+
+
+   .. py:method:: on_before_optimizer_step()
+
+      Implement before optimizer.step().
 
 
    .. py:method:: on_step_end()
 
-      called on the end of batches
+      Implement at the end of every step.
 
 
    .. py:method:: on_epoch_end()
 
-      called on the end of epochs
+      Implement the end of every epoch.
+
+
+   .. py:method:: on_train_end()
+
+      Implement the end of training phase.
+
+
+   .. py:method:: on_before_eval()
+
+      Implement at the beginning of evaluation phase.
+
+
+   .. py:method:: on_after_eval()
+
+      Implement at the end of evaluation phase.
+
+
+   .. py:method:: on_after_optimizer_step()
+
+      Implement after optimizer.step().
 
 
 

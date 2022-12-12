@@ -1,0 +1,8 @@
+:orphan:
+
+:py:mod:`neural_compressor.pruner.pruner_legacy.magnitude`
+==========================================================
+
+.. py:module:: neural_compressor.pruner.pruner_legacy.magnitude
+
+

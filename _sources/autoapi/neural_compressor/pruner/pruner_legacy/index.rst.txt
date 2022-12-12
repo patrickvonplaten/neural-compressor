@@ -1,0 +1,12 @@
+:orphan:
+
+:py:mod:`neural_compressor.pruner.pruner_legacy`
+================================================
+
+.. py:module:: neural_compressor.pruner.pruner_legacy
+
+
+Package Contents
+----------------
+
+
