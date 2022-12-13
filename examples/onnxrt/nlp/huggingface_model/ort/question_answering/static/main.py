@@ -29,8 +29,10 @@ from datasets import load_dataset, load_metric
 
 from torch.utils.data import Dataset, DataLoader
 
+import sys
 import onnx
 import onnxruntime as ort
+from onnxruntime.quantization import quantize_static, QuantFormat, QuantType, CalibrationDataReader
 import numpy as np
 import transformers
 from trainer_qa import QuestionAnsweringTrainer
@@ -103,6 +105,10 @@ class ModelArguments:
         default=None,
         metadata={"help": ("onnx model path")},
     )
+    ort_static_quant_output: str = field(
+        default=None,
+        metadata={"help": ("onnx model path")},
+    )
     tune: bool = field(
         default=False,
         metadata={"help": ("INC tune")},
@@ -140,7 +146,7 @@ class DataTrainingArguments:
     """
 
     dataset_name: Optional[str] = field(
-        default='squad', metadata={"help": "The name of the dataset to use (via the datasets library)."}
+        default=None, metadata={"help": "The name of the dataset to use (via the datasets library)."}
     )
     dataset_config_name: Optional[str] = field(
         default=None, metadata={"help": "The configuration name of the dataset to use (via the datasets library)."}
@@ -276,11 +282,35 @@ class SquadDataset(Dataset):
             return (self.input_ids[index:index + self.bs][0][0], self.token_type_ids[index:index + self.bs][0][0], self.attention_mask[index:index + self.bs][0][0]), 0
         else:
             return (self.input_ids[index:index + self.bs][0][0], self.attention_mask[index:index + self.bs][0][0]), 0
+        # return (self.input_ids[index:index + self.bs][0], self.attention_mask[index:index + self.bs][0], self.token_type_ids[index:index + self.bs][0]), 0
 
     def __len__(self):
         assert len(self.input_ids) == len(self.attention_mask)
+        # assert len(self.input_ids) == len(self.token_type_ids)
         return len(self.input_ids)
-    
+
+class ONNXRTSquadDataset(CalibrationDataReader):
+    def __init__(self, eval_dataloader):
+        self.eval_dataloader = eval_dataloader
+        self.dataset = []
+        flag = 20
+        for idx, inputs in enumerate(self.eval_dataloader):
+            flag -= 1
+            ort_inputs = {}
+            if 'token_type_ids' in inputs:
+                ort_inputs = {"input_ids": np.array(inputs['input_ids'], dtype=np.int64),
+                        "token_type_ids": np.array(inputs['token_type_ids'], dtype=np.int64),
+                        "attention_mask": np.array(inputs['attention_mask'], dtype=np.int64)}
+            else:
+                ort_inputs = {"input_ids": np.array(inputs['input_ids'], dtype=np.int64),
+                        "attention_mask": np.array(inputs['attention_mask'], dtype=np.int64)}
+            self.dataset.append(ort_inputs)
+            if flag == 0:
+                break
+        self.enum_data_dicts = iter(self.dataset)
+
+    def get_next(self):
+        return next(self.enum_data_dicts, None) 
 
 def main():
     # See all possible arguments in src/transformers/training_args.py
@@ -353,7 +383,6 @@ def main():
             cache_dir=model_args.cache_dir,
             use_auth_token=True if model_args.use_auth_token else None,
         )
-        print(type(raw_datasets))
     else:
         data_files = {}
         if data_args.train_file is not None:
@@ -386,7 +415,6 @@ def main():
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
-        force_download=True,
     )
     tokenizer = AutoTokenizer.from_pretrained(
         model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
@@ -394,7 +422,6 @@ def main():
         use_fast=True,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
-        force_download=True,
     )
     model = AutoModelForQuestionAnswering.from_pretrained(
         model_args.model_name_or_path,
@@ -403,7 +430,6 @@ def main():
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
-        force_download=True,
     )
 
     # Tokenizer check: this script requires a fast tokenizer.
@@ -542,6 +568,7 @@ def main():
         references = [{"id": ex["id"], "answers": ex[answer_column_name]} for ex in examples]
         return EvalPrediction(predictions=formatted_predictions, label_ids=references)
 
+    print('dataset is', "squad_v2" if data_args.version_2_with_negative else "squad")
     metric = load_metric("squad_v2" if data_args.version_2_with_negative else "squad")
 
     def compute_metrics(p: EvalPrediction):
@@ -565,7 +592,6 @@ def main():
     def eval_func(model, *args):
         logger.info("*** Evaluate ***")
         metrics = trainer.evaluate(onnx_model=model)
-        print('eval_func', metrics)
 
         max_eval_samples = data_args.max_eval_samples if data_args.max_eval_samples is not None else len(eval_dataset)
         metrics["eval_samples"] = min(max_eval_samples, len(eval_dataset))
@@ -573,51 +599,6 @@ def main():
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
         return metrics['eval_f1']
-    
-    if model_args.tune:
-        from onnxruntime.transformers import optimizer
-        from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
-        
-        opt_options = BertOptimizationOptions('bert')
-        opt_options.enable_embed_layer_norm = False
-
-        model_optimizer = optimizer.optimize_model(
-            model_args.model_path,
-            'bert',
-            num_heads=model_args.num_heads,
-            hidden_size=model_args.hidden_size,
-            optimization_options=opt_options)
-        model = model_optimizer.model
-
-        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
-            os.mkdir('./' + model_args.model_name_or_path.split('/')[-1])
-            optimize_save_path = './' + model_args.model_name_or_path.split('/')[-1] + '/' + model_args.model_name_or_path.split('/')[-1] + '.optimized.onnx'
-            onnx.save(model, 
-                optimize_save_path,
-                save_as_external_data=True,
-                all_tensors_to_one_file=True,
-                location="weights.pb",
-                convert_attribute=False)
-
-        b_dataloader = SquadDataset(eval_dataloader)
-        b_dataloader = DataLoader(b_dataloader)
-        from neural_compressor.experimental import Quantization, common
-        quantize = Quantization(model_args.config)
-        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
-            quantize.model = common.Model(optimize_save_path)
-        else:
-            quantize.model = common.Model(model)
-        quantize.calib_dataloader = b_dataloader
-        quantize.eval_func = eval_func
-        q_model = quantize()
-        q_model.save(model_args.save_path)
-
-        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
-            if os.path.exists('./' + model_args.model_name_or_path.split('/')[-1]):
-                del_files('./' + model_args.model_name_or_path.split('/')[-1])
-            if os.path.exists('./big-workspace'):
-                del_files('./big-workspace')
-
 
     if model_args.benchmark:
         from neural_compressor.experimental import Benchmark, common
@@ -655,6 +636,84 @@ def main():
                 del_files('./' + model_args.model_name_or_path.split('/')[-1])
             if os.path.exists('./big-workspace'):
                 del_files('./big-workspace')
+
+    if model_args.tune:
+        from onnxruntime.transformers import optimizer
+        from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
+        
+        opt_options = BertOptimizationOptions('bert')
+        opt_options.enable_embed_layer_norm = False
+
+        model_optimizer = optimizer.optimize_model(
+            model_args.model_path,
+            'bert',
+            num_heads=model_args.num_heads,
+            hidden_size=model_args.hidden_size,
+            optimization_options=opt_options)
+        model = model_optimizer.model
+
+        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+            os.mkdir('./' + model_args.model_name_or_path.split('/')[-1])
+            optimize_save_path = './' + model_args.model_name_or_path.split('/')[-1] + '/' + model_args.model_name_or_path.split('/')[-1] + '.optimized.onnx'
+            onnx.save(model, 
+                optimize_save_path,
+                save_as_external_data=True,
+                all_tensors_to_one_file=True,
+                location="weights.pb",
+                convert_attribute=False)
+        else:
+            onnx.save(model, model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
+
+        nodes_to_quantize = None
+        if model_args.model_name_or_path == 'distilbert-base-uncased-distilled-squad':
+            nodes_to_quantize=['Add_10']
+        elif model_args.model_name_or_path == 'deepset/roberta-large-squad2':
+            nodes_to_quantize=['Add_46', 'Add_48']
+        elif model_args.model_name_or_path == 'bert-large-uncased-whole-word-masking-finetuned-squad':
+            nodes_to_quantize=['Add_18', 'Add_20']
+        static_dataset = ONNXRTSquadDataset(eval_dataloader)
+        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+            if nodes_to_quantize:
+                quantize_static(optimize_save_path,
+                        model_args.save_path,
+                        static_dataset,
+                        quant_format=QuantFormat.QOperator,
+                        use_external_data_format=True,
+                        nodes_to_quantize=nodes_to_quantize,
+                        )
+            else:
+                quantize_static(optimize_save_path,
+                        model_args.save_path,
+                        static_dataset,
+                        quant_format=QuantFormat.QOperator,
+                        use_external_data_format=True,
+                        )
+        else:
+            if nodes_to_quantize:
+                quantize_static(model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
+                        model_args.save_path,
+                        static_dataset,
+                        quant_format=QuantFormat.QOperator,
+                        nodes_to_quantize=nodes_to_quantize,
+                        )
+            else:
+                quantize_static(model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
+                        model_args.save_path,
+                        static_dataset,
+                        quant_format=QuantFormat.QOperator,
+                        )
+        print('static Calibrated and quantized model saved to', model_args.save_path)
+        print('model which meet accuracy goal.')
+
+        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+            if os.path.exists('./' + model_args.model_name_or_path.split('/')[-1]):
+                del_files('./' + model_args.model_name_or_path.split('/')[-1])
+            if os.path.exists('./big-workspace'):
+                del_files('./big-workspace')
+        else:
+            if os.path.exists(model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx'):
+                os.remove(model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
+
 
 if __name__ == "__main__":
     main()

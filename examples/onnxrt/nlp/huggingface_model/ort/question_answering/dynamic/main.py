@@ -31,6 +31,7 @@ from torch.utils.data import Dataset, DataLoader
 
 import onnx
 import onnxruntime as ort
+import onnxruntime.quantization as ortq
 import numpy as np
 import transformers
 from trainer_qa import QuestionAnsweringTrainer
@@ -598,26 +599,31 @@ def main():
                 all_tensors_to_one_file=True,
                 location="weights.pb",
                 convert_attribute=False)
-
-        b_dataloader = SquadDataset(eval_dataloader)
-        b_dataloader = DataLoader(b_dataloader)
-        from neural_compressor.experimental import Quantization, common
-        quantize = Quantization(model_args.config)
-        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
-            quantize.model = common.Model(optimize_save_path)
         else:
-            quantize.model = common.Model(model)
-        quantize.calib_dataloader = b_dataloader
-        quantize.eval_func = eval_func
-        q_model = quantize()
-        q_model.save(model_args.save_path)
+            onnx.save(model, model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
+
+        if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+            ortq.quantize_dynamic(
+                optimize_save_path,
+                model_args.save_path,
+                use_external_data_format=True
+                )
+        else:
+            ortq.quantize_dynamic(
+                model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
+                model_args.save_path,
+                )
+        print('save ortq dynamic quantize model to', model_args.save_path)
+        print('model which meet accuracy goal.')
 
         if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
             if os.path.exists('./' + model_args.model_name_or_path.split('/')[-1]):
                 del_files('./' + model_args.model_name_or_path.split('/')[-1])
             if os.path.exists('./big-workspace'):
                 del_files('./big-workspace')
-
+        else:
+            if os.path.exists(model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx'):
+                os.remove(model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
 
     if model_args.benchmark:
         from neural_compressor.experimental import Benchmark, common
