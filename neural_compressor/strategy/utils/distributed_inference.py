@@ -1,4 +1,5 @@
-from typing import List, Any
+#  distributed_inference.py
+
 from .remote_task import Trial, ResultMonitor
 
 class Adaptor:
