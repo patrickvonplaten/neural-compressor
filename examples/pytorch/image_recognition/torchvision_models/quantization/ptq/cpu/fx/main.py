@@ -178,14 +178,35 @@ def main():
     if args.benchmark or args.accuracy_only:
         model.eval()
         if args.int8:
+            print("********** Load int8 model from local.")
             from neural_compressor.utils.pytorch import load
             new_model = load(os.path.abspath(os.path.expanduser(args.tuned_checkpoint)),
                              model,
                              dataloader=val_loader)
+            # profile_model(new_model, batch_size=32, model_name='int8')
+            
         else:
+            print("********** Load fp32 model.")
             new_model = model
+            # profile_model(new_model, batch_size=32, model_name='fp32')
         validate(val_loader, new_model, criterion, args)
-        return
+    
+
+
+
+def profile_model(model, inputs, batch_size = 1, model_name='fp32_model'):
+    from torch.profiler import profile, record_function, ProfilerActivity
+    # if not inputs:
+    #     inputs = torch.randn(batch_size, 3, 224, 224)
+    with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
+        with record_function(model_name):
+            for i in range(10):
+                output = model(inputs)
+    print(f"********** Profiling result of {model_name} with batch size {batch_size}.")
+    print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=20))
+    result_name = f"_{model_name}_{str(batch_size)}.json"
+    prof.export_chrome_trace(result_name)
+    return output
 
 
 def train(train_loader, model, criterion, optimizer, epoch, args):
@@ -201,7 +222,8 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
     model.train()
 
     end = time.time()
-    for i, (input, target) in enumerate(train_loader):
+    import tqdm
+    for i, (input, target) in tqdm.tqdm(enumerate(train_loader)):
         # measure data loading time
         data_time.update(time.time() - end)
 
@@ -242,35 +264,44 @@ def validate(val_loader, model, criterion, args):
 
     # switch to evaluate mode
     model.eval()
+    import tqdm
 
     with torch.no_grad():
-        for i, (input, target) in enumerate(val_loader):
-            if i >= args.warmup_iter:
-                start = time.time()
-            if args.gpu is not None:
-                input = input.cuda(args.gpu, non_blocking=True)
-                target = target.cuda(args.gpu, non_blocking=True)
+        _start = time.time()
+        from torch.profiler import profile, record_function, ProfilerActivity
+        with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
+            with record_function('model_name'):
+                for i, (input, target) in enumerate(val_loader):
+                    if i >= args.warmup_iter:
+                        start = time.time()
+                    if args.gpu is not None:
+                        input = input.cuda(args.gpu, non_blocking=True)
+                        target = target.cuda(args.gpu, non_blocking=True)
 
-            # compute output
-            output = model(input)
-            loss = criterion(output, target)
+                    # compute output
+                    output = model(input)
+                    #output = profile_model(model, inputs=input)
+                    
+                    loss = criterion(output, target)
 
-            # measure accuracy and record loss
-            acc1, acc5 = accuracy(output, target, topk=(1, 5))
-            losses.update(loss.item(), input.size(0))
-            top1.update(acc1[0], input.size(0))
-            top5.update(acc5[0], input.size(0))
+                    # measure accuracy and record loss
+                    acc1, acc5 = accuracy(output, target, topk=(1, 5))
+                    losses.update(loss.item(), input.size(0))
+                    top1.update(acc1[0], input.size(0))
+                    top5.update(acc5[0], input.size(0))
 
-            # measure elapsed time
-            if i >= args.warmup_iter:
-                batch_time.update(time.time() - start)
+                    # measure elapsed time
+                    if i >= args.warmup_iter:
+                        batch_time.update(time.time() - start)
 
-            if i % args.print_freq == 0:
-                progress.print(i)
+                    if i % args.print_freq == 0:
+                        progress.print(i)
 
-            if args.iter > 0 and i >= (args.warmup_iter + args.iter - 1):
-                break
-
+                    if args.iter > 0 and i >= (args.warmup_iter + args.iter - 1):
+                        break
+        print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=20))
+        _end = time.time()
+        print(f"**** Total time for validation is {_end - start}")
         print('Batch size = %d' % args.batch_size)
         if args.batch_size == 1:
             print('Latency: %.3f ms' % (batch_time.avg * 1000))
