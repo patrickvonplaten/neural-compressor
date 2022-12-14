@@ -254,6 +254,7 @@
         'LeakyRelu', 'Gather', 'Sigmoid', 'MaxPool', 'EmbedLayerNormalization',
         'FusedConv', 'GlobalAveragePool', 'Pad', 'Split', 'Squeeze', 'Reshape',
         'Concat', 'AveragePool', 'Unsqueeze', 'Transpose', 'Gemm', 'Resize']
+    fp16: *common_fp16
     fp32: ['*'] # '*' means all op types
 
   capabilities:
