@@ -118,6 +118,10 @@ class BasicTuneStrategy(TuneStrategy):
                     break
                 op_tuning_cfg['calib_sampling_size'] = calib_sampling_size
                 yield op_tuning_cfg
+            
+            # WA for test distributed tuning
+            return 
+        
             # Fallback the ops supported both static and dynamic from static to dynamic
             # Tuning items: None
             if self.cfg.quantization.approach == 'post_training_auto_quant':

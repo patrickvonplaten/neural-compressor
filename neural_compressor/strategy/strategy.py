@@ -25,6 +25,7 @@ from collections import OrderedDict, defaultdict
 from pathlib import Path
 import yaml
 import numpy as np
+import time
 
 from neural_compressor.adaptor.tensorflow import TensorFlowAdaptor
 from ..objective import MultiObjective
@@ -42,13 +43,13 @@ from ..algorithm.fast_bias_correction import FastBiasCorrection
 import copy
 import numpy as np
 from collections import OrderedDict
-from time import time
 from ..utils import logger
 
 
 from .utils.tuning_sampler import OpTypeWiseTuningSampler, FallbackTuningSampler
 from .utils.tuning_space import TuningItem, TuningSpace
 from .utils.tuning_structs import OpTuningConfig
+from .utils.distributed_inference import Scheduler as DistributedTuningScheduler
 
 
 STRATEGIES = {}
@@ -230,9 +231,39 @@ class TuneStrategy(object):
         self.show_baseline_info()
 
         trials_count = 0
-        traverse_start_time = time()
+        traverse_start_time = time.time()
+        # start to tuning in parallel.
+        tune_cfg_lst = []
         for op_tuning_cfg in self.next_tune_cfg():
-            tuning_start_time = time()
+            tune_cfg = self._tune_cfg_converter(op_tuning_cfg)
+            tune_cfg_lst.append(tune_cfg)
+        logger.info(f"Got {len(tune_cfg_lst)} tuning configs.")
+        self.dis_tuning_scheduler = DistributedTuningScheduler()
+        self.dis_tuning_scheduler.dispatch_trails(tune_cfg_lst=tune_cfg_lst[:3],
+                                                  adaptor=self.adaptor,
+                                                  model=self.model,
+                                                  calib_dataloader=self.calib_dataloader,
+                                                  q_func=self.q_func,
+                                                  evaluate=self._evaluate)
+        import ray
+        while True:
+            unfinished_trials = []
+            for trial in self.dis_tuning_scheduler.trials_lst:
+                if not ray.get(trial.report_state.remote()):
+                    unfinished_trials.append(trial)
+            if not unfinished_trials:
+                break
+            time.sleep(10)
+            
+        for trial in self.dis_tuning_scheduler.trials_lst:
+            trial_id, eval_result = ray.get(trial.report_eval_result.remote())
+            logger.info(f"The evaluated result of {trial_id} is {eval_result}")
+
+        # WA for test tuning in parallel.
+        return 
+        
+        for op_tuning_cfg in self.next_tune_cfg():
+            tuning_start_time = time.time()
             tune_cfg = self._tune_cfg_converter(op_tuning_cfg)
             trials_count += 1
             tuning_history = self._find_tuning_history(tune_cfg)
@@ -268,7 +299,7 @@ class TuneStrategy(object):
                                     q_config=self.q_model.q_config)
             self.tune_result_record.append(copy.deepcopy(self.last_tune_result))
             self.tune_cfg = tune_cfg
-            now_time = time()
+            now_time = time.time()
             acc_res_msg = ""
             performace_res_msg = ""
             if self.tuning_result_data:
@@ -740,6 +771,8 @@ class TuneStrategy(object):
         Returns:
             Objective: The objective value evaluated
         """
+        print(self)
+        print(self.eval_func)
         if self.eval_func:
             if self.cfg.tuning.tensorboard:
                 # Pytorch can insert observer to model in this hook.
@@ -808,21 +841,21 @@ class TuneStrategy(object):
             
         return val
 
-    def __getstate__(self):
-        """Magic method for pickle saving.
+    # def __getstate__(self):
+    #     """Magic method for pickle saving.
 
-        Returns:
-            dict: Saved dict for resuming
-        """
-        return {'tuning_history': self.tuning_history}
+    #     Returns:
+    #         dict: Saved dict for resuming
+    #     """
+    #     return {'tuning_history': self.tuning_history}
 
-    def __setstate__(self, d):
-        """Magic method for pickle loading.
+    # def __setstate__(self, d):
+    #     """Magic method for pickle loading.
 
-        Args:
-            d (dict): The dict to load.
-        """
-        self.__dict__.update(d)
+    #     Args:
+    #         d (dict): The dict to load.
+    #     """
+    #     self.__dict__.update(d)
 
     def stop(self, timeout, trials_count):
         """Check if need to stop traversing the tuning space, either accuracy goal is met
@@ -958,8 +991,10 @@ class TuneStrategy(object):
         """save current tuning state to snapshot for resuming.
 
         """
+         
 
         logger.info("Save tuning history to {}.".format(self.history_path))
+        return
         with fault_tolerant_file(self.history_path) as f:
             pickle.dump(self, f, protocol=pickle.HIGHEST_PROTOCOL)
 
