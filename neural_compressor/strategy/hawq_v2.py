@@ -145,13 +145,52 @@ class HAWQ_V2TuneStrategy(TuneStrategy):
 
         logger.info(f"Start to accumulate fallback to {target_dtype}.")
         initial_op_tuning_cfg = deepcopy(op_tuning_cfg)
-        fallback_sampler = FallbackTuningSampler(tuning_space, tuning_order_lst=[],
-                                                 initial_op_tuning_cfg=op_tuning_cfg,
-                                                 op_dtypes=op_dtypes, accumulate=True,
-                                                 skip_first=False)
-        for op_tuning_cfg in fallback_sampler:
-            op_tuning_cfg['calib_sampling_size'] = calib_size
-            yield op_tuning_cfg
+        use_binary_search = True
+        if not use_binary_search:
+            logger.info("*** Start to fallback one by one.")
+            fallback_sampler = FallbackTuningSampler(tuning_space, tuning_order_lst=[],
+                                                     initial_op_tuning_cfg=op_tuning_cfg,
+                                                     op_dtypes=op_dtypes, accumulate=True,
+                                                     skip_first=False)
+            for op_tuning_cfg in fallback_sampler:
+                op_tuning_cfg['calib_sampling_size'] = calib_size
+                yield op_tuning_cfg
+        else:
+            # using binary search to find the right fallback ops.
+            if len(op_dtypes) >= 2:
+                logger.info("*** Using binary search to find the right fallback ops.")
+                op_fp32_configs = {}
+                op_int8_configs = {}
+                fallback_target_dtype = 'fp32'
+                # initialize the fp32 config for all quantized ops.
+                for op_info in op_dtypes.keys():
+                    fp32_config = OpTuningConfig(op_name_type[0], 
+                                                 op_name_type[1], 
+                                                 fallback_target_dtype, 
+                                                 tuning_space)
+                    op_fp32_configs[op_info] = fp32_config
+                left = 0
+                right = len(op_dtypes) - 1
+                while left <= right:
+                    mid = left + (right - left)//2
+                    # convert op_dtypes[:mid+1] ops into fallback target dtype
+                    new_tune_cfg = copy.deepcopy(initial_op_tuning_cfg)
+                    # update the tune_cfg
+                    new_tune_cfg = self._update_tune_cfg(new_tune_cfg, op_dtypes, mid, fp32_config)
+                    yield new_tune_cfg
+                    if self.objectives.accuracy_meets():
+                        logger.debug(f"**** Meet accuracy requirements when fallback {mid + 1}/{right + 1} ops.")
+                        right = mid - 1
+                    else:
+                        logger.debug(f"**** Not meet accuracy requirements when fallback {mid + 1}/{right + 1} ops.")
+                        left = mid + 1
+
+    def _update_tune_cfg(self, new_tune_cfg, op_dtypes, mid, fp32_config):
+        for i in range(mid + 1):
+            op_info = op_dtypes[i]
+            new_tune_cfg.update({op_info: fp32_config[op_info]})
+        return new_tune_cfg
+        
 
     def initial_dynamic_cfg_based_on_static_cfg(self, op_static_cfg: OpTuningConfig):
         op_state = op_static_cfg.get_state()
