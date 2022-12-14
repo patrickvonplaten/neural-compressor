@@ -144,7 +144,7 @@
       "batch_size": 1,
       "new_benchmark": false
     },
-    "gpt2_lm_head_wikitext_model_zoo_ort_static": {
+    "gpt2_lm_head_wikitext_ort_static": {
       "model_src_dir": "nlp/huggingface_model/ort/gpt2/static",
       "dataset_location": "/tf_dataset2/datasets/wikitext/wikitext-2-raw/",
       "input_model": "/tf_dataset2/models/onnx/gpt2/gpt2_lm_head_wikitext_model_zoo.onnx",
@@ -153,7 +153,7 @@
       "batch_size": 1,
       "new_benchmark": false
     },
-    "gpt2_lm_head_wikitext_model_zoo_ort_dynamic": {
+    "gpt2_lm_head_wikitext_ort_dynamic": {
       "model_src_dir": "nlp/huggingface_model/ort/gpt2/dynamic",
       "dataset_location": "/tf_dataset2/datasets/wikitext/wikitext-2-raw/",
       "input_model": "/tf_dataset2/models/onnx/gpt2/gpt2_lm_head_wikitext_model_zoo.onnx",
