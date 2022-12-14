@@ -23,6 +23,39 @@ class TestHAWQV2TuningStrategy(unittest.TestCase):
         shutil.rmtree('saved', ignore_errors=True)
         shutil.rmtree('nc_workspace', ignore_errors=True)
 
+    def test_hawq_v2_with_bs(self):
+        logger.info("*** Test: HAWQ v2 (binary search) with pytorch model.")
+        from neural_compressor.quantization import fit
+        from neural_compressor.config import PostTrainingQuantConfig, TuningCriterion
+        from neural_compressor.data import Datasets, DATALOADERS
+
+        # model
+        model = copy.deepcopy(self.model)
+
+        # fake evaluation function
+        self.test_hawq_v2_with_bs_ind = -1
+        acc = [1, -1, 2, 3, 0.5, 0.8, 1.2]
+        
+        def _fake_eval(model):
+            self.test_hawq_v2_with_bs_ind += 1
+            return acc[self.test_hawq_v2_with_bs_ind]
+
+        # dataset and dataloader
+        dataset = Datasets("pytorch")["dummy"](((1, 3, 224, 224)))
+        dataloader = DATALOADERS["pytorch"](dataset)
+        
+        #tuning and accuracy criterion
+        strategy_kwargs = {'hawq_v2_loss': hawq_v2_loss}
+        tuning_criterion = TuningCriterion(strategy='hawq_v2', strategy_kwargs=strategy_kwargs, max_trials=10)
+        conf = PostTrainingQuantConfig(approach="static", tuning_criterion=tuning_criterion)
+
+        # fit
+        q_model = fit(model=model,
+                      conf=conf,
+                      calib_dataloader=dataloader,
+                      eval_dataloader=dataloader,
+                      eval_func=_fake_eval)
+
 
     def test_hawq_v2_pipeline(self):
         logger.info("*** Test: HAWQ v2 with pytorch model.")

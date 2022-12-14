@@ -157,38 +157,42 @@ class HAWQ_V2TuneStrategy(TuneStrategy):
                 yield op_tuning_cfg
         else:
             # using binary search to find the right fallback ops.
-            if len(op_dtypes) >= 2:
+            if len(tmp_ordered_ops) >= 2:
                 logger.info("*** Using binary search to find the right fallback ops.")
                 op_fp32_configs = {}
                 op_int8_configs = {}
                 fallback_target_dtype = 'fp32'
                 # initialize the fp32 config for all quantized ops.
-                for op_info in op_dtypes.keys():
-                    fp32_config = OpTuningConfig(op_name_type[0], 
-                                                 op_name_type[1], 
+                for op_info in tmp_ordered_ops:
+                    fp32_config = OpTuningConfig(op_info[0], 
+                                                 op_info[1], 
                                                  fallback_target_dtype, 
                                                  tuning_space)
                     op_fp32_configs[op_info] = fp32_config
                 left = 0
-                right = len(op_dtypes) - 1
+                ops_cnt = len(tmp_ordered_ops)
+                right = ops_cnt - 1
+                self.re_quant = True
                 while left <= right:
                     mid = left + (right - left)//2
-                    # convert op_dtypes[:mid+1] ops into fallback target dtype
-                    new_tune_cfg = copy.deepcopy(initial_op_tuning_cfg)
+                    # convert tmp_ordered_ops[:mid+1] ops into fallback target dtype
+                    new_tune_cfg = deepcopy(initial_op_tuning_cfg)
                     # update the tune_cfg
-                    new_tune_cfg = self._update_tune_cfg(new_tune_cfg, op_dtypes, mid, fp32_config)
+                    new_tune_cfg = self._update_tune_cfg(new_tune_cfg, tmp_ordered_ops, mid, op_fp32_configs)
+                    logger.debug(f"**** Try to fallback {mid + 1}/{ops_cnt} ops.")
                     yield new_tune_cfg
                     if self.objectives.accuracy_meets():
-                        logger.debug(f"**** Meet accuracy requirements when fallback {mid + 1}/{right + 1} ops.")
+                        logger.debug(f"**** Meet accuracy requirements when fallback {mid + 1}/{ops_cnt} ops.")
                         right = mid - 1
                     else:
-                        logger.debug(f"**** Not meet accuracy requirements when fallback {mid + 1}/{right + 1} ops.")
+                        logger.debug(f"**** Not meet accuracy requirements when fallback {mid + 1}/{ops_cnt} ops.")
                         left = mid + 1
+                self.re_quant = False
 
-    def _update_tune_cfg(self, new_tune_cfg, op_dtypes, mid, fp32_config):
+    def _update_tune_cfg(self, new_tune_cfg, tmp_ordered_ops, mid, op_fp32_configs):
         for i in range(mid + 1):
-            op_info = op_dtypes[i]
-            new_tune_cfg.update({op_info: fp32_config[op_info]})
+            op_info = tmp_ordered_ops[i]
+            new_tune_cfg.update({op_info: op_fp32_configs[op_info]})
         return new_tune_cfg
         
 
