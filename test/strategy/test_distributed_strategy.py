@@ -83,10 +83,10 @@ class TestDistributedStrategy(unittest.TestCase):
        
     def test_quantization_saved_torch(self):        
         i = [0]
-        def fake_eval_func(model):
-            acc_lst = [1, 1, 0, 0, 0, 0, 1, 1.1, 1.5, 1.1]
-            i[0] += 1
-            return acc_lst[i[0]]
+        # def fake_eval_func(model):
+        #     acc_lst = [1, 1, 0, 0, 0, 0, 1, 1.1, 1.5, 1.1]
+        #     i[0] += 1
+        #     return acc_lst[i[0]]
         
         from neural_compressor.quantization import fit
         from neural_compressor.config import TuningCriterion, PostTrainingQuantConfig
@@ -103,8 +103,7 @@ class TestDistributedStrategy(unittest.TestCase):
             model=self.torch_model,
             conf=conf,
             calib_dataloader=dataloader,
-            eval_dataloader=dataloader,
-            eval_func=fake_eval_func)
+            eval_dataloader=dataloader)
        
 if __name__ == "__main__":
     unittest.main()
