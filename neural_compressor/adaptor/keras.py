@@ -154,8 +154,8 @@ class KerasAdaptor(Adaptor):
               mode = 'per_channel' if op_config[0] else 'per_tensor'
               #(TODO) support asym/sym
               fake_quant_name = 'fake_quant_' + str(idx)
-              q_layers.append({'class_name': 'FakeQuant', 
-                  'config': {'mode': 'per_tensor', 'name': fake_quant_name}})
+              q_layers.append({'class_name': 'FakeQuant', 'name': fake_quant_name,
+                  'config': {'mode': 'per_tensor', 'name': fake_quant_name}, 'inbound_nodes':[]})
               q_layers.append(layer)
           else:
               q_layers.append(layer)
@@ -220,7 +220,7 @@ class KerasAdaptor(Adaptor):
                 layer_config['max_value'] = str(kernel.max())
                 q_layers.append({'class_name': q_layer_name, 'config': layer_config})
             else:
-                q_layers.append(layer) 
+                q_layers.append(layer)
 
         json_model['config']['layers'] = q_layers
         quantized_model = self._restore_model_from_json(json_model)
