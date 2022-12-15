@@ -83,7 +83,7 @@ class TensorFlowAdaptor(Adaptor):
 
         from pkg_resources import parse_version
         import tensorflow as tf
-        self.new_api = parse_version(tf.version.VERSION) == parse_version('2.11.0202242')
+        self.new_api = tf.version.VERSION in ('2.11.0202242', '2.11.0202250')
         self.qdq_enabled = self.itex_mode or self.format == 'QDQ' or self.new_api
         self.op_wise_sequences = self.query_handler.get_eightbit_patterns(self.qdq_enabled)
         self.optimization = self.query_handler.get_grappler_optimization_cfg()
@@ -136,7 +136,7 @@ class TensorFlowAdaptor(Adaptor):
               criterion_tuple, hooks, postprocess, **kwargs):
         # check model is savedmodel or not
         import tensorflow as tf
-        from neural_compressor.model.model import get_model_type
+        from neural_compressor.model.tensorflow_model import get_model_type
         tf.random.set_seed(1)
         self.model_type = get_model_type(model._model)
         optimizer = optimizer_tuple[0](**optimizer_tuple[1])
@@ -525,6 +525,17 @@ class TensorFlowAdaptor(Adaptor):
         Returns:
             tf.compat.v1.GraphDef: the quantized model
         """
+        if self.approach == "quant_aware_training":
+            assert q_func is not None, "quantization aware training mode \
+                is not configured correctly"
+
+            from neural_compressor.experimental import common
+            qat_model = q_func(model)
+
+            return self.convert(common.Model(qat_model), 'QAT', 'default')
+
+        assert q_func is None, \
+            "post-training quantization mode is not support calibration function for Tensorflow!"
         self.tuning_cfg_to_fw(tune_cfg)
         logger.debug("Dump quantization configurations:")
         logger.debug(self.quantize_config)
@@ -1204,7 +1215,7 @@ class TensorFlowAdaptor(Adaptor):
                  ]
                }
         """
-        from neural_compressor.model.model import TensorflowBaseModel
+        from neural_compressor.model.tensorflow_model import TensorflowBaseModel
         from neural_compressor.utils.utility import load_data_from_pkl, dump_data_to_local
         from neural_compressor.adaptor.tf_utils.graph_util import GraphAnalyzer
         from .tf_utils.util import int8_node_name_reverse
@@ -1586,7 +1597,8 @@ class TensorFlowAdaptor(Adaptor):
     
     def _partial_dataset_of(self, dataloader, confidence_batches):
         from neural_compressor.experimental.data.datasets.dummy_dataset import DummyDataset
-        if isinstance(dataloader.dataset, DummyDataset):
+        from neural_compressor.data.datasets.dummy_dataset import DummyDataset as DummyDataset_v2_x
+        if isinstance(dataloader.dataset, DummyDataset) or isinstance(dataloader.dataset, DummyDataset_v2_x):
             assert(isinstance(confidence_batches, int))
             ds = copy.deepcopy(dataloader.dataset)
             ds.dataset = ds.dataset[:confidence_batches]
