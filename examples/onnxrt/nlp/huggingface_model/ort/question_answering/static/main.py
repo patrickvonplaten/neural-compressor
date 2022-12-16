@@ -653,7 +653,8 @@ def main():
         model = model_optimizer.model
 
         if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
-            os.mkdir('./' + model_args.model_name_or_path.split('/')[-1])
+            if not os.path.exists(os.mkdir('./' + model_args.model_name_or_path.split('/')[-1])):
+                os.mkdir('./' + model_args.model_name_or_path.split('/')[-1])
             optimize_save_path = './' + model_args.model_name_or_path.split('/')[-1] + '/' + model_args.model_name_or_path.split('/')[-1] + '.optimized.onnx'
             onnx.save(model, 
                 optimize_save_path,
