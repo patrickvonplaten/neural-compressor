@@ -671,6 +671,8 @@ def main():
             nodes_to_quantize=['Add_46', 'Add_48']
         elif model_args.model_name_or_path == 'bert-large-uncased-whole-word-masking-finetuned-squad':
             nodes_to_quantize=['Add_18', 'Add_20']
+        elif model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
+            nodes_to_quantize=['Add_46', 'Add_48']
         static_dataset = ONNXRTSquadDataset(eval_dataloader)
         if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
             if nodes_to_quantize:
