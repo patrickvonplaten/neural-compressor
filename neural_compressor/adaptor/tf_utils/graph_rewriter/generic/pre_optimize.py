@@ -118,11 +118,12 @@ class PreOptimization():
                 node_device = cpus[0].name.replace('physical_device:', '')
             else:
                 gpus = tf.config.list_physical_devices("GPU")
-                if len(gpus) == 0:
+                xpus = tf.config.list_physical_devices("XPU")
+                if len(gpus) == 0 and len(xpus) == 0:
                     cpus = tf.config.list_physical_devices("CPU")
                     node_device = cpus[0].name.replace('physical_device:', '')
                 else:
-                    node_device = gpus[0].name.replace('physical_device:', '')
+                    node_device = self.device
             for node_name in list(graph_info.keys()):
                 node = graph_info[node_name].node
                 node.device = node_device
@@ -133,16 +134,6 @@ class PreOptimization():
         else:
             self._tmp_graph_def = ConvertLayoutOptimizer(
                 self.model.graph_def, output_node_names).do_transformation()
-
-        # Remove device info after convert layout
-        if version1_gte_version2(tf.version.VERSION, '2.10.0'):
-            cur_graph = GraphAnalyzer()
-            cur_graph.graph = self._tmp_graph_def
-            graph_info = cur_graph.parse_graph()
-            for node_name in list(graph_info.keys()):
-                node = graph_info[node_name].node
-                node.device = ''
-            self._tmp_graph_def = cur_graph.dump_graph()
 
         self._tmp_graph_def = ConvertPlaceholderToConst(self._tmp_graph_def).do_transformation()
 

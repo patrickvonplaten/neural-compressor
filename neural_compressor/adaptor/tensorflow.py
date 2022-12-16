@@ -97,6 +97,18 @@ class TensorFlowAdaptor(Adaptor):
 
         self._last_dequantize_ops = None
 
+        # Detect the hardware device to update the device info
+        if self.device == 'cpu':
+            cpus = tf.config.list_physical_devices("CPU")
+            self.device = cpus[0].name.replace('physical_device:', '')
+        else:
+            gpus = tf.config.list_physical_devices("GPU")
+            xpus = tf.config.list_physical_devices("XPU")
+            if len(gpus) == 0 and len(xpus) == 0:
+                logger.warning("Not found any GPU or XPU device, use CPU as deafult.")
+                cpus = tf.config.list_physical_devices("CPU")
+                self.device = cpus[0].name.replace('physical_device:', '')
+
     def log_histogram(self, writer, tag, values, step=0, bins=1000):
         import tensorflow as tf
         # Convert to a numpy array
@@ -385,15 +397,16 @@ class TensorFlowAdaptor(Adaptor):
                     else:
                         feed_dict = dict(zip(input_tensor, inputs))
 
-                if model.iter_op:
-                    predictions = iterator_sess_run(model.sess, model.iter_op, \
-                        feed_dict, output_tensor, iteration, measurer)
-                elif measurer is not None:
-                    measurer.start()
-                    predictions = model.sess.run(output_tensor, feed_dict)
-                    measurer.end()
-                else:
-                    predictions = model.sess.run(output_tensor, feed_dict)
+                with tf.device(self.device):
+                    if model.iter_op:
+                        predictions = iterator_sess_run(model.sess, model.iter_op, \
+                            feed_dict, output_tensor, iteration, measurer)
+                    elif measurer is not None:
+                        measurer.start()
+                        predictions = model.sess.run(output_tensor, feed_dict)
+                        measurer.end()
+                    else:
+                        predictions = model.sess.run(output_tensor, feed_dict)
 
                 if self.fp32_preds_as_label:
                     self.fp32_results.append(predictions) if fp32_baseline else \
