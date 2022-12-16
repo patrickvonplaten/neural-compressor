@@ -33,5 +33,5 @@ quantization:
   
 tuning:
   accuracy_criterion:
-    relative:  0.0189                                  # optional. default value is relative, other value is absolute. this example allows relative accuracy loss: 1%.
+    relative:  0.0173                                  # optional. default value is relative, other value is absolute. this example allows relative accuracy loss: 1%.
   random_seed: 9527                                  # optional. random seed for deterministic tuning.
