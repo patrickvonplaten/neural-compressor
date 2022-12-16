@@ -835,7 +835,7 @@
       "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
       "dataset_location": "/tf_dataset2/datasets/squad",
       "input_model": "/tf_dataset2/models/onnx/hf_xlm-roberta-large_static/xlm-roberta-large-squad2/xlm-roberta-large-squad2/xlm-roberta-large-squad2.onnx",
-      "yaml": "qa_static.yaml",
+      "yaml": "xlm-roberta-large-static.yaml",
       "strategy": "conservative",
       "batch_size": 1,
       "new_benchmark": true
