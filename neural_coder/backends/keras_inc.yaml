@@ -1,4 +1,3 @@
-#
 # Copyright (c) 2022 Intel Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,25 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG UBUNTU_VER=20.04
-FROM ubuntu:${UBUNTU_VER} as devel
-
-# See http://bugs.python.org/issue19846
-ENV LANG C.UTF-8
-
-RUN apt-get update && apt-get install -y --no-install-recommends --fix-missing \
-    aspell \
-    aspell-en \
-    python3 \
-    python3-pip \
-    python3-dev \
-    python3-distutils
-
-RUN ln -sf $(which python3) /usr/bin/python
-
-RUN python -m pip install --no-cache-dir pylint==2.12.1\
-    bandit\
-    pyspelling\
-    pydocstyle
-
-WORKDIR /
+transformation:
+  location:
+    - ["insert_below_dataloader_definition_line", "insert_below_model_definition_line"]
+  content:
+    - |-
+      [+] from neural_compressor.quantization import fit
+      [+] from neural_compressor.config import PostTrainingQuantConfig
+      [+] from neural_compressor.experimental import common
+      [+] config = PostTrainingQuantConfig(backend='itex')
+      [+] quantized_model = fit(MODEL_NAME, conf=config, calib_dataloader=DATALOADER_NAME, eval_func=eval_func)
+  order:
+    - below:
+      above:

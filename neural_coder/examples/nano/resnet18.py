@@ -1,4 +1,3 @@
-#
 # Copyright (c) 2022 Intel Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,25 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG UBUNTU_VER=20.04
-FROM ubuntu:${UBUNTU_VER} as devel
 
-# See http://bugs.python.org/issue19846
-ENV LANG C.UTF-8
+import torch
+from torchvision.models import resnet18
 
-RUN apt-get update && apt-get install -y --no-install-recommends --fix-missing \
-    aspell \
-    aspell-en \
-    python3 \
-    python3-pip \
-    python3-dev \
-    python3-distutils
+if __name__ == "__main__":
 
-RUN ln -sf $(which python3) /usr/bin/python
+    model_ft = resnet18(pretrained=True)
 
-RUN python -m pip install --no-cache-dir pylint==2.12.1\
-    bandit\
-    pyspelling\
-    pydocstyle
-
-WORKDIR /
+    x = torch.rand(2, 3, 224, 224)
+    y_hat = model_ft(x)
+    predictions = y_hat.argmax(dim=1)
+    print(predictions)
