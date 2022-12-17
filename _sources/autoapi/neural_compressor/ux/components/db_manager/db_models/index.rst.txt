@@ -31,6 +31,7 @@ Submodules
    profiling/index.rst
    profiling_result/index.rst
    project/index.rst
+   pruning_details/index.rst
    transform/index.rst
    tuning_details/index.rst
    tuning_history/index.rst

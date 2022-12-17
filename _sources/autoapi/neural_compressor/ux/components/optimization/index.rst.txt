@@ -18,6 +18,7 @@ Subpackages
    graph_optimizer/index.rst
    mixed_precision/index.rst
    neural_coder_optimization/index.rst
+   pruning/index.rst
    tune/index.rst
 
 

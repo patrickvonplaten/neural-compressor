@@ -38,6 +38,7 @@ Submodules
    proc/index.rst
    processes/index.rst
    singleton/index.rst
+   status_updates/index.rst
    utils/index.rst
    yaml_utils/index.rst
 

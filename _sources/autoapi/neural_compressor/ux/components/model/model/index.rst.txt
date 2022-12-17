@@ -54,6 +54,11 @@ Classes
 
       Check if it is possible to display model's graph.
 
+   .. py:property:: supports_pruning
+      :type: bool
+
+      Check if pruning is supported for the model.
+
    .. py:method:: get_input_nodes() -> Optional[List[Any]]
 
       Get model input nodes.

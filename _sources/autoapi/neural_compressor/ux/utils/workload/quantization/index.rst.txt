@@ -33,14 +33,14 @@ Classes
    Configuration Calibration class.
 
 
-.. py:class:: WiseConfigDetails(data: Dict[str, Any] = None)
+.. py:class:: WiseConfigDetails(data: Optional[Dict[str, Any]] = None)
 
    Bases: :py:obj:`neural_compressor.ux.utils.json_serializer.JsonSerializer`
 
    Configuration WiseConfigDetails class.
 
 
-.. py:class:: WiseConfig(data: Dict[str, Any] = None)
+.. py:class:: WiseConfig(data: Optional[Dict[str, Any]] = None)
 
    Bases: :py:obj:`neural_compressor.ux.utils.json_serializer.JsonSerializer`
 

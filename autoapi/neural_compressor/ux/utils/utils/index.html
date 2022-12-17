@@ -282,6 +282,12 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_precisions_config" title="neural_compressor.ux.utils.utils.load_precisions_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_precisions_config</span></code></a>(→ dict)</p></td>
 <td><p>Load transforms configs from json.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_pruning_details_config" title="neural_compressor.ux.utils.utils.load_pruning_details_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_pruning_details_config</span></code></a>(→ List[Dict[str, Any]])</p></td>
+<td><p>Load pruning details config from json.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.ux.utils.utils.get_default_pruning_config_path" title="neural_compressor.ux.utils.utils.get_default_pruning_config_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_default_pruning_config_path</span></code></a>(→ str)</p></td>
+<td><p>Get path to yaml config with default pruning config.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_model_wise_params" title="neural_compressor.ux.utils.utils.load_model_wise_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_model_wise_params</span></code></a>(→ dict)</p></td>
 <td><p>Load model wise parameters for specified framework.</p></td>
 </tr>
@@ -461,6 +467,18 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.ux.utils.utils.load_pruning_details_config">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.ux.utils.utils.</span></span><span class="sig-name descname"><span class="pre">load_pruning_details_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#neural_compressor.ux.utils.utils.load_pruning_details_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load pruning details config from json.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.ux.utils.utils.get_default_pruning_config_path">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.ux.utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_default_pruning_config_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#neural_compressor.ux.utils.utils.get_default_pruning_config_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get path to yaml config with default pruning config.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.ux.utils.utils.load_model_wise_params">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.ux.utils.utils.</span></span><span class="sig-name descname"><span class="pre">load_model_wise_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#neural_compressor.ux.utils.utils.load_model_wise_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load model wise parameters for specified framework.</p>
@@ -615,6 +633,8 @@
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_transforms_config"><code class="docutils literal notranslate"><span class="pre">load_transforms_config()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_transforms_filter_config"><code class="docutils literal notranslate"><span class="pre">load_transforms_filter_config()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_precisions_config"><code class="docutils literal notranslate"><span class="pre">load_precisions_config()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_pruning_details_config"><code class="docutils literal notranslate"><span class="pre">load_pruning_details_config()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.ux.utils.utils.get_default_pruning_config_path"><code class="docutils literal notranslate"><span class="pre">get_default_pruning_config_path()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_model_wise_params"><code class="docutils literal notranslate"><span class="pre">load_model_wise_params()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_metrics_config"><code class="docutils literal notranslate"><span class="pre">load_metrics_config()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.get_metrics_dict"><code class="docutils literal notranslate"><span class="pre">get_metrics_dict()</span></code></a></li>
@@ -652,6 +672,8 @@
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_transforms_config">load_transforms_config</a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_transforms_filter_config">load_transforms_filter_config</a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_precisions_config">load_precisions_config</a></li>
+<li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_pruning_details_config">load_pruning_details_config</a></li>
+<li><a class="reference internal" href="#neural_compressor.ux.utils.utils.get_default_pruning_config_path">get_default_pruning_config_path</a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_model_wise_params">load_model_wise_params</a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.load_metrics_config">load_metrics_config</a></li>
 <li><a class="reference internal" href="#neural_compressor.ux.utils.utils.get_metrics_dict">get_metrics_dict</a></li>

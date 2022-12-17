@@ -29,7 +29,7 @@ Classes
    Abstract TensorFlow Model class.
 
    .. py:property:: nc_model_instance
-      :type: neural_compressor.model.tensorflow_model.TensorflowBaseModel
+      :type: neural_compressor.model.model.TensorflowBaseModel
 
       Get Neural Compressor Model instance.
 
@@ -42,6 +42,11 @@ Classes
       :type: List[str]
 
       Get order of input shape channels.
+
+   .. py:property:: supports_pruning
+      :type: bool
+
+      Check if pruning is supported for the model.
 
    .. py:method:: get_input_nodes() -> Optional[List[Any]]
 

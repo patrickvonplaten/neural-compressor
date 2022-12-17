@@ -24,6 +24,8 @@ Classes
    neural_compressor.ux.utils.workload.pruning.CrossEntropyLossCriterion
    neural_compressor.ux.utils.workload.pruning.SparseCategoricalCrossentropyCriterion
    neural_compressor.ux.utils.workload.pruning.KnowledgeDistillationLossCriterion
+   neural_compressor.ux.utils.workload.pruning.IntermediateLayersKnowledgeDistillationLoss
+   neural_compressor.ux.utils.workload.pruning.SelfKnowledgeDistillationLoss
    neural_compressor.ux.utils.workload.pruning.Criterion
    neural_compressor.ux.utils.workload.pruning.Train
    neural_compressor.ux.utils.workload.pruning.WeightCompressionApproach
@@ -91,6 +93,20 @@ Functions
    Configuration KnowledgeDistillationLossCriterion class.
 
 
+.. py:class:: IntermediateLayersKnowledgeDistillationLoss(data: Dict[str, Any] = {})
+
+   Bases: :py:obj:`neural_compressor.ux.utils.json_serializer.JsonSerializer`
+
+   Configuration IntermediateLayersKnowledgeDistillationLoss class.
+
+
+.. py:class:: SelfKnowledgeDistillationLoss(data: Dict[str, Any] = {})
+
+   Bases: :py:obj:`neural_compressor.ux.utils.json_serializer.JsonSerializer`
+
+   Configuration SelfKnowledgeDistillationLoss class.
+
+
 .. py:class:: Criterion(data: Dict[str, Any] = {})
 
    Bases: :py:obj:`neural_compressor.ux.utils.json_serializer.JsonSerializer`
@@ -104,6 +120,11 @@ Functions
 
    Configuration Train class.
 
+   .. py:method:: set_postprocess_transforms(transforms: List[Dict[str, Any]]) -> None
+
+      Set postprocess transformation.
+
+
    .. py:method:: serialize(serialization_type: str = 'default') -> Union[Dict[str, Any], List[Dict[str, Any]]]
 
       Serialize Pruning class.
@@ -115,6 +136,23 @@ Functions
    Bases: :py:obj:`neural_compressor.ux.utils.json_serializer.JsonSerializer`
 
    Configuration WeightCompressionApproach class.
+
+   .. py:method:: initialize_pruners(pruner_dict_list: List[Union[dict, neural_compressor.conf.config.Pruner]]) -> List[neural_compressor.conf.config.Pruner]
+      :staticmethod:
+
+      Initialize list of pruners from dict format.
+
+
+   .. py:method:: serialize(serialization_type: str = 'default') -> Union[Dict[str, Any], List[Dict[str, Any]]]
+
+      Serialize WeightCompressionApproach class.
+
+
+   .. py:method:: serialize_pruner(pruner: neural_compressor.conf.config.Pruner) -> dict
+      :staticmethod:
+
+      Serialize INC Pruner instance.
+
 
 
 .. py:class:: Approach(data: Dict[str, Any] = {})

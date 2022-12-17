@@ -63,6 +63,12 @@ Classes
 
    Configuration PostprocessSchema class.
 
+   .. py:method:: get_label_shift_value(data: dict) -> Optional[int]
+      :staticmethod:
+
+      Get LabelShift value.
+
+
 
 .. py:class:: Postprocess(data: Dict[str, Any] = {})
 

@@ -20,6 +20,7 @@ Submodules
    graph_optimization_config_generator/index.rst
    mixed_precision_config_generator/index.rst
    profiling_config_generator/index.rst
+   pruning_config_generator/index.rst
    quantization_config_generator/index.rst
 
 

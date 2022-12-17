@@ -19,5 +19,6 @@ Submodules
    get_boundary_nodes/index.rst
    get_configuration/index.rst
    params_feeder/index.rst
+   pruning_config_parser/index.rst
 
 

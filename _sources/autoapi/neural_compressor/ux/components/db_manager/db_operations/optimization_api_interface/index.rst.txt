@@ -98,6 +98,12 @@ Classes
       Add quantization optimization to database.
 
 
+   .. py:method:: add_pruning_optimization(db_session: sqlalchemy.orm.session.Session, optimization_data: neural_compressor.ux.components.db_manager.params_interfaces.OptimizationAddParamsInterface) -> int
+      :staticmethod:
+
+      Add quantization optimization to database.
+
+
    .. py:method:: add_standard_optimization(db_session: sqlalchemy.orm.session.Session, optimization_data: neural_compressor.ux.components.db_manager.params_interfaces.OptimizationAddParamsInterface) -> int
       :staticmethod:
 
@@ -108,6 +114,24 @@ Classes
       :staticmethod:
 
       Edit existing optimization.
+
+
+   .. py:method:: get_pruning_details(data: dict) -> dict
+      :staticmethod:
+
+      Gat pruning details in a form of tree.
+
+
+   .. py:method:: edit_tuning_details(db_session: sqlalchemy.orm.session.Session, optimization: dict, parsed_optimization_data: neural_compressor.ux.components.db_manager.params_interfaces.OptimizationEditParamsInterface) -> dict
+      :staticmethod:
+
+      Edit tuning details.
+
+
+   .. py:method:: edit_pruning_details(db_session: sqlalchemy.orm.session.Session, optimization: dict, pruning_data: dict) -> dict
+      :staticmethod:
+
+      Edit pruning details.
 
 
    .. py:method:: add_tuning_history(optimization_id: int, tuning_history: dict) -> int
@@ -132,6 +156,12 @@ Classes
       :staticmethod:
 
       Parse data for editing optimization.
+
+
+   .. py:method:: load_pruning_details_config(data: dict) -> List[dict]
+      :staticmethod:
+
+      Load pruning details config.
 
 
    .. py:method:: clean_status(status_to_clean: neural_compressor.ux.utils.consts.ExecutionStatus) -> dict

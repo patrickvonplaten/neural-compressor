@@ -38,6 +38,8 @@ Functions
    neural_compressor.ux.utils.utils.load_transforms_config
    neural_compressor.ux.utils.utils.load_transforms_filter_config
    neural_compressor.ux.utils.utils.load_precisions_config
+   neural_compressor.ux.utils.utils.load_pruning_details_config
+   neural_compressor.ux.utils.utils.get_default_pruning_config_path
    neural_compressor.ux.utils.utils.load_model_wise_params
    neural_compressor.ux.utils.utils.load_metrics_config
    neural_compressor.ux.utils.utils.get_metrics_dict
@@ -158,6 +160,16 @@ Functions
 .. py:function:: load_precisions_config() -> dict
 
    Load transforms configs from json.
+
+
+.. py:function:: load_pruning_details_config() -> List[Dict[str, Any]]
+
+   Load pruning details config from json.
+
+
+.. py:function:: get_default_pruning_config_path() -> str
+
+   Get path to yaml config with default pruning config.
 
 
 .. py:function:: load_model_wise_params(framework: str) -> dict
