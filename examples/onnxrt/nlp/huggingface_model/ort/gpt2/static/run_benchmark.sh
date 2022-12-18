@@ -26,6 +26,9 @@ function init_params {
       --topology=*)
           topology=$(echo $var |cut -f2 -d=)
       ;;
+      --dataset_location=*)
+          dataset_location=$(echo $var |cut -f2 -d=)
+      ;;
       *)
           echo "Error: No such parameter: ${var}"
           exit 1
