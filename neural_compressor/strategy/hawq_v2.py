@@ -17,6 +17,7 @@
 
 from collections import OrderedDict
 from copy import deepcopy
+import time
 
 from .strategy import strategy_registry, TuneStrategy
 
@@ -112,13 +113,16 @@ class HAWQ_V2TuneStrategy(TuneStrategy):
         hawq_v2_criterion =self.cfg.tuning.strategy.hawq_v2_loss
         # assert hawq_v2_criterion is not None, "HAWQ-V2 strategy needs model loss function to compute the gradient, \
         #     Please assign it by strategy_kwargs({'hawq_v2_loss': hawq_v2_loss})."
+        start_time = time.time()
         op_to_traces = self.adaptor.calculate_hessian_trace(fp32_model = self._fp32_model,
                                                             dataloader = self.calib_dataloader,
                                                             q_model = self.q_model,
                                                             criterion =hawq_v2_criterion,
                                                             enable_act = False)
+        end_time = time.time()
         sorted_op_to_traces = dict(sorted(op_to_traces.items(), key=lambda item: item[1], reverse=True))
         logger.info(f"**************  Hessian Trace  *****************")
+        logger.info(f"Token {end_time - start_time:.2f} s to calculate the hessian trace.")
         for op_name, trace in sorted_op_to_traces.items():
             logger.info(f"*** op: {op_name}, hessian trace : {trace}")
         logger.info(f"************************************************")
