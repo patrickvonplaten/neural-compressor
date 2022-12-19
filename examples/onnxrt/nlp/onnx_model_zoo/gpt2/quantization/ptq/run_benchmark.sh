@@ -56,11 +56,11 @@ function define_mode {
 
 # run_benchmark
 function run_benchmark {
-    if [ "${topology}" = "gpt2_lm_wikitext2" ];then
-      model_type='gpt2'
-      model_name_or_path='gpt2'
-      test_data='wiki.test.raw'
-    fi
+    model_type='gpt2'
+    model_name_or_path='gpt2'
+    batch_size=1
+    test_data='wiki.test.raw'
+    data_path='/tf_dataset2/datasets/wikitext/wikitext-2-raw/'
     python gpt2.py --model_path ${input_model} \
                         --data_path ${data_path}${test_data} \
                         --model_type ${model_type} \
