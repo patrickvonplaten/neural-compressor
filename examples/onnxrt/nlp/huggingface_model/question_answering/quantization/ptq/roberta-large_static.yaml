@@ -29,11 +29,12 @@ evaluation:                                          # optional. required if use
       num_of_instance: 1
 
 quantization:
+  optimization_level: 0
   approach: post_training_static_quant              # optional. default value is post_training_static_quant.                                                   
   
 tuning:
-  exit_policy:
-    max_trials: 3
+  # exit_policy:
+  #   max_trials: 3
   accuracy_criterion:
-    relative:  0.01                                  # optional. default value is relative, other value is absolute. this example allows relative accuracy loss: 1%.
+    relative:  0.0003                                  # optional. default value is relative, other value is absolute. this example allows relative accuracy loss: 1%.
   random_seed: 9527                                  # optional. random seed for deterministic tuning.

@@ -766,6 +766,24 @@
       "batch_size": 1,
       "new_benchmark": true
     },
+    "hf_distilbert-base-uncased-distilled_static_mse": {
+      "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
+      "dataset_location": "/tf_dataset2/datasets/squad",
+      "input_model": "/tf_dataset2/models/onnx/hf_distilbert-squad_static/distilbert-base-uncased-distilled-squad.onnx",
+      "yaml": "distilbert-squad_static_mse.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_distilbert-base-uncased-distilled_static_convert": {
+      "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
+      "dataset_location": "/tf_dataset2/datasets/squad",
+      "input_model": "/tf_dataset2/models/onnx/hf_distilbert-squad_static/distilbert-base-uncased-distilled-squad.onnx",
+      "yaml": "distilbert-squad_static_convert.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
     "hf_distilbert-base-uncased-distilled_ort_dynamic": {
       "model_src_dir": "nlp/huggingface_model/ort/question_answering/dynamic",
       "dataset_location": "/tf_dataset2/datasets/squad",
@@ -798,7 +816,25 @@
       "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
       "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
       "input_model": "/tf_dataset2/models/onnx/hf_bert-base-cased_static/bert-base-cased-finetuned-mrpc.onnx",
-      "yaml": "glue_static.yaml",
+      "yaml": "bert-base-cased_static.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_bert-base-cased_static_mse": {
+      "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_bert-base-cased_static/bert-base-cased-finetuned-mrpc.onnx",
+      "yaml": "bert-base-cased_static_mse.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_bert-base-cased_static_convert": {
+      "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_bert-base-cased_static/bert-base-cased-finetuned-mrpc.onnx",
+      "yaml": "bert-base-cased_static_convert.yaml",
       "strategy": "conservative",
       "batch_size": 1,
       "new_benchmark": true
@@ -836,6 +872,24 @@
       "dataset_location": "/tf_dataset2/datasets/squad",
       "input_model": "/tf_dataset2/models/onnx/hf_xlm-roberta-large_static/xlm-roberta-large-squad2/xlm-roberta-large-squad2/xlm-roberta-large-squad2.onnx",
       "yaml": "xlm-roberta-large-static.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_xlm-roberta-large_static_mse": {
+      "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
+      "dataset_location": "/tf_dataset2/datasets/squad",
+      "input_model": "/tf_dataset2/models/onnx/hf_xlm-roberta-large_static/xlm-roberta-large-squad2/xlm-roberta-large-squad2/xlm-roberta-large-squad2.onnx",
+      "yaml": "xlm-roberta-large-static_mse.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_xlm-roberta-large_static_convert": {
+      "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
+      "dataset_location": "/tf_dataset2/datasets/squad",
+      "input_model": "/tf_dataset2/models/onnx/hf_xlm-roberta-large_static/xlm-roberta-large-squad2/xlm-roberta-large-squad2/xlm-roberta-large-squad2.onnx",
+      "yaml": "xlm-roberta-large-static_convert.yaml",
       "strategy": "conservative",
       "batch_size": 1,
       "new_benchmark": true
@@ -878,6 +932,24 @@
       "batch_size": 1,
       "new_benchmark": true
     },
+    "hf_bert-large-uncased_static_mse": {
+      "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
+      "dataset_location": "/tf_dataset2/datasets/squad",
+      "input_model": "/tf_dataset2/models/onnx/hf_bert-large_static/bert-large-uncased-whole-word-masking-finetuned-squad.onnx",
+      "yaml": "bert-large_static_mse.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_bert-large-uncased_static_convert": {
+      "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
+      "dataset_location": "/tf_dataset2/datasets/squad",
+      "input_model": "/tf_dataset2/models/onnx/hf_bert-large_static/bert-large-uncased-whole-word-masking-finetuned-squad.onnx",
+      "yaml": "bert-large_static_convert.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
     "hf_bert-large-uncased_ort_dynamic": {
       "model_src_dir": "nlp/huggingface_model/ort/question_answering/dynamic",
       "dataset_location": "/tf_dataset2/datasets/squad",
@@ -906,11 +978,29 @@
       "batch_size": 1,
       "new_benchmark": true
     },
-    "hf_roberta-large_static": {
+    "hf_roberta-large_static_basic": {
       "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
       "dataset_location": "/tf_dataset2/datasets/squad",
       "input_model": "/tf_dataset2/models/onnx/hf_roberta-large_static/roberta-large-squad2.onnx",
       "yaml": "roberta-large_static.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_roberta-large_static_mse": {
+      "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
+      "dataset_location": "/tf_dataset2/datasets/squad",
+      "input_model": "/tf_dataset2/models/onnx/hf_roberta-large_static/roberta-large-squad2.onnx",
+      "yaml": "roberta-large_static_mse.yaml",
+      "strategy": "conservative",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_roberta-large_static_convert": {
+      "model_src_dir": "nlp/huggingface_model/question_answering/quantization/ptq",
+      "dataset_location": "/tf_dataset2/datasets/squad",
+      "input_model": "/tf_dataset2/models/onnx/hf_roberta-large_static/roberta-large-squad2.onnx",
+      "yaml": "roberta-large_static_convert.yaml",
       "strategy": "conservative",
       "batch_size": 1,
       "new_benchmark": true
