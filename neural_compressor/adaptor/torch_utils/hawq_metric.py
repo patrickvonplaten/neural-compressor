@@ -657,8 +657,8 @@ class HessianTraceEstimator:
                  device: str, data_loader: DataLoader,
                  num_data_points: int = 100):
         self._model = model
-        #parameters = [p for p in model.parameters() if p.requires_grad]
-        parameters = [p for name, p in model.named_parameters() if p.requires_grad and 'bias' not in name]
+        parameters = [p for p in model.parameters() if p.requires_grad]
+        #parameters = [p for name, p in model.named_parameters() if p.requires_grad and 'bias' not in name]
         self._parameter_handler = ParameterHandler(parameters, device)
         print(f"# parameters: {len(self._parameter_handler.parameters)}")
         self._batch_size = data_loader.batch_size
@@ -744,11 +744,13 @@ def hawq_top(fp32_model,q_model,dataloader,criterion,enable_act):
                                                   data_loader=dataloader)
         mean_avg_traces_per_param = hessian_trace_est.get_average_traces()
         trace_records = {}
-        index = 0
+        index = -1
         for name, p in fused_model.named_parameters():
-            if p.requires_grad and 'bias' not in name:
-                trace_records[name] = mean_avg_traces_per_param[index]
+            if p.requires_grad:
                 index += 1
+                if 'bias' in name:
+                    continue
+                trace_records[name] = mean_avg_traces_per_param[index]
         return trace_records
     else:
         ht=HessianTrace(fp32_model,dataloader=dataloader,q_model=q_model)
