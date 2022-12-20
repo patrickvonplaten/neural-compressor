@@ -91,8 +91,23 @@ class TestDistributedStrategy(unittest.TestCase):
         from neural_compressor.quantization import fit
         from neural_compressor.config import TuningCriterion, PostTrainingQuantConfig
         from neural_compressor.data import Datasets, DATALOADERS
-        dataset = Datasets("pytorch")["dummy"](((1, 3, 224, 224)))
-        dataloader = DATALOADERS['pytorch'](dataset)
+        from torchvision import datasets, transforms
+        import torch
+        # dataset = Datasets("pytorch")["dummy"](((1, 3, 224, 224)))
+        # dataloader = DATALOADERS['pytorch'](dataset)
+        transform=transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.Normalize((0.1307,), (0.3081,))
+        ])
+
+        test_dataset = datasets.CIFAR10('./data', train=False, download=False,
+                            transform=transform)
+        print(len(test_dataset))
+        test_subset1, test_subset2 = torch.utils.data.random_split(test_dataset, [100,9900])
+        print(len(test_subset1))
+        dataloader = torch.utils.data.DataLoader(test_subset1, batch_size=16,shuffle=True)
         
         conf = PostTrainingQuantConfig(
             approach="static",
