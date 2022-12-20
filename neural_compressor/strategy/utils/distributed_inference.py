@@ -6,6 +6,20 @@ from copy import deepcopy
 from typing import List, Dict
 
 import ray
+
+"""
+Tasks:
+1. optype-wise stage
+2. calculate op sensitivity 
+
+TODO:
+------ Runner
+1. How to start ray in program? ( start by command and connect the ray cluster.)
+2. ray config
+------ Strategy
+1. Split traverse process into multi independence parts.
+2. Update the result and q_model according to the results from runner.
+"""
 @ray.remote
 class ResultMonitor:
     def __init__(self) -> None:
@@ -36,6 +50,7 @@ class ResultMonitor:
         for trial in self.completed_trials():
             if trial not in self.reported_trials:
                 result_record.append({trial.id: trial.result()})
+                self.reported_trials.add(trial.id)
         return result_record
 
     def add_finished_trial(self):
@@ -49,8 +64,8 @@ class ResultMonitor:
 @ray.remote
 class Trial:
     def __init__(self, tune_cfg, adaptor, model, calib_dataloader, q_func, evaluate, result_monitor: ResultMonitor) -> None:
-        """Class to run one independent task including calibration, quantization and evaluation.
-
+        """Class to run one independent task including calibration, quantization and evaluation for specific tuning config. 
+        And report the quantized model and evaluation result to result monitor.
         Args:
 
         """
@@ -61,8 +76,7 @@ class Trial:
         # self.eval = eval
         self.eval_result = None
         self.finished_trial = False
-        pass
-
+        
     def compute(self):
         """Execute one trial including calibration, quantization and evaluation. 
 
@@ -81,7 +95,7 @@ class Trial:
         print(f"[Trial] Finished the compute with eval result {eval_result}.")
         self.eval_result = eval_result
         self.finished_trial = True
-        # report tot result monitor 
+        # report to result monitor 
         self.result_monitor.add_finished_trial.remote(result)
         return eval_result
 
@@ -96,15 +110,15 @@ class Trial:
 
 @ray.remote
 class Scheduler:
-    def __init__(self, result_monitor: ResultMonitor) -> None:
-        """Class for manage the hardware resource and dispatch trials.
+    def __init__(self, tune_cfg_lst, result_monitor: ResultMonitor) -> None:
+        """Class for manage the hardware resource and dispatch trials. 
+        Specific the CPUs and GPUs for each trial.
         """
-        ray.init(address="local")
         print(f"[Scheduler] Initializing a new scheduler.")
         self.result_monitor = result_monitor
         self.trials_lst = []
 
-    def trial_lst(self) -> List[Trial]:
+    def trials_lst(self) -> List[Trial]:
         return self.trials_lst
 
     def dispatch_trails(self):
@@ -130,6 +144,7 @@ class DistributedRunner:
             for result in runner.next_result:
                 yield result
         """
+        ray.init(address="local")
         self.result_monitor = ResultMonitor()
         self.scheduler = Scheduler(result_monitor=self.result_monitor, *agrs)
         self.scheduler.dispatch_trails()
@@ -141,6 +156,6 @@ class DistributedRunner:
         """
         while not self.result_monitor.all_trials_reported():
             for result in self.result_monitor.report_results:
-                yield result
+                yield result  # {tune_cfg, quantized_model, evaluation result}
             # TODO may need to find a better way.
             time.sleep(5) # pause 5s to do next query. 
