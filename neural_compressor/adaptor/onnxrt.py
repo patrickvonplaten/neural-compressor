@@ -651,18 +651,11 @@ class ONNXRUNTIMEAdaptor(Adaptor):
         Returns:
             (dict): quantization capability
         """
+        from collections import deque
+
         # optype_wise and op_wise capability
         self._pre_optimize(model)
-        exclude_first_quantizable_op = True if 'first_conv_or_matmul_quantization' in \
-            self.recipes and not self.recipes['first_conv_or_matmul_quantization'] \
-            else False
-        exclude_last_quantizable_op = True if 'last_conv_or_matmul_quantization' in \
-            self.recipes and not self.recipes['last_conv_or_matmul_quantization'] \
-            else False
-        exclude_pre_post_process = True if 'pre_post_process_quantization' in \
-            self.recipes and not self.recipes['pre_post_process_quantization'] \
-            else False
- 
+
         quantizable_optype = set([i.op_type for i in self.pre_optimized_model.nodes()])
         optype_wise = OrderedDict()
         op_wise = OrderedDict()
@@ -716,68 +709,51 @@ class ONNXRUNTIMEAdaptor(Adaptor):
         for _, node in enumerate(self.pre_optimized_model.nodes()):
             if node.op_type in ['Conv', 'MatMul']:
                 # get first Conv or MatMul node
-                if exclude_first_quantizable_op:
-                    if len(first_quantizable_node) == 0:
-                        first_quantizable_node.append(node.name)
+                if len(first_quantizable_node) == 0:
+                    first_quantizable_node.append(node.name)
                 
                 # get last Conv or MatMul node
-                if exclude_last_quantizable_op:
-                    if len(last_quantizable_node) != 0:
-                        last_quantizable_node.pop()
-                    last_quantizable_node.append(node.name)
+                if len(last_quantizable_node) != 0:
+                    last_quantizable_node.pop()
+                last_quantizable_node.append(node.name)
 
-                # get first and last Conv or MatMul node
-                if exclude_pre_post_process:
-                    if len(first_quantizable_node) == 0:
-                        first_quantizable_node.append(node.name)
-                    if len(last_quantizable_node) != 0:
-                        last_quantizable_node.pop()
-                    last_quantizable_node.append(node.name)
-                    all_conv_matmul.append(node)
-
+                all_conv_matmul.append(node)
+        
+        # get nodes between first quantizable node and last quantizable node
+        backbone_queue = deque(last_quantizable_node)
+        backbone_nodes = self.pre_optimized_model.get_nodes_chain(backbone_queue, first_quantizable_node)
+        # get extra Conv or MatMul nodes not between first quantizable node and last quantizable node
+        backbone_queue_extra = deque()
+        for conv_or_matmul in all_conv_matmul:
+            if conv_or_matmul.name not in backbone_nodes:
+                backbone_queue_extra.append(conv_or_matmul.name)
+                backbone_nodes = self.pre_optimized_model.get_nodes_chain(backbone_queue_extra, 
+                                                first_quantizable_node, backbone_nodes)
+        backbone_nodes += [i for i in first_quantizable_node]
+        
+        recipe_ops = {}
+        first_conv_or_matmul, last_conv_or_matmul, pre_post_process_nodes = [], [], []
         for _, node in enumerate(self.pre_optimized_model.nodes()):
-            if node.op_type in optype_wise:
-                if (exclude_first_quantizable_op and node.name in first_quantizable_node) \
-                     or (exclude_last_quantizable_op and node.name in last_quantizable_node):
-                    tmp_cfg = copy.deepcopy(optype_wise[node.op_type])
-                    tmp_cfg = list(filter(lambda x:'quant_mode' not in x['activation'], tmp_cfg))
-                    op_wise.update({(node.name, node.op_type): tmp_cfg})
-                    continue
-                op_wise.update(
-                    {(node.name, node.op_type): copy.deepcopy(optype_wise[node.op_type])})
+            if node.name in first_quantizable_node:
+                first_conv_or_matmul.append((node.name, node.op_type))
+            if node.name in last_quantizable_node:
+                last_conv_or_matmul.append((node.name, node.op_type))
+            if node.name not in backbone_nodes:
+                pre_post_process_nodes.append((node.name, node.op_type))
 
-        if exclude_pre_post_process:
-            from collections import deque
-            
-            # get nodes between first quantizable node and last quantizable node
-            backbone_queue = deque(last_quantizable_node)
-            backbone_nodes = self.pre_optimized_model.get_nodes_chain(backbone_queue, first_quantizable_node)
+            # for TRT EP, only insert Q/DQ to inputs of Add nodes followed by ReduceMean
+            if node.op_type == 'Add' and self.backend == 'TensorrtExecutionProvider':
+                children = self.pre_optimized_model.get_children(node)
+                if 'ReduceMean' not in [i.op_type for i in children]:
+                    op_wise.update({(node.name, node.op_type): 
+                        [{'weight': {'dtype': 'fp32'}, 'activation': {'dtype': 'fp32'}}]})
+                continue
+        
+        recipe_ops['first_conv_or_matmul'] = first_conv_or_matmul
+        recipe_ops['last_conv_or_matmul'] = last_conv_or_matmul
+        recipe_ops['pre_post_process_nodes'] = pre_post_process_nodes
 
-            # get extra Conv or MatMul nodes not between first quantizable node and last quantizable node
-            backbone_queue_extra = deque()
-            for conv_or_matmul in all_conv_matmul:
-                if conv_or_matmul.name not in backbone_nodes:
-                    backbone_queue_extra.append(conv_or_matmul.name)
-                    backbone_nodes = self.pre_optimized_model.get_nodes_chain(backbone_queue_extra, 
-                                                    first_quantizable_node, backbone_nodes)
-            backbone_nodes += [i for i in first_quantizable_node]
-
-            for _, node in enumerate(self.pre_optimized_model.nodes()):
-                if node.op_type in optype_wise:
-                    # nodes not in backbone are not quantized
-                    if node.name not in backbone_nodes:
-                        tmp_cfg = copy.deepcopy(optype_wise[node.op_type])
-                        tmp_cfg = list(filter(lambda x:'quant_mode' not in x['activation'], tmp_cfg))
-                        op_wise.update({(node.name, node.op_type): tmp_cfg})
-                        continue
-                    if (node.name, node.op_type) in op_wise:
-                        op_wise.update(
-                            {(node.name, node.op_type): copy.deepcopy(op_wise[(node.name, node.op_type)])})
-                    else: # pragma: no cover
-                        op_wise.update(
-                            {(node.name, node.op_type): copy.deepcopy(optype_wise[node.op_type])})
-
-        return {'optypewise': optype_wise, 'opwise': op_wise}
+        return {'optypewise': optype_wise, 'opwise': op_wise, 'recipe_ops': recipe_ops}
 
     def _cfg_to_quantize_config(self, tune_cfg):
         quantize_config = {}
