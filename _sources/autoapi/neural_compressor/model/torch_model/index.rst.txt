@@ -32,6 +32,10 @@ Classes
 
       Getter to model
 
+   .. py:property:: fp32_model
+
+      Getter to model
+
    .. py:method:: framework()
 
       abstract method of model framework
