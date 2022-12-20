@@ -689,7 +689,8 @@ class HessianTraceEstimator:
 
             diff_avg = abs(mean_avg_total_trace - avg_total_trace) / (avg_total_trace + self._diff_eps)
             if diff_avg < tolerance:
-                print("*** Early stopping the computing process due to reached tolerance.")
+                print(f'{i}# difference_avg={diff_avg} tolerance={tolerance}')
+                print("*** Early stopping the computing process due to reached tolerance. {}")
                 return mean_avg_traces_per_param
             avg_total_trace = mean_avg_total_trace
             print(f'{i}# difference_avg={diff_avg} avg_trace={avg_total_trace}')
