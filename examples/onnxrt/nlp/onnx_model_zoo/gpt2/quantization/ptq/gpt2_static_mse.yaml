@@ -18,7 +18,7 @@ tuning:
   strategy:
     name: mse
   accuracy_criterion:
-    relative:  0.11                                 # optional. default value is relative, other value is absolute. this example allows relative accuracy loss: 1%.
+    relative:  0.0059                                 # optional. default value is relative, other value is absolute. this example allows relative accuracy loss: 1%.
     higher_is_better: False
   exit_policy:
     timeout: 0                                       # optional. tuning timeout (seconds). default value is 0 which means early stop. combine with max_trials field to decide when to exit.
