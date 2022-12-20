@@ -172,7 +172,7 @@ Functions
       Prune the model after optimization.
 
 
-   .. py:method:: on_train_begin()
+   .. py:method:: on_train_begin(dataloader=None)
 
       Functions called in the beginning of training.
 

@@ -357,6 +357,24 @@ an override function is required.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.component.Component.on_after_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_after_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.component.Component.on_after_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Be called after optimizer step.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.component.Component.on_before_eval">
+<span class="sig-name descname"><span class="pre">on_before_eval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.component.Component.on_before_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Be called before evaluation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.component.Component.on_after_eval">
+<span class="sig-name descname"><span class="pre">on_after_eval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.component.Component.on_after_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Be called after evaluation.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.experimental.component.Component.on_post_grad">
 <span class="sig-name descname"><span class="pre">on_post_grad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.component.Component.on_post_grad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Be called before optimizer step.</p>
@@ -442,6 +460,9 @@ an override function is required.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_batch_begin"><code class="docutils literal notranslate"><span class="pre">Component.on_batch_begin()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_after_compute_loss"><code class="docutils literal notranslate"><span class="pre">Component.on_after_compute_loss()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_before_optimizer_step"><code class="docutils literal notranslate"><span class="pre">Component.on_before_optimizer_step()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_after_optimizer_step"><code class="docutils literal notranslate"><span class="pre">Component.on_after_optimizer_step()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_before_eval"><code class="docutils literal notranslate"><span class="pre">Component.on_before_eval()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_after_eval"><code class="docutils literal notranslate"><span class="pre">Component.on_after_eval()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_post_grad"><code class="docutils literal notranslate"><span class="pre">Component.on_post_grad()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_step_end"><code class="docutils literal notranslate"><span class="pre">Component.on_step_end()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_batch_end"><code class="docutils literal notranslate"><span class="pre">Component.on_batch_end()</span></code></a></li>
@@ -469,6 +490,9 @@ an override function is required.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_batch_begin">on_batch_begin</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_after_compute_loss">on_after_compute_loss</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_before_optimizer_step">on_before_optimizer_step</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_after_optimizer_step">on_after_optimizer_step</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_before_eval">on_before_eval</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_after_eval">on_after_eval</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_post_grad">on_post_grad</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_step_end">on_step_end</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.component.Component.on_batch_end">on_batch_end</a></li>

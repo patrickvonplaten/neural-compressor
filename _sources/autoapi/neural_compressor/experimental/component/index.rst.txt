@@ -133,6 +133,21 @@ Classes
       Be called before optimizer step.
 
 
+   .. py:method:: on_after_optimizer_step()
+
+      Be called after optimizer step.
+
+
+   .. py:method:: on_before_eval()
+
+      Be called before evaluation.
+
+
+   .. py:method:: on_after_eval()
+
+      Be called after evaluation.
+
+
    .. py:method:: on_post_grad()
 
       Be called before optimizer step.

@@ -218,16 +218,6 @@
 <p>prune utils.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
-<section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.pruner.utils.WeightPruningConfig" title="neural_compressor.pruner.utils.WeightPruningConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeightPruningConfig</span></code></a></p></td>
-<td><p>similiar to torch optimizer's interface</p></td>
-</tr>
-</tbody>
-</table>
-</section>
 <section id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
@@ -246,12 +236,6 @@
 </tr>
 </tbody>
 </table>
-<dl class="py class">
-<dt class="sig sig-object py" id="neural_compressor.pruner.utils.WeightPruningConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">WeightPruningConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pruning_configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[{}]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pruning_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'snip_momentum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4x1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_op_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pruning_scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'global'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pruning_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_sparsity_ratio_per_op</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sparsity_ratio_per_op</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.98</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparsity_decay_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'exp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pruning_op_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['Conv',</span> <span class="pre">'Linear']</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.WeightPruningConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>similiar to torch optimizer’s interface</p>
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.pruner.utils.check_config">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">check_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prune_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.check_config" title="Permalink to this definition">¶</a></dt>
@@ -272,17 +256,11 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.pruner.utils.reset_none_to_default">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">reset_none_to_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.reset_none_to_default" title="Permalink to this definition">¶</a></dt>
-<dd><p>Functions that add up undefined configurations.</p>
-<p>If some configurations are not defined in the configuration, set it to a default value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>obj</strong> – A dict{key: value}</p></li>
-<li><p><strong>key</strong> – A string. Key in obj.</p></li>
-<li><p><strong>default</strong> – When the key is not in obj, Add key: default item in original obj.</p></li>
-</ul>
-</dd>
-</dl>
+<dd><p>Functions that add up undefined configurations.
+If some configurations are not defined in the configuration, set it to a default value.
+:param obj: A dict{key: value}
+:param key: A string. Key in obj.
+:param default: When the key is not in obj, Add key: default item in original obj.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -337,14 +315,11 @@
               <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.utils</span></code></a><ul>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
-<li><a class="reference internal" href="#neural_compressor.pruner.utils.WeightPruningConfig"><code class="docutils literal notranslate"><span class="pre">WeightPruningConfig</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.check_config"><code class="docutils literal notranslate"><span class="pre">check_config()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.reset_none_to_default"><code class="docutils literal notranslate"><span class="pre">reset_none_to_default()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.process_config"><code class="docutils literal notranslate"><span class="pre">process_config()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.parse_to_prune"><code class="docutils literal notranslate"><span class="pre">parse_to_prune()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.pruner.utils.WeightPruningConfig">WeightPruningConfig</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.check_config">check_config</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.reset_none_to_default">reset_none_to_default</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.process_config">process_config</a></li>

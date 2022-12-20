@@ -59,6 +59,15 @@ Classes
 
       Getter to know whether need distributed training dataloader.
 
+   .. py:method:: update_items_for_all_pruners(**kwargs)
+
+      Functions which add User-defined arguments to the original configurations.
+
+      The original config of pruning is read from a file.
+      However, users can still modify configurations by passing key-value arguments in this function.
+      Please note that the key-value arguments' keys are analysable in current configuration.
+
+
    .. py:method:: prepare()
 
       Functions prepare for generate_hooks, generate_pruners.
@@ -84,6 +93,16 @@ Classes
    .. py:method:: generate_pruners()
 
       Functions that generate pruners and set up self.pruners.
+
+
+   .. py:method:: get_sparsity_ratio()
+
+      Functions that calculate a modules/layers sparsity.
+
+      :returns: Three floats.
+                elementwise_over_matmul_gemm_conv refers to zero elements' ratio in pruning layers.
+                elementwise_over_all refers to zero elements' ratio in all layers in the model.
+                blockwise_over_matmul_gemm_conv refers to all-zero blocks' ratio in pruning layers.
 
 
 

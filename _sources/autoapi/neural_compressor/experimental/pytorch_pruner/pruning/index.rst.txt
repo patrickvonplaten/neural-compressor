@@ -57,6 +57,11 @@ Classes
       Please note that the key-value arguments' keys are analysable in current configuration.
 
 
+   .. py:method:: prepare()
+
+      Align with old API's calling pipeline.
+
+
    .. py:method:: get_sparsity_ratio()
 
       Functions that calculate a modules/layers sparsity.

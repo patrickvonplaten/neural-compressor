@@ -279,6 +279,15 @@ dataloaders etc.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.pruning.Pruning.update_items_for_all_pruners">
+<span class="sig-name descname"><span class="pre">update_items_for_all_pruners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.pruning.Pruning.update_items_for_all_pruners" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functions which add User-defined arguments to the original configurations.</p>
+<p>The original config of pruning is read from a file.
+However, users can still modify configurations by passing key-value arguments in this function.
+Please note that the key-value arguments’ keys are analysable in current configuration.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.experimental.pruning.Pruning.prepare">
 <span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.pruning.Pruning.prepare" title="Permalink to this definition">¶</a></dt>
 <dd><p>Functions prepare for generate_hooks, generate_pruners.</p>
@@ -307,6 +316,20 @@ dataloaders etc.</p>
 <dt class="sig sig-object py" id="neural_compressor.experimental.pruning.Pruning.generate_pruners">
 <span class="sig-name descname"><span class="pre">generate_pruners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.pruning.Pruning.generate_pruners" title="Permalink to this definition">¶</a></dt>
 <dd><p>Functions that generate pruners and set up self.pruners.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.pruning.Pruning.get_sparsity_ratio">
+<span class="sig-name descname"><span class="pre">get_sparsity_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.pruning.Pruning.get_sparsity_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functions that calculate a modules/layers sparsity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Three floats.
+elementwise_over_matmul_gemm_conv refers to zero elements’ ratio in pruning layers.
+elementwise_over_all refers to zero elements’ ratio in all layers in the model.
+blockwise_over_matmul_gemm_conv refers to all-zero blocks’ ratio in pruning layers.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -431,11 +454,13 @@ dataloaders etc.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.pruning_func"><code class="docutils literal notranslate"><span class="pre">Pruning.pruning_func</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.evaluation_distributed"><code class="docutils literal notranslate"><span class="pre">Pruning.evaluation_distributed</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.train_distributed"><code class="docutils literal notranslate"><span class="pre">Pruning.train_distributed</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.update_items_for_all_pruners"><code class="docutils literal notranslate"><span class="pre">Pruning.update_items_for_all_pruners()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.prepare"><code class="docutils literal notranslate"><span class="pre">Pruning.prepare()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.pre_process"><code class="docutils literal notranslate"><span class="pre">Pruning.pre_process()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.execute"><code class="docutils literal notranslate"><span class="pre">Pruning.execute()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.generate_hooks"><code class="docutils literal notranslate"><span class="pre">Pruning.generate_hooks()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.generate_pruners"><code class="docutils literal notranslate"><span class="pre">Pruning.generate_pruners()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.get_sparsity_ratio"><code class="docutils literal notranslate"><span class="pre">Pruning.get_sparsity_ratio()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.TfPruningCallback"><code class="docutils literal notranslate"><span class="pre">TfPruningCallback</span></code></a><ul>
@@ -458,11 +483,13 @@ dataloaders etc.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.pruning_func">pruning_func</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.evaluation_distributed">evaluation_distributed</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.train_distributed">train_distributed</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.update_items_for_all_pruners">update_items_for_all_pruners</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.prepare">prepare</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.pre_process">pre_process</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.execute">execute</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.generate_hooks">generate_hooks</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.generate_pruners">generate_pruners</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.pruning.Pruning.get_sparsity_ratio">get_sparsity_ratio</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pruning.TfPruningCallback">TfPruningCallback</a><ul>

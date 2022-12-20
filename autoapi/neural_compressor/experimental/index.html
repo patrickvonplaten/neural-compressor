@@ -329,6 +329,7 @@
 <li class="toctree-l1"><a class="reference internal" href="mixed_precision/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.mixed_precision</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="model_conversion/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.model_conversion</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="pruning/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.pruning</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pruning_v2/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.pruning_v2</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="quantization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.quantization</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="scheduler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.experimental.scheduler</span></code></a></li>
 </ul>
@@ -508,6 +509,24 @@ an override function is required.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.Component.on_after_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_after_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.Component.on_after_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Be called after optimizer step.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.Component.on_before_eval">
+<span class="sig-name descname"><span class="pre">on_before_eval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.Component.on_before_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Be called before evaluation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.Component.on_after_eval">
+<span class="sig-name descname"><span class="pre">on_after_eval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.Component.on_after_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Be called after evaluation.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.experimental.Component.on_post_grad">
 <span class="sig-name descname"><span class="pre">on_post_grad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.Component.on_post_grad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Be called before optimizer step.</p>
@@ -668,6 +687,15 @@ dataloaders etc.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.Pruning.update_items_for_all_pruners">
+<span class="sig-name descname"><span class="pre">update_items_for_all_pruners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.Pruning.update_items_for_all_pruners" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functions which add User-defined arguments to the original configurations.</p>
+<p>The original config of pruning is read from a file.
+However, users can still modify configurations by passing key-value arguments in this function.
+Please note that the key-value arguments’ keys are analysable in current configuration.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.experimental.Pruning.prepare">
 <span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.Pruning.prepare" title="Permalink to this definition">¶</a></dt>
 <dd><p>Functions prepare for generate_hooks, generate_pruners.</p>
@@ -696,6 +724,20 @@ dataloaders etc.</p>
 <dt class="sig sig-object py" id="neural_compressor.experimental.Pruning.generate_pruners">
 <span class="sig-name descname"><span class="pre">generate_pruners</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.Pruning.generate_pruners" title="Permalink to this definition">¶</a></dt>
 <dd><p>Functions that generate pruners and set up self.pruners.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.Pruning.get_sparsity_ratio">
+<span class="sig-name descname"><span class="pre">get_sparsity_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.Pruning.get_sparsity_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functions that calculate a modules/layers sparsity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Three floats.
+elementwise_over_matmul_gemm_conv refers to zero elements’ ratio in pruning layers.
+elementwise_over_all refers to zero elements’ ratio in all layers in the model.
+blockwise_over_matmul_gemm_conv refers to all-zero blocks’ ratio in pruning layers.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -1209,6 +1251,9 @@ evaluating the best student model if any.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_batch_begin"><code class="docutils literal notranslate"><span class="pre">Component.on_batch_begin()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_after_compute_loss"><code class="docutils literal notranslate"><span class="pre">Component.on_after_compute_loss()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_before_optimizer_step"><code class="docutils literal notranslate"><span class="pre">Component.on_before_optimizer_step()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Component.on_after_optimizer_step"><code class="docutils literal notranslate"><span class="pre">Component.on_after_optimizer_step()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Component.on_before_eval"><code class="docutils literal notranslate"><span class="pre">Component.on_before_eval()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Component.on_after_eval"><code class="docutils literal notranslate"><span class="pre">Component.on_after_eval()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_post_grad"><code class="docutils literal notranslate"><span class="pre">Component.on_post_grad()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_step_end"><code class="docutils literal notranslate"><span class="pre">Component.on_step_end()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_batch_end"><code class="docutils literal notranslate"><span class="pre">Component.on_batch_end()</span></code></a></li>
@@ -1234,11 +1279,13 @@ evaluating the best student model if any.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.pruning_func"><code class="docutils literal notranslate"><span class="pre">Pruning.pruning_func</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.evaluation_distributed"><code class="docutils literal notranslate"><span class="pre">Pruning.evaluation_distributed</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.train_distributed"><code class="docutils literal notranslate"><span class="pre">Pruning.train_distributed</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Pruning.update_items_for_all_pruners"><code class="docutils literal notranslate"><span class="pre">Pruning.update_items_for_all_pruners()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.prepare"><code class="docutils literal notranslate"><span class="pre">Pruning.prepare()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.pre_process"><code class="docutils literal notranslate"><span class="pre">Pruning.pre_process()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.execute"><code class="docutils literal notranslate"><span class="pre">Pruning.execute()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.generate_hooks"><code class="docutils literal notranslate"><span class="pre">Pruning.generate_hooks()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.generate_pruners"><code class="docutils literal notranslate"><span class="pre">Pruning.generate_pruners()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Pruning.get_sparsity_ratio"><code class="docutils literal notranslate"><span class="pre">Pruning.get_sparsity_ratio()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Benchmark"><code class="docutils literal notranslate"><span class="pre">Benchmark</span></code></a><ul>
@@ -1326,6 +1373,9 @@ evaluating the best student model if any.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_batch_begin">on_batch_begin</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_after_compute_loss">on_after_compute_loss</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_before_optimizer_step">on_before_optimizer_step</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Component.on_after_optimizer_step">on_after_optimizer_step</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Component.on_before_eval">on_before_eval</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Component.on_after_eval">on_after_eval</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_post_grad">on_post_grad</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_step_end">on_step_end</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Component.on_batch_end">on_batch_end</a></li>
@@ -1351,11 +1401,13 @@ evaluating the best student model if any.</p>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.pruning_func">pruning_func</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.evaluation_distributed">evaluation_distributed</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.train_distributed">train_distributed</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Pruning.update_items_for_all_pruners">update_items_for_all_pruners</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.prepare">prepare</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.pre_process">pre_process</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.execute">execute</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.generate_hooks">generate_hooks</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Pruning.generate_pruners">generate_pruners</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.Pruning.get_sparsity_ratio">get_sparsity_ratio</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.experimental.Benchmark">Benchmark</a><ul>

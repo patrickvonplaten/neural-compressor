@@ -273,6 +273,12 @@ Please note that the key-value arguments’ keys are analysable in current confi
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.experimental.pytorch_pruner.pruning.Pruning.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Align with old API’s calling pipeline.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.experimental.pytorch_pruner.pruning.Pruning.get_sparsity_ratio">
 <span class="sig-name descname"><span class="pre">get_sparsity_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.get_sparsity_ratio" title="Permalink to this definition">¶</a></dt>
 <dd><p>Functions that calculate a modules/layers sparsity.</p>
@@ -388,6 +394,7 @@ blockwise_over_matmul_gemm_conv refers to all-zero blocks’ ratio in pruning la
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.pruners"><code class="docutils literal notranslate"><span class="pre">Pruning.pruners</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.pruner_info"><code class="docutils literal notranslate"><span class="pre">Pruning.pruner_info</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.update_items_for_all_pruners"><code class="docutils literal notranslate"><span class="pre">Pruning.update_items_for_all_pruners()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.prepare"><code class="docutils literal notranslate"><span class="pre">Pruning.prepare()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.get_sparsity_ratio"><code class="docutils literal notranslate"><span class="pre">Pruning.get_sparsity_ratio()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.on_train_begin"><code class="docutils literal notranslate"><span class="pre">Pruning.on_train_begin()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.on_epoch_begin"><code class="docutils literal notranslate"><span class="pre">Pruning.on_epoch_begin()</span></code></a></li>
@@ -407,6 +414,7 @@ blockwise_over_matmul_gemm_conv refers to all-zero blocks’ ratio in pruning la
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.pruners">pruners</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.pruner_info">pruner_info</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.update_items_for_all_pruners">update_items_for_all_pruners</a></li>
+<li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.prepare">prepare</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.get_sparsity_ratio">get_sparsity_ratio</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.on_train_begin">on_train_begin</a></li>
 <li><a class="reference internal" href="#neural_compressor.experimental.pytorch_pruner.pruning.Pruning.on_epoch_begin">on_epoch_begin</a></li>
