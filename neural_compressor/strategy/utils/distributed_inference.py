@@ -47,19 +47,30 @@ class ResultMonitor:
             result_record (Dict): the result collection. key: trial id, val : evaluation result.
         """
         result_record = []
-        for trial in self.completed_trials():
-            if trial not in self.reported_trials:
-                result_record.append({trial.id: trial.result()})
-                self.reported_trials.add(trial.id)
+        for trial in self.completed_trials:
+            if trial["id"] not in self.reported_trials:
+                result_record.append(trial)
+                self.reported_trials.add(trial["id"])
         return result_record
 
-    def add_finished_trial(self):
+    def add_finished_trial(self, result: Dict):
         """Trial can report its result by this interface.
-
+        Arg:
+        result: Dict:
+            {"id":, "tune_cfg":, "q_model":, "eval_result":}
         Returns:
             None
         """
+        self.completed_trials.append(result)
+        print(f"[Monitor{id(self)}] finished trail", result["id"], "len(completed_trials):", len(self.completed_trials),
+              "len(self.trials_lst):", len(self.trials_lst))
         pass
+
+    def add_trial(self, trail):
+        self.trials_lst.append(trail)
+
+    def get_attribute(self):
+        return self.trials_lst, self.completed_trials, self.reported_trials
 
 @ray.remote
 class Trial:
@@ -70,12 +81,16 @@ class Trial:
 
         """
         print(f"[Trial] Initializing a new Trial {id(self)} with tune cfg: {id(tune_cfg)}.")
-        self.result_monitor = result_monitor
         self.tune_cfg = tune_cfg
-        # self.adaptor = adaptor
-        # self.eval = eval
+        self.adaptor = adaptor
+        self.model = model
+        self.calib_dataloader = calib_dataloader
+        self.q_func = q_func
+        self.evaluate = evaluate
+        self.result_monitor = result_monitor
         self.eval_result = None
         self.finished_trial = False
+        self.id = id(self)
         
     def compute(self):
         """Execute one trial including calibration, quantization and evaluation. 
@@ -90,33 +105,43 @@ class Trial:
         """
         result = {}
         print(f"[Trial] Start to compute precess for one trial.")
-        q_modle = self.adaptor.quantize(self.tune_cfg, self.model, self.calib_dataloader, self.q_func)
-        eval_result = self.evaluate(q_modle)
+        q_model = self.adaptor.quantize(self.tune_cfg, self.model, self.calib_dataloader, self.q_func)
+        eval_result = self.evaluate(q_model)
         print(f"[Trial] Finished the compute with eval result {eval_result}.")
         self.eval_result = eval_result
         self.finished_trial = True
         # report to result monitor 
-        self.result_monitor.add_finished_trial.remote(result)
+        # self.result_monitor.add_finished_trial.remote({"id": "test"})
+        self.result_monitor.add_finished_trial.remote({"id": self.id, "tune_cfg": self.tune_cfg}) #, "q_model": q_model, "eval_result": eval_result})
+        time.sleep(20)
         return eval_result
 
     def report_state(self):
-        print(f"[Trial] Report state for {id(self)}.")
+        print(f"[Trial] Report state for {self.id}.")
         return self.finished_trial
     
     def report_result(self):
         print(f"[Trial] Report eval result for {id(self)}.")
         return self, self.eval_result
     
+    def get_id(self):
+        return self.id
 
 @ray.remote
 class Scheduler:
-    def __init__(self, tune_cfg_lst, result_monitor: ResultMonitor) -> None:
+    def __init__(self, tune_cfg_lst, adaptor, model, calib_dataloader, q_func, evaluate,result_monitor: ResultMonitor) -> None:
         """Class for manage the hardware resource and dispatch trials. 
         Specific the CPUs and GPUs for each trial.
         """
         print(f"[Scheduler] Initializing a new scheduler.")
-        self.result_monitor = result_monitor
         self.trials_lst = []
+        self.tune_cfg_lst = tune_cfg_lst
+        self.adaptor = adaptor
+        self.model = model
+        self.calib_dataloader = calib_dataloader
+        self.q_func = q_func
+        self.evaluate = evaluate
+        self.result_monitor = result_monitor
 
     def trials_lst(self) -> List[Trial]:
         return self.trials_lst
@@ -127,12 +152,13 @@ class Scheduler:
         for tune_cfg in self.tune_cfg_lst:
             # TODO check the hardware resource before schedule new trial
             print(f"[Scheduler] Create a new trial for the {id(tune_cfg)}.")
-            trial = Trial.remote(tune_cfg, self.result_monitor)
+            trial = Trial.remote(tune_cfg, self.adaptor, self.model, self.calib_dataloader, self.q_func, self.evaluate, self.result_monitor)
             self.trials_lst.append(trial)
-            trial.compute.remote(tune_cfg, adaptor, model, calib_dataloader, q_func, evaluate)
+            self.result_monitor.add_trial.remote(ray.get(trial.get_id.remote()))
+            trial.compute.remote()
 
 class DistributedRunner:
-    def __init__(self, tune_cfg_lst, agrs) -> None:
+    def __init__(self, tune_cfg_lst, adaptor, model, calib_dataloader, q_func, evaluate) -> None:
         """Initialize the components for distributed tuning.
 
         Args:
@@ -145,17 +171,25 @@ class DistributedRunner:
                 yield result
         """
         ray.init(address="local")
-        self.result_monitor = ResultMonitor()
-        self.scheduler = Scheduler(result_monitor=self.result_monitor, *agrs)
-        self.scheduler.dispatch_trails()
+        self.result_monitor = ResultMonitor.remote()
+        self.scheduler = Scheduler.remote(tune_cfg_lst, adaptor, model, calib_dataloader, q_func, evaluate, self.result_monitor)
+        self.result = self.scheduler.dispatch_trails.remote()
+        # for trail in self.result_monitor.trials_lst:
+        #     print(f"[Runner[Monitor{id(self.result_monitor)}]]", id(trail))
+        # for trail in self.scheduler.trials_lst:
+        #     print("[Runner]", id(trail), "Trail.id", ray.get(trail.get_id.remote()))
 
     def next_result(self):
         """
         Collect all completed trials and report it to strategy.
         
         """
-        while not self.result_monitor.all_trials_reported():
-            for result in self.result_monitor.report_results:
+        # print("*" * 50, ray.get(self.result_monitor.all_trials_reported.remote()))
+        _ = ray.get(self.result)
+        # trials_lst, compeleted_trials, report_trials = ray.get(self.result_monitor.get_attribute.remote())
+        # print("*" * 50, len(trials_lst), len(compeleted_trials), len(report_trials))
+        while not ray.get(self.result_monitor.all_trials_reported.remote()):
+            for result in ray.get(self.result_monitor.report_results.remote()):
                 yield result  # {tune_cfg, quantized_model, evaluation result}
             # TODO may need to find a better way.
             time.sleep(5) # pause 5s to do next query. 

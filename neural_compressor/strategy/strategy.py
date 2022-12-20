@@ -49,7 +49,7 @@ from ..utils import logger
 from .utils.tuning_sampler import OpTypeWiseTuningSampler, FallbackTuningSampler
 from .utils.tuning_space import TuningItem, TuningSpace
 from .utils.tuning_structs import OpTuningConfig
-from .utils.distributed_inference import Scheduler as DistributedTuningScheduler
+from .utils.distributed_inference import DistributedRunner
 
 
 STRATEGIES = {}
@@ -220,15 +220,15 @@ class TuneStrategy(object):
             logger.info("Generate a fake evaluation function.")
             self.eval_func = self._fake_eval_func
 
-        # get fp32 model baseline
-        if self.baseline is None:
-            logger.info("Get FP32 model baseline.")
-            self._fp32_model = self.model
-            self.baseline = self._evaluate(self.model)       
-            self.objectives.baseline = self.baseline
-            # record the FP32 baseline
-            self._add_tuning_history()
-        self.show_baseline_info()
+        # # get fp32 model baseline
+        # if self.baseline is None:
+        #     logger.info("Get FP32 model baseline.")
+        #     self._fp32_model = self.model
+        #     self.baseline = self._evaluate(self.model)
+        #     self.objectives.baseline = self.baseline
+        #     # record the FP32 baseline
+        #     self._add_tuning_history()
+        # self.show_baseline_info()
 
         trials_count = 0
         traverse_start_time = time.time()
@@ -238,6 +238,21 @@ class TuneStrategy(object):
             tune_cfg = self._tune_cfg_converter(op_tuning_cfg)
             tune_cfg_lst.append(tune_cfg)
         logger.info(f"Got {len(tune_cfg_lst)} tuning configs.")
+        self.dis_tuning_runner = DistributedRunner(tune_cfg_lst=tune_cfg_lst[:3],
+                                                  adaptor=self.adaptor,
+                                                  model=self.model,
+                                                  calib_dataloader=self.calib_dataloader,
+                                                  q_func=self.q_func,
+                                                  evaluate=self._evaluate)
+
+        # print(self.dis_tuning_runner.next_result())
+        res_count = 0
+        for result in self.dis_tuning_runner.next_result():
+            print("*" * 10, res_count, "*" * 10)
+            print(result)
+            res_count += 1
+
+        return
         self.dis_tuning_scheduler = DistributedTuningScheduler()
         self.dis_tuning_scheduler.dispatch_trails(tune_cfg_lst=tune_cfg_lst[:3],
                                                   adaptor=self.adaptor,
