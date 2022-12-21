@@ -44,7 +44,9 @@ class ResultMonitor:
         """Collect all completed but not reported trails at current state.
 
         Returns:
-            result_record (Dict): the result collection. key: trial id, val : evaluation result.
+            result_record (List): the result collection. 
+                item: 
+                {"id":trial id, "tune_cfg": tune config, "eval_result": evaluation result}
         """
         result_record = []
         for trial in self.completed_trials:
@@ -56,8 +58,8 @@ class ResultMonitor:
     def add_finished_trial(self, result: Dict):
         """Trial can report its result by this interface.
         Arg:
-        result: Dict:
-            {"id":, "tune_cfg":, "q_model":, "eval_result":}
+        result (Dict):
+            {"id":trial id, "tune_cfg": tune config, "eval_result": evaluation result} 
         Returns:
             None
         """
@@ -71,6 +73,12 @@ class ResultMonitor:
 
     def get_attribute(self):
         return self.trials_lst, self.completed_trials, self.reported_trials
+
+    def add_finished_qmodel(self, q_model):
+        """Test report qmodel
+        """
+        print("#" * 50)
+        print(type(q_model))
 
 @ray.remote
 class Trial:
@@ -104,7 +112,7 @@ class Trial:
                 eval_result: the evaluation result.
         """
         result = {}
-        print(f"[Trial] Start to compute precess for one trial.")
+        print(f"[Trial] Start to compute process for one trial.")
         q_model = self.adaptor.quantize(self.tune_cfg, self.model, self.calib_dataloader, self.q_func)
         eval_result = self.evaluate(q_model)
         print(f"[Trial] Finished the compute with eval result {eval_result}.")
@@ -112,11 +120,13 @@ class Trial:
         self.finished_trial = True
         # report to result monitor 
         # self.result_monitor.add_finished_trial.remote({"id": "test"})
-        self.result_monitor.add_finished_trial.remote({"id": self.id, "tune_cfg": self.tune_cfg}) #, "q_model": q_model, "eval_result": eval_result})
+        self.result_monitor.add_finished_trial.remote({"id": self.id, "tune_cfg": self.tune_cfg, "eval_result": eval_result}) #, "q_model": q_model
+        # self.result_monitor.add_finished_qmodel.remote(q_model)
         time.sleep(20)
         return eval_result
 
     def report_state(self):
+        
         print(f"[Trial] Report state for {self.id}.")
         return self.finished_trial
     
@@ -134,6 +144,7 @@ class Scheduler:
         Specific the CPUs and GPUs for each trial.
         """
         print(f"[Scheduler] Initializing a new scheduler.")
+        print("[Scheduler] Cluster Resources:", ray.cluster_resources())
         self.trials_lst = []
         self.tune_cfg_lst = tune_cfg_lst
         self.adaptor = adaptor
@@ -142,6 +153,8 @@ class Scheduler:
         self.q_func = q_func
         self.evaluate = evaluate
         self.result_monitor = result_monitor
+        self.num_cpus =  ray.cluster_resources()["CPU"]
+        self.num_gpus = None if "GPU" not in ray.cluster_resources().keys() else ray.cluster_resources()["GPU"]
 
     def trials_lst(self) -> List[Trial]:
         return self.trials_lst
@@ -151,8 +164,9 @@ class Scheduler:
         """
         for tune_cfg in self.tune_cfg_lst:
             # TODO check the hardware resource before schedule new trial
+            print(f"[Scheduler] Avaliable Resources: {ray.available_resources()}.")
             print(f"[Scheduler] Create a new trial for the {id(tune_cfg)}.")
-            trial = Trial.remote(tune_cfg, self.adaptor, self.model, self.calib_dataloader, self.q_func, self.evaluate, self.result_monitor)
+            trial = Trial.options(num_cpus=None, num_gpus=None).remote(tune_cfg, self.adaptor, self.model, self.calib_dataloader, self.q_func, self.evaluate, self.result_monitor)
             self.trials_lst.append(trial)
             self.result_monitor.add_trial.remote(ray.get(trial.get_id.remote()))
             trial.compute.remote()
@@ -170,7 +184,8 @@ class DistributedRunner:
             for result in runner.next_result:
                 yield result
         """
-        ray.init(address="local")
+        ray.init(address="10.112.228.232:6378", num_cpus=None, num_gpus=None)
+        assert ray.is_initialized()
         self.result_monitor = ResultMonitor.remote()
         self.scheduler = Scheduler.remote(tune_cfg_lst, adaptor, model, calib_dataloader, q_func, evaluate, self.result_monitor)
         self.result = self.scheduler.dispatch_trails.remote()
