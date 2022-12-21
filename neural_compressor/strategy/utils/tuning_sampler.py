@@ -18,7 +18,7 @@
 from itertools import product
 import copy
 from collections import deque, OrderedDict, defaultdict
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 from .tuning_space import TuningSpace
 from .tuning_structs import OpTuningConfig
 from ...utils import logger
@@ -278,3 +278,38 @@ class FallbackTuningSampler(TuningSampler):
             yield new_tune_cfg  # need to skip the first one
 
 
+
+class RecipeTuningSampler(TuningSampler):
+    def __init__(self, 
+                 tuning_space: TuningSpace, 
+                 tuning_order_lst: List[TuningOrder], 
+                 initial_op_tuning_cfg: Dict,
+                 framework: str, recipe_ops:Dict, user_cfg:Dict):
+        super().__init__(
+            tuning_space, 
+            tuning_order_lst, 
+            initial_op_tuning_cfg)
+        
+        self._framework = framework
+        self._recipe_ops = recipe_ops
+        self._user_cfg = user_cfg
+        pass
+    
+    def __iter__(self):
+        if self._framework.startswith("onnxrt") or self._framework.startswith("tensorflow"):
+            recipe_tune_cfg = copy.deepcopy(self.initial_op_tuning_cfg)
+            recipe_update_cfg = {}
+            for recipe in self._recipe_ops.values():
+                for op_name_type in recipe:
+                    new_op_config = OpTuningConfig(op_name_type[0], op_name_type[1], 'fp32', self.tuning_space)
+                    recipe_update_cfg[op_name_type] = new_op_config
+            recipe_tune_cfg.update(recipe_update_cfg)
+            yield recipe_tune_cfg
+            
+        if self._framework.startswith("tensorflow"):
+            self._user_cfg.quantization.recipes.scale_propagation_concat = False
+            self._user_cfg.quantization.recipes.scale_propagation_max_pooling = False
+            yield self.initial_op_tuning_cfg
+            self._user_cfg.quantization.recipes.scale_propagation_concat = True
+            self._user_cfg.quantization.recipes.scale_propagation_max_pooling = True
+        
