@@ -30,6 +30,7 @@ Functions
 .. autoapisummary::
 
    neural_compressor.pruner.pruners.register_pruner
+   neural_compressor.pruner.pruners.parse_valid_pruner_types
    neural_compressor.pruner.pruners.get_pruner
 
 
@@ -47,6 +48,11 @@ Functions
 
    :returns: The class of register.
    :rtype: cls
+
+
+.. py:function:: parse_valid_pruner_types()
+
+   Get all valid pruner names
 
 
 .. py:function:: get_pruner(config, modules)

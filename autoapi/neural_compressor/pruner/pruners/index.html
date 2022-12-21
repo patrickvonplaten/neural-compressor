@@ -244,7 +244,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.pruner.pruners.register_pruner" title="neural_compressor.pruner.pruners.register_pruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_pruner</span></code></a>(name)</p></td>
 <td><p>Class decorator to register a Pruner subclass to the registry.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.pruner.pruners.get_pruner" title="neural_compressor.pruner.pruners.get_pruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pruner</span></code></a>(config, modules)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.pruner.pruners.parse_valid_pruner_types" title="neural_compressor.pruner.pruners.parse_valid_pruner_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_valid_pruner_types</span></code></a>()</p></td>
+<td><p>Get all valid pruner names</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.pruner.pruners.get_pruner" title="neural_compressor.pruner.pruners.get_pruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pruner</span></code></a>(config, modules)</p></td>
 <td><p>Get registered pruner class.</p></td>
 </tr>
 </tbody>
@@ -269,6 +272,12 @@ Make sure that the Pruner class decorated by this function can be registered in 
 <dd class="field-odd"><p>cls</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.pruner.pruners.parse_valid_pruner_types">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.pruners.</span></span><span class="sig-name descname"><span class="pre">parse_valid_pruner_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruners.parse_valid_pruner_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all valid pruner names</p>
 </dd></dl>
 
 <dl class="py function">
@@ -695,6 +704,7 @@ By adding interval masks between masks of two pruning steps</p>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.pruners.register_pruner"><code class="docutils literal notranslate"><span class="pre">register_pruner()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruners.parse_valid_pruner_types"><code class="docutils literal notranslate"><span class="pre">parse_valid_pruner_types()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.pruners.get_pruner"><code class="docutils literal notranslate"><span class="pre">get_pruner()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.pruners.BasePruner"><code class="docutils literal notranslate"><span class="pre">BasePruner</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.pruners.BasePruner.modules"><code class="docutils literal notranslate"><span class="pre">BasePruner.modules</span></code></a></li>
@@ -753,6 +763,7 @@ By adding interval masks between masks of two pruning steps</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.pruner.pruners.register_pruner">register_pruner</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruners.parse_valid_pruner_types">parse_valid_pruner_types</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.pruners.get_pruner">get_pruner</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.pruners.BasePruner">BasePruner</a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.pruners.BasePruner.modules">modules</a></li>
