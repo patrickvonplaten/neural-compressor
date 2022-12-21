@@ -284,8 +284,6 @@ if __name__ == "__main__":
         from neural_compressor.config import AccuracyCriterion
         from neural_compressor import options
         options.onnxrt.graph_optimization.level = 'ENABLE_BASIC'
-        import pdb
-        pdb.set_trace()
         accuracy_criterion = AccuracyCriterion()
         accuracy_criterion.absolute = 0.01
         config = PostTrainingQuantConfig(
