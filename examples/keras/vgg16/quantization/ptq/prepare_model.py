@@ -17,9 +17,9 @@
 #
 
 import argparse
-from tensorflow.keras.applications.resnet50 import ResNet50
-def get_resnet50_model(saved_path):
-    model = ResNet50(weights='imagenet')
+from tensorflow.keras.applications.vgg16 import VGG16
+def get_vgg16_model(saved_path):
+    model = VGG16(weights='imagenet')
     model.save(saved_path)
 
 if __name__ == "__main__":
@@ -32,4 +32,4 @@ if __name__ == "__main__":
         help='path to exported model file')
 
     args = parser.parse_args()
-    get_resnet50_model(args.output_model)
+    get_vgg16_model(args.output_model)
