@@ -1391,10 +1391,10 @@ class PyTorchAdaptor(TemplateAdaptor):
         self.non_quant_dict = self.get_non_quant_modules(self.model.kwargs) 
         quantizable_ops = []
         self._get_quantizable_ops_recursively(self.model._model, '', quantizable_ops)
-        self.bf16_ops = self.query_handler.get_op_types_by_precision("bf16")
         bf16_ops = []
         if self.version.release >= Version("1.11.0").release and self.use_bf16 and \
             (CpuInfo().bf16 or os.getenv('FORCE_BF16') == '1'): # pragma: no cover
+            self.bf16_ops = self.query_handler.get_op_types_by_precision("bf16")
             self._get_bf16_ops_recursively(self.model._model, '', bf16_ops)
         bf16_ops_list = [(op) for op in bf16_ops if op not in quantizable_ops]
         self.model.model.training = True
@@ -2584,7 +2584,7 @@ class PyTorch_IPEXAdaptor(TemplateAdaptor):  # pragma: no cover
                 self.q_dataloader.batch(batch_size)
                 logger.info('Recovery `calibration.dataloader.batchsize` {} according \
                             to config.yaml'                                           .format(batch_size))
-            del init_model
+            del(init_model)
         with open(self.ipex_config_path, 'r') as f:
             self.cfgs = json.load(f)
             if self.version.release < Version("1.12.0").release:
@@ -2776,6 +2776,7 @@ class PyTorch_FXAdaptor(TemplateAdaptor):
         from torch.quantization.quantize_fx import prepare_fx, convert_fx, prepare_qat_fx
         try:
             q_model = copy.deepcopy(model)
+            q_model.fp32_model = model.fp32_model
         except Exception as e:  # pragma: no cover
             logger.warning("Fail to deep copy the model due to {}, inplace is used now.".format(
                 repr(e)))
@@ -2949,10 +2950,10 @@ class PyTorch_FXAdaptor(TemplateAdaptor):
         quantizable_ops = []
         tmp_model = self.fuse_fx_model(self.model, is_qat=True)
         self._get_quantizable_ops_recursively(tmp_model, '', quantizable_ops)
-        self.bf16_ops = self.query_handler.get_op_types_by_precision("bf16")
         bf16_ops = []
         if self.version.release >= Version("1.11.0").release and self.use_bf16 and \
             (CpuInfo().bf16 or os.getenv('FORCE_BF16') == '1'): # pragma: no cover
+            self.bf16_ops = self.query_handler.get_op_types_by_precision("bf16")
             self._get_bf16_ops_recursively(tmp_model, '', bf16_ops)
         bf16_ops_list = [(op) for op in bf16_ops if op not in quantizable_ops]
         quantized_ops = OrderedDict()
@@ -2982,6 +2983,13 @@ class PyTorch_FXAdaptor(TemplateAdaptor):
         # PyTorch 1.13 and above version, need example_inputs for fx trace, but it not realy used,
         # so set it to None.
         example_inputs = None
+
+        # For export API, deepcopy fp32_model
+        try:
+            self.model.fp32_model = copy.deepcopy(self.model.fp32_model)
+        except Exception as e:  # pragma: no cover
+            logger.warning("Fail to deep copy the model due to {}, inplace is used now.".format(
+                repr(e)))
 
         if self.sub_module_list is None:
             if self.version.release >= Version("1.13.0").release:  # pragma: no cover

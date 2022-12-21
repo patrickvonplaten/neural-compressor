@@ -2398,10 +2398,12 @@ amsgrad
 qoperator
 apis
 CPz
+PostTrainingQuantConfig
 Nsh
 UmK
 fe
 vmware
+PythonLauncher
 keepachangelog
 vscode
 IntelNeuralCompressor
@@ -2458,3 +2460,7 @@ WeightPruningConfig
 Namhoon
 Thalaiyasingam
 Torr
+MixedPrecisionConfig
+AccuracyCriterion
+AccuracyLoss
+TuningCriterion

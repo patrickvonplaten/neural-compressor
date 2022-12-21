@@ -17,15 +17,15 @@
 # limitations under the License.
 import copy
 from neural_compressor.utils.utility import LazyImport
+
 torch = LazyImport('torch')
 from .patterns import get_pattern
 from .schedulers import get_scheduler
-from .criteria import get_criterion, CRITERIAS
+from .criteria import get_criterion, CRITERIA
 from .regs import get_reg
 from .logger import logger
 
 PRUNERS = {}
-
 
 def register_pruner(name):
     """Class decorator to register a Pruner subclass to the registry.
@@ -47,6 +47,14 @@ def register_pruner(name):
 
     return register
 
+def parse_valid_pruner_types():
+    """Get all valid pruner names"""
+    valid_pruner_types = []
+    for x in CRITERIA.keys():
+        for p in ["", "_progressive"]:
+            valid_pruner_types.append(x + p)
+    valid_pruner_types.append("pattern_lock")
+    return valid_pruner_types
 
 def get_pruner(config, modules):
     """Get registered pruner class.
@@ -70,7 +78,7 @@ def get_pruner(config, modules):
         # if progressive, delete "progressive" words and reset config["progressive"]
         name = config["pruning_type"][0:-12]
         config["progressive"] = True
-    if name in CRITERIAS:
+    if name in CRITERIA:
         if config["progressive"] == False:
             config['criterion_type'] = name
             name = "basic"  ##return the basic pruner
@@ -79,7 +87,7 @@ def get_pruner(config, modules):
             name = "progressive"  ## return the progressive pruner
 
     if name not in PRUNERS.keys():
-        assert False, f"does not support {name}, currently only support {PRUNERS.keys()}"
+        assert False, f"does not support {name}, currently only support {parse_valid_pruner_types()}"
     return PRUNERS[name](config, modules)
 
 
@@ -121,9 +129,14 @@ class BasePruner:
         self.end_step = self.config['end_step']
         self.pruning_frequency = self.config['pruning_frequency']
         ##this is different with original code
-        self.total_prune_cnt = (self.end_step - self.start_step + 1) \
+        self.total_prune_cnt = (self.end_step - self.start_step + self.pruning_frequency) \
                                // self.pruning_frequency
         self.completed_pruned_cnt = 0
+        self.total_prune_cnt -= 1  ## not pruning at step 0
+        if self.total_prune_cnt == 0:
+            self.total_prune_cnt = 1
+            self.completed_pruned_cnt = 1
+
         for key in self.modules.keys():
             module = self.modules[key]
             self.masks[key] = torch.ones(module.weight.shape).to(module.weight.device)  ##TODO support bias or others
@@ -314,7 +327,8 @@ class BasicPruner(BasePruner):
     def on_after_optimizer_step(self):
         """Prune the model after optimization."""
         ##the order of the following three lines can't not be exchanged
-        self.reg.on_after_optimizer_step()
+        if self.global_step >= self.start_step and self.global_step <= self.end_step:
+            self.reg.on_after_optimizer_step()
         self.mask_weights()
         self.criterion.on_after_optimizer_step()
         self.global_step += 1
@@ -422,7 +436,7 @@ class ProgressivePruner(BasicPruner):
             self.check_progressive_validity()
             self.pre_masks = copy.deepcopy(self.masks)
             self.progressive_masks = copy.deepcopy(self.masks)
-            if self.pruning_frequency < self.progressive_steps:##TODO trick
+            if self.pruning_frequency < self.progressive_steps:  ##TODO trick
                 self.progressive_steps = self.pruning_frequency
                 # if self.progressive_steps == 3:
                 #     self.progressive_steps = 2
@@ -551,7 +565,8 @@ class ProgressivePruner(BasicPruner):
     def on_after_optimizer_step(self):
         """Prune the model after optimization."""
         ##the order of the following three lines can't not be exchanged
-        self.reg.on_after_optimizer_step()
+        if self.global_step >= self.start_step and self.global_step <= self.end_step:
+            self.reg.on_after_optimizer_step()
         if not self.use_progressive:
             self.mask_weights()
         else:
