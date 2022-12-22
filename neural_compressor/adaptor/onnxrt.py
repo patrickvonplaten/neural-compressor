@@ -748,7 +748,10 @@ class ONNXRUNTIMEAdaptor(Adaptor):
                     op_wise.update({(node.name, node.op_type): 
                         [{'weight': {'dtype': 'fp32'}, 'activation': {'dtype': 'fp32'}}]})
                 continue
-        
+            
+            if node.op_type in optype_wise:
+                op_wise.update({(node.name, node.op_type): copy.deepcopy(optype_wise[node.op_type])})
+
         recipe_ops['first_conv_or_matmul'] = first_conv_or_matmul
         recipe_ops['last_conv_or_matmul'] = last_conv_or_matmul
         recipe_ops['pre_post_process_nodes'] = pre_post_process_nodes
