@@ -231,11 +231,10 @@
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruning.Pruning">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.pruning.</span></span><span class="sig-name descname"><span class="pre">Pruning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruning.Pruning" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pruning.</p>
-<p>The main class that users will used in codes to do pruning.
-Contain at least one Pruner object.</p>
+<p>The main class to do pruning; it contains at least one Pruner object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> – a string. The path to a config file. For config file template, please refer to
+<dd class="field-odd"><p><strong>config</strong> – a string representing the path to a config file. For config file template, please refer to
 <a class="reference external" href="https://github.com/intel/neural-compressor/tree/master/examples/pytorch/nlp/huggingface_models/text-classification/pruning/pytorch_pruner/eager/">https://github.com/intel/neural-compressor/tree/master/examples/pytorch/nlp/huggingface_models/text-classification/pruning/pytorch_pruner/eager/</a></p>
 </dd>
 </dl>
@@ -248,7 +247,7 @@ Contain at least one Pruner object.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruning.Pruning.config_file_path">
 <span class="sig-name descname"><span class="pre">config_file_path</span></span><a class="headerlink" href="#neural_compressor.pruner.pruning.Pruning.config_file_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>A string. The path to a config file.</p>
+<dd><p>A string representing the path to a config file.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -260,13 +259,13 @@ Contain at least one Pruner object.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruning.Pruning.pruner_info">
 <span class="sig-name descname"><span class="pre">pruner_info</span></span><a class="headerlink" href="#neural_compressor.pruner.pruning.Pruning.pruner_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>A config dict object. Contains pruners’ information.</p>
+<dd><p>A config dict object that contains pruners’ information.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="id0">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
-<dd><p>Getter of model in neural_compressor.model.</p>
+<dd><p>Obtain model in neural_compressor.model.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -275,7 +274,7 @@ Contain at least one Pruner object.</p>
 <dd><p>Add user-defined arguments to the original configurations.</p>
 <p>The original config of pruning is read from a file.
 However, users can still modify configurations by passing key-value arguments in this function.
-Please note that the key-value arguments’ keys are analysable in current configuration.</p>
+Please note that the key-value arguments’ keys could be processed in current configuration.</p>
 </dd></dl>
 
 <dl class="py method">

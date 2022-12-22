@@ -223,13 +223,25 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.pruner.utils.check_config" title="neural_compressor.pruner.utils.check_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_config</span></code></a>(prune_config)</p></td>
-<td><p>Functions that check key-value is valid to run Pruning object.</p></td>
+<td><p>Check if the configuration dict is valid for running Pruning object.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.pruner.utils.reset_none_to_default" title="neural_compressor.pruner.utils.reset_none_to_default"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_none_to_default</span></code></a>(obj, key, default)</p></td>
-<td><p>Functions that add up undefined configurations.</p></td>
+<td><p>Set undefined configurations to default values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.pruner.utils.update_params" title="neural_compressor.pruner.utils.update_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_params</span></code></a>(info)</p></td>
+<td><p>Update parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.pruner.utils.process_weight_config" title="neural_compressor.pruner.utils.process_weight_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_weight_config</span></code></a>(global_config, local_configs, ...)</p></td>
+<td><p>Process pruning configurations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.pruner.utils.process_yaml_config" title="neural_compressor.pruner.utils.process_yaml_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_yaml_config</span></code></a>(global_config, local_configs, ...)</p></td>
+<td><p>Process the yaml configuration file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.pruner.utils.process_and_check_config" title="neural_compressor.pruner.utils.process_and_check_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_and_check_config</span></code></a>(val)</p></td>
+<td><p>Process and check configurations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.pruner.utils.process_config" title="neural_compressor.pruner.utils.process_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_config</span></code></a>(config)</p></td>
-<td><p>Obtain a config dict object from a config file.</p></td>
+<td><p>Obtain a config dict object from the config file.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.pruner.utils.parse_to_prune" title="neural_compressor.pruner.utils.parse_to_prune"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_to_prune</span></code></a>(config, model)</p></td>
 <td><p>Keep target pruned layers.</p></td>
@@ -239,10 +251,10 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.pruner.utils.check_config">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">check_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prune_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.check_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Functions that check key-value is valid to run Pruning object.</p>
+<dd><p>Check if the configuration dict is valid for running Pruning object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>prune_config</strong> – A config dict object. Contains Pruning parameters and configurations.</p>
+<dd class="field-odd"><p><strong>prune_config</strong> – A config dict object that contains Pruning parameters and configurations.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None if everything is correct.</p>
@@ -256,20 +268,84 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.pruner.utils.reset_none_to_default">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">reset_none_to_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.reset_none_to_default" title="Permalink to this definition">¶</a></dt>
-<dd><p>Functions that add up undefined configurations.
-If some configurations are not defined in the configuration, set it to a default value.
-:param obj: A dict{key: value}
-:param key: A string. Key in obj.
-:param default: When the key is not in obj, Add key: default item in original obj.</p>
+<dd><p>Set undefined configurations to default values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> – A dict{key: value}</p></li>
+<li><p><strong>key</strong> – A string representing the key in obj.</p></li>
+<li><p><strong>default</strong> – When the key is not in obj, add key by the default item in original obj.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.pruner.utils.update_params">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">update_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.update_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update parameters.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.pruner.utils.process_weight_config">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">process_weight_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">global_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_configs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.process_weight_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process pruning configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>global_config</strong> – A config dict object that contains pruning parameters and configurations.</p></li>
+<li><p><strong>local_config</strong> – A config dict object that contains pruning parameters and configurations.</p></li>
+<li><p><strong>default_config</strong> – A config dict object that contains pruning parameters and configurations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A config dict object that contains pruning parameters and configurations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pruners_info</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.pruner.utils.process_yaml_config">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">process_yaml_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">global_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_configs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.process_yaml_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the yaml configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>global_config</strong> – A config dict object that contains pruning parameters and configurations.</p></li>
+<li><p><strong>local_config</strong> – A config dict object that contains pruning parameters and configurations.</p></li>
+<li><p><strong>default_config</strong> – A config dict object that contains pruning parameters and configurations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A config dict object that contains pruning parameters and configurations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pruners_info</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.pruner.utils.process_and_check_config">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">process_and_check_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.process_and_check_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process and check configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> – A dict that contains the layer-specific pruning configurations.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.pruner.utils.process_config">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">process_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.process_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Obtain a config dict object from a config file.</p>
+<dd><p>Obtain a config dict object from the config file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> – A string. The path to configuration file.</p>
+<dd class="field-odd"><p><strong>config</strong> – A string representing the path to the configuration file.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A config dict object.</p>
@@ -281,6 +357,14 @@ If some configurations are not defined in the configuration, set it to a default
 <dt class="sig sig-object py" id="neural_compressor.pruner.utils.parse_to_prune">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.utils.</span></span><span class="sig-name descname"><span class="pre">parse_to_prune</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.utils.parse_to_prune" title="Permalink to this definition">¶</a></dt>
 <dd><p>Keep target pruned layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> – A string representing the path to the configuration file.</p></li>
+<li><p><strong>model</strong> – The model to be pruned.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -318,10 +402,18 @@ If some configurations are not defined in the configuration, set it to a default
 <li><a class="reference internal" href="#functions">Functions</a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.check_config"><code class="docutils literal notranslate"><span class="pre">check_config()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.reset_none_to_default"><code class="docutils literal notranslate"><span class="pre">reset_none_to_default()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.utils.update_params"><code class="docutils literal notranslate"><span class="pre">update_params()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.utils.process_weight_config"><code class="docutils literal notranslate"><span class="pre">process_weight_config()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.utils.process_yaml_config"><code class="docutils literal notranslate"><span class="pre">process_yaml_config()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.utils.process_and_check_config"><code class="docutils literal notranslate"><span class="pre">process_and_check_config()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.process_config"><code class="docutils literal notranslate"><span class="pre">process_config()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.parse_to_prune"><code class="docutils literal notranslate"><span class="pre">parse_to_prune()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.check_config">check_config</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.reset_none_to_default">reset_none_to_default</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.utils.update_params">update_params</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.utils.process_weight_config">process_weight_config</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.utils.process_yaml_config">process_yaml_config</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.utils.process_and_check_config">process_and_check_config</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.process_config">process_config</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.utils.parse_to_prune">parse_to_prune</a></li>
 </ul>

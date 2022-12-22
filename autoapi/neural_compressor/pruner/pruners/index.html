@@ -288,15 +288,15 @@ Make sure that the Pruner class decorated by this function can be registered in 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>modules</strong> – A dict {“module_name”: Tensor}. Store the pruning modules’ weights.</p></li>
-<li><p><strong>config</strong> – A config dict object. Contains the pruner information.</p></li>
+<li><p><strong>modules</strong> – A dict {“module_name”: Tensor} that stores the pruning modules’ weights.</p></li>
+<li><p><strong>config</strong> – A config dict object that contains the pruner information.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A Pruner object.</p>
 </dd>
 </dl>
-<p>Raises: AssertionError: Cuurently only support pruners which have been registered in PRUNERS.</p>
+<p>Raises: AssertionError: Cuurently only support pruners that have been registered in PRUNERS.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -307,89 +307,89 @@ Make sure that the Pruner class decorated by this function can be registered in 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>modules</strong> – A dict {“module_name”: Tensor}. Store the pruning modules’ weights.</p></li>
-<li><p><strong>config</strong> – A config dict object. Contains the pruner information.</p></li>
+<li><p><strong>modules</strong> – A dict {“module_name”: Tensor} that stores the pruning modules’ weights.</p></li>
+<li><p><strong>config</strong> – A config dict object that contains the pruner information.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.modules">
 <span class="sig-name descname"><span class="pre">modules</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.modules" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dict {“module_name”: Tensor}. Store the pruning modules’ weights.</p>
+<dd><p>A dict {“module_name”: Tensor} that stores the pruning modules’ weights.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.config">
 <span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.config" title="Permalink to this definition">¶</a></dt>
-<dd><p>A config dict object. Contains the pruner information.</p>
+<dd><p>A config dict object that contains the pruner information.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.masks">
 <span class="sig-name descname"><span class="pre">masks</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.masks" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dict {“module_name”: Tensor}. Store the masks for modules’ weights.</p>
+<dd><p>A dict {“module_name”: Tensor} that stores the masks for modules’ weights.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.scores">
 <span class="sig-name descname"><span class="pre">scores</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.scores" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dict {“module_name”: Tensor}. Store the score for modules’ weights,
-which are used to decide pruning parts with a criterion.</p>
+<dd><p>A dict {“module_name”: Tensor} that stores the score for modules’ weights,
+which are used to determine what parts to be pruned by a criterion.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.pattern">
 <span class="sig-name descname"><span class="pre">pattern</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.pattern" title="Permalink to this definition">¶</a></dt>
-<dd><p>A Pattern object. Defined in ./patterns.py</p>
+<dd><p>A Pattern object defined in ./patterns.py</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.scheduler">
 <span class="sig-name descname"><span class="pre">scheduler</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.scheduler" title="Permalink to this definition">¶</a></dt>
-<dd><p>A scheduler object. Defined in ./scheduler.py</p>
+<dd><p>A scheduler object defined in ./scheduler.py</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.current_sparsity_ratio">
 <span class="sig-name descname"><span class="pre">current_sparsity_ratio</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.current_sparsity_ratio" title="Permalink to this definition">¶</a></dt>
-<dd><p>A float. Current model’s sparsity ratio, initialized as zero.</p>
+<dd><p>A float representing the current model’s sparsity ratio; it is initialized to be zero.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.global_step">
 <span class="sig-name descname"><span class="pre">global_step</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.global_step" title="Permalink to this definition">¶</a></dt>
-<dd><p>An integer. The total steps the model has run.</p>
+<dd><p>An integer representing the total steps the model has run.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.start_step">
 <span class="sig-name descname"><span class="pre">start_step</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.start_step" title="Permalink to this definition">¶</a></dt>
-<dd><p>An integer. When to trigger pruning process.</p>
+<dd><p>An integer representing when to trigger pruning process.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.end_step">
 <span class="sig-name descname"><span class="pre">end_step</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.end_step" title="Permalink to this definition">¶</a></dt>
-<dd><p>An integer. When to end pruning process.</p>
+<dd><p>An integer representing when to end pruning process.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.pruning_frequency">
 <span class="sig-name descname"><span class="pre">pruning_frequency</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.pruning_frequency" title="Permalink to this definition">¶</a></dt>
-<dd><p>An integer. The pruning frequency, which’s valid when iterative
+<dd><p>An integer representing the pruning frequency; it is valid when iterative
 pruning is enabled.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.target_sparsity_ratio">
 <span class="sig-name descname"><span class="pre">target_sparsity_ratio</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.target_sparsity_ratio" title="Permalink to this definition">¶</a></dt>
-<dd><p>A float. The final sparsity after pruning.</p>
+<dd><p>A float showing the final sparsity after pruning.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasePruner.max_sparsity_ratio_per_op">
 <span class="sig-name descname"><span class="pre">max_sparsity_ratio_per_op</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasePruner.max_sparsity_ratio_per_op" title="Permalink to this definition">¶</a></dt>
-<dd><p>A float. Sparsity ratio maximum for every module.</p>
+<dd><p>A float showing the maximum sparsity ratio for every module.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -412,7 +412,7 @@ pruning is enabled.</p>
 <p>Weights are multipled with input_masks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>input_masks</strong> – A dict {“module_name”: Tensor}. Store the masks for modules’ weights.</p>
+<dd class="field-odd"><p><strong>input_masks</strong> – A dict {“module_name”: Tensor} that stores the masks for modules’ weights.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -505,33 +505,33 @@ pruning is enabled.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>modules</strong> – A dict {“module_name”: Tensor}. Store the pruning modules’ weights.</p></li>
-<li><p><strong>config</strong> – A config dict object. Contains the pruner information.</p></li>
+<li><p><strong>modules</strong> – A dict {“module_name”: Tensor} that stores the pruning modules’ weights.</p></li>
+<li><p><strong>config</strong> – A config dict object that contains the pruner information.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasicPruner.pattern">
 <span class="sig-name descname"><span class="pre">pattern</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasicPruner.pattern" title="Permalink to this definition">¶</a></dt>
-<dd><p>A Pattern object. Define pruning weights’ arrangements within space.</p>
+<dd><p>A Pattern object that defines pruning weights’ arrangements within space.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasicPruner.criterion">
 <span class="sig-name descname"><span class="pre">criterion</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasicPruner.criterion" title="Permalink to this definition">¶</a></dt>
-<dd><p>A Criterion Object. Define which weights are to be pruned</p>
+<dd><p>A Criterion Object that defines which weights are to be pruned</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasicPruner.scheduler">
 <span class="sig-name descname"><span class="pre">scheduler</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasicPruner.scheduler" title="Permalink to this definition">¶</a></dt>
-<dd><p>A Scheduler object. Define model’s sparsity changing method as training/pruning executes.</p>
+<dd><p>A Scheduler object that defines how the model’s sparsity changes as training/pruning proceeds.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.BasicPruner.reg">
 <span class="sig-name descname"><span class="pre">reg</span></span><a class="headerlink" href="#neural_compressor.pruner.pruners.BasicPruner.reg" title="Permalink to this definition">¶</a></dt>
-<dd><p>A Reg object. Define regulization terms.</p>
+<dd><p>A Reg object that defines regulization terms.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -567,12 +567,12 @@ pruning is enabled.</p>
 <p>Pruning Pruner.</p>
 <p>A Pruner class derived from BasePruner.
 In this pruner, original model’s sparsity pattern will be fixed while training.
-This pruner is useful when you want to train a sparse model without change its original structure.</p>
+This pruner is useful when a user trains a sparse model without changing its original structure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>modules</strong> – A dict {“module_name”: Tensor}. Store the pruning modules’ weights.</p></li>
-<li><p><strong>config</strong> – A config dict object. Contains the pruner information.</p></li>
+<li><p><strong>modules</strong> – A dict {“module_name”: Tensor} that stores the pruning modules’ weights.</p></li>
+<li><p><strong>config</strong> – A config dict object that contains the pruner information.</p></li>
 </ul>
 </dd>
 </dl>
@@ -602,13 +602,15 @@ This pruner is useful when you want to train a sparse model without change its o
 <dd><p>Bases: <a class="reference internal" href="#neural_compressor.pruner.pruners.BasicPruner" title="neural_compressor.pruner.pruners.BasicPruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BasicPruner</span></code></a></p>
 <p>Pruning Pruner.</p>
 <p>A Pruner class derived from BasePruner. In this pruner, mask interpolation will be applied.
-Mask interpolation is a fine-grained improvement for NxM structured pruning,
-By adding interval masks between masks of two pruning steps</p>
+Mask interpolation is a fine-grained improvement for NxM structured pruning by adding interval</p>
+<blockquote>
+<div><p>masks between masks of two pruning steps.</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>modules</strong> – A dict {“module_name”: Tensor}. Store the pruning modules’ weights.</p></li>
-<li><p><strong>config</strong> – A config dict object. Contains the pruner information.</p></li>
+<li><p><strong>modules</strong> – A dict {“module_name”: Tensor} that stores the pruning modules’ weights.</p></li>
+<li><p><strong>config</strong> – A config dict object that contains the pruner information.</p></li>
 </ul>
 </dd>
 </dl>
@@ -647,6 +649,7 @@ By adding interval masks between masks of two pruning steps</p>
 <dt class="sig sig-object py" id="neural_compressor.pruner.pruners.ProgressivePruner.on_step_begin">
 <span class="sig-name descname"><span class="pre">on_step_begin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_step</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruners.ProgressivePruner.on_step_begin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update the masks at a given local_step.</p>
+<p>Implement at the start of each step.</p>
 </dd></dl>
 
 <dl class="py method">

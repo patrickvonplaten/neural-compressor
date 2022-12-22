@@ -250,31 +250,56 @@
 <dt class="sig sig-object py" id="neural_compressor.pruner.regs.register_reg">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.regs.</span></span><span class="sig-name descname"><span class="pre">register_reg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.regs.register_reg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a regularizator to the registry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – A string that defines the scheduler type.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The class of register.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>cls</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.pruner.regs.get_reg_type">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.regs.</span></span><span class="sig-name descname"><span class="pre">get_reg_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.regs.get_reg_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain the regularizer type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> – A config dict object that includes information of the regularizer.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.pruner.regs.get_reg">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.regs.</span></span><span class="sig-name descname"><span class="pre">get_reg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.regs.get_reg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get registered regularizator class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> – A config dict object that includes information of the regularizer.</p></li>
+<li><p><strong>modules</strong> – A dict {“module_name”: Tensor} that stores the pruning modules’ weights.</p></li>
+<li><p><strong>pattern</strong> – A config dict object that includes information of the pattern.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.pruner.regs.BaseReg">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.regs.</span></span><span class="sig-name descname"><span class="pre">BaseReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../patterns/index.html#neural_compressor.pruner.patterns.BasePattern" title="neural_compressor.pruner.patterns.BasePattern"><span class="pre">neural_compressor.pruner.patterns.BasePattern</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.regs.BaseReg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Regularizer.</p>
-<p>The class which performs regularization.</p>
+<p>The class that performs regularization.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>modules</strong> – A dict {“module_name”: Tensor}. Store the pruning modules’ weights.</p></li>
+<li><p><strong>modules</strong> – A dict {“module_name”: Tensor} that stores the pruning modules’ weights.</p></li>
 <li><p><strong>config</strong> – A config dict object that includes information of the regularizer.</p></li>
-<li><p><strong>pattern</strong> – A config dict object. The pattern related part in args config.</p></li>
+<li><p><strong>pattern</strong> – A config dict object that includes information of the pattern.</p></li>
 </ul>
 </dd>
 </dl>
@@ -302,9 +327,9 @@ Group-lasso is a variable-selection and regularization method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>modules</strong> – A dict {“module_name”: Tensor}. Store the pruning modules’ weights.</p></li>
+<li><p><strong>modules</strong> – A dict {“module_name”: Tensor} that stores the pruning modules’ weights.</p></li>
 <li><p><strong>config</strong> – A config dict object that includes information of the regularizer.</p></li>
-<li><p><strong>pattern</strong> – A config dict object. The pattern related part in args config.</p></li>
+<li><p><strong>pattern</strong> – A config dict object that includes information of the pattern.</p></li>
 </ul>
 </dd>
 </dl>

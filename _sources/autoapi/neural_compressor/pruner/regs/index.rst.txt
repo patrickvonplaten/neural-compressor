@@ -37,26 +37,37 @@ Functions
 
    Register a regularizator to the registry.
 
+   :param name: A string that defines the scheduler type.
+
+   :returns: The class of register.
+   :rtype: cls
+
 
 .. py:function:: get_reg_type(config)
 
    Obtain the regularizer type.
+
+   :param config: A config dict object that includes information of the regularizer.
 
 
 .. py:function:: get_reg(config, modules, pattern)
 
    Get registered regularizator class.
 
+   :param config: A config dict object that includes information of the regularizer.
+   :param modules: A dict {"module_name": Tensor} that stores the pruning modules' weights.
+   :param pattern: A config dict object that includes information of the pattern.
+
 
 .. py:class:: BaseReg(config: dict, modules: dict, pattern: neural_compressor.pruner.patterns.BasePattern)
 
    Regularizer.
 
-   The class which performs regularization.
+   The class that performs regularization.
 
-   :param modules: A dict {"module_name": Tensor}. Store the pruning modules' weights.
+   :param modules: A dict {"module_name": Tensor} that stores the pruning modules' weights.
    :param config: A config dict object that includes information of the regularizer.
-   :param pattern: A config dict object. The pattern related part in args config.
+   :param pattern: A config dict object that includes information of the pattern.
 
    .. py:method:: on_before_optimizer_step()
 
@@ -78,9 +89,9 @@ Functions
    A regularizer class derived from BaseReg. In this class, the Group-lasso regularization will be performed.
    Group-lasso is a variable-selection and regularization method.
 
-   :param modules: A dict {"module_name": Tensor}. Store the pruning modules' weights.
+   :param modules: A dict {"module_name": Tensor} that stores the pruning modules' weights.
    :param config: A config dict object that includes information of the regularizer.
-   :param pattern: A config dict object. The pattern related part in args config.
+   :param pattern: A config dict object that includes information of the pattern.
 
    .. attribute:: reg_terms
 

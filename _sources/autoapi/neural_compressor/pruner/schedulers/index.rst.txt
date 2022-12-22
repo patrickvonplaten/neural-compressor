@@ -42,7 +42,7 @@ Functions
 
    :param cls: The class of register.
    :type cls: class
-   :param name: A string. Define the scheduler type.
+   :param name: A string that defines the scheduler type.
 
    :returns: The class of register.
    :rtype: cls
@@ -54,7 +54,7 @@ Functions
 
    Get a scheduler object from SCHEDULERS.
 
-   :param config: A config dict object. Contains the scheduler information.
+   :param config: A config dict object that contains the scheduler information.
 
    :returns: A Scheduler object.
 
@@ -68,11 +68,11 @@ Functions
        1. iterative scheduler. Prune the model from dense to target sparsity gradually.
        2. one-shot scheduler. Prune the model in a single step and reach the target sparsity.
 
-   :param config: A config dict object. Contains the scheduler information.
+   :param config: A config dict object that contains the scheduler information.
 
    .. attribute:: config
 
-      A config dict object. Contains the scheduler information.
+      A config dict object that contains the scheduler information.
 
    .. py:method:: update_sparsity_ratio(target_ratio, current_prune_step, total_prune_steps, masks, init_ratio=0.0)
       :abstractmethod:
@@ -90,7 +90,7 @@ Functions
    A Scheduler class derived from Scheduler.
    Prune the model to target sparsity once.
 
-   :param config: A config dict object. Contains the scheduler information.
+   :param config: A config dict object that contains the scheduler information.
 
    .. attribute:: Inherit from parent class Scheduler.
 
@@ -119,7 +119,7 @@ Functions
    A Scheduler class derived from Scheduler.
    Prune the model from dense to target sparsity in several steps.
 
-   :param config: A config dict object. Contains the scheduler information.
+   :param config: A config dict object that contains the scheduler information.
 
    .. attribute:: Inherit from parent class Scheduler.
 
