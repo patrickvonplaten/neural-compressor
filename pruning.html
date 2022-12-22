@@ -272,7 +272,7 @@
 <p>The algorithm uses Group lasso regularization to prune entire rows, columns or blocks of parameters that result in a smaller dense network.</p>
 </li>
 <li><p>Pattern Lock</p>
-<p>The algorithm locks the sparsity pattern in fine tune phase by freezing those zero values of weight tensor during weight update of training.</p>
+<p>The algorithm locks the sparsity pattern in finetuning phase by freezing those zero values of weight tensor during weight update of training. It can be applied in the following scenario: after the model is pruned under a large dataset, pattern lock can be used to retrain the sparse model on a downstream task (a smaller dataset). Please refer to <a class="reference external" href="https://arxiv.org/pdf/2111.05754.pdf">Prune once for all</a> for more information.</p>
 </li>
 <li><p>SNIP</p>
 <p>The algorithm prunes the dense model at its initialization, by analyzing the weights’ effect to the loss function when they are masked. Please refer to the original <a class="reference external" href="https://arxiv.org/abs/1810.02340">paper</a> for details</p>

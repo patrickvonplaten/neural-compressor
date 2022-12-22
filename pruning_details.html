@@ -315,15 +315,20 @@
 </section>
 <section id="pruning-type">
 <h2>Pruning Type<a class="headerlink" href="#pruning-type" title="Permalink to this heading">¶</a></h2>
-<ul class="simple">
-<li><p>Pattern_lock Pruning</p></li>
-</ul>
-<p>Pattern_lock pruning type uses masks of a fixed pattern during the pruning process.</p>
-<ul class="simple">
-<li><p>Progressive Pruning</p></li>
-</ul>
+<ul>
+<li><p>Pattern_lock Pruning</p>
+<p>Pattern_lock pruning type uses masks of a fixed pattern during the pruning process. It locks the sparsity pattern in finetuning phase by freezing those zero values of weight tensor during weight update of training. It can be applied in the following scenario: after the model is pruned under a large dataset, pattern lock can be used to retrain the sparse model on a downstream task (a smaller dataset). Please refer to <a class="reference external" href="https://arxiv.org/pdf/2111.05754.pdf">Prune once for all</a> for more information.</p>
+</li>
+<li><p>Progressive Pruning</p>
 <p>Progressive pruning aims at smoothing the structured pruning by automatically interpolating a group of interval masks during the pruning process. In this method, a sequence of masks are generated to enable a more flexible pruning process and those masks would gradually change into ones to fit the target pruning structure.
-Progressive pruning is used mainly for channel-wise pruning and currently only supports NxM pruning pattern.</p>
+typical implementations of mask interpolation:</p>
+<div style = "width: 77%; margin-bottom: 2%;">
+  <a target="_blank" href="../../docs/source/_static/imgs/pruning/progressive_pruning.png">
+    <img src="../../docs/source/_static/imgs/pruning/progressive_pruning.png" alt="Architecture" width=800 height=500>
+  </a>
+</div><p>Progressive pruning is used mainly for channel-wise pruning and currently only supports NxM pruning pattern.</p>
+</li>
+</ul>
 </section>
 <section id="regularization">
 <h2>Regularization<a class="headerlink" href="#regularization" title="Permalink to this heading">¶</a></h2>
@@ -341,9 +346,7 @@ Progressive pruning is used mainly for channel-wise pruning and currently only s
 </section>
 <section id="reference">
 <h1>Reference<a class="headerlink" href="#reference" title="Permalink to this heading">¶</a></h1>
-<p>[1] Namhoon Lee, Thalaiyasingam Ajanthan, and Philip Torr. SNIP: SINGLE-SHOT NETWORK</p>
-<p>PRUNING BASED ON CONNECTION SENSITIVITY. In International Conference on</p>
-<p>Learning Representations, 2019.</p>
+<p>[1] Namhoon Lee, Thalaiyasingam Ajanthan, and Philip Torr. SNIP: Single-shot network pruning based on connection sensitivity. In International Conference on Learning Representations, 2019.</p>
 </section>
 
 
