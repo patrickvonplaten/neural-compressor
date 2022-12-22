@@ -145,6 +145,34 @@ class Dataloader:
         for image, label in zip(self.image_list, self.label_list):
             yield image, label
 
+class Dataset:
+    def __init__(self, data_path, image_list):
+        self.image_list = []
+        self.label_list = []
+        with open(image_list, 'r') as f:
+            for s in f:
+                image_name, label = re.split(r"\s+", s.strip())
+                src = os.path.join(data_path, image_name)
+                if not os.path.exists(src):
+                    continue
+                self.image_list.append(src)
+                self.label_list.append(int(label))
+                
+    def __len__(self):
+        return len(self.image_list)
+
+    def __getitem__(self, index):
+        image_path, label = self.image_list[index], self.label_list[index]
+        with Image.open(image_path) as image:
+            image = np.array(image.convert('RGB').resize((224, 224))).astype(np.float32)
+            image[:, :, 0] -= 123.68
+            image[:, :, 1] -= 116.779
+            image[:, :, 2] -= 103.939
+            image[:,:,[0,1,2]] = image[:,:,[2,1,0]]
+            image = image.transpose((2, 0, 1))
+        return image, label
+
+
 def eval_func(model, dataloader, metric):
     metric.reset()
     sess = ort.InferenceSession(model.SerializeToString(), providers=ort.get_available_providers())
@@ -204,7 +232,11 @@ if __name__ == "__main__":
     model = onnx.load(args.model_path)
     data_path = os.path.join(args.dataset_location, 'ILSVRC2012_img_val')
     label_path = os.path.join(args.dataset_location, 'val.txt')
-    dataloader = Dataloader(data_path, label_path)
+    # dataloader = Dataloader(data_path, label_path)
+    ds = Dataset(data_path=data_path, image_list=label_path)
+    from neural_compressor.data.dataloaders import DataLoader as INC_DataLoader
+    dataloader = INC_DataLoader(framework='onnxrt_integerops', dataset=ds)
+    
     top1 = TopK()
     def eval(onnx_model):
         return eval_func(onnx_model, dataloader, top1)
