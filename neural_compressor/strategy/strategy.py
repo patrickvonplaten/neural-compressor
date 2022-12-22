@@ -761,9 +761,10 @@ class TuneStrategy(object):
             postprocess_cfg = self.cfg.evaluation.accuracy.postprocess
             # TODO: remove after fixed
             # remove user_postprocess from postprocess_cfg
-            for v in postprocess_cfg.values():
-                if isinstance(v, dict) and 'user_postprocess' in v:
-                    del v['user_postprocess']
+            if isinstance(postprocess_cfg, dict):
+                for v in postprocess_cfg.values():
+                    if isinstance(v, dict) and 'user_postprocess' in v:
+                        del v['user_postprocess']
             metric_cfg = self.cfg.evaluation.accuracy.metric if \
                 self.cfg.evaluation.accuracy.metric else \
                 self.cfg.evaluation.accuracy.multi_metrics
