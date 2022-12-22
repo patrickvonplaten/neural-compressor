@@ -202,6 +202,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     model = onnx.load(args.model_path)
+    from neural_compressor import options
+    options.onnxrt.graph_optimization.level = 'ENABLE_BASIC'
     data_path = os.path.join(args.dataset_location, 'ILSVRC2012_img_val')
     label_path = os.path.join(args.dataset_location, 'val.txt')
     dataloader = Dataloader(data_path, label_path)
