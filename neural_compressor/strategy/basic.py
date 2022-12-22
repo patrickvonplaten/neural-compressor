@@ -104,11 +104,11 @@ class BasicTuneStrategy(TuneStrategy):
             # Initialize the tuning config for each op according to the quantization approach 
             op_item_dtype_dict, quant_mode_wise_items, initial_op_tuning_cfg = self.initial_tuning_cfg()
             # Optype-wise tuning tuning items: the algorithm/scheme/granularity of activation(weight)
-            early_stop_tuning = False
+            early_stop_tuning = True
             stage1_cnt = 0
             quant_ops = quant_mode_wise_items['static'] if 'static' in quant_mode_wise_items else []
             quant_ops += quant_mode_wise_items['dynamic'] if 'dynamic' in quant_mode_wise_items else []
-            stage1_max = 1e9  # TODO set a more appropriate value
+            stage1_max = 1  # TODO set a more appropriate value
             op_wise_tuning_sampler = OpTypeWiseTuningSampler(tuning_space, [], [], 
                                                              op_item_dtype_dict, initial_op_tuning_cfg)
             for op_tuning_cfg in op_wise_tuning_sampler:
