@@ -168,7 +168,53 @@ class Dataloader:
         input_tensor = preprocess(input_image)
         input_tensor = input_tensor.detach().cpu().numpy()
         return input_tensor
-    
+
+class Dataset:
+    def __init__(self):
+        imgIds = self.getImgIdsUnion(cocoGt, VOC_CAT_IDS)
+        self.data = []
+        for imgId in imgIds:
+            data_path = os.path.join(os.path.join(args.dataset_location, 'val2017'))
+            img_path = os.path.join(data_path, cocoGt.imgs[imgId]['file_name'])
+            if os.path.exists(img_path):
+                input_tensor = self.load_image(img_path)
+
+                _, height, width = input_tensor.shape
+                output_tensor = np.zeros((21, height, width), dtype=np.uint8)
+
+                annIds = cocoGt.getAnnIds(imgId, VOC_CAT_IDS)
+                for ann in cocoGt.loadAnns(annIds):
+                    mask = cocoGt.annToMask(ann)
+                    output_tensor[COCO_TO_VOC[ann['category_id']]] |= mask
+
+                # Set everything not labeled to be background
+                output_tensor[0] = 1 - np.max(output_tensor, axis=0)
+                self.data.append((input_tensor, output_tensor))
+                
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, index):
+        return self.data[index]
+
+    def getImgIdsUnion(self, gt, catIds):
+        """
+        Returns all the images that have *any* of the categories in `catIds`,
+        unlike the built-in `gt.getImgIds` which returns all the images containing
+        *all* of the categories in `catIds`.
+        """
+        imgIds = set()
+        for catId in catIds:
+            imgIds |= set(gt.catToImgs[catId])
+        return list(imgIds)
+
+    def load_image(self, img_path):
+        input_image = Image.open(img_path).convert('RGB')
+        input_tensor = preprocess(input_image)
+        input_tensor = input_tensor.detach().cpu().numpy()
+        return input_tensor
+
+
 def iou(model_tensor, target_tensor):
     # Don't include the background when summing
     model_tensor = model_tensor[:, 1:, :, :]
@@ -191,8 +237,8 @@ def evaluate(model, dataloader):
                                         providers=onnxruntime.get_available_providers())
     idx = 1
     for input_tensor, target_tensor in dataloader:
-        input_tensor = input_tensor[np.newaxis, ...]
-        target_tensor = target_tensor[np.newaxis, ...]
+        # input_tensor = input_tensor[np.newaxis, ...]
+        # target_tensor = target_tensor[np.newaxis, ...]
         model_tensor = sess.run(["out"], {"input": input_tensor})[0]
         
         batch_size, nclasses, height, width = model_tensor.shape
@@ -210,7 +256,11 @@ def evaluate(model, dataloader):
 if __name__ == "__main__":
 
     model = onnx.load(args.model_path)
-    dataloader = Dataloader(args.batch_size)
+    # dataloader = Dataloader(data_path, label_path)
+    ds = Dataset()
+    from neural_compressor.data.dataloaders import DataLoader as INC_DataLoader
+    dataloader = INC_DataLoader(framework='onnxrt_integerops', dataset=ds)
+    
     def eval(model):
         return evaluate(model, dataloader)
 

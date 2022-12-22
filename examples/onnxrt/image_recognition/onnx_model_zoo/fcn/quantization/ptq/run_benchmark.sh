@@ -20,7 +20,7 @@ function init_params {
           mode=$(echo $var |cut -f2 -d=)
       ;;
       --batch_size=*)
-          mode=$(echo $var |cut -f2 -d=)
+          batch_size=$(echo $var |cut -f2 -d=)
       ;;
       --dataset_location=*)
           dataset_location=$(echo $var |cut -f2 -d=)
