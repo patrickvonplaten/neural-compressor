@@ -299,10 +299,11 @@ class RecipeTuningSampler(TuningSampler):
         if self._framework.startswith("onnxrt") or self._framework.startswith("tensorflow"):
             recipe_tune_cfg = copy.deepcopy(self.initial_op_tuning_cfg)
             recipe_update_cfg = {}
-            for recipe in self._recipe_ops.values():
-                for op_name_type in recipe:
-                    new_op_config = OpTuningConfig(op_name_type[0], op_name_type[1], 'fp32', self.tuning_space)
-                    recipe_update_cfg[op_name_type] = new_op_config
+            for key in ('first_conv_or_matmul', 'last_conv_or_matmul', 'pre_post_process_ops'):
+                if key in self._recipe_ops:    
+                    for op_name_type in self._recipe_ops[key]:
+                        new_op_config = OpTuningConfig(op_name_type[0], op_name_type[1], 'fp32', self.tuning_space)
+                        recipe_update_cfg[op_name_type] = new_op_config
             recipe_tune_cfg.update(recipe_update_cfg)
             yield recipe_tune_cfg
             
