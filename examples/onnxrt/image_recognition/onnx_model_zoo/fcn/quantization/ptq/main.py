@@ -261,10 +261,10 @@ def evaluate(model, dataloader):
 if __name__ == "__main__":
 
     model = onnx.load(args.model_path)
-    from neural_compressor.data.dataloaders import DataLoader as INC_DataLoader
-    ds = Dataset()
-    dataloader = INC_DataLoader(framework='onnxrt_integerops', dataset=ds, batch_size=args.batch_size)
-    #dataloader = Dataloader(args.batch_size)
+    # from neural_compressor.data.dataloaders import DataLoader as INC_DataLoader
+    # ds = Dataset()
+    # dataloader = INC_DataLoader(framework='onnxrt_integerops', dataset=ds, batch_size=args.batch_size)
+    dataloader = Dataloader(args.batch_size)
     def eval(model):
         return evaluate(model, dataloader)
 

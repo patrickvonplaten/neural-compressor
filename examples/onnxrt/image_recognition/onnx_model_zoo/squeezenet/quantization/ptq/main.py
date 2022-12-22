@@ -238,10 +238,10 @@ if __name__ == "__main__":
     model = onnx.load(args.model_path)
     data_path = os.path.join(args.dataset_location, 'ILSVRC2012_img_val')
     label_path = os.path.join(args.dataset_location, 'val.txt')
-    # dataloader = Dataloader(data_path, label_path)
-    from neural_compressor.data.dataloaders import DataLoader as INC_DataLoader
-    ds = dataset(data_path, label_path)
-    dataloader = INC_DataLoader(framework='onnxrt_integerops', dataset=ds)
+    dataloader = Dataloader(data_path, label_path)
+    # from neural_compressor.data.dataloaders import DataLoader as INC_DataLoader
+    # ds = dataset(data_path, label_path)
+    # dataloader = INC_DataLoader(framework='onnxrt_integerops', dataset=ds)
 
     top1 = TopK()
     postprocess = Squeeze()
