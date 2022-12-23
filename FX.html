@@ -215,30 +215,95 @@
               
   <section id="fx">
 <h1>FX<a class="headerlink" href="#fx" title="Permalink to this heading">¶</a></h1>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
-<p>FX is a PyTorch toolkit for developers to use to transform nn.Module instance. With converted torch.fx.GraphModule, we can automatically insert quant/dequant operation within PyTorch.</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">torch.fx.symbolic_trace()</span></code></p>
-<p>Fake values, called Proxies, will be fed into model and record all operations in it. Then, we can get torch.fx.GraphModule from torch.nn.Module.</p>
+<ol>
+<li><p><a class="reference external" href="#introduction">Introduction</a></p></li>
+<li><p><a class="reference external" href="#fx-mode-support-matrix-in-neural-compressor">FX Mode Support Matrix in Neural Compressor</a></p></li>
+<li><p><a class="reference external" href="#get-start">Get Start</a></p>
+<p>3.1. <a class="reference external" href="#post-training-static-quantization">Post Training Static Quantization</a></p>
+<p>3.2. <a class="reference external" href="#post-training-dynamic-quantization">Post Training Dynamic Quantization</a></p>
+<p>3.3. <a class="reference external" href="#quantization-aware-training">Quantization-Aware Training</a></p>
 </li>
-</ul>
+<li><p><a class="reference external" href="#examples">Examples</a></p></li>
+<li><p><a class="reference external" href="#note">Note</a></p></li>
+<li><p><a class="reference external" href="#common-problem">Common Problem</a></p></li>
+</ol>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>FX is a PyTorch toolkit for developers to use to transform nn.Module instance. FX consists of three main components: a symbolic tracer, an intermediate representation, and Python code generation.</p>
+<p>With converted torch.fx.GraphModule, we can resolve three problems in quantization:</p>
+<ol class="simple">
+<li><p>Automatically insert quant/dequant operation within PyTorch.</p></li>
+<li><p>Use FloatFunctional to wrap tensor operations that require special handling for quantization into modules. Examples are operations like add and cat which require special handling to determine output quantization parameters.</p></li>
+<li><p>Fuse modules: combine operations/modules into a single module to obtain higher accuracy and performance. This is done using the fuse_modules() API, which takes in lists of modules to be fused. We currently support the following fusions: [Conv, Relu], [Conv, BatchNorm], [Conv, BatchNorm, Relu], [Linear, Relu].</p></li>
+</ol>
+<p>For detailed description, please refer to <a class="reference external" href="https://pytorch.org/docs/stable/fx.html">PyTorch FX</a> and <a class="reference external" href="https://pytorch.org/docs/master/quantization.html#prototype-fx-graph-mode-quantization">FX Graph Mode Quantization</a></p>
 </section>
-<hr class="docutils" />
-<section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
-<p><strong>Note:</strong> Make sure to replace backend with <code class="docutils literal notranslate"><span class="pre">pytorch_fx</span></code> in <strong>conf.yaml</strong>.</p>
-<p>Then, you can quantize model as usual with neural_compressor without editing the source code of the model, as shown below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">tune</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">neural_compressor.experimental</span> <span class="kn">import</span> <span class="n">Quantization</span><span class="p">,</span> <span class="n">common</span>
+<section id="fx-mode-support-matrix-in-neural-compressor">
+<h2>FX Mode Support Matrix in Neural Compressor<a class="headerlink" href="#fx-mode-support-matrix-in-neural-compressor" title="Permalink to this heading">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>quantization</th>
+<th style="text-align: center;">FX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Static Quantization</td>
+<td style="text-align: center;">&#10004;</td>
+</tr>
+<tr>
+<td>Dynamic Quantization</td>
+<td style="text-align: center;">&#10004;</td>
+</tr>
+<tr>
+<td>Quantization-Aware Training</td>
+<td style="text-align: center;">&#10004;</td>
+</tr>
+</tbody>
+</table></section>
+<section id="get-start">
+<h2>Get Start<a class="headerlink" href="#get-start" title="Permalink to this heading">¶</a></h2>
+<p><strong>Note:</strong> “backend” field indicates the backend used by the user in configure. And the “default” value means it will quantization model with fx backend for PyTorch model.</p>
+<section id="post-training-static-quantization">
+<h3>Post Training Static Quantization<a class="headerlink" href="#post-training-static-quantization" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">neural_compressor</span> <span class="kn">import</span> <span class="n">quantization</span><span class="p">,</span> <span class="n">PostTrainingQuantConfig</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">PostTrainingQuantConfig</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-    <span class="n">quantizer</span> <span class="o">=</span> <span class="n">Quantization</span><span class="p">(</span><span class="s2">&quot;./conf.yaml&quot;</span><span class="p">)</span>
-    <span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-    <span class="n">q_model</span> <span class="o">=</span> <span class="n">quantizer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-    <span class="n">q_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">tuned_checkpoint</span><span class="p">)</span>
-    <span class="k">return</span>
+    <span class="n">q_model</span> <span class="o">=</span> <span class="n">quantization</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="n">calib_dataloader</span><span class="o">=</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">eval_func</span><span class="o">=</span><span class="n">eval_func</span><span class="p">)</span>
+    <span class="n">q_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;save/to/path&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
+<section id="post-training-dynamic-quantization">
+<h3>Post Training Dynamic Quantization<a class="headerlink" href="#post-training-dynamic-quantization" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">neural_compressor</span> <span class="kn">import</span> <span class="n">quantization</span><span class="p">,</span> <span class="n">PostTrainingQuantConfig</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">PostTrainingQuantConfig</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">approach</span><span class="o">=</span><span class="s2">&quot;dynamic&quot;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">q_model</span> <span class="o">=</span> <span class="n">quantization</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="n">eval_func</span><span class="o">=</span><span class="n">eval_func</span><span class="p">)</span>
+    <span class="n">q_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;save/to/path&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="quantization-aware-training">
+<h3>Quantization-Aware Training<a class="headerlink" href="#quantization-aware-training" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">neural_compressor</span> <span class="kn">import</span> <span class="n">QuantizationAwareTrainingConfig</span>
+    <span class="kn">from</span> <span class="nn">neural_compressor.training</span> <span class="kn">import</span> <span class="n">prepare_compression</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">QuantizationAwareTrainingConfig</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+    <span class="n">compression_manager</span> <span class="o">=</span> <span class="n">prepare_compression</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
+    <span class="n">compression_manager</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_begin</span><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">compression_manager</span><span class="o">.</span><span class="n">model</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="c1">####### Training loop #####</span>
+
+    <span class="n">compression_manager</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;save/to/path&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<p>User could refer to <a class="reference external" href="https://github.com/intel/neural-compressor/blob/master/examples/pytorch/nlp/huggingface_models/question-answering/quantization/ptq_static/fx/README.md">examples</a> on how to quantize a model with FX backend.</p>
 </section>
 <section id="note">
 <h2>Note<a class="headerlink" href="#note" title="Permalink to this heading">¶</a></h2>
@@ -268,20 +333,11 @@
 <h3><em>Static Quantization</em> &amp; <em>Quantization Aware Training</em><a class="headerlink" href="#static-quantization-quantization-aware-training" title="Permalink to this heading">¶</a></h3>
 <ul>
 <li><p>PyTorch Version: 1.8 or higher</p>
-<p>As symbolic trace cannot handle dynamic control, tensor iteration and so on, we might meet trace failure sometimes. In order to quantize the model successfully, we suggest two approaches to preprocess the model here.</p>
+<p>As symbolic trace cannot handle dynamic control, tensor iteration and so on, we might meet trace failure sometimes. In order to quantize the model successfully, we suggest user to trace model with below two approaches first and then pass it to neural_compressor.</p>
 <ol>
 <li><p>Non_traceable_module_class/name</p>
-<p>Select module classes or names that cannot be traced by proxy object, and pass them into neural_compressor: <code class="docutils literal notranslate"><span class="pre">common.Model</span></code> as a dict.</p>
-<p>These non_traceable modules will be considered as a  called function. If there is any nn.Conv2D in modules, it won’t be converted into quantized::Conv2D.</p>
-<p><strong>For example:</strong> example/pytorch/fx/object_detection/maskrcnn/pytorch/tools/test_net.py</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prepare_custom_config_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;non_traceable_module_class&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="n">AnchorGenerator</span><span class="p">,</span> <span class="n">RPNPostProcessor</span><span class="p">,</span> <span class="n">Pooler</span><span class="p">,</span> <span class="n">PostProcessor</span><span class="p">,</span> \
-    <span class="n">MaskRCNNFPNFeatureExtractor</span><span class="p">,</span> <span class="n">MaskPostProcessor</span><span class="p">,</span> <span class="n">FPN</span><span class="p">,</span> <span class="n">RPNHead</span>
-    <span class="p">]}</span>
-<span class="n">quantizer</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> \
-    <span class="o">**</span><span class="p">{</span><span class="s1">&#39;prepare_custom_config_dict&#39;</span><span class="p">:</span> <span class="n">prepare_custom_config_dict</span><span class="p">})</span>
-</pre></div>
-</div>
+<p>Select module classes or names that cannot be traced by proxy object, and pass them into prepare_fx as a dict.</p>
+<p><strong>Please refer to:</strong> https://pytorch.org/tutorials/prototype/fx_graph_mode_quant_guide.html?highlight=non_traceable_module_class</p>
 </li>
 <li><p>Decorator: &#64;torch.fx.wrap</p>
 <p>If untraceable part is not a part of a module, like a global function called, or you want to move untraceable part out of model to keep other parts get quantized, you should try to use Decorator <code class="docutils literal notranslate"><span class="pre">&#64;torch.fx.wrap</span></code>. The wrapped function must be in the global, not in the class.</p>
@@ -336,8 +392,15 @@ def bboxes_labels_scores(bboxes, probs, criteria = 0.45, max_output=200):
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#">FX</a><ul>
-<li><a class="reference internal" href="#overview">Overview</a></li>
-<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#fx-mode-support-matrix-in-neural-compressor">FX Mode Support Matrix in Neural Compressor</a></li>
+<li><a class="reference internal" href="#get-start">Get Start</a><ul>
+<li><a class="reference internal" href="#post-training-static-quantization">Post Training Static Quantization</a></li>
+<li><a class="reference internal" href="#post-training-dynamic-quantization">Post Training Dynamic Quantization</a></li>
+<li><a class="reference internal" href="#quantization-aware-training">Quantization-Aware Training</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
 <li><a class="reference internal" href="#note">Note</a><ul>
 <li><a class="reference internal" href="#details">Details</a></li>
 </ul>
