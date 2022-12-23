@@ -270,7 +270,7 @@ class HessianTrace:
             layer_traces_per_iter.append(layer_traces)
             layer_traces_estimate = torch.mean(torch.stack(layer_traces_per_iter), dim=0)
             model_trace = torch.sum(layer_traces_estimate)
-            diff_ratio = abs(model_trace - prev_avg_model_trace) / (prev_avg_model_trace + self.eps)
+            diff_ratio = abs(model_trace - prev_avg_model_trace) / abs(prev_avg_model_trace + self.eps)
             if diff_ratio < self.tolerance and iter > 10:  ##TODO magic number
                 break
             # if iter == 20:  ##TODO for debugging
@@ -323,7 +323,7 @@ class HessianTrace:
                     vt_H_v_mean_per_act = [item / (iter + 1) for item in vt_H_v_sum_per_act]
                     current_model_act_trace = torch.mean(torch.stack(vt_H_v_mean_per_act))
 
-                    diff_ratio = abs(current_model_act_trace - prev_model_act_trace) / (
+                    diff_ratio = abs(current_model_act_trace - prev_model_act_trace) / abs(
                             prev_model_act_trace + self.eps)
                     if diff_ratio < self.tolerance and iter > 10:  ##TODO magic number
                         break
@@ -687,7 +687,7 @@ class HessianTraceEstimator:
             mean_avg_traces_per_param = self._get_mean(avg_traces_per_iter)
             mean_avg_total_trace = torch.sum(mean_avg_traces_per_param)
 
-            diff_avg = abs(mean_avg_total_trace - avg_total_trace) / (avg_total_trace + self._diff_eps)
+            diff_avg = abs(mean_avg_total_trace - avg_total_trace) / abs(avg_total_trace + self._diff_eps)
             if diff_avg < tolerance:
                 print(f'{i}# difference_avg={diff_avg} tolerance={tolerance}')
                 print("*** Early stopping the computing process due to reached tolerance. {}")
