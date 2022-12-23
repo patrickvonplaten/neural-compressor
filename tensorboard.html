@@ -215,15 +215,28 @@
               
   <section id="tensorboard">
 <h1>TensorBoard<a class="headerlink" href="#tensorboard" title="Permalink to this heading">¶</a></h1>
+<ol class="simple">
+<li><p><a class="reference external" href="#introduction">Introduction</a></p></li>
+<li><p><a class="reference external" href="#supported-feature-matrix">Supported Feature Matrix</a></p></li>
+<li><p><a class="reference external" href="#get-started-with-tensorboard">Get Started with Tensorboard</a></p></li>
+<li><p><a class="reference external" href="#examples">Examples</a></p></li>
+</ol>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>TensorBoard is a suite of web applications that provide measurements and visualizations used to inspect and understand your machine learning workflow for <a class="reference external" href="https://github.com/tensorflow/tensorboard">TensorFlow TensorBoard</a> and <a class="reference external" href="https://github.com/pytorch/pytorch/tree/master/torch/utils/tensorboard">PyTorch TensorBoard</a>. Intel® Neural Compressor performs accuracy-driven quantization; the tuning process quantizes the tensor and performs graph transformation and optimization to achieve optimal performance under accuracy requirement. If you want to observe the behaviors of the optimizations, or if you want to discover why an accuracy target cannot be met, TensorBoard can provide you with some valuable information. You can inspect the graph and tensor after each tuning run. If a model cannot meet accuracy requirements, you can analyze the comparison of FP32 and the INT8 tensor histogram.</p>
 <p>We collect the TensorBoard event summary during evaluation. The first time is on the baseline FP32 model and later on at the end of each tuning runs are based on the quantized model. The TensorBoard log directory is named baseline_acc_<accuracy> and tune_<runs><em>acc</em><accuracy>, to indicate the stage and accuracy of the data that is generated. Users can select their data of interest to observe with TensorBoard.</p>
 </section>
+<section id="supported-feature-matrix">
+<h2>Supported Feature Matrix<a class="headerlink" href="#supported-feature-matrix" title="Permalink to this heading">¶</a></h2>
+<p>| Optimized Framework | Tensorboard Support |
+|———————|:——————-:|
+| PyTorch             |       ✔      |
+| TensorFlow          |       ✔      |</p>
+</section>
+<section id="get-started-with-tensorboard">
+<h2>Get Started with TensorBoard<a class="headerlink" href="#get-started-with-tensorboard" title="Permalink to this heading">¶</a></h2>
 <section id="pytorch-tensorboard">
-<h2>PyTorch TensorBoard<a class="headerlink" href="#pytorch-tensorboard" title="Permalink to this heading">¶</a></h2>
-<section id="design">
-<h3>Design<a class="headerlink" href="#design" title="Permalink to this heading">¶</a></h3>
+<h3>PyTorch TensorBoard<a class="headerlink" href="#pytorch-tensorboard" title="Permalink to this heading">¶</a></h3>
 <p>PyTorch TensorBoard implementation includes three steps:</p>
 <ul class="simple">
 <li><p>Before evaluation in the _pre_eval_hook() where instruments observers are placed in the model.</p></li>
@@ -318,9 +331,8 @@
       
 </pre></div>
 </div>
-</section>
 <section id="usage">
-<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h3>
+<h4>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h4>
 <ol>
 <li><p>Add “tensorboard: true” in the yaml file.</p></li>
 <li><p>Run quantization tuning; a “./runs” folder is generated in the working folder.</p></li>
@@ -329,17 +341,9 @@
 </li>
 </ol>
 </section>
-<section id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h3>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>  examples/pytorch/eager/image_recognition/imagenet/cpu/ptq/run_tuning_dump_tensor.sh 
-</pre></div>
-</div>
-</section>
 </section>
 <section id="tensorflow-tensorboard">
-<h2>TensorFlow Tensorboard<a class="headerlink" href="#tensorflow-tensorboard" title="Permalink to this heading">¶</a></h2>
-<section id="id1">
-<h3>Design<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<h3>TensorFlow Tensorboard<a class="headerlink" href="#tensorflow-tensorboard" title="Permalink to this heading">¶</a></h3>
 <p>TensorFlow TensorBoard implementation includes four steps:</p>
 <ol class="simple">
 <li><p>Before evaluation where we create the TensorBoard summary write and write graph, collect FP32 and node names for inspection, and dump the histogram of weights and bias tensor directly from graph_def.</p></li>
@@ -348,9 +352,8 @@
 <li><p>Enumerate the output tensor and write the histogram.</p></li>
 </ol>
 <p>See the <a class="reference external" href="https://github.com/intel/neural-compressor/tree/master/neural_compressor/adaptor/tensorflow.py">tensorflow.py</a> evaluate() function for details.</p>
-</section>
-<section id="id2">
-<h3>Usage<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<section id="id1">
+<h4>Usage<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h4>
 <ol>
 <li><p>Add “tensorboard: true” in the yaml file.</p></li>
 <li><p>Run quantization tuning; a “./runs” folder is generated in the working folder. For example:</p>
@@ -367,8 +370,18 @@ baseline_acc_0.776  tune_1_acc_0.095
 </li>
 </ol>
 </section>
-<section id="id3">
-<h3>Examples<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+</section>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<section id="pytorch-examples">
+<h3>PyTorch Examples<a class="headerlink" href="#pytorch-examples" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>  examples/pytorch/eager/image_recognition/imagenet/cpu/ptq/run_tuning_dump_tensor.sh 
+</pre></div>
+</div>
+</section>
+<section id="tensorflow-examples">
+<h3>TensorFlow Examples<a class="headerlink" href="#tensorflow-examples" title="Permalink to this heading">¶</a></h3>
 <ol>
 <li><p>Add “tensorboard: true” into examples/tensorflow/image_recognition/inceptionv3.yaml. In order to demonstrate the usage of TensorBoard, remove the following lines which are added to skip the quantization of ‘v0/cg/conv0/conv2d/Conv2D’ to avoid a known limitation.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="nt">op_wise</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"></span>
@@ -436,16 +449,21 @@ baseline_acc_0.776  tune_1_acc_0.095
               <ul>
 <li><a class="reference internal" href="#">TensorBoard</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#supported-feature-matrix">Supported Feature Matrix</a></li>
+<li><a class="reference internal" href="#get-started-with-tensorboard">Get Started with TensorBoard</a><ul>
 <li><a class="reference internal" href="#pytorch-tensorboard">PyTorch TensorBoard</a><ul>
-<li><a class="reference internal" href="#design">Design</a></li>
 <li><a class="reference internal" href="#usage">Usage</a></li>
-<li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#tensorflow-tensorboard">TensorFlow Tensorboard</a><ul>
-<li><a class="reference internal" href="#id1">Design</a></li>
-<li><a class="reference internal" href="#id2">Usage</a></li>
-<li><a class="reference internal" href="#id3">Examples</a></li>
+<li><a class="reference internal" href="#id1">Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#pytorch-examples">PyTorch Examples</a></li>
+<li><a class="reference internal" href="#tensorflow-examples">TensorFlow Examples</a></li>
 </ul>
 </li>
 </ul>
