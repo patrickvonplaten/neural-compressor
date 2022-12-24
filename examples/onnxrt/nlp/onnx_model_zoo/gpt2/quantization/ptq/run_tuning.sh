@@ -31,11 +31,10 @@ function init_params {
 
 # run_tuning
 function run_tuning {
-    if [ "${topology}" = "gpt2_lm_wikitext2" ];then
-      model_type='gpt2'
-      model_name_or_path='gpt2'
-      test_data='wiki.test.raw'
-    fi 
+    model_type='gpt2'
+    model_name_or_path='gpt2'
+    test_data='wiki.test.raw'
+    
     python gpt2.py --model_path ${input_model} \
                   --data_path ${data_path}${test_data} \
                   --model_type ${model_type} \
