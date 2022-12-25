@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.strategy.conservative`
 =================================================
 
 .. py:module:: neural_compressor.strategy.conservative
+
+.. autoapi-nested-parse::
+
+   The conservative tuning strategy for quantization level 0.
+
 
 
 Module Contents
@@ -23,83 +26,39 @@ Classes
 
    Bases: :py:obj:`neural_compressor.strategy.strategy.TuneStrategy`
 
-   The base class of tuning strategy.
+   Tuning strategy with accuracy first, performance second.
 
-   :param model: The FP32 model specified for low precision tuning.
-   :type model: object
-   :param conf: The Conf class instance initialized from user yaml
-                config file.
-   :type conf: Conf
-   :param q_dataloader: Data loader for calibration, mandatory for
-                        post-training quantization.
-                        It is iterable and should yield a tuple (input,
-                        label) for calibration dataset containing label,
-                        or yield (input, _) for label-free calibration
-                        dataset. The input could be a object, list, tuple or
-                        dict, depending on user implementation, as well as
-                        it can be taken as model input.
-   :type q_dataloader: generator
-   :param q_func: Reserved for future use.
-   :type q_func: function, optional
-   :param eval_dataloader: Data loader for evaluation. It is iterable
-                           and should yield a tuple of (input, label).
-                           The input could be a object, list, tuple or dict,
-                           depending on user implementation, as well as it can
-                           be taken as model input. The label should be able
-                           to take as input of supported metrics. If this
-                           parameter is not None, user needs to specify
-                           pre-defined evaluation metrics through configuration
-                           file and should set "eval_func" parameter as None.
-                           Tuner will combine model, eval_dataloader and
-                           pre-defined metrics to run evaluation process.
-   :type eval_dataloader: generator, optional
-   :param eval_func: The evaluation function provided by user.
-                     This function takes model as parameter, and
-                     evaluation dataset and metrics should be
-                     encapsulated in this function implementation and
-                     outputs a higher-is-better accuracy scalar value.
-
-                     The pseudo code should be something like:
-
-                     def eval_func(model):
-                          input, label = dataloader()
-                          output = model(input)
-                          accuracy = metric(output, label)
-                          return accuracy
-   :type eval_func: function, optional
-   :param resume: The dict containing resume information.
-                  Defaults to None.
-   :type resume: dict, optional
+   The quantization level O0 is designed for user who want to keep the accuracy
+   of the model after quantization. It starts with the original(fp32) model,
+   and then quantize the OPs to lower precision OP type wisely and OP wisely.
 
    .. py:method:: next_tune_cfg()
 
-      Conservative tuning: accuracy first, performance second
+      Generate and yield the next tuning config with below order.
 
-      1. Query all quantifiable ops and save as a list: quantifiable_ops = [(op_name, op_type), ...]
+      1. Query all quantifiable ops and save as a list of [(op_name, op_type), ...]
       2. Classify the op by its op type
       3. Add op to quant_queue according to the op type priority
       4. Go through the quant_queue and replace it with the fp32 config in tune_cfg if
-         accuracy meets the requirements else continue
-
-      For bf16 and fp16, do the same thing as int8
-      Note:
-      1) other tunable items will using the first option as the default value.
+      accuracy meets the requirements else continue
+      5. For bf16 and fp16 operators, do the same as int8 operators.
 
       :Yields: *tune_config (dict)* -- It's a dict containing the tuning configuration to run.
 
 
    .. py:method:: traverse()
 
-      The main traverse logic, which could be override by some concrete strategy which needs
-      more hooks.
+      Traverse the tuning space.
 
 
    .. py:method:: stop(trials_count)
 
-      Check if need to stop traversing the tuning space, either accuracy goal is met
-         or timeout is reach.
+      Check whether needed to stop the traverse procedure.
 
-      :returns: True if need stop, otherwise False
+      :param trials_count: current total count of tuning trails.
+      :type trials_count: int
+
+      :returns: whether needed to stop the traverse procedure.
       :rtype: bool
 
 

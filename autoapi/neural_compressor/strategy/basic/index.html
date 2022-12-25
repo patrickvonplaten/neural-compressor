@@ -215,6 +215,7 @@
               
   <section id="module-neural_compressor.strategy.basic">
 <span id="neural-compressor-strategy-basic"></span><h1><a class="reference internal" href="#module-neural_compressor.strategy.basic" title="neural_compressor.strategy.basic"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.strategy.basic</span></code></a><a class="headerlink" href="#module-neural_compressor.strategy.basic" title="Permalink to this heading">¶</a></h1>
+<p>The basic tuning strategy.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
@@ -222,76 +223,29 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.strategy.basic.BasicTuneStrategy" title="neural_compressor.strategy.basic.BasicTuneStrategy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BasicTuneStrategy</span></code></a></p></td>
-<td><p>The basic tuning strategy which tunes the low precision model with below order.</p></td>
+<td><p>The basic tuning strategy.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.strategy.basic.BasicTuneStrategy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.strategy.basic.</span></span><span class="sig-name descname"><span class="pre">BasicTuneStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dicts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_hooks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.strategy.basic.BasicTuneStrategy" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.strategy.basic.</span></span><span class="sig-name descname"><span class="pre">BasicTuneStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_hooks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.strategy.basic.BasicTuneStrategy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../strategy/index.html#neural_compressor.strategy.strategy.TuneStrategy" title="neural_compressor.strategy.strategy.TuneStrategy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.strategy.strategy.TuneStrategy</span></code></a></p>
-<p>The basic tuning strategy which tunes the low precision model with below order.</p>
-<ol class="arabic simple">
-<li><p>modelwise tuning for all quantizable ops.</p></li>
-<li><p>fallback tuning from bottom to top to decide the priority of which op has biggest impact
-on accuracy.</p></li>
-<li><p>incremental fallback tuning by fallbacking multiple ops with the order got from #2.</p></li>
-</ol>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>object</em>) – The FP32 model specified for low precision tuning.</p></li>
-<li><p><strong>conf</strong> (<em>Class</em>) – The Conf class instance initialized from user yaml
-config file.</p></li>
-<li><p><strong>q_dataloader</strong> (<em>generator</em>) – Data loader for calibration, mandatory for
-post-training quantization.
-It is iterable and should yield a tuple (input,
-label) for calibration dataset containing label,
-or yield (input, _) for label-free calibration
-dataset. The input could be a object, list, tuple or
-dict, depending on user implementation, as well as
-it can be taken as model input.</p></li>
-<li><p><strong>q_func</strong> (<em>function</em><em>, </em><em>optional</em>) – Reserved for future use.</p></li>
-<li><p><strong>eval_dataloader</strong> (<em>generator</em><em>, </em><em>optional</em>) – Data loader for evaluation. It is iterable
-and should yield a tuple of (input, label).
-The input could be a object, list, tuple or dict,
-depending on user implementation, as well as it can
-be taken as model input. The label should be able
-to take as input of supported metrics. If this
-parameter is not None, user needs to specify
-pre-defined evaluation metrics through configuration
-file and should set “eval_func” parameter as None.
-Tuner will combine model, eval_dataloader and
-pre-defined metrics to run evaluation process.</p></li>
-<li><p><strong>eval_func</strong> (<em>function</em><em>, </em><em>optional</em>) – <p>The evaluation function provided by user.
-This function takes model as parameter, and
-evaluation dataset and metrics should be
-encapsulated in this function implementation and
-outputs a higher-is-better accuracy scalar value.</p>
-<p>The pseudo code should be something like:</p>
-<dl class="simple">
-<dt>def eval_func(model):</dt><dd><p>input, label = dataloader()
-output = model(input)
-accuracy = metric(output, label)
-return accuracy</p>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>dicts</strong> (<em>dict</em><em>, </em><em>optional</em>) – The dict containing resume information.
-Defaults to None.</p></li>
-</ul>
-</dd>
-</dl>
+<p>The basic tuning strategy.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.strategy.basic.BasicTuneStrategy.next_tune_cfg">
 <span class="sig-name descname"><span class="pre">next_tune_cfg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.strategy.basic.BasicTuneStrategy.next_tune_cfg" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>The generator of yielding next tuning config to traverse by concrete strategies</dt><dd><p>according to last tuning result.</p>
-</dd>
-</dl>
+<dd><p>Generate and yield the next tuning config with below order.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>OP Type Wise Tuning</p></li>
+<li><p>Fallback OP One by One</p></li>
+<li><p>Fallback Multiple OPs Accumulated</p></li>
+</ol>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Yields<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>tune_config (dict)</em> – It’s a dict containing the tuning configuration to run.</p>
+<dd class="field-odd"><p><em>tune_config (dict)</em> – A dict containing the tuning configuration for quantization.</p>
 </dd>
 </dl>
 </dd></dl>

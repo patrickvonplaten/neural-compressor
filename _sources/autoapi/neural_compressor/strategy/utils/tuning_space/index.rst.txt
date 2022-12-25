@@ -1,8 +1,11 @@
-:orphan:
-
 :py:mod:`neural_compressor.strategy.utils.tuning_space`
 =======================================================
 
 .. py:module:: neural_compressor.strategy.utils.tuning_space
+
+.. autoapi-nested-parse::
+
+   Tuning space.
+
 
 

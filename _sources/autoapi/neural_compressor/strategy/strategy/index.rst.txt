@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.strategy.strategy`
 =============================================
 
 .. py:module:: neural_compressor.strategy.strategy
+
+.. autoapi-nested-parse::
+
+   The base class for tuning strategy.
+
 
 
 Module Contents
@@ -29,7 +32,7 @@ Functions
 
 .. py:function:: strategy_registry(cls)
 
-   The class decorator used to register all TuneStrategy subclasses.
+   Class decorator used to register all TuneStrategy subclasses.
 
    :param cls: The class of register.
    :type cls: class
@@ -42,73 +45,98 @@ Functions
 
    Bases: :py:obj:`object`
 
-   The base class of tuning strategy.
+   Basic class for tuning strategy.
 
-   :param model: The FP32 model specified for low precision tuning.
-   :type model: object
-   :param conf: The Conf class instance initialized from user yaml
-                config file.
-   :type conf: Conf
-   :param q_dataloader: Data loader for calibration, mandatory for
-                        post-training quantization.
-                        It is iterable and should yield a tuple (input,
-                        label) for calibration dataset containing label,
-                        or yield (input, _) for label-free calibration
-                        dataset. The input could be a object, list, tuple or
-                        dict, depending on user implementation, as well as
-                        it can be taken as model input.
-   :type q_dataloader: generator
-   :param q_func: Reserved for future use.
-   :type q_func: function, optional
-   :param eval_dataloader: Data loader for evaluation. It is iterable
-                           and should yield a tuple of (input, label).
-                           The input could be a object, list, tuple or dict,
-                           depending on user implementation, as well as it can
-                           be taken as model input. The label should be able
-                           to take as input of supported metrics. If this
-                           parameter is not None, user needs to specify
-                           pre-defined evaluation metrics through configuration
-                           file and should set "eval_func" parameter as None.
-                           Tuner will combine model, eval_dataloader and
-                           pre-defined metrics to run evaluation process.
-   :type eval_dataloader: generator, optional
-   :param eval_func: The evaluation function provided by user.
-                     This function takes model as parameter, and
-                     evaluation dataset and metrics should be
-                     encapsulated in this function implementation and
-                     outputs a higher-is-better accuracy scalar value.
+   .. py:property:: evaluation_result
 
-                     The pseudo code should be something like:
+      Evaluate the given model.
 
-                     def eval_func(model):
-                          input, label = dataloader()
-                          output = model(input)
-                          accuracy = metric(output, label)
-                          return accuracy
-   :type eval_func: function, optional
-   :param resume: The dict containing resume information.
-                  Defaults to None.
-   :type resume: dict, optional
+      :returns: The objective value evaluated.
 
    .. py:method:: next_tune_cfg()
       :abstractmethod:
 
-      The generator of yielding next tuning config to traverse by concrete strategies
-         according to last tuning result.
+      Interface for generate the next tuning config.
 
-      :Yields: *tune_config (dict)* -- It's a dict containing the tuning configuration to run.
+      The generator of yielding next tuning config to traverse by concrete strategies or quantization level
+      according to last tuning result and traverse logic.
+
+      It should be implemented by the sub-class.
+
+      :Yields: *tune_config (dict)* -- It's a dict containing the tuning configuration to traverse.
 
 
    .. py:method:: traverse()
 
-      The main traverse logic, which could be override by some concrete strategy which needs
-      more hooks.
+      Traverse the tuning space.
+
+      The main traverse logic which could be override by some concrete strategy which needs more hooks.
+
+
+   .. py:method:: initial_tuning_cfg()
+
+      Init the tuning config.
+
+      Initialize the tuning config according to the quantization approach.
+
+      :returns: key is (op_name, op_type); value is quantization mode.
+                quant_mode_wise_items (OrderedDict): key is quant_mode/precision; value is item list.
+                initial_op_tuning_cfg (OrderedDict): key is (op_name, op_type); value is the initialized tuning config.
+      :rtype: op_item_dtype_dict (OrderedDict)
+
+
+   .. py:method:: show_baseline_info()
+
+      Display the accuracy and duration of the the baseline model.
+
+
+   .. py:method:: initial_best_acc()
+
+      Init the best accuracy.
+
+      :returns: The initial value of best accuracy.
+
+
+   .. py:method:: set_tuning_space(conf)
+
+      Create the tuning space.
+
+      Create the tuning space based on the framework capability and user configuration.
+
+      :param conf: The Conf class instance includes all user configurations.
+
+
+   .. py:method:: setup_resume(resume)
+
+      Resume the best quantized model from tuning history.
+
+      :param resume: The dict containing resume information.
+
+
+   .. py:method:: set_q_func()
+
+      Set the training function for quantization aware training.
+
+
+   .. py:method:: update_best_op_tuning_cfg(op_tuning_cfg)
+
+      Track and update the best tuning config with correspondence accuracy result.
+
+      :param op_tuning_cfg: The tuning config.
+
+      :returns: The current best tuning results and corresponding configurations.
+
+
+   .. py:method:: deploy_config()
+
+      Save the configuration locally for deployment.
 
 
    .. py:method:: stop(timeout, trials_count)
 
-      Check if need to stop traversing the tuning space, either accuracy goal is met
-         or timeout is reach.
+      Check if need to stop traverse.
+
+      Check if need to stop traversing the tuning space, either accuracy goal is met or timeout is reach.
 
       :returns: True if need stop, otherwise False
       :rtype: bool

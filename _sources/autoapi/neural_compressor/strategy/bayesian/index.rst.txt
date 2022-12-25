@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.strategy.bayesian`
 =============================================
 
 .. py:module:: neural_compressor.strategy.bayesian
+
+.. autoapi-nested-parse::
+
+   The Bayesian tuning strategy.
+
 
 
 Module Contents
@@ -16,6 +19,7 @@ Classes
 
    neural_compressor.strategy.bayesian.BayesianTuneStrategy
    neural_compressor.strategy.bayesian.TargetSpace
+   neural_compressor.strategy.bayesian.BayesianOptimization
 
 
 
@@ -32,120 +36,123 @@ Functions
 
    Bases: :py:obj:`neural_compressor.strategy.strategy.TuneStrategy`
 
-   The tuning strategy using bayesian search in tuning space.
-
-   :param model: The FP32 model specified for low precision tuning.
-   :type model: object
-   :param conf: The Conf class instance initialized from user yaml
-                config file.
-   :type conf: Conf
-   :param q_dataloader: Data loader for calibration, mandatory for
-                        post-training quantization.
-                        It is iterable and should yield a tuple (input,
-                        label) for calibration dataset containing label,
-                        or yield (input, _) for label-free calibration
-                        dataset. The input could be a object, list, tuple or
-                        dict, depending on user implementation, as well as
-                        it can be taken as model input.
-   :type q_dataloader: generator
-   :param q_func: Reserved for future use.
-   :type q_func: function, optional
-   :param eval_dataloader: Data loader for evaluation. It is iterable
-                           and should yield a tuple of (input, label).
-                           The input could be a object, list, tuple or dict,
-                           depending on user implementation, as well as it can
-                           be taken as model input. The label should be able
-                           to take as input of supported metrics. If this
-                           parameter is not None, user needs to specify
-                           pre-defined evaluation metrics through configuration
-                           file and should set "eval_func" parameter as None.
-                           Tuner will combine model, eval_dataloader and
-                           pre-defined metrics to run evaluation process.
-   :type eval_dataloader: generator, optional
-   :param eval_func: The evaluation function provided by user.
-                     This function takes model as parameter, and
-                     evaluation dataset and metrics should be
-                     encapsulated in this function implementation and
-                     outputs a higher-is-better accuracy scalar value.
-
-                     The pseudo code should be something like:
-
-                     def eval_func(model):
-                          input, label = dataloader()
-                          output = model(input)
-                          accuracy = metric(output, label)
-                          return accuracy
-   :type eval_func: function, optional
-   :param dicts: The dict containing resume information.
-                 Defaults to None.
-   :type dicts: dict, optional
+   The Bayesian tuning strategy.
 
    .. py:method:: next_tune_cfg()
 
-      The generator of yielding next tuning config to traverse by concrete strategies
-      according to last tuning result.
+      Generate the next tuning config according to bayesian search algorithm.
 
+      This strategy comes from the Bayesian optimization package and changed it to a discrete version.
+      It uses Gaussian processes to define the prior/posterior distribution over the black-box
+      function with the tuning history and then finds the tuning configuration that maximizes
+      the expected improvement.
+
+      :Yields: *tune_config (dict)* -- A dict containing the tuning configuration for quantization.
 
 
 
 .. py:function:: acq_max(ac, gp, y_max, bounds, random_seed, n_warmup=10000, n_iter=10)
 
-   A function to find the maximum of the acquisition function
-   :param ac:
-   :type ac: The acquisition function object that return its point-wise value.
-   :param gp:
-   :type gp: A gaussian process fitted to the relevant data.
-   :param y_max:
-   :type y_max: The current maximum known value of the target function.
-   :param bounds:
-   :type bounds: The variables bounds to limit the search of the acq max.
-   :param random_state:
-   :type random_state: instance of np.RandomState random number generator
-   :param n_warmup:
-   :type n_warmup: number of times to randomly sample the acquisition function
-   :param n_iter:
-   :type n_iter: number of times to run scipy.minimize
+   Find the maximum of the acquisition function parameters.
 
-   :rtype: x_max, The arg max of the acquisition function.
+   :param ac: The acquisition function object that return its point-wise value.
+   :param gp: A gaussian process fitted to the relevant data.
+   :param y_max: The current maximum known value of the target function.
+   :param bounds: The variables bounds to limit the search of the acq max.
+   :param random_seed: instance of np.RandomState random number generator
+   :param n_warmup: number of times to randomly sample the acquisition function
+   :param n_iter: number of times to run scipy.minimize
+
+   :returns: The arg max of the acquisition function.
+   :rtype: x_max
 
 
 .. py:class:: TargetSpace(pbounds, random_seed=9527)
 
    Bases: :py:obj:`object`
 
-   Holds the param-space coordinates (X) and target values (Y)
-   Allows for constant-time appends while ensuring no duplicates are added
+   Holds the param-space coordinates (X) and target values (Y).
+
+   Allows for constant-time appends while ensuring no duplicates are added.
+
+   .. py:property:: empty
+
+      Check if the space is empty.
+
+   .. py:property:: params
+
+      Get all params stored in this space.
+
+   .. py:property:: target
+
+      Get all target values in this space.
+
+   .. py:property:: dim
+
+      Get the dimension of this space.
+
+   .. py:property:: keys
+
+      Get all keys of this space.
+
+   .. py:property:: bounds
+
+      Get the bounds of this space.
+
+   .. py:method:: params_to_array(params)
+
+      Generate an array from params.
+
+      :param params: The dict contains keys in `self.keys`, and
+                     corresponding param.
+      :type params: Dict
+
+      :returns: An array contains all params.
+      :rtype: np.array
+
+
+   .. py:method:: array_to_params(x)
+
+      Generate an params' dict from array.
+
+      :param x: The array contains all params.
+      :type x: np.array
+
+      :returns: the dict contains keys and the params corresponding to it.
+      :rtype: dict
+
 
    .. py:method:: register(params, target)
 
       Append a point and its target value to the known data.
+
+      Runs in amortized constant time.
+
       :param params: a single point, with len(params) == self.dim
       :type params: ndarray
       :param target: target function value
       :type target: float
 
-      :raises KeyError:: if the point is not unique
-
-      .. rubric:: Notes
-
-      runs in amortized constant time
+      :raises KeyError: if the point is not unique
 
 
    .. py:method:: get_target(params)
 
-      Get the target value of params
-      ----------
-      params: ndarray
-          a single point, with len(params) == self.dim
-      :returns: **target** -- target function value.
-      :rtype: float
+      Get the target value of params.
+
+      :param params: a single point, with len(params) == self.dim
+      :type params: ndarray
+
+      :returns: target function value.
+      :rtype: target (float)
 
 
    .. py:method:: random_sample()
 
-      Creates random points within the bounds of the space.
-      :returns: **data** -- [num x dim] array points with dimensions corresponding to `self._keys`
-      :rtype: ndarray
+      Create random points within the bounds of the space.
+
+      :returns: [num x dim] array points with dimensions corresponding to `self._keys`
+      :rtype: data (ndarray)
 
 
    .. py:method:: max()
@@ -156,6 +163,36 @@ Functions
    .. py:method:: res()
 
       Get all target values found and corresponding parametes.
+
+
+
+.. py:class:: BayesianOptimization(pbounds, random_seed=9527, verbose=2)
+
+   The class for bayesian optimization.
+
+   This class takes the parameters bounds in order to find which values for
+   the parameters yield the maximum value using bayesian optimization.
+
+   .. py:property:: space
+
+      Get the target space.
+
+   .. py:property:: max
+
+      Get the maximum value of target space.
+
+   .. py:property:: res
+
+      Get the minimum value of target space.
+
+   .. py:method:: suggest()
+
+      Suggest the most promising points.
+
+
+   .. py:method:: gen_next_params()
+
+      Get the next parameter.
 
 
 

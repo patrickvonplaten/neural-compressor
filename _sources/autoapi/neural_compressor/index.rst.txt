@@ -16,6 +16,7 @@ Subpackages
    experimental/index.rst
    metric/index.rst
    pruner/index.rst
+   strategy/index.rst
    ux/index.rst
 
 
