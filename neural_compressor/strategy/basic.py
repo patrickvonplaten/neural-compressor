@@ -80,7 +80,8 @@ class BasicTuneStrategy(TuneStrategy):
                 yield new_op_tuning_cfg
             best_op_tuning_cfg_stage1 = deepcopy(self.cur_best_tuning_cfg)
 
-            
+            # Fallback all recipe ops
+            logger.debug("Fallback recipe ops to fp32.")
             recipe_sampler = RecipeTuningSampler(tuning_space, [], deepcopy(best_op_tuning_cfg_stage1),
                                                  self.framework, self.capability['recipe_ops'], self.cfg)
             for op_tuning_cfg in recipe_sampler:

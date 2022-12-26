@@ -359,11 +359,16 @@ class RecipeTuningSampler(TuningSampler):
         if self._framework.startswith("onnxrt") or self._framework.startswith("tensorflow"):
             recipe_tune_cfg = copy.deepcopy(self.initial_op_tuning_cfg)
             recipe_update_cfg = {}
-            for key in ('first_conv_or_matmul', 'last_conv_or_matmul', 'pre_post_process_nodes'):
-                if key in self._recipe_ops:    
-                    for op_name_type in self._recipe_ops[key]:
+            for op_name_type in ('first_conv_or_matmul', 'last_conv_or_matmul', 'pre_post_process_nodes'):
+                if op_name_type in self._recipe_ops:    
+                    for op_name_type in self._recipe_ops[op_name_type]:
                         new_op_config = OpTuningConfig(op_name_type[0], op_name_type[1], 'fp32', self.tuning_space)
                         recipe_update_cfg[op_name_type] = new_op_config
+            
+            logger.debug("Dump fallbacked recipe ops:")
+            for op_name_type in recipe_update_cfg:
+                logger.debug(op_name_type)
+            
             recipe_tune_cfg.update(recipe_update_cfg)
             yield recipe_tune_cfg
             
