@@ -789,7 +789,7 @@ schema = Schema({
         'framework': And(str, lambda s: s in list(FRAMEWORKS.keys()) + ['NA']),
         Optional('inputs', default=[]): And(Or(str, list), Use(input_to_list)),
         Optional('outputs', default=[]): And(Or(str, list), Use(input_to_list)),
- 
+        Optional('backedn', default='onnxrt_trt_ep'): str, 
     },
     Optional('version', default=float(__version__.split('.')[0])): And(
                                           Or(float,
