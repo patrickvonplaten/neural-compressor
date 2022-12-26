@@ -214,6 +214,7 @@
               
   <section id="module-neural_compressor.adaptor.ox_utils.calibration">
 <span id="neural-compressor-adaptor-ox-utils-calibration"></span><h1><a class="reference internal" href="#module-neural_compressor.adaptor.ox_utils.calibration" title="neural_compressor.adaptor.ox_utils.calibration"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.calibration</span></code></a><a class="headerlink" href="#module-neural_compressor.adaptor.ox_utils.calibration" title="Permalink to this heading">¶</a></h1>
+<p>Calibration for onnx models.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
@@ -221,45 +222,56 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment" title="neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONNXRTAugment</span></code></a></p></td>
-<td><p>augment input model to dump tensor or for calibration</p></td>
+<td><p>augment input model to dump tensor or for calibration.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.ox_utils.calibration.</span></span><span class="sig-name descname"><span class="pre">ONNXRTAugment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_wrapper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dump_op_types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">black_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">white_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['CPUExecutionProvider']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment" title="Permalink to this definition">¶</a></dt>
-<dd><p>augment input model to dump tensor or for calibration</p>
+<dd><p>augment input model to dump tensor or for calibration.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.augment_graph">
 <span class="sig-name descname"><span class="pre">augment_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.augment_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds nodes to all quantization_candidates op type nodes in
-model and ensures their outputs are stored as part of the graph output
-:param activation_only(bool): whether to dump activation tensor only
-:param weight_only(bool): whether to dump weight_only
-:return: augmented ONNX model</p>
+<dd><p>Augment_graph.</p>
+<p>Adds nodes to all quantization_candidates op type nodes in model and
+ensures their outputs are stored as part of the graph output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>activation_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to dump activation tensor only. Defaults to False.</p></li>
+<li><p><strong>weight_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to dump weight_only. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.get_intermediate_outputs">
 <span class="sig-name descname"><span class="pre">get_intermediate_outputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calib_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.get_intermediate_outputs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gather intermediate model outputs after running inference
-:return: dictionary mapping: {node output tensor names: node output tensor }</p>
+<dd><p>Gather intermediate model outputs after running inference.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_minmax">
+<span class="sig-name descname"><span class="pre">dump_minmax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calib_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'naive'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_minmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get min/max values of tensors.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_calibration">
 <span class="sig-name descname"><span class="pre">dump_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'naive'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_calibration" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gather calibration params for quantization
-parameter calib_mode: type ‘naive’ gives (Min, Max) pairs</p>
-<blockquote>
-<div><p>for each intermediate model output across
-test data sets, where the first element is
-a minimum of all values and the
-second element is a maximum of all values;</p>
-</div></blockquote>
+<dd><p>Gather calibration params for quantization.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dictionary mapping: {added node names: (ReduceMin, ReduceMax) pairs }</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>q_config</strong> (<em>dict</em>) – op-wise quantization config</p></li>
+<li><p><strong>calib_mode</strong> (<em>str</em><em>, </em><em>optional</em>) – type ‘naive’ gives (Min, Max) pairs
+for each intermediate model output across
+test data sets, where the first element is
+a minimum of all values and the second element
+is a maximum of all values. Defaults to ‘naive’.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -267,66 +279,30 @@ second element is a maximum of all values;</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.calculate_quantization_params">
 <span class="sig-name descname"><span class="pre">calculate_quantization_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantization_thresholds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.calculate_quantization_params" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Given quantization thresholds, calculate the quantization params.</p>
-</div></blockquote>
+<dd><p>Given quantization thresholds, calculate the quantization params.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>quantization_thresholds</strong> – <p>Dictionary specifying the min and max values for outputs of conv and matmul nodes.
-The quantization_thresholds should be specified in the following format:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>{</dt><dd><p>“param_name”: [min, max]</p>
-</dd>
-</dl>
-<p>}</p>
-</div></blockquote>
-<dl>
-<dt>example:</dt><dd><dl class="simple">
-<dt>{</dt><dd><p>‘Conv_3:0’: [np.float32(0), np.float32(0.5)],
-‘Conv_4:0’: [np.float32(1), np.float32(3.5)]</p>
-</dd>
-</dl>
-<p>}</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl>
-<dt>Dictionary containing the zero point and</dt><dd><p>scale values for outputs of conv and matmul nodes.</p>
-</dd>
-<dt>The dictionary format is</dt><dd><dl class="simple">
-<dt>{</dt><dd><p>“param_name”: [zero_point, scale]</p>
-</dd>
-</dl>
-<p>}</p>
-</dd>
-</dl>
-</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>q_config</strong> (<em>dict</em>) – op-wise quantization config</p></li>
+<li><p><strong>quantization_thresholds</strong> (<em>dict</em>) – Dictionary specifying the min and max values
+or outputs of conv and matmul nodes, should be
+specified in the following format:
+{“param_name”: [min, max]}</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_tensor">
+<span class="sig-name descname"><span class="pre">dump_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_tensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump activation or weight or both from the model.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.calculate_scale_zeropoint">
 <span class="sig-name descname"><span class="pre">calculate_scale_zeropoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">last_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantize_range</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.calculate_scale_zeropoint" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Given the source and destination node of tensor,                  return calculated zero point and scales.</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>last_node</strong> – the source of the tensor</p></li>
-<li><p><strong>next_node</strong> – the destination of the tensor</p></li>
-<li><p><strong>rmin</strong> – min threshold of the tensor</p></li>
-<li><p><strong>rmax</strong> – max threshold of the tensor</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return (List)<span class="colon">:</span></dt>
-<dd class="field-even"><p>zero_point and scale</p>
-</dd>
-</dl>
+<dd><p>Given the source and destination node of tensor, return calculated zero point and scales.</p>
 </dd></dl>
 
 </dd></dl>
@@ -367,16 +343,20 @@ The quantization_thresholds should be specified in the following format:</p>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment"><code class="docutils literal notranslate"><span class="pre">ONNXRTAugment</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.augment_graph"><code class="docutils literal notranslate"><span class="pre">ONNXRTAugment.augment_graph()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.get_intermediate_outputs"><code class="docutils literal notranslate"><span class="pre">ONNXRTAugment.get_intermediate_outputs()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_minmax"><code class="docutils literal notranslate"><span class="pre">ONNXRTAugment.dump_minmax()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_calibration"><code class="docutils literal notranslate"><span class="pre">ONNXRTAugment.dump_calibration()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.calculate_quantization_params"><code class="docutils literal notranslate"><span class="pre">ONNXRTAugment.calculate_quantization_params()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_tensor"><code class="docutils literal notranslate"><span class="pre">ONNXRTAugment.dump_tensor()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.calculate_scale_zeropoint"><code class="docutils literal notranslate"><span class="pre">ONNXRTAugment.calculate_scale_zeropoint()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment">ONNXRTAugment</a><ul>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.augment_graph">augment_graph</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.get_intermediate_outputs">get_intermediate_outputs</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_minmax">dump_minmax</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_calibration">dump_calibration</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.calculate_quantization_params">calculate_quantization_params</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.dump_tensor">dump_tensor</a></li>
 <li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.calibration.ONNXRTAugment.calculate_scale_zeropoint">calculate_scale_zeropoint</a></li>
 </ul>
 </li>

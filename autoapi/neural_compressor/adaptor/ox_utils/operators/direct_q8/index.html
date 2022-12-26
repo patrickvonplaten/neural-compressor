@@ -214,6 +214,83 @@
               
   <section id="module-neural_compressor.adaptor.ox_utils.operators.direct_q8">
 <span id="neural-compressor-adaptor-ox-utils-operators-direct-q8"></span><h1><a class="reference internal" href="#module-neural_compressor.adaptor.ox_utils.operators.direct_q8" title="neural_compressor.adaptor.ox_utils.operators.direct_q8"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.direct_q8</span></code></a><a class="headerlink" href="#module-neural_compressor.adaptor.ox_utils.operators.direct_q8" title="Permalink to this heading">¶</a></h1>
+<p>Direct8Bit Operator.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator" title="neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Direct8BitOperator</span></code></a></p></td>
+<td><p>Direct8Bit Operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator" title="neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DirectCastOperator</span></code></a></p></td>
+<td><p>Direct8bit Operator Cast.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.QDirectOperator" title="neural_compressor.adaptor.ox_utils.operators.direct_q8.QDirectOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QDirectOperator</span></code></a></p></td>
+<td><p>QDirect Operator.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.ox_utils.operators.direct_q8.</span></span><span class="sig-name descname"><span class="pre">Direct8BitOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_quantizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onnx_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../ops/index.html#neural_compressor.adaptor.ox_utils.operators.ops.Operator" title="neural_compressor.adaptor.ox_utils.operators.ops.Operator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.ops.Operator</span></code></a></p>
+<p>Direct8Bit Operator.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.quantize_check">
+<span class="sig-name descname"><span class="pre">quantize_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.quantize_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if quantizaion can be done.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.quantize">
+<span class="sig-name descname"><span class="pre">quantize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.quantize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do quantizaion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.convert_check">
+<span class="sig-name descname"><span class="pre">convert_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">convert_format</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.convert_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if conversion can be done.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.convert">
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">convert_format</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to QOperator format.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.cast">
+<span class="sig-name descname"><span class="pre">cast</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.cast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cast node.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.ox_utils.operators.direct_q8.</span></span><span class="sig-name descname"><span class="pre">DirectCastOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_quantizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onnx_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../ops/index.html#neural_compressor.adaptor.ox_utils.operators.ops.Operator" title="neural_compressor.adaptor.ox_utils.operators.ops.Operator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.ops.Operator</span></code></a></p>
+<p>Direct8bit Operator Cast.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator.cast">
+<span class="sig-name descname"><span class="pre">cast</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator.cast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cast node.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.direct_q8.QDirectOperator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.ox_utils.operators.direct_q8.</span></span><span class="sig-name descname"><span class="pre">QDirectOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initializers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.QDirectOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../ops/index.html#neural_compressor.adaptor.ox_utils.operators.ops.QOperator" title="neural_compressor.adaptor.ox_utils.operators.ops.QOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.ops.QOperator</span></code></a></p>
+<p>QDirect Operator.</p>
+</dd></dl>
+
+</section>
+</section>
 </section>
 
 
@@ -242,7 +319,41 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.direct_q8</span></code></a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.direct_q8</span></code></a><ul>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator"><code class="docutils literal notranslate"><span class="pre">Direct8BitOperator</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.quantize_check"><code class="docutils literal notranslate"><span class="pre">Direct8BitOperator.quantize_check()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.quantize"><code class="docutils literal notranslate"><span class="pre">Direct8BitOperator.quantize()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.convert_check"><code class="docutils literal notranslate"><span class="pre">Direct8BitOperator.convert_check()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.convert"><code class="docutils literal notranslate"><span class="pre">Direct8BitOperator.convert()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.cast"><code class="docutils literal notranslate"><span class="pre">Direct8BitOperator.cast()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator"><code class="docutils literal notranslate"><span class="pre">DirectCastOperator</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator.cast"><code class="docutils literal notranslate"><span class="pre">DirectCastOperator.cast()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.QDirectOperator"><code class="docutils literal notranslate"><span class="pre">QDirectOperator</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator">Direct8BitOperator</a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.quantize_check">quantize_check</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.quantize">quantize</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.convert_check">convert_check</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.convert">convert</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.Direct8BitOperator.cast">cast</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator">DirectCastOperator</a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.DirectCastOperator.cast">cast</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.direct_q8.QDirectOperator">QDirectOperator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             </div>

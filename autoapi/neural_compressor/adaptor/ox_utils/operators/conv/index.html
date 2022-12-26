@@ -214,6 +214,61 @@
               
   <section id="module-neural_compressor.adaptor.ox_utils.operators.conv">
 <span id="neural-compressor-adaptor-ox-utils-operators-conv"></span><h1><a class="reference internal" href="#module-neural_compressor.adaptor.ox_utils.operators.conv" title="neural_compressor.adaptor.ox_utils.operators.conv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.conv</span></code></a><a class="headerlink" href="#module-neural_compressor.adaptor.ox_utils.operators.conv" title="Permalink to this heading">¶</a></h1>
+<p>Conv Operator.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator" title="neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConvOperator</span></code></a></p></td>
+<td><p>Conv Operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator" title="neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QConvOperator</span></code></a></p></td>
+<td><p>QLinearConv Operator.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.ox_utils.operators.conv.</span></span><span class="sig-name descname"><span class="pre">ConvOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_quantizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onnx_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../ops/index.html#neural_compressor.adaptor.ox_utils.operators.ops.Operator" title="neural_compressor.adaptor.ox_utils.operators.ops.Operator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.ops.Operator</span></code></a></p>
+<p>Conv Operator.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.quantize">
+<span class="sig-name descname"><span class="pre">quantize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.quantize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do quantizaion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.convert_check">
+<span class="sig-name descname"><span class="pre">convert_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">convert_format</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.convert_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if conversion can be done.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.convert">
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">convert_format</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to QOperator format.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.ox_utils.operators.conv.</span></span><span class="sig-name descname"><span class="pre">QConvOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initializers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../ops/index.html#neural_compressor.adaptor.ox_utils.operators.ops.QOperator" title="neural_compressor.adaptor.ox_utils.operators.ops.QOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.ops.QOperator</span></code></a></p>
+<p>QLinearConv Operator.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator.convert">
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to QDQ format.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
 </section>
 
 
@@ -242,7 +297,35 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.conv</span></code></a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.conv</span></code></a><ul>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator"><code class="docutils literal notranslate"><span class="pre">ConvOperator</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.quantize"><code class="docutils literal notranslate"><span class="pre">ConvOperator.quantize()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.convert_check"><code class="docutils literal notranslate"><span class="pre">ConvOperator.convert_check()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.convert"><code class="docutils literal notranslate"><span class="pre">ConvOperator.convert()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator"><code class="docutils literal notranslate"><span class="pre">QConvOperator</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator.convert"><code class="docutils literal notranslate"><span class="pre">QConvOperator.convert()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator">ConvOperator</a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.quantize">quantize</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.convert_check">convert_check</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.ConvOperator.convert">convert</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator">QConvOperator</a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.conv.QConvOperator.convert">convert</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             </div>

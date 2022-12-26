@@ -214,6 +214,61 @@
               
   <section id="module-neural_compressor.adaptor.ox_utils.operators.maxpool">
 <span id="neural-compressor-adaptor-ox-utils-operators-maxpool"></span><h1><a class="reference internal" href="#module-neural_compressor.adaptor.ox_utils.operators.maxpool" title="neural_compressor.adaptor.ox_utils.operators.maxpool"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.maxpool</span></code></a><a class="headerlink" href="#module-neural_compressor.adaptor.ox_utils.operators.maxpool" title="Permalink to this heading">¶</a></h1>
+<p>MaxPool Operator.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator" title="neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MaxPoolOperator</span></code></a></p></td>
+<td><p>MaxPool Operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.QMaxPoolOperator" title="neural_compressor.adaptor.ox_utils.operators.maxpool.QMaxPoolOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QMaxPoolOperator</span></code></a></p></td>
+<td><p>QMaxPool Operator.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.ox_utils.operators.maxpool.</span></span><span class="sig-name descname"><span class="pre">MaxPoolOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_quantizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onnx_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../ops/index.html#neural_compressor.adaptor.ox_utils.operators.ops.Operator" title="neural_compressor.adaptor.ox_utils.operators.ops.Operator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.ops.Operator</span></code></a></p>
+<p>MaxPool Operator.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.quantize_check">
+<span class="sig-name descname"><span class="pre">quantize_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.quantize_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if quantizaion can be done.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.quantize">
+<span class="sig-name descname"><span class="pre">quantize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.quantize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do quantizaion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.convert_check">
+<span class="sig-name descname"><span class="pre">convert_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">convert_format</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.convert_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if conversion can be done.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.convert">
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">convert_format</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to QOperator format.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.adaptor.ox_utils.operators.maxpool.QMaxPoolOperator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.ox_utils.operators.maxpool.</span></span><span class="sig-name descname"><span class="pre">QMaxPoolOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initializers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.QMaxPoolOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../ops/index.html#neural_compressor.adaptor.ox_utils.operators.ops.QOperator" title="neural_compressor.adaptor.ox_utils.operators.ops.QOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.ops.QOperator</span></code></a></p>
+<p>QMaxPool Operator.</p>
+</dd></dl>
+
+</section>
+</section>
 </section>
 
 
@@ -242,7 +297,31 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.maxpool</span></code></a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.ox_utils.operators.maxpool</span></code></a><ul>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator"><code class="docutils literal notranslate"><span class="pre">MaxPoolOperator</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.quantize_check"><code class="docutils literal notranslate"><span class="pre">MaxPoolOperator.quantize_check()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.quantize"><code class="docutils literal notranslate"><span class="pre">MaxPoolOperator.quantize()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.convert_check"><code class="docutils literal notranslate"><span class="pre">MaxPoolOperator.convert_check()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.convert"><code class="docutils literal notranslate"><span class="pre">MaxPoolOperator.convert()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.QMaxPoolOperator"><code class="docutils literal notranslate"><span class="pre">QMaxPoolOperator</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator">MaxPoolOperator</a><ul>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.quantize_check">quantize_check</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.quantize">quantize</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.convert_check">convert_check</a></li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.MaxPoolOperator.convert">convert</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.adaptor.ox_utils.operators.maxpool.QMaxPoolOperator">QMaxPoolOperator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             </div>
