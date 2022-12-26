@@ -16,7 +16,8 @@
 # limitations under the License.
 
 from neural_compressor.experimental.metric import METRICS
-from neural_compressor.experimental.data import Datasets, TRANSFORMS, FILTERS, DATALOADERS
+# from neural_compressor.experimental.data import Datasets, TRANSFORMS, FILTERS, DATALOADERS
+from neural_compressor.data import Datasets, TRANSFORMS, FILTERS, DATALOADERS
 from neural_compressor.experimental.common import Optimizers, Criterions
 from collections import OrderedDict
 import copy
