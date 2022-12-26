@@ -1,4 +1,3 @@
-# torch==1.10.2 transformers==3.2.0
 import torch
 import onnxruntime
 import onnx

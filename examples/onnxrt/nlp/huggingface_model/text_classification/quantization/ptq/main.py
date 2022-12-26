@@ -27,7 +27,6 @@ import numpy as np
 from dataclasses import dataclass
 from typing import List, Optional, Union
 import sys
-sys.path.append('/home/yuwenzho/hf-stage2/extension-test/neural-compressor/')
 
 from neural_compressor.data import DATALOADERS, DATASETS
 
@@ -332,7 +331,10 @@ if __name__ == "__main__":
                 'Alireza1044/albert-base-v2-sst2',
                 'philschmid/MiniLM-L6-H384-uncased-sst2',
                 'Intel/MiniLM-L12-H384-uncased-mrpc',
-                'bert-base-cased-finetuned-mrpc'],
+                'bert-base-cased-finetuned-mrpc',
+                'Intel/xlnet-base-cased-mrpc',
+                'M-FAC/bert-mini-finetuned-mrpc',
+                'Intel/electra-small-discriminator-mrpc'],
         help="pretrained model name or path"
     )
     parser.add_argument(

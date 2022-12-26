@@ -1040,6 +1040,154 @@
       "strategy": "basic",
       "batch_size": 1,
       "new_benchmark": true
+    },
+
+    "hf_xlnet-base-cased_dynamic": {
+      "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_xlnet-base-cased_dynamic/xlnet-base-cased-mrpc.onnx",
+      "yaml": "xlnet-base_dynamic.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_xlnet-base-cased_static": {
+      "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_xlnet-base-cased_dynamic/xlnet-base-cased-mrpc.onnx",
+      "yaml": "xlnet-base_static.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_xlnet-base-cased_ort_dynamic": {
+      "model_src_dir": "nlp/huggingface_model/ort/text_classification/dynamic",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_xlnet-base-cased_dynamic/xlnet-base-cased-mrpc.onnx",
+      "yaml": "glue_dynamic.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_xlnet-base-cased_ort_static": {
+      "model_src_dir": "nlp/huggingface_model/ort/text_classification/static",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_xlnet-base-cased_dynamic/xlnet-base-cased-mrpc.onnx",
+      "yaml": "glue_static.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+
+    "hf_bert-mini_dynamic": {
+      "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_bert-mini_dynamic/bert-mini-finetuned-mrpc.onnx",
+      "yaml": "bert-mini_dynamic.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_bert-mini_static": {
+      "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_bert-mini_dynamic/bert-mini-finetuned-mrpc.onnx",
+      "yaml": "bert-mini_static.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_bert-mini_ort_dynamic": {
+      "model_src_dir": "nlp/huggingface_model/ort/text_classification/dynamic",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_bert-mini_dynamic/bert-mini-finetuned-mrpc.onnx",
+      "yaml": "glue_dynamic.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_bert-mini_ort_static": {
+      "model_src_dir": "nlp/huggingface_model/ort/text_classification/static",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_bert-mini_dynamic/bert-mini-finetuned-mrpc.onnx",
+      "yaml": "glue_static.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+
+    "hf_electra-small-discriminator_dynamic": {
+      "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_electra-small-discriminator_dynamic/electra-small-discriminator-mrpc.onnx",
+      "yaml": "electra-small_dynamic.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_electra-small-discriminator_static": {
+      "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_electra-small-discriminator_dynamic/electra-small-discriminator-mrpc.onnx",
+      "yaml": "electra-small_static.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_electra-small-discriminator_ort_dynamic": {
+      "model_src_dir": "nlp/huggingface_model/ort/text_classification/dynamic",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_electra-small-discriminator_dynamic/electra-small-discriminator-mrpc.onnx",
+      "yaml": "glue_dynamic.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_electra-small-discriminator_ort_static": {
+      "model_src_dir": "nlp/huggingface_model/ort/text_classification/static",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_electra-small-discriminator_dynamic/electra-small-discriminator-mrpc.onnx",
+      "yaml": "glue_static.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+
+    "hf_distilgpt2_dynamic": {
+      "model_src_dir": "nlp/huggingface_model/distilgpt2",
+      "dataset_location": "/tf_dataset2/datasets/wikitext/wikitext-2-raw/",
+      "input_model": "/tf_dataset2/models/onnx/hf_distilgpt2_dynamic/distilgpt2-wikitext2.onnx",
+      "yaml": "distilgpt2_dynamic.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_distilgpt2_static": {
+      "model_src_dir": "nlp/huggingface_model/distilgpt2",
+      "dataset_location": "/tf_dataset2/datasets/wikitext/wikitext-2-raw/",
+      "input_model": "/tf_dataset2/models/onnx/hf_distilgpt2_dynamic/distilgpt2-wikitext2.onnx",
+      "yaml": "distilgpt2_static.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_distilgpt2_ort_dynamic": {
+      "model_src_dir": "nlp/huggingface_model/ort/distilgpt2/dynamic",
+      "dataset_location": "/tf_dataset2/datasets/wikitext/wikitext-2-raw/",
+      "input_model": "/tf_dataset2/models/onnx/hf_distilgpt2_dynamic/distilgpt2-wikitext2.onnx",
+      "yaml": "gpt2.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
+    },
+    "hf_distilgpt2_ort_static": {
+      "model_src_dir": "nlp/huggingface_model/ort/distilgpt2/static",
+      "dataset_location": "/tf_dataset2/datasets/wikitext/wikitext-2-raw/",
+      "input_model": "/tf_dataset2/models/onnx/hf_distilgpt2_dynamic/distilgpt2-wikitext2.onnx",
+      "yaml": "gpt2.yaml",
+      "strategy": "basic",
+      "batch_size": 1,
+      "new_benchmark": true
     }
   }
 }

@@ -69,6 +69,18 @@ function run_benchmark {
         model_name_or_path="bert-base-cased-finetuned-mrpc"
         TASK_NAME='mrpc'
     fi
+    if [[ "${input_model}" =~ "xlnet-base-cased" ]]; then
+        model_name_or_path="Intel/xlnet-base-cased-mrpc"
+        TASK_NAME='mrpc'
+    fi
+    if [[ "${input_model}" =~ "bert-mini" ]]; then
+        model_name_or_path="M-FAC/bert-mini-finetuned-mrpc"
+        TASK_NAME='mrpc'
+    fi
+    if [[ "${input_model}" =~ "electra-small-discriminator" ]]; then
+        model_name_or_path="Intel/electra-small-discriminator-mrpc"
+        TASK_NAME='mrpc'
+    fi
 
     python main.py \
             --model_name_or_path ${model_name_or_path} \
