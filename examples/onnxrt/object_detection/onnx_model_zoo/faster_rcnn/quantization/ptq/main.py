@@ -379,6 +379,9 @@ if __name__ == "__main__":
     if args.tune:
         from neural_compressor import quantization, PostTrainingQuantConfig
         from neural_compressor.config import AccuracyCriterion
+        from neural_compressor import options
+        options.onnxrt.graph_optimization.level = 'ENABLE_BASIC'
+        
         accuracy_criterion = AccuracyCriterion(higher_is_better=False, criterion='absolute')
         config = PostTrainingQuantConfig(approach='static', 
                                         accuracy_criterion=accuracy_criterion,
