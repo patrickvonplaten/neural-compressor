@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.algorithm.fast_bias_correction`
 ==========================================================
 
 .. py:module:: neural_compressor.algorithm.fast_bias_correction
+
+.. autoapi-nested-parse::
+
+   Build FastBiasCorrection algorithm class.
+
 
 
 Module Contents
@@ -23,8 +26,6 @@ Classes
 
    Bases: :py:obj:`neural_compressor.algorithm.algorithm.Algorithm`
 
-   The base class of algorithm.
-
-
+   FastBiasCorrection algorithm class.
 
 

@@ -214,20 +214,31 @@
               
   <section id="module-neural_compressor.algorithm">
 <span id="neural-compressor-algorithm"></span><h1><a class="reference internal" href="#module-neural_compressor.algorithm" title="neural_compressor.algorithm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.algorithm</span></code></a><a class="headerlink" href="#module-neural_compressor.algorithm" title="Permalink to this heading">¶</a></h1>
+<p>Fetch all files and init all algorithms.</p>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="algorithm/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.algorithm.algorithm</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="fast_bias_correction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.algorithm.fast_bias_correction</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="weight_correction/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.algorithm.weight_correction</span></code></a></li>
+</ul>
+</div>
+</section>
 <section id="package-contents">
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ALGORITHMS</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.algorithm.ALGORITHMS" title="neural_compressor.algorithm.ALGORITHMS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ALGORITHMS</span></code></a></p></td>
+<td><p>Build a dict for registered algorithms.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.algorithm.Algorithm" title="neural_compressor.algorithm.Algorithm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Algorithm</span></code></a></p></td>
 <td><p>The base class of algorithm.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler" title="neural_compressor.algorithm.AlgorithmScheduler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AlgorithmScheduler</span></code></a></p></td>
-<td><p>control the Algorithm in different phase</p></td>
+<td><p>control the Algorithm in different phase.</p></td>
 </tr>
 </tbody>
 </table>
@@ -237,10 +248,31 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.algorithm.algorithm_registry" title="neural_compressor.algorithm.algorithm_registry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">algorithm_registry</span></code></a>(algorithm_type)</p></td>
-<td><p>The class decorator used to register all Algorithm subclasses.</p></td>
+<td><p>Decorate and register all Algorithm subclasses.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.algorithm.ALGORITHMS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.algorithm.</span></span><span class="sig-name descname"><span class="pre">ALGORITHMS</span></span><a class="headerlink" href="#neural_compressor.algorithm.ALGORITHMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Build a dict for registered algorithms.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.algorithm.ALGORITHMS.support_algorithms">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">support_algorithms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.algorithm.ALGORITHMS.support_algorithms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all algorithms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A set of all algorithms.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Set</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.algorithm.Algorithm">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.algorithm.</span></span><span class="sig-name descname"><span class="pre">Algorithm</span></span><a class="headerlink" href="#neural_compressor.algorithm.Algorithm" title="Permalink to this definition">¶</a></dt>
@@ -252,13 +284,83 @@
 <dt class="sig sig-object py" id="neural_compressor.algorithm.AlgorithmScheduler">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.algorithm.</span></span><span class="sig-name descname"><span class="pre">AlgorithmScheduler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.algorithm.AlgorithmScheduler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>control the Algorithm in different phase</p>
+<p>control the Algorithm in different phase.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.algorithm.AlgorithmScheduler.origin_model">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">origin_model</span></span><a class="headerlink" href="#neural_compressor.algorithm.AlgorithmScheduler.origin_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the origin model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The origin model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.algorithm.AlgorithmScheduler.q_model">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">q_model</span></span><a class="headerlink" href="#neural_compressor.algorithm.AlgorithmScheduler.q_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the quantized model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The quantized model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.algorithm.AlgorithmScheduler.dataloader">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dataloader</span></span><a class="headerlink" href="#neural_compressor.algorithm.AlgorithmScheduler.dataloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dataloader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The dataloader.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataloader</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.algorithm.AlgorithmScheduler.adaptor">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">adaptor</span></span><a class="headerlink" href="#neural_compressor.algorithm.AlgorithmScheduler.adaptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the adaptor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The adaptor.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>adaptor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.algorithm.AlgorithmScheduler.calib_iter">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calib_iter</span></span><a class="headerlink" href="#neural_compressor.algorithm.AlgorithmScheduler.calib_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the calibration iter number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The calibration iter number.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>calib_iter</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.algorithm.algorithm_registry">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.algorithm.</span></span><span class="sig-name descname"><span class="pre">algorithm_registry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algorithm_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.algorithm.algorithm_registry" title="Permalink to this definition">¶</a></dt>
-<dd><p>The class decorator used to register all Algorithm subclasses.</p>
+<dd><p>Decorate and register all Algorithm subclasses.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -306,14 +408,37 @@
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.algorithm</span></code></a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#neural_compressor.algorithm.ALGORITHMS"><code class="docutils literal notranslate"><span class="pre">ALGORITHMS</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.algorithm.ALGORITHMS.support_algorithms"><code class="docutils literal notranslate"><span class="pre">ALGORITHMS.support_algorithms()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.algorithm.Algorithm"><code class="docutils literal notranslate"><span class="pre">Algorithm</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler"><code class="docutils literal notranslate"><span class="pre">AlgorithmScheduler</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler"><code class="docutils literal notranslate"><span class="pre">AlgorithmScheduler</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.origin_model"><code class="docutils literal notranslate"><span class="pre">AlgorithmScheduler.origin_model</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.q_model"><code class="docutils literal notranslate"><span class="pre">AlgorithmScheduler.q_model</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.dataloader"><code class="docutils literal notranslate"><span class="pre">AlgorithmScheduler.dataloader</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.adaptor"><code class="docutils literal notranslate"><span class="pre">AlgorithmScheduler.adaptor</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.calib_iter"><code class="docutils literal notranslate"><span class="pre">AlgorithmScheduler.calib_iter</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.algorithm.algorithm_registry"><code class="docutils literal notranslate"><span class="pre">algorithm_registry()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.ALGORITHMS">ALGORITHMS</a><ul>
+<li><a class="reference internal" href="#neural_compressor.algorithm.ALGORITHMS.support_algorithms">support_algorithms</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.algorithm.Algorithm">Algorithm</a></li>
-<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler">AlgorithmScheduler</a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler">AlgorithmScheduler</a><ul>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.origin_model">origin_model</a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.q_model">q_model</a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.dataloader">dataloader</a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.adaptor">adaptor</a></li>
+<li><a class="reference internal" href="#neural_compressor.algorithm.AlgorithmScheduler.calib_iter">calib_iter</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.algorithm.algorithm_registry">algorithm_registry</a></li>
 </ul>
 </li>

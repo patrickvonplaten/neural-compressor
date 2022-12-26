@@ -12,6 +12,7 @@ Subpackages
    :titlesonly:
    :maxdepth: 3
 
+   algorithm/index.rst
    data/index.rst
    experimental/index.rst
    metric/index.rst
