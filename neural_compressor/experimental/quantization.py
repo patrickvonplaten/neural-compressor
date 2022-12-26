@@ -376,6 +376,7 @@ class Quantization(Component):
                 registered to specific frameworks and initialized.
         """
         from .common import Postprocess as NCPostprocess
+        print("yyyy")
         assert isinstance(user_postprocess, NCPostprocess), \
             'please initialize a neural_compressor.experimental.common.Postprocess and set....'
         postprocess_cfg = {user_postprocess.name : {**user_postprocess.kwargs}}
@@ -384,12 +385,10 @@ class Quantization(Component):
                            " as user defines the value of `postprocess` attribute by code.")
         deep_set(
             self.conf.usr_cfg, "evaluation.accuracy.postprocess.transform", postprocess_cfg)
-        # from ..data import TRANSFORMS
-        
-        from neural_compressor.data import TRANSFORMS
-        print("xxxx0...")
+        from ..data import TRANSFORMS
+        # from neural_compressor.data import TRANSFORMS
+        print("......quantization:postprocess")
         postprocesses = TRANSFORMS(self.framework, 'postprocess')
-        print("xxxx1...")
         postprocesses.register(user_postprocess.name, user_postprocess.postprocess_cls)
 
     # if user doesn't config evaluation dataloader in yaml and eval_func is None, a
