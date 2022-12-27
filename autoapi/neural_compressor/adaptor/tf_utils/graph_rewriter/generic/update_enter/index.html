@@ -214,6 +214,7 @@
               
   <section id="module-neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter">
 <span id="neural-compressor-adaptor-tf-utils-graph-rewriter-generic-update-enter"></span><h1><a class="reference internal" href="#module-neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter" title="neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter</span></code></a><a class="headerlink" href="#module-neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter" title="Permalink to this heading">¶</a></h1>
+<p>Update Enter Graph Rewriter.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
@@ -221,7 +222,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter.UpdateEnterOptimizer" title="neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter.UpdateEnterOptimizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UpdateEnterOptimizer</span></code></a></p></td>
-<td><p>This is a workaround of control ops</p></td>
+<td><p>This is a workaround of control ops exclude all nodes following Enters.</p></td>
 </tr>
 </tbody>
 </table>
@@ -229,12 +230,11 @@
 <dt class="sig sig-object py" id="neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter.UpdateEnterOptimizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter.</span></span><span class="sig-name descname"><span class="pre">UpdateEnterOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter.UpdateEnterOptimizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../graph_base/index.html#neural_compressor.adaptor.tf_utils.graph_rewriter.graph_base.GraphRewriterBase" title="neural_compressor.adaptor.tf_utils.graph_rewriter.graph_base.GraphRewriterBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.adaptor.tf_utils.graph_rewriter.graph_base.GraphRewriterBase</span></code></a></p>
-<p>This is a workaround of control ops
-exclude all nodes following Enters</p>
+<p>This is a workaround of control ops exclude all nodes following Enters.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter.UpdateEnterOptimizer.do_transformation">
 <span class="sig-name descname"><span class="pre">do_transformation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.adaptor.tf_utils.graph_rewriter.generic.update_enter.UpdateEnterOptimizer.do_transformation" title="Permalink to this definition">¶</a></dt>
-<dd><p>replace all enter ops whose output is matmul with const</p>
+<dd><p>Replace all enter ops whose output is matmul with const.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>input_graph_def</strong> (<em>graphdef</em>) – graphdef object</p>

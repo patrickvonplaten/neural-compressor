@@ -13,6 +13,16 @@ Subpackages
    :maxdepth: 3
 
    ox_utils/index.rst
+   tf_utils/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   tensorflow/index.rst
 
 
 Package Contents
