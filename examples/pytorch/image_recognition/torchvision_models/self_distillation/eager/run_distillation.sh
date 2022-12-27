@@ -25,9 +25,6 @@ function init_params {
       --use_cpu=*)
           use_cpu=$(echo $var |cut -f2 -d=)
       ;;
-      --hpo=*)
-          hpo=$(echo $var |cut -f2 -d=)
-      ;;
     esac
   done
 
@@ -38,9 +35,6 @@ function run_distillation {
     extra_cmd=${dataset_location}
     if [ 1 = "${use_cpu}" ];then
         extra_cmd=${extra_cmd}" --cpu"
-    fi
-    if [ 1 = "${hpo}" ];then
-        extra_cmd=${extra_cmd}" --hpo"
     fi
     python main.py \
            --topology=${topology} \

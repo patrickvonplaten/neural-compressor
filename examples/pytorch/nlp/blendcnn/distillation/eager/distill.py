@@ -19,6 +19,7 @@
 import json
 from typing import NamedTuple
 import os
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -101,8 +102,11 @@ def main(config='config/distill/mrpc/train.json', args=None):
 
         tensors = TensorDataset(teacher_logits, *dataset.get_tensors()) # To Tensors
         train_dataloader = data_iter = DataLoader(tensors, batch_size=cfg_optim.batch_size, shuffle=False)
-
-        criterion = criterion = torch.nn.CrossEntropyLoss()
+        
+        from neural_compressor.experimental.common.criterion import PyTorchKnowledgeDistillationLoss
+        criterion = PyTorchKnowledgeDistillationLoss(temperature=args.temperature,
+                                                     loss_types=args.loss_types,
+                                                     loss_weights=args.loss_weights)
 
     ### Models ###
 
@@ -139,20 +143,13 @@ def main(config='config/distill/mrpc/train.json', args=None):
         # train_loop.train(get_loss, None, None) # not use pretrain file
         # print("Training has been done properly.")
         
-        from neural_compressor.training import prepare_compression
-        from neural_compressor.config import DistillationConfig, KnowledgeDistillationLossConfig
-        distillation_criterion = KnowledgeDistillationLossConfig(temperature=args.temperature,
-                                                                 loss_types=args.loss_types,
-                                                                 loss_weights=args.loss_weights)
-        conf = DistillationConfig(teacher_model=teacher, criterion=distillation_criterion)
-        compression_manager = prepare_compression(model, conf)
-        compression_manager.callbacks.on_train_begin()
-        model = compression_manager.model
+        from neural_compressor.experimental import Distillation, common
+        distiller = Distillation(args.distillation_yaml)
 
         def train_func(model):
-            best_prec1 = 0
             epochs = 30
             iters = 120
+            distiller.on_train_begin()
             for nepoch in range(epochs):
                 model.train()
                 cnt = 0
@@ -163,7 +160,7 @@ def main(config='config/distill/mrpc/train.json', args=None):
                     cnt += 1
                     output = model(input_ids, segment_ids, input_mask)
                     loss = criterion(output, target)
-                    loss = compression_manager.callbacks.on_after_compute_loss(
+                    loss = distiller.on_after_compute_loss(
                         {
                             'input_ids': input_ids,
                             'segment_ids': segment_ids,
@@ -179,12 +176,7 @@ def main(config='config/distill/mrpc/train.json', args=None):
                     if cnt >= iters:
                         break
                 print('Average Loss: {}'.format(loss_sum / cnt))
-                compression_manager.callbacks.on_epoch_end()
-                
-                best_score = eval_func(model)
-                # remember best prec@1 and save checkpoint
-                if best_score > best_prec1:
-                    model.save(args.output_model)
+                distiller.on_epoch_end()
 
         def eval_func(model):
             results = [] # prediction results
@@ -218,7 +210,13 @@ def main(config='config/distill/mrpc/train.json', args=None):
                 print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
             return total_accuracy   
 
-        train_func(model)
+        distiller.student_model = common.Model(model)
+        distiller.teacher_model = common.Model(teacher)
+        distiller.criterion = criterion
+        distiller.train_func = train_func
+        distiller.eval_func = eval_func
+        model = distiller.fit()
+        model.save(args.output_model)
         return
 
     elif cfg.mode == "eval":

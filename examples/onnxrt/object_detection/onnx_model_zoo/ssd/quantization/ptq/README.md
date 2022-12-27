@@ -20,24 +20,24 @@ Quantize model with QLinearOps:
 
 ```bash
 bash run_tuning.sh --input_model=path/to/model  \ # model path as *.onnx
-                   --config=ssd.yaml \ 
-                   --output_model=path/to/save
+                   --output_model=path/to/save \
+                   --dataset_location=path/to/COCO2017 \
+                   --quant_format='QOperator' 
 ```
-Make sure **anno_path** in ssd.yaml is updated to the path of label_map.yaml.
 
 Quantize model with QDQ mode:
 
 ```bash
 bash run_tuning.sh --input_model=path/to/model  \ # model path as *.onnx
-                   --config=ssd_qdq.yaml \ 
-                   --output_model=path/to/save
+                   --output_model=path/to/save \
+                   --dataset_location=path/to/COCO2017 \
+                   --quant_format='QDQ'
 ```
-Make sure **anno_path** in ssd_qdq.yaml is updated to the path of label_map.yaml.
 
 ### Benchmark
 
 ```bash
 bash run_benchmark.sh --input_model=path/to/model \  # model path as *.onnx
-                      --config=ssd.yaml \
+                      --dataset_location=path/to/COCO2017 \
                       --mode=performance # or accuracy
 ```

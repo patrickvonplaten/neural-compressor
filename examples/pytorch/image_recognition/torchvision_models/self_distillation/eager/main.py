@@ -11,7 +11,7 @@ import torch
 import torchvision
 import torchvision.models.resnet as models
 import torchvision.transforms as transforms
-from neural_compressor.data import Datasets
+from neural_compressor.data import DATASETS
 from neural_compressor.experimental.data.dataloaders.pytorch_dataloader import \
     PyTorchDataLoader
 from neural_compressor.experimental.data.transforms.transform import \
@@ -121,6 +121,14 @@ def train(model, compression_manager, device, trainloader, testloader, trial=Non
         model.parameters(), lr=0.1, weight_decay=5e-4, momentum=0.9
     )
     weight_logit =args.loss_weights[1]
+    if trial:
+        args.loss_weights[1] = trial.suggest_float("loss_coefficient", 0, 1)
+        args.loss_weights[0] = trial.suggest_float("feature_loss_coefficient", 0, 0.1)
+        args.temperature = trial.suggest_int("temperature", 1, 5)
+        epochs = trial.suggest_int("epochs", 1, 250)
+        end_epoch = start_epoch + epochs
+        logger.info(f"trial param: {trial.params}")
+
     init = False
     for nepoch in range(start_epoch, end_epoch):
         if nepoch in [end_epoch // 3, end_epoch * 2 // 3, end_epoch - 10]:
@@ -194,7 +202,7 @@ def train(model, compression_manager, device, trainloader, testloader, trial=Non
                     predicted[classifier_index].eq(target.data).cpu().sum()
                 )
             if cnt % 50 == 0:
-                logger.info(
+                logging.info(
                     "[epoch:%d, iter:%d] Loss: %.03f | Acc: 4/4: %.2f%% 3/4: %.2f%% 2/4: %.2f%%  1/4: %.2f%%"
                     " Ensemble: %.2f%%"
                     % (
@@ -210,11 +218,11 @@ def train(model, compression_manager, device, trainloader, testloader, trial=Non
                 )
             compression_manager.callbacks.on_step_end()
         compression_manager.callbacks.on_epoch_end()
-        validate(model, compression_manager, device, testloader, trial, nepoch)
+        validate(model, compression_manager, device, testloader, trial)
     return model
 
 
-def validate(model, compression_manager, device, testloader, trial=None, nepoch=None):
+def validate(model, compression_manager, device, testloader, trial=None):
     """
     output:
     correct[0]: 4/4 result
@@ -254,8 +262,8 @@ def validate(model, compression_manager, device, testloader, trial=None, nepoch=
             )
         )
     global best_score
-    if trial and nepoch:
-        trial.report(correct[-1], step=nepoch)
+    if trial:
+        trial.report(correct[-1], step=compression_manager._epoch_runned)
         if trial.should_prune():
             raise optuna.TrialPruned()
     if correct[-1] > best_score:
@@ -309,7 +317,7 @@ def main_worker(args):
     trainset = torchvision.datasets.CIFAR100(
         root=args.data,
         train=True,
-        download=True,
+        download=False,
         transform=transform_train,
     )
     trainloader = PyTorchDataLoader(
@@ -317,7 +325,7 @@ def main_worker(args):
     )
 
     testset = torchvision.datasets.CIFAR100(
-        root=args.data, train=False, download=True, transform=transform_test
+        root=args.data, train=False, download=False, transform=transform_test
     )
 
     testloader = PyTorchDataLoader(testset, batch_size=args.batch_size)
@@ -354,6 +362,9 @@ def main_worker(args):
         )
         conf = DistillationConfig(teacher_model=model, criterion=distil_loss)
         compression_manager = prepare_compression(copy.deepcopy(model), conf)
+       
+        accu = eval_func(model, compression_manager)
+        logging.info("Original model Accuracy:", accu)
         model = compression_manager.model
         train_func(model, compression_manager)
         compression_manager.save(args.output_model)
@@ -370,19 +381,13 @@ def main_worker(args):
             def train_func(model, compression_manager, trial):
                 return train(model, compression_manager, device, trainloader, testloader, trial)
 
-            def eval_func(model, compression_manager, trial=None):
+            def eval_func(model, compression_manager, trial):
                 return validate(model, compression_manager, device, testloader, trial)
 
             import copy
             from neural_compressor.training import prepare_compression
             from neural_compressor.config import DistillationConfig, \
                                                 SelfKnowledgeDistillationLossConfig
-            args.loss_weights[1] = trial.suggest_float("loss_coefficient", 0, 1)
-            args.loss_weights[0] = trial.suggest_float(
-            "feature_loss_coefficient", 0, 0.1)
-            args.temperature = trial.suggest_int("temperature", 1, 5)
-            args.epochs = trial.suggest_int("epochs", 1, 20)
-            logger.info(f"trial param: {trial.params}")
             distil_loss = SelfKnowledgeDistillationLossConfig(
                 layer_mappings=args.layer_mappings,
                 temperature=args.temperature,

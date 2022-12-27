@@ -569,7 +569,7 @@ def main():
                 output_names=['labels'],
                 dynamic_axes=dynamic_axes,
             )
-            compression_manager.export('int8-nlp-qlinear-model.onnx', int8_onnx_config)
+            model.export('int8-nlp-qlinear-model.onnx', int8_onnx_config)
         return
 
     if model_args.benchmark:

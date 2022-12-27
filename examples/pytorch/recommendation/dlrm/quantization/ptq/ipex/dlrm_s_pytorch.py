@@ -430,9 +430,8 @@ def run_throughput_benchmark(args, dlrm, test_ld):
     for j, inputBatch in enumerate(test_ld):
         X, lS_o, lS_i, T, W, CBPP = unpack_batch(inputBatch)
         bench.add_input(X, lS_o, lS_i)
-        if args.num_batches > 0 and j == args.num_batches: 
+        if j == 1000: 
             break
-    args.num_batches = args.num_batches if args.num_batches > 0 else j
     stats = bench.benchmark(
         num_calling_threads=args.share_weight_instance,
         num_warmup_iters=100,
@@ -689,8 +688,6 @@ def run():
     parser.add_argument("--int8-configure", type=str, default="./int8_configure.json")
     parser.add_argument("--dist-backend", type=str, default="ccl")
     parser.add_argument("--tune", action="store_true", default=False)
-    parser.add_argument("--benchmark", action="store_true", default=False)
-    parser.add_argument("--accuracy_only", action="store_true", default=False)
 
     global args
     global nbatches
@@ -847,50 +844,13 @@ def run():
                 )
 
         assert args.inference_only, "Please set inference_only in arguments"
-        eval_dataloader = DLRM_DataLoader(train_ld)
-        from neural_compressor import PostTrainingQuantConfig, quantization
-        conf = PostTrainingQuantConfig(approach="static",
-                                       backend="ipex"
-                                       )
-        q_model = quantization.fit(
-                            dlrm,
-                            conf=conf,
-                            eval_func=eval_func,
-                            calib_dataloader=eval_dataloader
-                            )
+        quantizer = Quantization("./conf_ipex.yaml")
+        quantizer.model = common.Model(dlrm)
+        quantizer.calib_dataloader = DLRM_DataLoader(train_ld)
+        quantizer.eval_func = eval_func
+        q_model = quantizer.fit()
         q_model.save(args.save_model)
         exit(0)
-    if args.benchmark:
-        from neural_compressor.config import BenchmarkConfig
-        from neural_compressor import benchmark
-        b_conf = BenchmarkConfig(
-                                 cores_per_instance=4,
-                                 num_of_instance=1)
-        def b_func(model):
-            with torch.no_grad():
-                return inference(
-                          args,
-                          model,
-                          best_acc_test,
-                          best_auc_test,
-                          test_ld,
-                          trace=args.int8
-                        )
-        benchmark.fit(dlrm, b_conf, b_func=b_func)
-        exit(0)
-
-    if args.accuracy_only:
-        with torch.no_grad():
-            inference(
-                  args,
-                  dlrm,
-                  best_acc_test,
-                  best_auc_test,
-                  test_ld,
-                  trace=args.int8
-                  )
-        exit(0)
-
 
     if args.bf16 and not args.inference_only:
         for j, inputBatch in enumerate(train_ld):
