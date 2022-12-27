@@ -845,6 +845,12 @@ class GraphRewriterHelper():
                                      max_filter_tensor, min_filter_tensor,
                                      activation_range, weights_range=127.0):
         bias_length = bias_tensor.shape[0]
+        print("max_input: {}".format(max_input))
+        print("min_input: {}".format(min_input))
+        print("max_filter_tensor: {}".format(max_filter_tensor))
+        print("min_filter_tensor: {}".format(min_filter_tensor))
+        print("activation_range: {}".format(activation_range))
+        print("weights_range: {}".format(weights_range))
         scales = []
         if len(max_filter_tensor) > 1:
             for i in range(channel_size):
@@ -857,6 +863,8 @@ class GraphRewriterHelper():
                             (max(abs(max_input), abs(min_input)) *
                             max(abs(max_filter_tensor[0]), abs(min_filter_tensor[0]))))
         int32_bias = []
+        print("bias_tensor: {}".format(bias_tensor))
+        print("scales: {}".format(scales))
         if channel_size > 1:
             for i in range(bias_length):
                 int32_bias.append((int)(np.around(bias_tensor[i] * scales[i])))
