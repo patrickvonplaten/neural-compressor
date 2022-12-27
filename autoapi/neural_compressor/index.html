@@ -376,6 +376,18 @@
 <li class="toctree-l2"><a class="reference internal" href="strategy/strategy/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.strategy.strategy</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/collect_layer_histogram/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils.collect_layer_histogram</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/constant/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils.constant</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/create_obj_from_config/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils.create_obj_from_config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/kl_divergence/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils.kl_divergence</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/load_huggingface/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils.load_huggingface</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/logger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils.logger</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/options/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils.options</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pytorch/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils.pytorch</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/utility/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.utils.utility</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ux/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.ux</span></code></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ux/components/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.ux.components</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="ux/components/benchmark/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.ux.components.benchmark</span></code></a></li>
@@ -447,6 +459,22 @@
 </tr>
 </tbody>
 </table>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.set_random_seed" title="neural_compressor.set_random_seed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_random_seed</span></code></a>(seed)</p></td>
+<td><p>Set the random seed in config.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.set_tensorboard" title="neural_compressor.set_tensorboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_tensorboard</span></code></a>(tensorboard)</p></td>
+<td><p>Set the tensorboard in config.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.set_workspace" title="neural_compressor.set_workspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_workspace</span></code></a>(workspace)</p></td>
+<td><p>Set the workspace in config.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.Benchmark">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">Benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf_fname_or_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.Benchmark" title="Permalink to this definition">¶</a></dt>
@@ -462,6 +490,24 @@ Benchmark_Conf class containing accuracy goal, tuning objective and preferred
 calibration &amp; quantization tuning space etc.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.set_random_seed">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">set_random_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.set_random_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the random seed in config.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.set_tensorboard">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">set_tensorboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensorboard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.set_tensorboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the tensorboard in config.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neural_compressor.set_workspace">
+<span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">set_workspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workspace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.set_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the workspace in config.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -520,11 +566,18 @@ Defaults to None.</p></li>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor</span></code></a><ul>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
 <li><a class="reference internal" href="#neural_compressor.Benchmark"><code class="docutils literal notranslate"><span class="pre">Benchmark</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.set_random_seed"><code class="docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.set_tensorboard"><code class="docutils literal notranslate"><span class="pre">set_tensorboard()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.set_workspace"><code class="docutils literal notranslate"><span class="pre">set_workspace()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.DistillationConfig"><code class="docutils literal notranslate"><span class="pre">DistillationConfig</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.WeightPruningConfig"><code class="docutils literal notranslate"><span class="pre">WeightPruningConfig</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.Benchmark">Benchmark</a></li>
+<li><a class="reference internal" href="#neural_compressor.set_random_seed">set_random_seed</a></li>
+<li><a class="reference internal" href="#neural_compressor.set_tensorboard">set_tensorboard</a></li>
+<li><a class="reference internal" href="#neural_compressor.set_workspace">set_workspace</a></li>
 <li><a class="reference internal" href="#neural_compressor.DistillationConfig">DistillationConfig</a></li>
 <li><a class="reference internal" href="#neural_compressor.WeightPruningConfig">WeightPruningConfig</a></li>
 </ul>

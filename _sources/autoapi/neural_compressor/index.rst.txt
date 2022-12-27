@@ -19,6 +19,7 @@ Subpackages
    model/index.rst
    pruner/index.rst
    strategy/index.rst
+   utils/index.rst
    ux/index.rst
 
 
@@ -36,6 +37,16 @@ Classes
 
 
 
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   neural_compressor.set_random_seed
+   neural_compressor.set_tensorboard
+   neural_compressor.set_workspace
+
+
 
 .. py:class:: Benchmark(conf_fname_or_obj)
 
@@ -48,6 +59,21 @@ Classes
                              Benchmark_Conf class containing accuracy goal, tuning objective and preferred
                              calibration & quantization tuning space etc.
    :type conf_fname_or_obj: string or obj
+
+
+.. py:function:: set_random_seed(seed: int)
+
+   Set the random seed in config.
+
+
+.. py:function:: set_tensorboard(tensorboard: bool)
+
+   Set the tensorboard in config.
+
+
+.. py:function:: set_workspace(workspace: str)
+
+   Set the workspace in config.
 
 
 .. py:class:: DistillationConfig(teacher_model=None, criterion=criterion, optimizer={'SGD': {'learning_rate': 0.0001}})
