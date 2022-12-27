@@ -52,6 +52,6 @@ Functions
    :type config: BenchmarkConfig
    :param b_dataloader: The dataloader for frameworks.
    :param b_func: customized benchmark function. if user passes the dataloader,
-                  than b_func is not needed.
+                  then b_func is not needed.
 
 
