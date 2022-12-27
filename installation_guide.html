@@ -214,11 +214,24 @@
               
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
+<ol>
+<li><p><a class="reference external" href="#Linux-Installation">Linux Installation</a></p>
+<p>1.1. <a class="reference external" href="#Prerequisites">Prerequisites</a></p>
+<p>1.2. <a class="reference external" href="#Option-1-Install-from-Binary">Option 1 Install from Binary</a></p>
+<p>1.3. <a class="reference external" href="#Option-2-Install-from-Source">Option 2 Install from Source</a></p>
+<p>1.4. <a class="reference external" href="#Option-3-Install-from-AI-Kit">Option 3 Install from AI Kit</a></p>
+</li>
+<li><p><a class="reference external" href="#Windows-Installation">Windows Installation</a></p>
+<p>2.1. <a class="reference external" href="#Prerequisites">Prerequisites</a></p>
+<p>2.2. <a class="reference external" href="#Option-1-Install-from-Binary-1">Option 1 Install from Binary</a></p>
+<p>2.3. <a class="reference external" href="#Option-2-Install-from-Source-1">Option 2 Install from Source</a></p>
+</li>
+</ol>
 <section id="linux-installation">
 <h2>Linux Installation<a class="headerlink" href="#linux-installation" title="Permalink to this heading">¶</a></h2>
 <section id="prerequisites">
 <h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">¶</a></h3>
-<p>You can install Neural Compressor using one of three options: Install only the library
+<p>You can install Neural Compressor using one of three options: Install single component
 from binary or source, or get the Intel-optimized framework together with the
 library by installing the <a class="reference external" href="https://software.intel.com/content/www/us/en/develop/tools/oneapi/ai-analytics-toolkit.html">Intel® oneAPI AI Analytics Toolkit</a>.</p>
 <p>The following prerequisites and requirements must be satisfied for a successful installation:</p>
@@ -226,14 +239,18 @@ library by installing the <a class="reference external" href="https://software.i
 <li><p>Python version: 3.7 or 3.8 or 3.9 or 3.10</p></li>
 </ul>
 <blockquote>
-<div><p>If you get some build issues, please check <a class="reference internal" href="faq.html"><span class="doc">frequently asked questions</span></a> at first.</p>
+<div><p>Notes:</p>
+<ul class="simple">
+<li><p>Please choose one of the basic or full installation mode for your environment, <strong>DO NOT</strong> install both. If you want to re-install with the other mode, please uninstall the current package at first.</p></li>
+<li><p>If you get some build issues, please check <a class="reference internal" href="faq.html"><span class="doc">frequently asked questions</span></a> at first.</p></li>
+</ul>
 </div></blockquote>
 </section>
 <section id="option-1-install-from-binary">
-<h3>Option 1 Install from binary<a class="headerlink" href="#option-1-install-from-binary" title="Permalink to this heading">¶</a></h3>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># install stable basic version from pip</span>
+<h3>Option 1 Install from Binary<a class="headerlink" href="#option-1-install-from-binary" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># install stable basic version from pypi</span>
 pip install neural-compressor
-<span class="c1"># install stable full version from pip (including GUI)</span>
+<span class="c1"># or install stable full version from pypi (including GUI)</span>
 pip install neural-compressor-full
 </pre></div>
 </div>
@@ -241,22 +258,22 @@ pip install neural-compressor-full
 git clone https://github.com/intel/neural-compressor.git
 <span class="nb">cd</span> neural-compressor
 pip install -r requirements.txt
-<span class="c1"># install nightly basic version from pip</span>
+<span class="c1"># install nightly basic version from pypi</span>
 pip install -i https://test.pypi.org/simple/ neural-compressor
-<span class="c1"># install nightly full version from pip (including GUI)</span>
+<span class="c1"># or install nightly full version from pypi (including GUI)</span>
 pip install -i https://test.pypi.org/simple/ neural-compressor-full
 </pre></div>
 </div>
 <div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># install stable basic version from from conda</span>
 conda install neural-compressor -c conda-forge -c intel
-<span class="c1"># install stable full version from from conda (including GUI)</span>
+<span class="c1"># or install stable full version from from conda (including GUI)</span>
 conda install <span class="nv">sqlalchemy</span><span class="o">=</span><span class="m">1</span>.4.27 <span class="nv">alembic</span><span class="o">=</span><span class="m">1</span>.7.7 -c conda-forge
 conda install neural-compressor-full -c conda-forge -c intel
 </pre></div>
 </div>
 </section>
 <section id="option-2-install-from-source">
-<h3>Option 2 Install from source<a class="headerlink" href="#option-2-install-from-source" title="Permalink to this heading">¶</a></h3>
+<h3>Option 2 Install from Source<a class="headerlink" href="#option-2-install-from-source" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/intel/neural-compressor.git
 <span class="nb">cd</span> neural-compressor
 pip install -r requirements.txt
@@ -307,22 +324,32 @@ for post-installation instructions.</p>
 </ul>
 </section>
 <section id="id2">
-<h3>Option 1 Install from binary<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
-<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># install stable version from pip</span>
+<h3>Option 1 Install from Binary<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># install stable basic version from pypi</span>
 pip install neural-compressor
-
-<span class="c1"># install from conda</span>
+<span class="c1"># or install stable full version from pypi (including GUI)</span>
+pip install neural-compressor-full
+</pre></div>
+</div>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># install stable basic version from from conda</span>
 conda install pycocotools -c esri   
 conda install neural-compressor -c conda-forge -c intel
+<span class="c1"># or install stable full version from from conda (including GUI)</span>
+conda install pycocotools -c esri   
+conda install <span class="nv">sqlalchemy</span><span class="o">=</span><span class="m">1</span>.4.27 <span class="nv">alembic</span><span class="o">=</span><span class="m">1</span>.7.7 -c conda-forge
+conda install neural-compressor-full -c conda-forge -c intel
 </pre></div>
 </div>
 </section>
 <section id="id3">
-<h3>Option 2 Install from source<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/intel/neural-compressor.git
-<span class="nb">cd</span> neural-compressor
-pip install -r requirements.txt
-python setup.py install
+<h3>Option 2 Install from Source<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-Shell notranslate"><div class="highlight"><pre><span></span>  git clone https://github.com/intel/neural-compressor.git
+  <span class="nb">cd</span> neural-compressor
+  pip install -r requirements.txt
+  <span class="c1"># build with basic functionality</span>
+  python setup.py install
+  <span class="c1"># build with full functionality (including GUI)</span>
+  python setup.py --full install
 </pre></div>
 </div>
 </section>
@@ -358,15 +385,15 @@ python setup.py install
 <li><a class="reference internal" href="#">Installation</a><ul>
 <li><a class="reference internal" href="#linux-installation">Linux Installation</a><ul>
 <li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
-<li><a class="reference internal" href="#option-1-install-from-binary">Option 1 Install from binary</a></li>
-<li><a class="reference internal" href="#option-2-install-from-source">Option 2 Install from source</a></li>
+<li><a class="reference internal" href="#option-1-install-from-binary">Option 1 Install from Binary</a></li>
+<li><a class="reference internal" href="#option-2-install-from-source">Option 2 Install from Source</a></li>
 <li><a class="reference internal" href="#option-3-install-from-ai-kit">Option 3 Install from AI Kit</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#windows-installation">Windows Installation</a><ul>
 <li><a class="reference internal" href="#id1">Prerequisites</a></li>
-<li><a class="reference internal" href="#id2">Option 1 Install from binary</a></li>
-<li><a class="reference internal" href="#id3">Option 2 Install from source</a></li>
+<li><a class="reference internal" href="#id2">Option 1 Install from Binary</a></li>
+<li><a class="reference internal" href="#id3">Option 2 Install from Source</a></li>
 </ul>
 </li>
 </ul>
