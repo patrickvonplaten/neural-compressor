@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.model.keras_model`
 =============================================
 
 .. py:module:: neural_compressor.model.keras_model
+
+.. autoapi-nested-parse::
+
+   Class for Keras model.
+
 
 
 Module Contents
@@ -23,41 +26,30 @@ Classes
 
    Bases: :py:obj:`neural_compressor.model.base_model.BaseModel`
 
-   Build KerasModel object
+   Build Keras model.
 
-   :param model: model path or model object
-   :type model: string or keras model object
-   :param kwargs: other required parameters
-   :type kwargs: dict
+   .. py:property:: q_config
+
+      Return q_config.
 
    .. py:property:: model
 
-      return model itself
+      Return model itself.
 
    .. py:property:: graph_info
 
-      'conv2d'}
-
-      :type: return {Node
-
-      :type: Node_type} like {'conv0'
+      Return graph info.
 
    .. py:method:: save(root, *args, **kwargs)
       :abstractmethod:
 
-      abstract method of model saving
-
-
-   .. py:method:: export(save_path: str, conf)
-      :abstractmethod:
-
-      abstract method of model convertion to ONNX
+      Save Keras model.
 
 
    .. py:method:: framework()
       :abstractmethod:
 
-      abstract method of model framework
+      Return framework.
 
 
 

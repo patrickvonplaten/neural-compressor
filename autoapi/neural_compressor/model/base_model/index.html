@@ -214,6 +214,7 @@
               
   <section id="module-neural_compressor.model.base_model">
 <span id="neural-compressor-model-base-model"></span><h1><a class="reference internal" href="#module-neural_compressor.model.base_model" title="neural_compressor.model.base_model"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.base_model</span></code></a><a class="headerlink" href="#module-neural_compressor.model.base_model" title="Permalink to this heading">¶</a></h1>
+<p>Base model for multiple framework backends.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
@@ -221,30 +222,27 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.model.base_model.BaseModel" title="neural_compressor.model.base_model.BaseModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p></td>
-<td><p>base class of all neural_compressor.model, will play graph role</p></td>
+<td><p>Base class of all neural_compressor.model, will play graph role.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.model.base_model.BaseModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.base_model.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.base_model.BaseModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>base class of all neural_compressor.model, will play graph role</p>
+<dd><p>Base class of all neural_compressor.model, will play graph role.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="neural_compressor.model.base_model.BaseModel.model">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#neural_compressor.model.base_model.BaseModel.model" title="Permalink to this definition">¶</a></dt>
-<dd><p>return model itself</p>
+<dd><p>Return model itself.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neural_compressor.model.base_model.BaseModel.graph_info">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">graph_info</span></span><a class="headerlink" href="#neural_compressor.model.base_model.BaseModel.graph_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>‘conv2d’}</p>
+<dd><p>Node_type’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>return {Node</p>
-</dd>
-<dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Node_type} like {‘conv0’</p>
+<dd class="field-odd"><p>Return a dict with content ‘Node</p>
 </dd>
 </dl>
 </dd></dl>
@@ -252,19 +250,19 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.model.base_model.BaseModel.save">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.base_model.BaseModel.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>abstract method of model saving</p>
+<dd><p>Abstract method of model saving.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.model.base_model.BaseModel.export">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.base_model.BaseModel.export" title="Permalink to this definition">¶</a></dt>
-<dd><p>abstract method of model convertion to ONNX</p>
+<dd><p>Abstract method of model convertion to ONNX.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.model.base_model.BaseModel.framework">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">framework</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.base_model.BaseModel.framework" title="Permalink to this definition">¶</a></dt>
-<dd><p>abstract method of model framework</p>
+<dd><p>Abstract method of model framework.</p>
 </dd></dl>
 
 </dd></dl>

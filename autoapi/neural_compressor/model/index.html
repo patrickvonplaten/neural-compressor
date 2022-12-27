@@ -214,6 +214,22 @@
               
   <section id="module-neural_compressor.model">
 <span id="neural-compressor-model"></span><h1><a class="reference internal" href="#module-neural_compressor.model" title="neural_compressor.model"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model</span></code></a><a class="headerlink" href="#module-neural_compressor.model" title="Permalink to this heading">¶</a></h1>
+<p>Built-in model for multiple framework backends.</p>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="base_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.base_model</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="keras_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.keras_model</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.model</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mxnet_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.mxnet_model</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets_factory/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.nets_factory</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="onnx_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.onnx_model</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tensorflow_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.tensorflow_model</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="torch_model/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.torch_model</span></code></a></li>
+</ul>
+</div>
+</section>
 <section id="package-contents">
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
@@ -221,10 +237,10 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.model.Model" title="neural_compressor.model.Model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Model</span></code></a></p></td>
-<td><p>A wrapper of the information needed to construct a Model.</p></td>
+<td><p>A wrapper to construct a Neural Compressor Model.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.model.BaseModel" title="neural_compressor.model.BaseModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p></td>
-<td><p>base class of all neural_compressor.model, will play graph role</p></td>
+<td><p>Base class of all neural_compressor.model, will play graph role.</p></td>
 </tr>
 </tbody>
 </table>
@@ -242,29 +258,26 @@
 <dt class="sig sig-object py" id="neural_compressor.model.Model">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><a class="headerlink" href="#neural_compressor.model.Model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A wrapper of the information needed to construct a Model.</p>
+<p>A wrapper to construct a Neural Compressor Model.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.model.BaseModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.BaseModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>base class of all neural_compressor.model, will play graph role</p>
+<dd><p>Base class of all neural_compressor.model, will play graph role.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="neural_compressor.model.BaseModel.model">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#neural_compressor.model.BaseModel.model" title="Permalink to this definition">¶</a></dt>
-<dd><p>return model itself</p>
+<dd><p>Return model itself.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neural_compressor.model.BaseModel.graph_info">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">graph_info</span></span><a class="headerlink" href="#neural_compressor.model.BaseModel.graph_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>‘conv2d’}</p>
+<dd><p>Node_type’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>return {Node</p>
-</dd>
-<dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Node_type} like {‘conv0’</p>
+<dd class="field-odd"><p>Return a dict with content ‘Node</p>
 </dd>
 </dl>
 </dd></dl>
@@ -272,19 +285,19 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.model.BaseModel.save">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.BaseModel.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>abstract method of model saving</p>
+<dd><p>Abstract method of model saving.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.model.BaseModel.export">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.BaseModel.export" title="Permalink to this definition">¶</a></dt>
-<dd><p>abstract method of model convertion to ONNX</p>
+<dd><p>Abstract method of model convertion to ONNX.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.model.BaseModel.framework">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">framework</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.BaseModel.framework" title="Permalink to this definition">¶</a></dt>
-<dd><p>abstract method of model framework</p>
+<dd><p>Abstract method of model framework.</p>
 </dd></dl>
 
 </dd></dl>
@@ -320,6 +333,7 @@
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model</span></code></a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#attributes">Attributes</a><ul>

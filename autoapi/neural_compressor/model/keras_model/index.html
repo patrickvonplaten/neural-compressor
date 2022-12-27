@@ -214,6 +214,7 @@
               
   <section id="module-neural_compressor.model.keras_model">
 <span id="neural-compressor-model-keras-model"></span><h1><a class="reference internal" href="#module-neural_compressor.model.keras_model" title="neural_compressor.model.keras_model"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.model.keras_model</span></code></a><a class="headerlink" href="#module-neural_compressor.model.keras_model" title="Permalink to this heading">¶</a></h1>
+<p>Class for Keras model.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
@@ -221,7 +222,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel" title="neural_compressor.model.keras_model.KerasModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KerasModel</span></code></a></p></td>
-<td><p>Build KerasModel object</p></td>
+<td><p>Build Keras model.</p></td>
 </tr>
 </tbody>
 </table>
@@ -229,51 +230,35 @@
 <dt class="sig sig-object py" id="neural_compressor.model.keras_model.KerasModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.model.keras_model.</span></span><span class="sig-name descname"><span class="pre">KerasModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.keras_model.KerasModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base_model/index.html#neural_compressor.model.base_model.BaseModel" title="neural_compressor.model.base_model.BaseModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.model.base_model.BaseModel</span></code></a></p>
-<p>Build KerasModel object</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>string</em><em> or </em><em>keras model object</em>) – model path or model object</p></li>
-<li><p><strong>kwargs</strong> (<em>dict</em>) – other required parameters</p></li>
-</ul>
-</dd>
-</dl>
+<p>Build Keras model.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.model.keras_model.KerasModel.q_config">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">q_config</span></span><a class="headerlink" href="#neural_compressor.model.keras_model.KerasModel.q_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return q_config.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="neural_compressor.model.keras_model.KerasModel.model">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#neural_compressor.model.keras_model.KerasModel.model" title="Permalink to this definition">¶</a></dt>
-<dd><p>return model itself</p>
+<dd><p>Return model itself.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neural_compressor.model.keras_model.KerasModel.graph_info">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">graph_info</span></span><a class="headerlink" href="#neural_compressor.model.keras_model.KerasModel.graph_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>‘conv2d’}</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>return {Node</p>
-</dd>
-<dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Node_type} like {‘conv0’</p>
-</dd>
-</dl>
+<dd><p>Return graph info.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.model.keras_model.KerasModel.save">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.keras_model.KerasModel.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>abstract method of model saving</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.model.keras_model.KerasModel.export">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.keras_model.KerasModel.export" title="Permalink to this definition">¶</a></dt>
-<dd><p>abstract method of model convertion to ONNX</p>
+<dd><p>Save Keras model.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.model.keras_model.KerasModel.framework">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">framework</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.model.keras_model.KerasModel.framework" title="Permalink to this definition">¶</a></dt>
-<dd><p>abstract method of model framework</p>
+<dd><p>Return framework.</p>
 </dd></dl>
 
 </dd></dl>
@@ -312,18 +297,18 @@
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a><ul>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel"><code class="docutils literal notranslate"><span class="pre">KerasModel</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.q_config"><code class="docutils literal notranslate"><span class="pre">KerasModel.q_config</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.model"><code class="docutils literal notranslate"><span class="pre">KerasModel.model</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.graph_info"><code class="docutils literal notranslate"><span class="pre">KerasModel.graph_info</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.save"><code class="docutils literal notranslate"><span class="pre">KerasModel.save()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.export"><code class="docutils literal notranslate"><span class="pre">KerasModel.export()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.framework"><code class="docutils literal notranslate"><span class="pre">KerasModel.framework()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel">KerasModel</a><ul>
+<li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.q_config">q_config</a></li>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.model">model</a></li>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.graph_info">graph_info</a></li>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.save">save</a></li>
-<li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.export">export</a></li>
 <li><a class="reference internal" href="#neural_compressor.model.keras_model.KerasModel.framework">framework</a></li>
 </ul>
 </li>

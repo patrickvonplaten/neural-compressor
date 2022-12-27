@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor.model.model`
 =======================================
 
 .. py:module:: neural_compressor.model.model
+
+.. autoapi-nested-parse::
+
+   Model for multiple framework backends.
+
 
 
 Module Contents
@@ -29,7 +32,8 @@ Functions
 
 .. py:function:: get_model_fwk_name(model)
 
-   Detect the input model belongs to which framework
+   Detect the input model belongs to which framework.
+
    :param model: framework name that supported by Neural Compressor, if there's no available fwk info,
                  then return 'NA'.
    :type model: string
@@ -39,6 +43,6 @@ Functions
 
    Bases: :py:obj:`object`
 
-   A wrapper of the information needed to construct a Model.
+   A wrapper to construct a Neural Compressor Model.
 
 
