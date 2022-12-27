@@ -9,6 +9,15 @@
 
 
 
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   pruner_legacy/index.rst
+
+
 Submodules
 ----------
 .. toctree::

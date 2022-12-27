@@ -214,6 +214,66 @@
               
   <section id="module-neural_compressor.pruner.pruner_legacy.magnitude">
 <span id="neural-compressor-pruner-pruner-legacy-magnitude"></span><h1><a class="reference internal" href="#module-neural_compressor.pruner.pruner_legacy.magnitude" title="neural_compressor.pruner.pruner_legacy.magnitude"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.pruner_legacy.magnitude</span></code></a><a class="headerlink" href="#module-neural_compressor.pruner.pruner_legacy.magnitude" title="Permalink to this heading">¶</a></h1>
+<p>Magnitude pruner.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner" title="neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BasicMagnitudePruner</span></code></a></p></td>
+<td><p>Magnitude pruner class.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.pruner_legacy.magnitude.</span></span><span class="sig-name descname"><span class="pre">BasicMagnitudePruner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../pruner/index.html#neural_compressor.pruner.pruner_legacy.pruner.Pruner" title="neural_compressor.pruner.pruner_legacy.pruner.Pruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.pruner.pruner_legacy.pruner.Pruner</span></code></a></p>
+<p>Magnitude pruner class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>object</em>) – The original model (currently PyTorchModel instance).</p></li>
+<li><p><strong>local_config</strong> (<a class="reference internal" href="../../../conf/config/index.html#neural_compressor.conf.config.Conf" title="neural_compressor.conf.config.Conf"><em>Conf</em></a>) – configs specific for this pruning instance.</p></li>
+<li><p><strong>global_config</strong> (<a class="reference internal" href="../../../conf/config/index.html#neural_compressor.conf.config.Conf" title="neural_compressor.conf.config.Conf"><em>Conf</em></a>) – global configs which may be overwritten by local_config.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_epoch_begin">
+<span class="sig-name descname"><span class="pre">on_epoch_begin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_epoch_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update target sparsity according to the schedule and compute mask accordingly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_step_begin">
+<span class="sig-name descname"><span class="pre">on_step_begin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_step_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply mask to the weight.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.compute_mask">
+<span class="sig-name descname"><span class="pre">compute_mask</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.compute_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute masks according to absolute values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_epoch_end">
+<span class="sig-name descname"><span class="pre">on_epoch_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_epoch_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sparsity ratio summary and apply mask to the weight.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_step_end">
+<span class="sig-name descname"><span class="pre">on_step_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_step_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply mask to the weight.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
 </section>
 
 
@@ -242,7 +302,31 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.pruner_legacy.magnitude</span></code></a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.pruner_legacy.magnitude</span></code></a><ul>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner"><code class="docutils literal notranslate"><span class="pre">BasicMagnitudePruner</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_epoch_begin"><code class="docutils literal notranslate"><span class="pre">BasicMagnitudePruner.on_epoch_begin()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_step_begin"><code class="docutils literal notranslate"><span class="pre">BasicMagnitudePruner.on_step_begin()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.compute_mask"><code class="docutils literal notranslate"><span class="pre">BasicMagnitudePruner.compute_mask()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_epoch_end"><code class="docutils literal notranslate"><span class="pre">BasicMagnitudePruner.on_epoch_end()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_step_end"><code class="docutils literal notranslate"><span class="pre">BasicMagnitudePruner.on_step_end()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner">BasicMagnitudePruner</a><ul>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_epoch_begin">on_epoch_begin</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_step_begin">on_step_begin</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.compute_mask">compute_mask</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_epoch_end">on_epoch_end</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner.on_step_end">on_step_end</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             </div>

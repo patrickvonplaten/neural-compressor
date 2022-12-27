@@ -214,6 +214,42 @@
               
   <section id="module-neural_compressor.pruner.pruner_legacy.group_lasso">
 <span id="neural-compressor-pruner-pruner-legacy-group-lasso"></span><h1><a class="reference internal" href="#module-neural_compressor.pruner.pruner_legacy.group_lasso" title="neural_compressor.pruner.pruner_legacy.group_lasso"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.pruner_legacy.group_lasso</span></code></a><a class="headerlink" href="#module-neural_compressor.pruner.pruner_legacy.group_lasso" title="Permalink to this heading">¶</a></h1>
+<p>Group Lasso pruner.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner" title="neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GroupLassoPruner</span></code></a></p></td>
+<td><p>Group Lasso pruner class.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.pruner.pruner_legacy.group_lasso.</span></span><span class="sig-name descname"><span class="pre">GroupLassoPruner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../magnitude/index.html#neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner" title="neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neural_compressor.pruner.pruner_legacy.magnitude.BasicMagnitudePruner</span></code></a></p>
+<p>Group Lasso pruner class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>object</em>) – The original model (currently PyTorchModel instance).</p></li>
+<li><p><strong>local_config</strong> (<a class="reference internal" href="../../../conf/config/index.html#neural_compressor.conf.config.Conf" title="neural_compressor.conf.config.Conf"><em>Conf</em></a>) – configs specific for this pruning instance.</p></li>
+<li><p><strong>global_config</strong> (<a class="reference internal" href="../../../conf/config/index.html#neural_compressor.conf.config.Conf" title="neural_compressor.conf.config.Conf"><em>Conf</em></a>) – global configs which may be overwritten by local_config.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner.on_before_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_before_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner.on_before_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update gradient to prune the weights by back propagation.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
 </section>
 
 
@@ -242,7 +278,23 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.pruner_legacy.group_lasso</span></code></a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.pruner.pruner_legacy.group_lasso</span></code></a><ul>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner"><code class="docutils literal notranslate"><span class="pre">GroupLassoPruner</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner.on_before_optimizer_step"><code class="docutils literal notranslate"><span class="pre">GroupLassoPruner.on_before_optimizer_step()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner">GroupLassoPruner</a><ul>
+<li><a class="reference internal" href="#neural_compressor.pruner.pruner_legacy.group_lasso.GroupLassoPruner.on_before_optimizer_step">on_before_optimizer_step</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             </div>
