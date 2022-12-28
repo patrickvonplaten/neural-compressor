@@ -214,6 +214,7 @@
               
   <section id="module-neural_compressor.training">
 <span id="neural-compressor-training"></span><h1><a class="reference internal" href="#module-neural_compressor.training" title="neural_compressor.training"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.training</span></code></a><a class="headerlink" href="#module-neural_compressor.training" title="Permalink to this heading">¶</a></h1>
+<p>The configuration of the training loop.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">¶</a></h2>
 <section id="classes">
@@ -231,7 +232,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.training.prepare_compression" title="neural_compressor.training.prepare_compression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_compression</span></code></a>(model, confs, **kwargs)</p></td>
-<td><p>_summary_</p></td>
+<td><p>Summary.</p></td>
 </tr>
 </tbody>
 </table>
@@ -269,6 +270,66 @@ compression_manager.callbacks.on_step_end()</p>
 </div></blockquote>
 <p>compression_manager.callbacks.on_train_end()
 compression_manager.save(“path_to_save”)</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CallBacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the basic command for the training loop.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks.on_train_begin">
+<span class="sig-name descname"><span class="pre">on_train_begin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks.on_train_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called before the beginning of epochs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks.on_train_end">
+<span class="sig-name descname"><span class="pre">on_train_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks.on_train_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after the end of epochs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks.on_epoch_begin">
+<span class="sig-name descname"><span class="pre">on_epoch_begin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks.on_epoch_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on the beginning of epochs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks.on_step_begin">
+<span class="sig-name descname"><span class="pre">on_step_begin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks.on_step_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on the beginning of batches.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks.on_after_compute_loss">
+<span class="sig-name descname"><span class="pre">on_after_compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">student_output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">student_loss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teacher_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks.on_after_compute_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on the end of loss computation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks.on_before_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_before_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks.on_before_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on the end of backward.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks.on_after_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_after_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks.on_after_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on the end of backward.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks.on_step_end">
+<span class="sig-name descname"><span class="pre">on_step_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks.on_step_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on the end of batches.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.CallBacks.on_epoch_end">
+<span class="sig-name descname"><span class="pre">on_epoch_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.CallBacks.on_epoch_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on the end of epochs.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.save" title="Permalink to this definition">¶</a></dt>
@@ -284,7 +345,14 @@ compression_manager.save(“path_to_save”)</p>
 <dt class="sig sig-object py" id="neural_compressor.training.CompressionManager.export">
 <span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.CompressionManager.export" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the model to another type model, like <cite>onnx</cite> model and so on.</p>
-<p>Args:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_path</strong> (<em>str</em>) – The path to save the model</p></li>
+<li><p><strong>conf</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><em>List</em><em>]</em>) – The configure for onnx exportation.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -292,12 +360,12 @@ compression_manager.save(“path_to_save”)</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neural_compressor.training.prepare_compression">
 <span class="sig-prename descclassname"><span class="pre">neural_compressor.training.</span></span><span class="sig-name descname"><span class="pre">prepare_compression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.training.prepare_compression" title="Permalink to this definition">¶</a></dt>
-<dd><p>_summary_</p>
+<dd><p>Summary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>Callable</em><em>, </em><em>optional</em>) – model to optimize.</p></li>
-<li><p><strong>confs</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><em>List</em><em>]</em>) – config of Distillation, Quantization, Pruning,
+<li><p><strong>model</strong> (<em>Callable</em><em>, </em><em>optional</em>) – The model to optimize.</p></li>
+<li><p><strong>confs</strong> (<em>Union</em><em>[</em><em>Callable</em><em>, </em><em>List</em><em>]</em>) – Config of Distillation, Quantization, Pruning,
 or list of config for orchestration optimization</p></li>
 <li><p><strong>options</strong> (<em>Options</em><em>, </em><em>optional</em>) – The configure for random_seed, workspace,
 resume path and tensorboard flag.</p></li>
@@ -367,12 +435,36 @@ compression_manager.on_step_end()</p>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a><ul>
 <li><a class="reference internal" href="#neural_compressor.training.CompressionManager"><code class="docutils literal notranslate"><span class="pre">CompressionManager</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_train_begin"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks.on_train_begin()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_train_end"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks.on_train_end()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_epoch_begin"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks.on_epoch_begin()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_step_begin"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks.on_step_begin()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_after_compute_loss"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks.on_after_compute_loss()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_before_optimizer_step"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks.on_before_optimizer_step()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_after_optimizer_step"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks.on_after_optimizer_step()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_step_end"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks.on_step_end()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_epoch_end"><code class="docutils literal notranslate"><span class="pre">CompressionManager.CallBacks.on_epoch_end()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.training.CompressionManager.save"><code class="docutils literal notranslate"><span class="pre">CompressionManager.save()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.export"><code class="docutils literal notranslate"><span class="pre">CompressionManager.export()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.export"><code class="docutils literal notranslate"><span class="pre">CompressionManager.export()</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_train_begin">on_train_begin</a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_train_end">on_train_end</a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_epoch_begin">on_epoch_begin</a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_step_begin">on_step_begin</a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_after_compute_loss">on_after_compute_loss</a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_before_optimizer_step">on_before_optimizer_step</a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_after_optimizer_step">on_after_optimizer_step</a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_step_end">on_step_end</a></li>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks.on_epoch_end">on_epoch_end</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.training.prepare_compression"><code class="docutils literal notranslate"><span class="pre">prepare_compression()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.training.CompressionManager">CompressionManager</a><ul>
+<li><a class="reference internal" href="#neural_compressor.training.CompressionManager.CallBacks">CallBacks</a></li>
 <li><a class="reference internal" href="#neural_compressor.training.CompressionManager.save">save</a></li>
 <li><a class="reference internal" href="#neural_compressor.training.CompressionManager.export">export</a></li>
 </ul>
