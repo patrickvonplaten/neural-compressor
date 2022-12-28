@@ -677,6 +677,7 @@ class HessianTraceEstimator:
         It's calculated  between mean average trace from previous iteration and current one.
         :return: Tensor with average hessian trace per parameter
         """
+        print(f'# max_iter={max_iter} tolerance={tolerance}')
         avg_total_trace = 0.
         avg_traces_per_iter = []  # type: List[Tensor]
         mean_avg_traces_per_param = None
@@ -743,7 +744,7 @@ def hawq_top(fp32_model,q_model,dataloader,criterion,enable_act):
                                                   criterion=torch.nn.CrossEntropyLoss(),
                                                   device='cpu',
                                                   data_loader=dataloader)
-        mean_avg_traces_per_param = hessian_trace_est.get_average_traces()
+        mean_avg_traces_per_param = hessian_trace_est.get_average_traces(tolerance=1e-4)
         trace_records = {}
         index = -1
         for name, p in fused_model.named_parameters():
