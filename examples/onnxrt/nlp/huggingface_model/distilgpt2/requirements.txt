@@ -7,4 +7,3 @@ coloredlogs
 torch
 sympy
 onnxruntime-extensions; python_version < '3.10'
-numpy==1.23.5

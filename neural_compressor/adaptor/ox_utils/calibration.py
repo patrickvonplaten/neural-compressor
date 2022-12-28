@@ -225,6 +225,7 @@ class ONNXRTAugment:
                     inputs if isinstance(inputs, dict) else {inputs_names[0]: inputs}
                 )
             else:
+                inputs = inputs[:len_inputs]
                 assert len_inputs == len(inputs), \
                     'number of input tensors must align with graph inputs'
                 if isinstance(inputs, dict):  # pragma: no cover

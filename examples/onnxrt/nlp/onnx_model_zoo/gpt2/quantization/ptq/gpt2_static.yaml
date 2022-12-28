@@ -5,7 +5,6 @@ model:                                               # mandatory. used to specif
   framework: onnxrt_qlinearops                       # mandatory. possible values are tensorflow, mxnet, pytorch, pytorch_ipex, onnxrt_integerops and onnxrt_qlinearops.
 
 quantization:
-  optimization_level: 0
   approach: post_training_static_quant              # optional. default value is post_training_static_quant.
 
   op_wise: {

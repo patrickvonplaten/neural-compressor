@@ -8,7 +8,7 @@ function main {
 
 # init params
 function init_params {
-  gpt2_yaml="./gpt2.yaml"
+  gpt2_yaml="./gpt2_static.yaml"
   for var in "$@"
   do
     case $var in
