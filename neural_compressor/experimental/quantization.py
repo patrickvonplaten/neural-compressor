@@ -386,8 +386,6 @@ class Quantization(Component):
         deep_set(
             self.conf.usr_cfg, "evaluation.accuracy.postprocess.transform", postprocess_cfg)
         from .data import TRANSFORMS
-        # from neural_compressor.data import TRANSFORMS
-        print("......quantization:postprocess")
         postprocesses = TRANSFORMS(self.framework, 'postprocess')
         postprocesses.register(user_postprocess.name, user_postprocess.postprocess_cls)
 
