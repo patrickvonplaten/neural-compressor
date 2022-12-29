@@ -288,6 +288,12 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neural_compressor.pruner.criteria.PruningCriterion.on_before_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_before_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.criteria.PruningCriterion.on_before_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate and store the pruning scores of pruning modules before the optimizer step.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neural_compressor.pruner.criteria.PruningCriterion.on_after_optimizer_step">
 <span class="sig-name descname"><span class="pre">on_after_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.criteria.PruningCriterion.on_after_optimizer_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate and store the pruning scores of pruning modules after the optimizer step.</p>
@@ -346,8 +352,8 @@ The absolute value of gradient is used to score and determine if a weight is to 
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.pruner.criteria.GradientCriterion.on_after_optimizer_step">
-<span class="sig-name descname"><span class="pre">on_after_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.criteria.GradientCriterion.on_after_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.pruner.criteria.GradientCriterion.on_before_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_before_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.criteria.GradientCriterion.on_before_optimizer_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate and store the pruning scores based on gradient criterion.</p>
 </dd></dl>
 
@@ -377,8 +383,8 @@ Please refer to SNIP: Single-shot Network Pruning based on Connection Sensitivit
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.pruner.criteria.SnipCriterion.on_after_optimizer_step">
-<span class="sig-name descname"><span class="pre">on_after_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.criteria.SnipCriterion.on_after_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.pruner.criteria.SnipCriterion.on_before_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_before_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.criteria.SnipCriterion.on_before_optimizer_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate and store the pruning scores based on snip criterion.</p>
 </dd></dl>
 
@@ -408,8 +414,8 @@ A momentum mechanism is used to calculate snip score, which determines if a weig
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neural_compressor.pruner.criteria.SnipMomentumCriterion.on_after_optimizer_step">
-<span class="sig-name descname"><span class="pre">on_after_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion.on_after_optimizer_step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="neural_compressor.pruner.criteria.SnipMomentumCriterion.on_before_optimizer_step">
+<span class="sig-name descname"><span class="pre">on_before_optimizer_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion.on_before_optimizer_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate and store the pruning scores based on snip_momentum criterion.</p>
 </dd></dl>
 
@@ -454,6 +460,7 @@ A momentum mechanism is used to calculate snip score, which determines if a weig
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion"><code class="docutils literal notranslate"><span class="pre">PruningCriterion</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion.scores"><code class="docutils literal notranslate"><span class="pre">PruningCriterion.scores</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion.on_step_begin"><code class="docutils literal notranslate"><span class="pre">PruningCriterion.on_step_begin()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion.on_before_optimizer_step"><code class="docutils literal notranslate"><span class="pre">PruningCriterion.on_before_optimizer_step()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion.on_after_optimizer_step"><code class="docutils literal notranslate"><span class="pre">PruningCriterion.on_after_optimizer_step()</span></code></a></li>
 </ul>
 </li>
@@ -464,17 +471,17 @@ A momentum mechanism is used to calculate snip score, which determines if a weig
 </li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.GradientCriterion"><code class="docutils literal notranslate"><span class="pre">GradientCriterion</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.GradientCriterion.scores"><code class="docutils literal notranslate"><span class="pre">GradientCriterion.scores</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.pruner.criteria.GradientCriterion.on_after_optimizer_step"><code class="docutils literal notranslate"><span class="pre">GradientCriterion.on_after_optimizer_step()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.criteria.GradientCriterion.on_before_optimizer_step"><code class="docutils literal notranslate"><span class="pre">GradientCriterion.on_before_optimizer_step()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipCriterion"><code class="docutils literal notranslate"><span class="pre">SnipCriterion</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipCriterion.scores"><code class="docutils literal notranslate"><span class="pre">SnipCriterion.scores</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipCriterion.on_after_optimizer_step"><code class="docutils literal notranslate"><span class="pre">SnipCriterion.on_after_optimizer_step()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipCriterion.on_before_optimizer_step"><code class="docutils literal notranslate"><span class="pre">SnipCriterion.on_before_optimizer_step()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion"><code class="docutils literal notranslate"><span class="pre">SnipMomentumCriterion</span></code></a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion.scores"><code class="docutils literal notranslate"><span class="pre">SnipMomentumCriterion.scores</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion.on_after_optimizer_step"><code class="docutils literal notranslate"><span class="pre">SnipMomentumCriterion.on_after_optimizer_step()</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion.on_before_optimizer_step"><code class="docutils literal notranslate"><span class="pre">SnipMomentumCriterion.on_before_optimizer_step()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.register_criterion">register_criterion</a></li>
@@ -482,6 +489,7 @@ A momentum mechanism is used to calculate snip score, which determines if a weig
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion">PruningCriterion</a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion.scores">scores</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion.on_step_begin">on_step_begin</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion.on_before_optimizer_step">on_before_optimizer_step</a></li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.PruningCriterion.on_after_optimizer_step">on_after_optimizer_step</a></li>
 </ul>
 </li>
@@ -492,17 +500,17 @@ A momentum mechanism is used to calculate snip score, which determines if a weig
 </li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.GradientCriterion">GradientCriterion</a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.GradientCriterion.scores">scores</a></li>
-<li><a class="reference internal" href="#neural_compressor.pruner.criteria.GradientCriterion.on_after_optimizer_step">on_after_optimizer_step</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.criteria.GradientCriterion.on_before_optimizer_step">on_before_optimizer_step</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipCriterion">SnipCriterion</a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipCriterion.scores">scores</a></li>
-<li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipCriterion.on_after_optimizer_step">on_after_optimizer_step</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipCriterion.on_before_optimizer_step">on_before_optimizer_step</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion">SnipMomentumCriterion</a><ul>
 <li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion.scores">scores</a></li>
-<li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion.on_after_optimizer_step">on_after_optimizer_step</a></li>
+<li><a class="reference internal" href="#neural_compressor.pruner.criteria.SnipMomentumCriterion.on_before_optimizer_step">on_before_optimizer_step</a></li>
 </ul>
 </li>
 </ul>
