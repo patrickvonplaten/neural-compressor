@@ -335,7 +335,8 @@ if __name__ == "__main__":
                 'bert-base-cased-finetuned-mrpc',
                 'Intel/xlnet-base-cased-mrpc',
                 'M-FAC/bert-mini-finetuned-mrpc',
-                'Intel/electra-small-discriminator-mrpc'],
+                'Intel/electra-small-discriminator-mrpc',
+                'Intel/bart-large-mrpc'],
         help="pretrained model name or path"
     )
     parser.add_argument(

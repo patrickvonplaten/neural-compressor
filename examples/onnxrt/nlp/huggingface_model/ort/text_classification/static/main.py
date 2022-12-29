@@ -336,7 +336,8 @@ if __name__ == "__main__":
                 'bert-base-cased-finetuned-mrpc',
                 'Intel/xlnet-base-cased-mrpc',
                 'M-FAC/bert-mini-finetuned-mrpc',
-                'Intel/electra-small-discriminator-mrpc'],
+                'Intel/electra-small-discriminator-mrpc',
+                'Intel/bart-large-mrpc'],
         help="pretrained model name or path"
     )
     parser.add_argument(
@@ -421,7 +422,9 @@ if __name__ == "__main__":
         model = model_optimizer.model
         onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
 
-        dr = ONNXRTBertDatasetForINC(data_dir=args.data_path, augmented_model_path=args.model_name_or_path.split('/')[-1] + '-optimized.onnx') 
+        dr = ONNXRTBertDatasetForINC(data_dir=args.data_path, 
+                                     model_name_or_path=args.model_name_or_path, 
+                                     augmented_model_path=args.model_name_or_path.split('/')[-1] + '-optimized.onnx',) 
         quantize_static(args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
                         args.output_model,
                         dr,

@@ -103,6 +103,12 @@ function run_tuning {
         num_heads=4
         hidden_size=256
     fi
+    if [[ "${input_model}" =~ "bart-large" ]]; then
+        model_name_or_path="Intel/bart-large-mrpc"
+        TASK_NAME='mrpc'
+        num_heads=16
+        hidden_size=4096
+    fi
     
 
     python main.py \

@@ -334,7 +334,8 @@ if __name__ == "__main__":
                 'bert-base-cased-finetuned-mrpc',
                 'Intel/xlnet-base-cased-mrpc',
                 'M-FAC/bert-mini-finetuned-mrpc',
-                'Intel/electra-small-discriminator-mrpc'],
+                'Intel/electra-small-discriminator-mrpc',
+                'Intel/bart-large-mrpc'],
         help="pretrained model name or path"
     )
     parser.add_argument(
@@ -370,7 +371,8 @@ if __name__ == "__main__":
         ort_inputs = {}
         len_inputs = len(session.get_inputs())
         inputs_names = [session.get_inputs()[i].name for i in range(len_inputs)]
-        for idx, (inputs, labels) in enumerate(dataloader):
+        import tqdm
+        for idx, (inputs, labels) in tqdm.tqdm(enumerate(dataloader), desc='eval'):
             if not isinstance(labels, list):
                 labels = [labels]
             inputs = inputs[:len_inputs]

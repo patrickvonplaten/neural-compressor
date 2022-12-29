@@ -81,6 +81,10 @@ function run_benchmark {
         model_name_or_path="Intel/electra-small-discriminator-mrpc"
         TASK_NAME='mrpc'
     fi
+    if [[ "${input_model}" =~ "bart-large" ]]; then
+        model_name_or_path="Intel/bart-large-mrpc"
+        TASK_NAME='mrpc'
+    fi
 
     python main.py \
             --model_name_or_path ${model_name_or_path} \
