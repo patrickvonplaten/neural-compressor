@@ -14,6 +14,7 @@ Subpackages
 
    ox_utils/index.rst
    tf_utils/index.rst
+   torch_utils/index.rst
 
 
 Submodules

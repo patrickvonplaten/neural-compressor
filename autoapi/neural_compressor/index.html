@@ -214,6 +214,7 @@
               
   <section id="module-neural_compressor">
 <span id="neural-compressor"></span><h1><a class="reference internal" href="#module-neural_compressor" title="neural_compressor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor</span></code></a><a class="headerlink" href="#module-neural_compressor" title="Permalink to this heading">¶</a></h1>
+<p>Intel® Neural Compressor: An open-source Python library supporting popular model compression techniques.</p>
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -455,9 +456,12 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="benchmark/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.benchmark</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="config/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.config</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="mix_precision/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.mix_precision</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="objective/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.objective</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="quantization/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.quantization</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="training/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.training</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="version/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">neural_compressor.version</span></code></a></li>
 </ul>
 </div>
 </section>
@@ -473,8 +477,14 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.DistillationConfig" title="neural_compressor.DistillationConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistillationConfig</span></code></a></p></td>
 <td><p>Config of distillation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.WeightPruningConfig" title="neural_compressor.WeightPruningConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeightPruningConfig</span></code></a></p></td>
-<td><p>similiar to torch optimizer's interface</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.PostTrainingQuantConfig" title="neural_compressor.PostTrainingQuantConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PostTrainingQuantConfig</span></code></a></p></td>
+<td><p>Config Class for Post Training Quantization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#neural_compressor.WeightPruningConfig" title="neural_compressor.WeightPruningConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeightPruningConfig</span></code></a></p></td>
+<td><p>Similiar to torch optimizer's interface.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#neural_compressor.QuantizationAwareTrainingConfig" title="neural_compressor.QuantizationAwareTrainingConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QuantizationAwareTrainingConfig</span></code></a></p></td>
+<td><p>Config Class for Quantization Aware Training.</p></td>
 </tr>
 </tbody>
 </table>
@@ -580,12 +590,68 @@ Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.DistillationConfig.criterion">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">criterion</span></span><a class="headerlink" href="#neural_compressor.DistillationConfig.criterion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get criterion.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.DistillationConfig.optimizer">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">optimizer</span></span><a class="headerlink" href="#neural_compressor.DistillationConfig.optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get optimizer.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.DistillationConfig.teacher_model">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">teacher_model</span></span><a class="headerlink" href="#neural_compressor.DistillationConfig.teacher_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get teacher_model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.PostTrainingQuantConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">PostTrainingQuantConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quant_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approach</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'static'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_sampling_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_type_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_name_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_precisions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quant_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tuning_criterion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">tuning_criterion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accuracy_criterion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">accuracy_criterion</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.PostTrainingQuantConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_BaseQuantizationConfig</span></code></p>
+<p>Config Class for Post Training Quantization.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.PostTrainingQuantConfig.approach">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">approach</span></span><a class="headerlink" href="#neural_compressor.PostTrainingQuantConfig.approach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get approach.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.PostTrainingQuantConfig.tuning_criterion">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tuning_criterion</span></span><a class="headerlink" href="#neural_compressor.PostTrainingQuantConfig.tuning_criterion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tuning_criterion.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="neural_compressor.WeightPruningConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">WeightPruningConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pruning_configs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[{}]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pruning_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'snip_momentum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4x1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_op_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pruning_scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'global'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pruning_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_sparsity_ratio_per_op</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sparsity_ratio_per_op</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.98</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparsity_decay_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'exp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pruning_op_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['Conv',</span> <span class="pre">'Linear']</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.WeightPruningConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>similiar to torch optimizer’s interface</p>
+<dd><p>Similiar to torch optimizer’s interface.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.WeightPruningConfig.weight_compression">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">weight_compression</span></span><a class="headerlink" href="#neural_compressor.WeightPruningConfig.weight_compression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get weight_compression.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="neural_compressor.QuantizationAwareTrainingConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neural_compressor.</span></span><span class="sig-name descname"><span class="pre">QuantizationAwareTrainingConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_type_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_name_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_precisions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quant_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neural_compressor.QuantizationAwareTrainingConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">_BaseQuantizationConfig</span></code></p>
+<p>Config Class for Quantization Aware Training.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="neural_compressor.QuantizationAwareTrainingConfig.approach">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">approach</span></span><a class="headerlink" href="#neural_compressor.QuantizationAwareTrainingConfig.approach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get approach.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -633,8 +699,25 @@ Defaults to None.</p></li>
 <li><a class="reference internal" href="#neural_compressor.set_random_seed"><code class="docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.set_tensorboard"><code class="docutils literal notranslate"><span class="pre">set_tensorboard()</span></code></a></li>
 <li><a class="reference internal" href="#neural_compressor.set_workspace"><code class="docutils literal notranslate"><span class="pre">set_workspace()</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.DistillationConfig"><code class="docutils literal notranslate"><span class="pre">DistillationConfig</span></code></a></li>
-<li><a class="reference internal" href="#neural_compressor.WeightPruningConfig"><code class="docutils literal notranslate"><span class="pre">WeightPruningConfig</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.DistillationConfig"><code class="docutils literal notranslate"><span class="pre">DistillationConfig</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.DistillationConfig.criterion"><code class="docutils literal notranslate"><span class="pre">DistillationConfig.criterion</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.DistillationConfig.optimizer"><code class="docutils literal notranslate"><span class="pre">DistillationConfig.optimizer</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.DistillationConfig.teacher_model"><code class="docutils literal notranslate"><span class="pre">DistillationConfig.teacher_model</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.PostTrainingQuantConfig"><code class="docutils literal notranslate"><span class="pre">PostTrainingQuantConfig</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.PostTrainingQuantConfig.approach"><code class="docutils literal notranslate"><span class="pre">PostTrainingQuantConfig.approach</span></code></a></li>
+<li><a class="reference internal" href="#neural_compressor.PostTrainingQuantConfig.tuning_criterion"><code class="docutils literal notranslate"><span class="pre">PostTrainingQuantConfig.tuning_criterion</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.WeightPruningConfig"><code class="docutils literal notranslate"><span class="pre">WeightPruningConfig</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.WeightPruningConfig.weight_compression"><code class="docutils literal notranslate"><span class="pre">WeightPruningConfig.weight_compression</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.QuantizationAwareTrainingConfig"><code class="docutils literal notranslate"><span class="pre">QuantizationAwareTrainingConfig</span></code></a><ul>
+<li><a class="reference internal" href="#neural_compressor.QuantizationAwareTrainingConfig.approach"><code class="docutils literal notranslate"><span class="pre">QuantizationAwareTrainingConfig.approach</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#neural_compressor.Benchmark">Benchmark</a><ul>
 <li><a class="reference internal" href="#neural_compressor.Benchmark.dataloader">dataloader</a></li>
 <li><a class="reference internal" href="#neural_compressor.Benchmark.metric">metric</a></li>
@@ -644,8 +727,25 @@ Defaults to None.</p></li>
 <li><a class="reference internal" href="#neural_compressor.set_random_seed">set_random_seed</a></li>
 <li><a class="reference internal" href="#neural_compressor.set_tensorboard">set_tensorboard</a></li>
 <li><a class="reference internal" href="#neural_compressor.set_workspace">set_workspace</a></li>
-<li><a class="reference internal" href="#neural_compressor.DistillationConfig">DistillationConfig</a></li>
-<li><a class="reference internal" href="#neural_compressor.WeightPruningConfig">WeightPruningConfig</a></li>
+<li><a class="reference internal" href="#neural_compressor.DistillationConfig">DistillationConfig</a><ul>
+<li><a class="reference internal" href="#neural_compressor.DistillationConfig.criterion">criterion</a></li>
+<li><a class="reference internal" href="#neural_compressor.DistillationConfig.optimizer">optimizer</a></li>
+<li><a class="reference internal" href="#neural_compressor.DistillationConfig.teacher_model">teacher_model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.PostTrainingQuantConfig">PostTrainingQuantConfig</a><ul>
+<li><a class="reference internal" href="#neural_compressor.PostTrainingQuantConfig.approach">approach</a></li>
+<li><a class="reference internal" href="#neural_compressor.PostTrainingQuantConfig.tuning_criterion">tuning_criterion</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.WeightPruningConfig">WeightPruningConfig</a><ul>
+<li><a class="reference internal" href="#neural_compressor.WeightPruningConfig.weight_compression">weight_compression</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#neural_compressor.QuantizationAwareTrainingConfig">QuantizationAwareTrainingConfig</a><ul>
+<li><a class="reference internal" href="#neural_compressor.QuantizationAwareTrainingConfig.approach">approach</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

@@ -1,9 +1,12 @@
-:orphan:
-
 :py:mod:`neural_compressor`
 ===========================
 
 .. py:module:: neural_compressor
+
+.. autoapi-nested-parse::
+
+   Intel® Neural Compressor: An open-source Python library supporting popular model compression techniques.
+
 
 
 Subpackages
@@ -31,9 +34,12 @@ Submodules
    :maxdepth: 1
 
    benchmark/index.rst
+   config/index.rst
+   mix_precision/index.rst
    objective/index.rst
    quantization/index.rst
    training/index.rst
+   version/index.rst
 
 
 Package Contents
@@ -46,7 +52,9 @@ Classes
 
    neural_compressor.Benchmark
    neural_compressor.DistillationConfig
+   neural_compressor.PostTrainingQuantConfig
    neural_compressor.WeightPruningConfig
+   neural_compressor.QuantizationAwareTrainingConfig
 
 
 
@@ -140,9 +148,51 @@ Functions
    :param optimizer: Optimizer configure.
    :type optimizer: dictionary, optional
 
+   .. py:property:: criterion
+
+      Get criterion.
+
+   .. py:property:: optimizer
+
+      Get optimizer.
+
+   .. py:property:: teacher_model
+
+      Get teacher_model.
+
+
+.. py:class:: PostTrainingQuantConfig(device='cpu', backend='default', quant_format='default', inputs=[], outputs=[], approach='static', calibration_sampling_size=[100], op_type_list=None, op_name_list=None, reduce_range=None, excluded_precisions=[], quant_level=1, tuning_criterion=tuning_criterion, accuracy_criterion=accuracy_criterion)
+
+   Bases: :py:obj:`_BaseQuantizationConfig`
+
+   Config Class for Post Training Quantization.
+
+   .. py:property:: approach
+
+      Get approach.
+
+   .. py:property:: tuning_criterion
+
+      Get tuning_criterion.
+
 
 .. py:class:: WeightPruningConfig(pruning_configs=[{}], target_sparsity=0.9, pruning_type='snip_momentum', pattern='4x1', op_names=[], excluded_op_names=[], start_step=0, end_step=0, pruning_scope='global', pruning_frequency=1, min_sparsity_ratio_per_op=0.0, max_sparsity_ratio_per_op=0.98, sparsity_decay_type='exp', pruning_op_types=['Conv', 'Linear'], **kwargs)
 
-   similiar to torch optimizer's interface
+   Similiar to torch optimizer's interface.
+
+   .. py:property:: weight_compression
+
+      Get weight_compression.
+
+
+.. py:class:: QuantizationAwareTrainingConfig(device='cpu', backend='default', inputs=[], outputs=[], op_type_list=None, op_name_list=None, reduce_range=None, excluded_precisions=[], quant_level=1)
+
+   Bases: :py:obj:`_BaseQuantizationConfig`
+
+   Config Class for Quantization Aware Training.
+
+   .. py:property:: approach
+
+      Get approach.
 
 
