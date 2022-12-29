@@ -689,15 +689,19 @@ class GraphConverter:
 
         self._tmp_graph_def = StripEquivalentNodesOptimizer(
             self._tmp_graph_def, self._tmp_model.output_node_names).do_transformation()
-
+        logger.info("xxxx")
         if self.advance_config is not None and \
            deep_get(self.advance_config, 'bias_correction') is not None:
+            logger.info("yyy")
+            logger.info(deep_get(self.advance_config, 'bias_correction'))
             self._tmp_graph_def = BiasCorrection(
                 self._tmp_graph_def, self.model.graph_def, self.new_api).do_transformation()
-
+        logger.info("zzz")
+        logger.info(self.model.graph_def.library)
         self._tmp_graph_def.library.CopyFrom(self.model.graph_def.library)
-
+        logger.info("vvv")
         self._tmp_model.graph_def = self._tmp_graph_def
+        logger.info("rrr")
 
     def _post_clean(self):
         """Delete the temporarily files generated during the quantization process.
