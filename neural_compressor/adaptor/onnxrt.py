@@ -378,7 +378,7 @@ class ONNXRUNTIMEAdaptor(Adaptor):
                   data_loader, self.quantizable_op_types, \
                   black_nodes=black_nodes, white_nodes=white_nodes, \
                   iterations=list(range(0, quantize_config['calib_iteration'])),
-                  backend=self.backend, reduce_range=self.reduce_range)
+                  backend=[self.backend], reduce_range=self.reduce_range)
         self.min_max = augment.dump_minmax()
         quantize_params = augment.dump_calibration(quantize_config)
         return quantize_params
@@ -402,7 +402,7 @@ class ONNXRUNTIMEAdaptor(Adaptor):
         augment = ONNXRTAugment(model, dataloader, [], \
                   iterations=iteration_list,
                   white_nodes=op_list,
-                  backend=self.backend)
+                  backend=[self.backend])
         tensors = augment.dump_tensor(activation=(inspect_type!='weight'),
                                       weight=(inspect_type!='activation'))
         if save_to_disk:

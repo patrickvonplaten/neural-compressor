@@ -215,11 +215,11 @@ class ONNXRTAugment:
         session = onnxruntime.InferenceSession(
                     self.augmented_model.SerializeToString(),
                     so,
-                    provider=self.backend) if not self.model_wrapper.large_size else \
+                    providers=self.backend) if not self.model_wrapper.large_size else \
                   onnxruntime.InferenceSession(
                     self.model_wrapper.model_path  + '_augment.onnx',
                     so,
-                    provider=self.backend)
+                    providers=self.backend)
 
         intermediate_outputs = []
         len_inputs = len(session.get_inputs())
