@@ -456,7 +456,7 @@
 <li><p>Quantization without tuning</p></li>
 </ol>
 <p>This means user could leverage Intel(R) Neural Compressor to directly generate a fully quantized model without accuracy aware tuning. It’s user responsibility to ensure the accuracy of the quantized model meets expectation.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
 
 <span class="c1"># Original code</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">ResNet50</span><span class="p">()</span>
@@ -468,7 +468,12 @@
 
 <span class="c1"># Quantization code</span>
 <span class="kn">from</span> <span class="nn">neural_compressor</span> <span class="kn">import</span> <span class="n">quantization</span>
-<span class="n">q_model</span> <span class="o">=</span> <span class="n">quantization</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">calib_dataloader</span><span class="o">=</span><span class="n">val_dataloader</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">neural_compressor.config</span> <span class="kn">import</span> <span class="n">PostTrainingQuantConfig</span>
+
+<span class="n">conf</span> <span class="o">=</span> <span class="n">PostTrainingQuantConfig</span><span class="p">()</span>
+<span class="n">q_model</span> <span class="o">=</span> <span class="n">quantization</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+                           <span class="n">conf</span><span class="o">=</span><span class="n">conf</span><span class="p">,</span>
+                           <span class="n">calib_dataloader</span><span class="o">=</span><span class="n">val_dataloader</span><span class="p">)</span>
 <span class="n">q_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;./output&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -476,7 +481,7 @@
 <li><p>Quantization with accuracy aware tuning</p></li>
 </ol>
 <p>This means user could leverage the advance feature of Intel(R) Neural Compressor to tune out a best quantized model which has best accuracy and good performance.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
 
 <span class="c1"># Original code</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">ResNet50</span><span class="p">()</span>
@@ -492,12 +497,18 @@
     <span class="k">return</span> <span class="n">top1</span><span class="o">.</span><span class="n">avg</span>
 
 <span class="c1"># Quantization code</span>
-<span class="k">def</span> <span class="nf">eval_func</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">validate</span><span class="p">(</span><span class="n">val_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">train_func</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="o">...</span>
 
-<span class="kn">from</span> <span class="nn">neural_compressor</span> <span class="kn">import</span> <span class="n">quantization</span>
-<span class="n">q_model</span> <span class="o">=</span> <span class="n">quantization</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">calib_dataloader</span><span class="o">=</span><span class="n">val_dataloader</span><span class="p">,</span> <span class="n">eval_func</span><span class="o">=</span><span class="n">eval_func</span><span class="p">)</span>
-<span class="n">q_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;./output&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">neural_compressor</span> <span class="kn">import</span> <span class="n">QuantizationAwareTrainingConfig</span>
+<span class="kn">from</span> <span class="nn">neural_compressor.training</span> <span class="kn">import</span> <span class="n">prepare_compression</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">QuantizationAwareTrainingConfig</span><span class="p">()</span>
+<span class="n">compression_manager</span> <span class="o">=</span> <span class="n">prepare_compression</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
+<span class="n">compression_manager</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_begin</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">compression_manager</span><span class="o">.</span><span class="n">model</span>
+<span class="n">train_func</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">compression_manager</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_end</span><span class="p">()</span>
+<span class="n">compression_manager</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;./output&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
