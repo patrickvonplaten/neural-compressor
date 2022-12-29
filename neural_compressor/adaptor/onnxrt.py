@@ -481,42 +481,43 @@ class ONNXRUNTIMEAdaptor(Adaptor):
         from neural_compressor.adaptor.ox_utils.util import \
             remove_init_from_model_input, split_shared_bias
         remove_init_from_model_input(model)
-        sess_options = ort.SessionOptions()
-        level = self.query_handler.get_graph_optimization()
-        if self.graph_optimization.level:
-            optimization_levels = {
-                    'DISABLE_ALL': ort.GraphOptimizationLevel.ORT_DISABLE_ALL,
-                    'ENABLE_BASIC': ort.GraphOptimizationLevel.ORT_ENABLE_BASIC,
-                    'ENABLE_EXTENDED': ort.GraphOptimizationLevel.ORT_ENABLE_EXTENDED,
-                    'ENABLE_ALL': ort.GraphOptimizationLevel.ORT_ENABLE_ALL}
-            assert self.graph_optimization.level in optimization_levels, "the optimization \
-                                      choices are {}".format(optimization_levels.keys())
+        if self.backend != 'TensorrtExecutionProvider':
+            sess_options = ort.SessionOptions()
+            level = self.query_handler.get_graph_optimization()
+            if self.graph_optimization.level:
+                optimization_levels = {
+                        'DISABLE_ALL': ort.GraphOptimizationLevel.ORT_DISABLE_ALL,
+                        'ENABLE_BASIC': ort.GraphOptimizationLevel.ORT_ENABLE_BASIC,
+                        'ENABLE_EXTENDED': ort.GraphOptimizationLevel.ORT_ENABLE_EXTENDED,
+                        'ENABLE_ALL': ort.GraphOptimizationLevel.ORT_ENABLE_ALL}
+                assert self.graph_optimization.level in optimization_levels, "the optimization \
+                                          choices are {}".format(optimization_levels.keys())
 
-            level = optimization_levels[self.graph_optimization.level]
-        sess_options.graph_optimization_level = level
-        sess_options.optimized_model_filepath = os.path.join(self.work_space, \
-            "Optimized_model.onnx")
-        if sys.version_info < (3,10) and find_spec('onnxruntime_extensions'): # pragma: no cover
-            from onnxruntime_extensions import get_library_path
-            sess_options.register_custom_ops_library(get_library_path())
-        if not model.large_size:
-            ort.InferenceSession(model.model.SerializeToString(),
-                                 sess_options,
-                                 providers=[self.backend])
-        elif model.model_path is not None: # pragma: no cover
-            ort.InferenceSession(model.model_path,
-                                 sess_options,
-                                 providers=[self.backend])
-        else: # pragma: no cover 
-            logger.warning('Please use model path instead of onnx model object to quantize')
+                level = optimization_levels[self.graph_optimization.level]
+            sess_options.graph_optimization_level = level
+            sess_options.optimized_model_filepath = os.path.join(self.work_space, \
+                "Optimized_model.onnx")
+            if sys.version_info < (3,10) and find_spec('onnxruntime_extensions'): # pragma: no cover
+                from onnxruntime_extensions import get_library_path
+                sess_options.register_custom_ops_library(get_library_path())
+            if not model.large_size:
+                ort.InferenceSession(model.model.SerializeToString(),
+                                     sess_options,
+                                     providers=[self.backend])
+            elif model.model_path is not None: # pragma: no cover
+                ort.InferenceSession(model.model_path,
+                                     sess_options,
+                                     providers=[self.backend])
+            else: # pragma: no cover 
+                logger.warning('Please use model path instead of onnx model object to quantize')
 
-        tmp_model = onnx.load(sess_options.optimized_model_filepath, load_external_data=False)
-        if model.large_size: # pragma: no cover
-            from onnx.external_data_helper import load_external_data_for_model
-            load_external_data_for_model(tmp_model, os.path.split(model.model_path)[0])
-        model.model_path = sess_options.optimized_model_filepath
-        model.model = self._replace_gemm_with_matmul(tmp_model).model \
-            if self.graph_optimization.gemm2matmul else tmp_model
+            tmp_model = onnx.load(sess_options.optimized_model_filepath, load_external_data=False)
+            if model.large_size: # pragma: no cover
+                from onnx.external_data_helper import load_external_data_for_model
+                load_external_data_for_model(tmp_model, os.path.split(model.model_path)[0])
+            model.model_path = sess_options.optimized_model_filepath
+            model.model = self._replace_gemm_with_matmul(tmp_model).model \
+                if self.graph_optimization.gemm2matmul else tmp_model
         model.model = self._rename_node(model.model)
         model = self._revert_fusedconv(model)
         if self.backend == 'TensorrtExecutionProvider':
