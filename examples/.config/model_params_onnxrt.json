@@ -1203,7 +1203,7 @@
       "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
       "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
       "input_model": "/tf_dataset2/models/onnx/hf_bart-large_dynamic/bart-large-mrpc.onnx",
-      "yaml": "glue_static.yaml",
+      "yaml": "bart-large_static.yaml",
       "strategy": "basic",
       "batch_size": 1,
       "new_benchmark": true
