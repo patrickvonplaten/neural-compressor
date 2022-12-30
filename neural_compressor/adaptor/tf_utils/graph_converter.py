@@ -96,7 +96,7 @@ class GraphConverter:
         """Convert graph.
 
         :param model: input tensorflow model.
-        :param qt_config: quantization configs, including interation and op-wise quant config
+        :param qt_config: quantization configs, including iteration and op-wise quant config
         :param fp32_ops: fall back to fp32 dtype op list
         :param bf16_ops: fall back to bf16 dtype op list
         :param data_loader: for calibration phase used dataloader
@@ -362,7 +362,9 @@ class GraphConverter:
         if self.new_api:
             if self.performance_only:
                 model.graph_def = FuseConvRedundantDequantizeTransformer(model.graph_def).do_transformation()
-            model.graph_def = FuseMatMulRedundantDequantizeTransformer(model.graph_def).do_transformation()
+            post_optimize_graph_def = FuseMatMulRedundantDequantizeTransformer(model.graph_def).do_transformation()
+            post_optimize_graph_def.library.CopyFrom(self.model.graph_def.library)
+            model.graph_def = post_optimize_graph_def
         post_cse_graph_def = PostCseOptimizer(model.graph_def).do_transformation()
         post_hostconst_graph_def = PostHostConstConverter(post_cse_graph_def).do_transformation()
         post_hostconst_graph_def.library.CopyFrom(self.model.graph_def.library)
