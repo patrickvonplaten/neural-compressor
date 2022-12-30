@@ -574,7 +574,7 @@ def main():
         model = model_optimizer.model
 
         from neural_compressor import quantization, PostTrainingQuantConfig
-        config = PostTrainingQuantConfig(approach='dynamic')
+        config = PostTrainingQuantConfig(approach='dynamic', quant_level=0)
         q_model = quantization.fit(model, 
                                    config,
                                    eval_func=eval_func)
