@@ -87,7 +87,10 @@ class TextDataset(Dataset):
         return len(self.examples)
 
     def __getitem__(self, item):
-        return torch.tensor(self.examples[item])
+        inputs = torch.tensor(self.examples[item])
+        inputs = np.array(inputs)
+        inputs = np.expand_dims(inputs, axis=0)
+        return inputs, inputs
 
 
 def load_and_cache_examples(args, tokenizer, evaluate=False):
@@ -124,12 +127,12 @@ def evaluate(args, model, tokenizer, prefix=""):
     for idx, batch in enumerate(tqdm(eval_dataloader, desc="Evaluating")):
         if nb_eval_steps >= args.warmup_steps:
             start = timeit.default_timer()
-        inputs, labels = (batch, batch)
+        # inputs, labels = (batch, batch)
         inputs = inputs.to(args.device)
         labels = labels.to(args.device)
         for i in range(len_inputs):
             inputs = np.array(inputs)
-            inputs = np.expand_dims(inputs, axis=0)
+            # inputs = np.expand_dims(inputs, axis=0)
             ort_inputs.update({inputs_names[i]: inputs})
         predictions = session.run(None, ort_inputs)
         lm_logits = predictions[0]
