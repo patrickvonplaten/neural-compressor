@@ -393,7 +393,10 @@ if __name__ == "__main__":
             for i in range(len(input_tensors)):
                 shape.append((1, 128))
             datasets = DATASETS('onnxrt_integerops')
-            dummy_dataset = datasets['dummy'](shape=shape, low=1, high=1, dtype='int64', label=True)
+            if args.model_name_or_path == 'Intel/bart-large-mrpc':
+                dummy_dataset = datasets['dummy'](shape=shape, low=2, high=2, dtype='int64', label=True)
+            else:
+                dummy_dataset = datasets['dummy'](shape=shape, low=1, high=1, dtype='int64', label=True)
             evaluator = Benchmark(args.config)
             evaluator.model = common.Model(model)
             evaluator.b_dataloader = common.DataLoader(dummy_dataset)
