@@ -124,7 +124,7 @@ def evaluate(args, model, tokenizer, prefix=""):
     inputs_names = [session.get_inputs()[i].name for i in range(len_inputs)]
     ort_inputs = {}
 
-    for idx, batch in enumerate(tqdm(eval_dataloader, desc="Evaluating")):
+    for idx, (inputs, labels) in enumerate(tqdm(eval_dataloader, desc="Evaluating")):
         if nb_eval_steps >= args.warmup_steps:
             start = timeit.default_timer()
         # inputs, labels = (batch, batch)
