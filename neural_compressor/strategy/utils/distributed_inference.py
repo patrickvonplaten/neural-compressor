@@ -41,7 +41,7 @@ class ResultMonitor:
         return len(self.trials_lst) == len(self.reported_trials)
 
     def report_results(self):
-        """Collect all completed but not reported trails at current state.
+        """Collect all completed but not reported trials at current state.
 
         Returns:
             result_record (List): the result collection. 
@@ -68,8 +68,14 @@ class ResultMonitor:
               "len(self.trials_lst):", len(self.trials_lst))
         pass
 
-    def add_trial(self, trail):
-        self.trials_lst.append(trail)
+    def add_trial(self, trial):
+        """Collect all trials to self.trials_lst.
+        Args:
+            trial (Trial): a trial object.
+        Returns:
+            None
+        """
+        self.trials_lst.append(trial)
 
     def get_attribute(self):
         return self.trials_lst, self.completed_trials, self.reported_trials
@@ -120,10 +126,8 @@ class Trial:
         self.finished_trial = True
         # report to result monitor 
         # self.result_monitor.add_finished_trial.remote({"id": "test"})
-        self.result_monitor.add_finished_trial.remote({"id": self.id, "tune_cfg": self.tune_cfg, "eval_result": eval_result}) #, "q_model": q_model
+        self.report_result()
         # self.result_monitor.add_finished_qmodel.remote(q_model)
-        time.sleep(20)
-        return eval_result
 
     def report_state(self):
         
@@ -132,7 +136,8 @@ class Trial:
     
     def report_result(self):
         print(f"[Trial] Report eval result for {id(self)}.")
-        return self, self.eval_result
+        self.result_monitor.add_finished_trial.remote({"id": self.id, "tune_cfg": self.tune_cfg, "eval_result": self.eval_result}) #, "q_model": q_model
+        # return self, self.eval_result
     
     def get_id(self):
         return self.id
@@ -155,6 +160,7 @@ class Scheduler:
         self.result_monitor = result_monitor
         self.num_cpus =  ray.cluster_resources()["CPU"]
         self.num_gpus = None if "GPU" not in ray.cluster_resources().keys() else ray.cluster_resources()["GPU"]
+        self.trials_compute_lst = []
 
     def trials_lst(self) -> List[Trial]:
         return self.trials_lst
@@ -166,10 +172,11 @@ class Scheduler:
             # TODO check the hardware resource before schedule new trial
             print(f"[Scheduler] Avaliable Resources: {ray.available_resources()}.")
             print(f"[Scheduler] Create a new trial for the {id(tune_cfg)}.")
-            trial = Trial.options(num_cpus=None, num_gpus=None).remote(tune_cfg, self.adaptor, self.model, self.calib_dataloader, self.q_func, self.evaluate, self.result_monitor)
-            self.trials_lst.append(trial)
-            self.result_monitor.add_trial.remote(ray.get(trial.get_id.remote()))
-            trial.compute.remote()
+            trial = Trial.options(num_cpus=10, num_gpus=None).remote(tune_cfg, self.adaptor, self.model, self.calib_dataloader, self.q_func, self.evaluate, self.result_monitor)
+            trial_id = trial.compute.remote()
+            self.trials_lst.append(trial_id)
+            self.result_monitor.add_trial.remote(trial_id)
+        return self.trials_lst
 
 class DistributedRunner:
     def __init__(self, tune_cfg_lst, adaptor, model, calib_dataloader, q_func, evaluate) -> None:
@@ -188,7 +195,7 @@ class DistributedRunner:
         assert ray.is_initialized()
         self.result_monitor = ResultMonitor.remote()
         self.scheduler = Scheduler.remote(tune_cfg_lst, adaptor, model, calib_dataloader, q_func, evaluate, self.result_monitor)
-        self.result = self.scheduler.dispatch_trails.remote()
+        self.tasks = self.scheduler.dispatch_trails.remote()
         # for trail in self.result_monitor.trials_lst:
         #     print(f"[Runner[Monitor{id(self.result_monitor)}]]", id(trail))
         # for trail in self.scheduler.trials_lst:
@@ -199,12 +206,16 @@ class DistributedRunner:
         Collect all completed trials and report it to strategy.
         
         """
-        # print("*" * 50, ray.get(self.result_monitor.all_trials_reported.remote()))
-        _ = ray.get(self.result)
-        # trials_lst, compeleted_trials, report_trials = ray.get(self.result_monitor.get_attribute.remote())
-        # print("*" * 50, len(trials_lst), len(compeleted_trials), len(report_trials))
-        while not ray.get(self.result_monitor.all_trials_reported.remote()):
+        tasks = ray.get(self.tasks)
+        while len(tasks):
+            done_ids, tasks = ray.wait(tasks)
             for result in ray.get(self.result_monitor.report_results.remote()):
-                yield result  # {tune_cfg, quantized_model, evaluation result}
-            # TODO may need to find a better way.
-            time.sleep(5) # pause 5s to do next query. 
+                yield result # {id, tune_cfg, evaluation result}, q_model could not serialized
+            print("1"*50, done_ids, tasks)
+
+    def stop(self):
+        """
+        Shutdown Ray.
+        """
+        ray.shutdown()
+        assert not ray.is_initialized()
