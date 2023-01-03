@@ -263,7 +263,7 @@ def main():
         accuracy_criterion = AccuracyCriterion()
         accuracy_criterion.higher_is_better = False
         accuracy_criterion.relative = 0.01
-        config = PostTrainingQuantConfig(approach='dynamic', 
+        config = PostTrainingQuantConfig(approach='static', 
                                          accuracy_criterion=accuracy_criterion,
                                          quant_level=0,)
         q_model = quantization.fit(model, 
