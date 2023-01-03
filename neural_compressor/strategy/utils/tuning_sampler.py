@@ -356,7 +356,7 @@ class RecipeTuningSampler(TuningSampler):
         pass
     
     def __iter__(self):
-        if self._framework.startswith("onnxrt") or self._framework.startswith("tensorflow"):
+        if self._framework.startswith("onnx") or self._framework.startswith("tensorflow"):
             recipe_tune_cfg = copy.deepcopy(self.initial_op_tuning_cfg)
             recipe_update_cfg = {}
             for recipe in ('first_conv_or_matmul', 'last_conv_or_matmul', 'pre_post_process_nodes'):
