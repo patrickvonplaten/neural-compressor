@@ -571,10 +571,10 @@
 <section id="support-single-metric-and-multi-metrics">
 <h3>Support Single-metric and Multi-metrics<a class="headerlink" href="#support-single-metric-and-multi-metrics" title="Permalink to this heading">¶</a></h3>
 <p>Users can specify an Neural Compressor built-in metric such as shown below:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">accuracy</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">metric</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">topk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">accuracy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metric</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">topk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 </pre></div>
 </div>
 <p>In some cases, users want to use more than one metric to evaluate the performance of a specific model and they can realize it with multi_metrics of Neural Compressor. Currently multi_metrics supports built-in metrics.</p>
@@ -582,32 +582,32 @@
 <ol class="simple">
 <li><p>Evaluate performance of a model with metrics one by one</p></li>
 </ol>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">accuracy</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">multi_metrics</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">topk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
-<span class="w">      </span><span class="nt">MSE</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">compare_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w"></span>
-<span class="w">      </span><span class="nt">higher_is_better</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">False</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># length of higher_is_better should be equal to num of metric, default is True</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">accuracy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">multi_metrics</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">topk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">MSE</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">compare_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">      </span><span class="nt">higher_is_better</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">False</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># length of higher_is_better should be equal to num of metric, default is True</span>
 </pre></div>
 </div>
 <ol class="simple">
 <li><p>Evaluate performance of a model with weighted metric results</p></li>
 </ol>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">accuracy</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">multi_metrics</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">topk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
-<span class="w">      </span><span class="nt">MSE</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">compare_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w"></span>
-<span class="w">      </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.5</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># length of weight should be equal to num of metric</span><span class="w"></span>
-<span class="w">      </span><span class="nt">higher_is_better</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">False</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># length of higher_is_better should be equal to num of metric, default is True</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">evaluation</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">accuracy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">multi_metrics</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">topk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">MSE</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">compare_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">      </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.5</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># length of weight should be equal to num of metric</span>
+<span class="w">      </span><span class="nt">higher_is_better</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">False</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># length of higher_is_better should be equal to num of metric, default is True</span>
 </pre></div>
 </div>
 </section>
 <section id="build-custom-metric-with-python-api">
 <h3>Build Custom Metric with Python API<a class="headerlink" href="#build-custom-metric-with-python-api" title="Permalink to this heading">¶</a></h3>
-<p>Please refer to <a class="reference external" href="https://github.com/intel/neural-compressor/tree/7a39c862bf37a7b890824621dafedef8b4161c33/../neural_compressor/experimental/metric">Metrics code</a>, users can also register their own metric as follows:</p>
+<p>Please refer to <a class="reference external" href="https://github.com/intel/neural-compressor/tree/b10e967910c04d82cc7e624e119e15e822baec54/../neural_compressor/experimental/metric">Metrics code</a>, users can also register their own metric as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NewMetric</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># init code here</span>
