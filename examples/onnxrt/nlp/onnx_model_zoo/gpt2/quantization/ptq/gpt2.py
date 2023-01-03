@@ -262,13 +262,10 @@ def main():
         from neural_compressor.config import AccuracyCriterion
         accuracy_criterion = AccuracyCriterion()
         accuracy_criterion.higher_is_better = False
-        accuracy_criterion.relative = 0.11
+        accuracy_criterion.relative = 0.01
         config = PostTrainingQuantConfig(approach='dynamic', 
-                                         op_name_list={'MatMul_2924': {
-                                                            'activation':  {'dtype': ['fp32']},
-                                                            'weight': {'dtype': ['fp32']}
-                                                        }},
-                                         accuracy_criterion=accuracy_criterion)
+                                         accuracy_criterion=accuracy_criterion,
+                                         quant_level=0,)
         q_model = quantization.fit(model, 
                                    config,
                                    eval_func=eval_func)
