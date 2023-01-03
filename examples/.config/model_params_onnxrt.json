@@ -138,6 +138,13 @@
       "main_script": "gpt2.py",
       "batch_size": 1
     },
+    "gpt2_lm_head_wikitext_model_zoo": {
+      "model_src_dir": "nlp/onnx_model_zoo/gpt2/quantization/ptq",
+      "dataset_location": "/tf_dataset2/datasets/wikitext/wikitext-2-raw/",
+      "input_model": "/tf_dataset2/models/onnx/gpt2/gpt2_lm_head_wikitext_model_zoo.onnx",
+      "main_script": "gpt2.py",
+      "batch_size": 1
+    },
     "vgg16_model_zoo": {
       "model_src_dir": "image_recognition/onnx_model_zoo/vgg16/quantization/ptq",
       "dataset_location": "/tf_dataset2/datasets/imagenet/ImagenetRaw/ILSVRC2012_img_val",
