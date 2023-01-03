@@ -272,7 +272,7 @@ def main():
                                          quant_level=0,)
         q_model = quantization.fit(model, 
                                    config,
-                                   calib_dataloader=DefaultDataLoader(ds, batch_size=args.per_gpu_eval_batch_size)
+                                   calib_dataloader=DefaultDataLoader(ds, batch_size=args.per_gpu_eval_batch_size),
                                    eval_func=eval_func)
         q_model.save(args.output_model)
 
