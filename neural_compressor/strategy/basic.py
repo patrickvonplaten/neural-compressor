@@ -23,7 +23,7 @@ from collections import OrderedDict
 from .strategy import strategy_registry, TuneStrategy
 from ..utils import logger
 
-from .utils.tuning_sampler import OpTypeWiseTuningSampler, FallbackTuningSampler, ModelWiseTuningSampler
+from .utils.tuning_sampler import OpTypeWiseTuningSampler, FallbackTuningSampler, ModelWiseTuningSampler, RecipeTuningSampler
 from .utils.tuning_structs import OpTuningConfig
 from .utils.tuning_space import TUNING_ITEMS_LST
 
@@ -79,6 +79,14 @@ class BasicTuneStrategy(TuneStrategy):
                 new_op_tuning_cfg['calib_sampling_size'] = calib_sampling_size
                 yield new_op_tuning_cfg
             best_op_tuning_cfg_stage1 = deepcopy(self.cur_best_tuning_cfg)
+            
+            # Fallback all recipe ops        
+            logger.debug("Fallback recipe ops to fp32.")
+            recipe_sampler = RecipeTuningSampler(tuning_space, [], deepcopy(best_op_tuning_cfg_stage1),
+                                                 self.framework, self.capability['recipe_ops'], self.cfg)
+            for op_tuning_cfg in recipe_sampler:
+                op_tuning_cfg['calib_sampling_size'] = calib_sampling_size
+                yield op_tuning_cfg
 
             # Fallback
             for target_dtype in ['bf16', 'fp32']:
