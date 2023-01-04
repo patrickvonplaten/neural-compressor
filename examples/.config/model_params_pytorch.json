@@ -28,6 +28,7 @@
       "dataset_location": "/tf_dataset/pytorch/ImageNet/raw",
       "input_model": "efficientnet_b0",
       "main_script": "main.py",
+      "strategy": "mse_v2",
       "batch_size": 100
     },
     "efficientnet_b3_fx": {
@@ -35,6 +36,7 @@
       "dataset_location": "/tf_dataset/pytorch/ImageNet/raw",
       "input_model": "efficientnet_b3",
       "main_script": "main.py",
+      "strategy": "mse_v2",
       "batch_size": 100
     },
     "efficientnet_b7_fx": {
@@ -42,6 +44,7 @@
       "dataset_location": "/tf_dataset/pytorch/ImageNet/raw",
       "input_model": "efficientnet_b7",
       "main_script": "main.py",
+      "strategy": "mse_v2",
       "batch_size": 100
     },
     "resnet50": {
