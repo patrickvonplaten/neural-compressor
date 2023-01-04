@@ -276,3 +276,43 @@ class FallbackTuningSampler(TuningSampler):
             yield new_tune_cfg  # need to skip the first one
 
 
+class RecipeTuningSampler(TuningSampler):
+    def __init__(self, 
+                 tuning_space: TuningSpace, 
+                 tuning_order_lst: List[TuningOrder], 
+                 initial_op_tuning_cfg: Dict,
+                 framework: str, recipe_ops:Dict, user_cfg:Dict):
+        super().__init__(
+            tuning_space, 
+            tuning_order_lst, 
+            initial_op_tuning_cfg)
+        
+        self._framework = framework
+        self._recipe_ops = recipe_ops
+        self._user_cfg = user_cfg
+        pass
+    
+    def __iter__(self):
+        if self._framework.startswith("onnx") or self._framework.startswith("tensorflow"):
+            recipe_tune_cfg = copy.deepcopy(self.initial_op_tuning_cfg)
+            recipe_update_cfg = {}
+            for recipe in ('first_conv_or_matmul', 'last_conv_or_matmul', 'pre_post_process_nodes'):
+                if recipe in self._recipe_ops:    
+                    for op_name_type in self._recipe_ops[recipe]:
+                        if op_name_type in self.tuning_space.ops_dtype:
+                            new_op_config = OpTuningConfig(op_name_type[0], op_name_type[1], 'fp32', self.tuning_space)
+                            recipe_update_cfg[op_name_type] = new_op_config
+            
+            logger.debug("Dump fallbacked recipe ops:")
+            for op_name_type in recipe_update_cfg:
+                logger.debug(op_name_type)
+            
+            recipe_tune_cfg.update(recipe_update_cfg)
+            yield recipe_tune_cfg
+            
+        if self._framework.startswith("tensorflow"):
+            self._user_cfg.quantization.recipes.scale_propagation_concat = False
+            self._user_cfg.quantization.recipes.scale_propagation_max_pooling = False
+            yield self.initial_op_tuning_cfg
+            self._user_cfg.quantization.recipes.scale_propagation_concat = True
+            self._user_cfg.quantization.recipes.scale_propagation_max_pooling = True
