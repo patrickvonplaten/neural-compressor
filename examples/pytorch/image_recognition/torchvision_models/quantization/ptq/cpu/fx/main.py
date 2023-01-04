@@ -173,17 +173,13 @@ def main():
     if args.tune:
         from neural_compressor import PostTrainingQuantConfig
         from neural_compressor import quantization
-        if 'efficient' in args.arch:
-            # Recommend a more effective mse_v2 strategy for efficientnet
-            from neural_compressor.config import TuningCriterion
-            tuning_criterion = TuningCriterion(strategy="mse_v2")
-            conf = PostTrainingQuantConfig(tuning_criterion=tuning_criterion)
-        else:
-            conf = PostTrainingQuantConfig()
+        from neural_compressor.config import TuningCriterion
+        tuning_criterion = TuningCriterion(strategy='basic')
+        conf = PostTrainingQuantConfig(tuning_criterion=tuning_criterion)
         q_model = quantization.fit(model,
-                                    conf,
-                                    calib_dataloader=val_loader,
-                                    eval_func=eval_func)
+                                   conf,
+                                   calib_dataloader=val_loader,
+                                   eval_func=eval_func)
         q_model.save(args.tuned_checkpoint)
         return
 
