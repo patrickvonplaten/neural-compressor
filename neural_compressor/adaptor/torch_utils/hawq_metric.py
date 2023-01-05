@@ -360,7 +360,7 @@ class HessianTrace:
                     vt_H_v_mean_per_act = [item / (iter + 1) for item in vt_H_v_sum_per_act]
                     current_model_act_trace = torch.mean(torch.stack(vt_H_v_mean_per_act))
 
-                    diff_ratio = abs(current_model_act_trace - prev_model_act_trace) / (
+                    diff_ratio = abs(current_model_act_trace - prev_model_act_trace) / abs(
                             prev_model_act_trace + self.eps)
                     if diff_ratio < self.tolerance and iter > 10:  ##TODO magic number
                         break

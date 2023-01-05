@@ -262,7 +262,7 @@ class TuneStrategy(object):
             self._dump_tuning_process_statistics()
             if need_stop:
                 if self.re_quant:
-                    logger.info("*** Do not stop the tuning process, re-quantize the ops.")
+                    logger.info("*** Keep tuning to decrease the fallback ops.")
                     continue
                 if self.cfg.tuning.diagnosis and self.cfg.tuning.diagnosis.diagnosis_after_tuning:
                     logger.debug(f'*** Start to do diagnosis (inspect tensor).')
