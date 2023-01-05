@@ -19,14 +19,14 @@ from neural_compressor.utils.utility import LazyImport
 torch = LazyImport('torch')
 
 
-CRITERIAS = {}
+CRITERIA = {}
 
 
 def register_criterion(name):
     """Register a criterion to the registry."""
 
     def register(criterion):
-        CRITERIAS[name] = criterion
+        CRITERIA[name] = criterion
         return criterion
 
     return register
@@ -35,9 +35,9 @@ def register_criterion(name):
 def get_criterion(config, modules):
     """Get registered criterion class."""
     name = config["criterion_type"]
-    if name not in CRITERIAS.keys():
-        assert False, f"criteria does not support {name}, currently only support {CRITERIAS.keys()}"
-    return CRITERIAS[name](modules, config)
+    if name not in CRITERIA.keys():
+        assert False, f"criteria does not support {name}, currently only support {CRITERIA.keys()}"
+    return CRITERIA[name](modules, config)
 
 
 class PruningCriterion:
@@ -59,6 +59,10 @@ class PruningCriterion:
 
     def on_step_begin(self):
         """Calculate and store the pruning scores of pruning modules at the beginning of a step."""
+        pass
+
+    def on_before_optimizer_step(self):
+        """Calculate and store the pruning scores of pruning modules before the optimizer step."""
         pass
 
     def on_after_optimizer_step(self):
@@ -111,8 +115,9 @@ class GradientCriterion(PruningCriterion):
     def __init__(self, modules, config):
         """Initiliaze a gradient pruning criterion."""
         super(GradientCriterion, self).__init__(modules, config)
+        assert self.config.end_step > 0, "please set end_step > 0 for gradient based criterion"
 
-    def on_after_optimizer_step(self):
+    def on_before_optimizer_step(self):
         """Calculate and store the pruning scores based on gradient criterion."""
         with torch.no_grad():
             for key in self.modules.keys():
@@ -140,9 +145,9 @@ class SnipCriterion(PruningCriterion):
     def __init__(self, modules, config):
         """Initiliaze a snip pruning criterion."""
         super(SnipCriterion, self).__init__(modules, config)
-        assert self.config.end_step > 0, "gradient based criterion does not work on step 0"
+        assert self.config.end_step > 0, "please set end_step > 0 for gradient based criterion"
 
-    def on_after_optimizer_step(self):
+    def on_before_optimizer_step(self):
         """Calculate and store the pruning scores based on snip criterion."""
         ##self.mask_weights()
         with torch.no_grad():
@@ -171,7 +176,7 @@ class SnipMomentumCriterion(PruningCriterion):
     def __init__(self, modules, config):
         """Initiliaze a snip_momentum pruning criterion."""
         super(SnipMomentumCriterion, self).__init__(modules, config)
-        assert self.config.end_step > 0, "gradient based criterion does not work on step 0"
+        assert self.config.end_step > 0, "please set end_step > 0 for gradient based criterion"
         for key in modules.keys():
             p = modules[key].weight
             self.scores[key] = torch.zeros(p.shape).to(p.device)
@@ -179,7 +184,7 @@ class SnipMomentumCriterion(PruningCriterion):
         self.alpha = 0.9
         self.beta = 1.0
 
-    def on_after_optimizer_step(self):
+    def on_before_optimizer_step(self):
         """Calculate and store the pruning scores based on snip_momentum criterion."""
         with torch.no_grad():
             for key in self.modules.keys():
