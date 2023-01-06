@@ -89,16 +89,17 @@ if __name__ == "__main__":
     if args.tune:
         from onnxruntime.transformers import optimizer
         from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
-        opt_options = BertOptimizationOptions('bert')
-        opt_options.enable_embed_layer_norm = False
+#         opt_options = BertOptimizationOptions('bert')
+#         opt_options.enable_embed_layer_norm = False
 
-        model_optimizer = optimizer.optimize_model(
-            args.model_path,
-            'bert',
-            num_heads=12,
-            hidden_size=768,
-            optimization_options=opt_options)
-        model = model_optimizer.model
+#         model_optimizer = optimizer.optimize_model(
+#             args.model_path,
+#             'bert',
+#             num_heads=12,
+#             hidden_size=768,
+#             optimization_options=opt_options)
+#         model = model_optimizer.model
+        model = onnx.load(args.model_path)
 
         from neural_compressor.experimental import Quantization, common
         from neural_compressor import options
