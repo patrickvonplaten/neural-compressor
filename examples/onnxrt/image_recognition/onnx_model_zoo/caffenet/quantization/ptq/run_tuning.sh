@@ -35,8 +35,12 @@ function init_params {
 
 # run_tuning
 function run_tuning {
+    python symbolic_shape_infer.py \
+            --input ${input_model} \
+            --output ${output_model}
+
     python main.py \
-            --model_path ${input_model} \
+            --model_path ${output_model} \
             --data_path ${data_path} \
             --label_path ${label_path} \
             --output_model ${output_model} \
