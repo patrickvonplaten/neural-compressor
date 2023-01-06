@@ -87,7 +87,7 @@ class Quantizer:
 
         self.add_qdq_pair_to_weight = options.onnxrt.qdq_setting.AddQDQPairToWeight
         self.dedicated_qdq_pair = options.onnxrt.qdq_setting.DedicatedQDQPair
-
+        print(options.onnxrt.graph_optimization.level)
     def check_opset_version(self):
         ai_onnx_domain = [
             opset for opset in self.model.model.opset_import if not opset.domain \
@@ -199,7 +199,7 @@ class Quantizer:
                 for node, old_input_name, new_input_name in self.replace_input:
                     self.model.replace_node_input(node, old_input_name, new_input_name)
                 self.model.update()
-        
+         
         if self.mode == 'qdq':
             for node in self.model.nodes():
                 if node.op_type in ['QuantizeLinear'] and len(self.model.get_parents(node)) > 0:
@@ -207,13 +207,15 @@ class Quantizer:
                         continue
                     for sibling in self.model.get_siblings(node):
                         if not self.should_quantize(sibling):
-                            self.replace_input.append([sibling, 
-                                                       sibling.input[1], 
-                                                       self.model.get_children(node)[0].output[0]])
+                            for inp_idx in range(len(sibling.input)):
+                                if sibling.input[inp_idx] == node.input[0]:
+                                    self.replace_input.append([sibling, 
+                                                     sibling.input[inp_idx], 
+                                                     self.model.get_children(node)[0].output[0]])
             for node, old_input_name, new_input_name in self.replace_input:
                 self.model.replace_node_input(node, old_input_name, new_input_name)
             self.model.update()
-
+         #'''
     def should_cast(self, node):
         if node.name in self.config and self.config[node.name] != 'fp32': # pragma: no cover
             return True
