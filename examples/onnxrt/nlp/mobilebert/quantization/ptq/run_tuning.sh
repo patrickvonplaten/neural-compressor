@@ -27,12 +27,8 @@ function init_params {
 
 # run_tuning
 function run_tuning {
-    python symbolic_shape_infer.py \
-            --input ${input_model} \
-            --output ${output_model}
-
     python main.py \
-            --model_path ${output_model} \
+            --model_path ${input_model} \
             --output_model ${output_model} \
             --config ${config} \
             --tune
