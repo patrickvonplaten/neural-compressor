@@ -214,7 +214,8 @@ class ONNXRUNTIMEAdaptor(Adaptor):
             quantize_params,
             self.quantizable_op_types,
             self.query_handler.get_fallback_list(),
-            self.reduce_range)
+            self.reduce_range,
+            self.backend)
         quantizer.quantize_model()
         tmp_model.q_config = self._generate_qconfig(model.model, tune_cfg, quantize_params)
         tmp_model.model = quantizer.model.model
@@ -713,17 +714,20 @@ class ONNXRUNTIMEAdaptor(Adaptor):
                 optypes = query.get_op_types_by_precision(precision) if \
                     query.get_op_types_by_precision(precision) != ['*'] else \
                     optype_wise.keys()
- 
+
+                configs = None
                 if self.backend in query.get_quantization_capability():
-                    configs = query.get_quantization_capability()[self.backend] if \
-                        precision in query.get_quantization_capability() else \
-                        {'default': {'weight': {'dtype': precision}, 'activation': {'dtype': precision}}}
-                else:
+                    if precision == 'fp32':
+                        configs = {'default': {'weight': {'dtype': precision}, 'activation': {'dtype': precision}}}
+                    elif precision in query.get_quantization_capability():
+                        configs = query.get_quantization_capability()[self.backend]
+                if configs is None:
                     continue
 
                 if self.backend == 'TensorrtExecutionProvider' and \
                     precision not in query.get_fallback_list():
                     optypes.append('Add')
+                    self.quantizable_op_types.append('Add')
  
                 for op in optypes:
                     if op not in quantizable_optype:
@@ -778,11 +782,14 @@ class ONNXRUNTIMEAdaptor(Adaptor):
 
         for _, node in enumerate(self.pre_optimized_model.nodes()):
             # for TRT EP, only insert Q/DQ to inputs of Add nodes followed by ReduceMean
-            if node.op_type == 'Add' and self.backend == 'TensorrtExecutionProvider':
+            if node.op_type == 'Add' and self.backend == 'TensorrtExecutionProvider' and \
+                    node.op_type in optype_wise:
                 children = self.pre_optimized_model.get_children(node)
                 if 'ReduceMean' not in [i.op_type for i in children]:
                     op_wise.update({(node.name, node.op_type): 
                         [{'weight': {'dtype': 'fp32'}, 'activation': {'dtype': 'fp32'}}]})
+                else:
+                    op_wise.update({(node.name, node.op_type): optype_wise['Add']})
                 continue
 
             if node.op_type in optype_wise:
@@ -825,7 +832,6 @@ class ONNXRUNTIMEAdaptor(Adaptor):
                     else: # pragma: no cover
                         op_wise.update(
                             {(node.name, node.op_type): copy.deepcopy(optype_wise[node.op_type])})
-
         return {'optypewise': optype_wise, 'opwise': op_wise}
 
     def _cfg_to_quantize_config(self, tune_cfg):

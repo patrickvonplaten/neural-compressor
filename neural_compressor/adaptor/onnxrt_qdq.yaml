@@ -79,7 +79,7 @@
            'weight':   {
                       'dtype': ['int8'],
                       'scheme': ['sym'],
-                      'granularity': ['per_tensor', 'per_channel'],
+                      'granularity': ['per_channel', 'per_tensor'],
                       'algorithm': ['minmax']
                       },
           'activation': {
@@ -103,16 +103,6 @@
                       'algorithm': ['minmax']
                       }
                   },
-        'Attention': *cap_s8_sym_pertensor_default,
-        'LeakyRelu': *cap_s8_sym_pertensor_default,
-        'Gather': *cap_s8_sym_default,
-        'Sigmoid': *cap_s8_sym_pertensor_default,
-        'MaxPool': *cap_s8_sym_pertensor_default,
-        'EmbedLayerNormalization': *cap_s8_sym_pertensor_default,
-        'GlobalAveragePool': *cap_s8_sym_pertensor_default,
-        'Pad': *cap_s8_sym_pertensor_default,
-        'Split': *cap_s8_sym_pertensor_default,
-        'Add': *cap_s8_sym_pertensor_default,
         }
  
   graph_optimization: &default_optimization  # from onnxruntime graph_optimization_level
@@ -139,23 +129,6 @@
     TensorrtExecutionProvider: &ref_1_8 {
         'Conv': *cap_s8_sym_default,
         'MatMul': *cap_s8_sym_pertensor_default,
-        'Attention': *cap_s8_sym_pertensor_default,
-        'LeakyRelu': *cap_s8_sym_pertensor_default,
-        'Gather': *cap_s8_sym_default,
-        'Sigmoid': *cap_s8_sym_pertensor_default,
-        'MaxPool': *cap_s8_sym_pertensor_default,
-        'EmbedLayerNormalization': *cap_s8_sym_pertensor_default,
-        'GlobalAveragePool': *cap_s8_sym_pertensor_default,
-        'Pad': *cap_s8_sym_pertensor_default,
-        'Split': *cap_s8_sym_pertensor_default,
-        'Squeeze': *cap_s8_sym_pertensor_default,
-        'Reshape': *cap_s8_sym_pertensor_default,
-        'Concat': *cap_s8_sym_pertensor_default,
-        'AveragePool': *cap_s8_sym_pertensor_default,
-        'Unsqueeze': *cap_s8_sym_pertensor_default,
-        'Transpose': *cap_s8_sym_pertensor_default,
-        'Resize': *cap_s8_sym_pertensor_default,
-        'Add': *cap_s8_sym_pertensor_default,
         }
  
   graph_optimization: 
@@ -334,24 +307,6 @@
     TensorrtExecutionProvider: {
         'Conv': *cap_s8_sym_default,
         'MatMul': *cap_s8_sym_default,
-        'Attention': *cap_s8_sym_pertensor_default,
-        'LeakyRelu': *cap_s8_sym_pertensor_default,
-        'Gather': *cap_s8_sym_default,
-        'Sigmoid': *cap_s8_sym_pertensor_default,
-        'MaxPool': *cap_s8_sym_pertensor_default,
-        'EmbedLayerNormalization': *cap_s8_sym_pertensor_default,
-        'GlobalAveragePool': *cap_s8_sym_pertensor_default,
-        'Pad': *cap_s8_sym_pertensor_default,
-        'Split': *cap_s8_sym_pertensor_default,
-        'Squeeze': *cap_s8_sym_pertensor_default,
-        'Reshape': *cap_s8_sym_pertensor_default,
-        'Concat': *cap_s8_sym_pertensor_default,
-        'AveragePool': *cap_s8_sym_pertensor_default,
-        'Unsqueeze': *cap_s8_sym_pertensor_default,
-        'Transpose': *cap_s8_sym_pertensor_default,
-        'Resize': *cap_s8_sym_pertensor_default,
-        'Gemm': *cap_s8_sym_default,
-        'Add': *cap_s8_sym_pertensor_default,
         }
  
 

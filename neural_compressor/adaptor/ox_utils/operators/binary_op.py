@@ -28,10 +28,12 @@ class BinaryOperator(Operator):
     def quantize_check(self):
         node = self.node
         data_found, _, _, _, _ = self.quantizer._get_quantization_params(node.output[0])
-        if not data_found:
+        if not data_found and not self.disable_qdq_for_node_output:
             return False
-        if not all([self.quantizer.is_valid_quantize_weight(i) for i in node.input]):
+        if not all([self.quantizer.is_valid_quantize_weight(i) for i in node.input]) and \
+                self.quantizer.backend != 'TensorrtExecutionProvider':
             return False
+ 
         return True
 
     def quantize(self):

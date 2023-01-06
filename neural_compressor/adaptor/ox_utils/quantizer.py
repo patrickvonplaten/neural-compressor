@@ -44,10 +44,11 @@ logger = logging.getLogger("neural_compressor")
 
 class Quantizer:
     def __init__(self, model, q_config, mode, static, quantization_params,
-                 op_types_to_quantize, fallback_list=['fp32'], reduce_range=None):
+                 op_types_to_quantize, fallback_list=['fp32'], reduce_range=None, backend='TensorrtExecutionProvider'):
         self.model = ONNXModel(model) if not isinstance(model, ONNXModel) else model
         model = onnx.shape_inference.infer_shapes(self.model.model) if \
             not self.model.large_size else self.model.model
+        self.backend = backend
         self.config = q_config
         self.reduce_range = reduce_range
         self.mode = mode # QuantizationMode.Value
@@ -198,6 +199,20 @@ class Quantizer:
                 for node, old_input_name, new_input_name in self.replace_input:
                     self.model.replace_node_input(node, old_input_name, new_input_name)
                 self.model.update()
+        
+        if self.mode == 'qdq':
+            for node in self.model.nodes():
+                if node.op_type in ['QuantizeLinear'] and len(self.model.get_parents(node)) > 0:
+                    if 'QuantizeLinear' in [sibling.op_type for sibling in self.model.get_siblings(node)]:
+                        continue
+                    for sibling in self.model.get_siblings(node):
+                        if not self.should_quantize(sibling):
+                            self.replace_input.append([sibling, 
+                                                       sibling.input[1], 
+                                                       self.model.get_children(node)[0].output[0]])
+            for node, old_input_name, new_input_name in self.replace_input:
+                self.model.replace_node_input(node, old_input_name, new_input_name)
+            self.model.update()
 
     def should_cast(self, node):
         if node.name in self.config and self.config[node.name] != 'fp32': # pragma: no cover
