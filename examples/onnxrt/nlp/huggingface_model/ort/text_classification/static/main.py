@@ -433,6 +433,16 @@ if __name__ == "__main__":
                         dr,
                         quant_format=QuantFormat.QOperator,
                         )
+        
+        int8_model = onnx.load(args.output_model)
+        info = {}
+        for node in int8_model.graph.node:
+            if node.op_type not in info:
+                info[node.op_type] = 1
+            else:
+                info[node.op_type] += 1
+        print(info)
+        
         print('save ortq static quantize model to', args.output_model)
         print('model which meet accuracy goal.')
 
