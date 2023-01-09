@@ -708,6 +708,15 @@ def main():
                         static_dataset,
                         quant_format=QuantFormat.QOperator,
                         )
+                
+        int8_model = onnx.load(model_args.save_path)
+        info = {}
+        for node in int8_model.graph.node:
+            if node.op_type not in info:
+                info[node.op_type] = 1
+            else:
+                info[node.op_type] += 1
+        print(info)
         print('static Calibrated and quantized model saved to', model_args.save_path)
         print('model which meet accuracy goal.')
 
