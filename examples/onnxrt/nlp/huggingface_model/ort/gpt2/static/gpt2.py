@@ -302,6 +302,14 @@ def main():
                         )
         # {'Reshape', 'Slice', 'Unsqueeze', 'Gather', 'Add', 'Range', 'LayerNormalization', 
         # 'Shape', 'MatMul', 'Attention', 'Squeeze', 'FastGelu', 'Split', 'Transpose', 'Concat'}
+        int8_model = onnx.load(args.output_model)
+        info = {}
+        for node in int8_model.graph.node:
+            if node.op_type not in info:
+                info[node.op_type] = 1
+            else:
+                info[node.op_type] += 1
+        print(info)
         print('save ortq static quantize model to', args.output_model)
         print('model which meet accuracy goal.')
 
