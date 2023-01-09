@@ -206,7 +206,7 @@ class Quantizer:
                     if 'QuantizeLinear' in [sibling.op_type for sibling in self.model.get_siblings(node)]:
                         continue
                     for sibling in self.model.get_siblings(node):
-                        if not self.should_quantize(sibling):
+                        if not self.should_quantize(sibling) and sibling.op_type in OPERATORS:
                             for inp_idx in range(len(sibling.input)):
                                 if sibling.input[inp_idx] == node.input[0]:
                                     self.replace_input.append([sibling, 
@@ -215,7 +215,7 @@ class Quantizer:
             for node, old_input_name, new_input_name in self.replace_input:
                 self.model.replace_node_input(node, old_input_name, new_input_name)
             self.model.update()
-         #'''
+         
     def should_cast(self, node):
         if node.name in self.config and self.config[node.name] != 'fp32': # pragma: no cover
             return True
