@@ -82,7 +82,7 @@ class QuantType(Enum): # pragma: no cover
 
 def make_quant_node(name, inputs, outputs, axis=None):
     if axis is not None:
-        return helper.make_node("QuantizeLinear", inputs, outputs, axis=axis)
+        return helper.make_node("QuantizeLinear", inputs, outputs, name, axis=axis)
     else:
         return helper.make_node("QuantizeLinear", inputs, outputs, name)
 

@@ -126,6 +126,8 @@ class ONNXRTAugment:
         initializers = {i.name: i.data_type for i in model.graph.initializer}
         node_outputs = []
         for node in model.graph.node: # pylint: disable=no-member
+            if self.backend == ['TensorrtExecutionProvider'] and node.op_type == 'Dropout':
+                continue
             node_outputs.extend(node.output)
             should_be_dump = ((node.op_type in self.dump_op_types) and
                                    (node.name not in self.black_nodes)) or \
