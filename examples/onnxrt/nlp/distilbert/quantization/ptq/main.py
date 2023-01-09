@@ -87,23 +87,23 @@ if __name__ == "__main__":
         evaluator(args.mode)
 
     if args.tune:
-        from onnxruntime.transformers import optimizer
-        from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
-        opt_options = BertOptimizationOptions('bert')
-        opt_options.enable_embed_layer_norm = False
+        #from onnxruntime.transformers import optimizer
+        #from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
+        #opt_options = BertOptimizationOptions('bert')
+        #opt_options.enable_embed_layer_norm = False
 
-        model_optimizer = optimizer.optimize_model(
-            args.model_path,
-            'bert',
-            num_heads=12,
-            hidden_size=768,
-            optimization_options=opt_options)
-        model = model_optimizer.model
+        #model_optimizer = optimizer.optimize_model(
+        #    args.model_path,
+        #    'bert',
+        #    num_heads=12,
+        #    hidden_size=768,
+        #    optimization_options=opt_options)
+        #model = model_optimizer.model
 
         from neural_compressor.experimental import Quantization, common
         from neural_compressor import options
         options.onnxrt.qdq_setting.OpTypesToExcludeOutputQuantizatioin = ['MatMul', 'Gemm', 'Attention', 'FusedGemm']
         quantize = Quantization(args.config)
-        quantize.model = common.Model(model)
+        quantize.model = common.Model(args.model_path)
         q_model = quantize()
         q_model.save(args.output_model)

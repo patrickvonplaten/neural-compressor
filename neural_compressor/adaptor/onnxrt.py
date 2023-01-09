@@ -523,6 +523,7 @@ class ONNXRUNTIMEAdaptor(Adaptor):
         model = self._revert_fusedconv(model)
         if self.backend == 'TensorrtExecutionProvider':
             model = self._revert_conv_add_fusion(model)
+        model = self._convert_constant_to_initializer(model)
         model = split_shared_bias(model)
         model.topological_sort()
         self.pre_optimized_model = copy.deepcopy(model)
@@ -556,6 +557,20 @@ class ONNXRUNTIMEAdaptor(Adaptor):
 
         model.remove_nodes(remove_nodes)
         model.add_nodes(add_nodes)
+        model.update()
+        return model
+
+    def _convert_constant_to_initializer(self, model):
+        inits = []
+        nodes = []
+        for node in model.nodes():
+            if node.op_type == 'Constant':
+                data = onnx.numpy_helper.to_array(node.attribute[0].t)
+                init = onnx.numpy_helper.from_array(data, node.name)
+                inits.append(init)
+                nodes.append(node)
+        model.add_initializers(inits)
+        model.remove_nodes(nodes)
         model.update()
         return model
 

@@ -80,8 +80,11 @@ class QuantType(Enum): # pragma: no cover
     QInt8 = 0
     QUInt8 = 1
 
-def make_quant_node(name, inputs, outputs):
-    return helper.make_node("QuantizeLinear", inputs, outputs, name)
+def make_quant_node(name, inputs, outputs, axis=None):
+    if axis is not None:
+        return helper.make_node("QuantizeLinear", inputs, outputs, axis=axis)
+    else:
+        return helper.make_node("QuantizeLinear", inputs, outputs, name)
 
 def make_dquant_node(name, inputs, outputs, axis=None):
     if axis is not None:

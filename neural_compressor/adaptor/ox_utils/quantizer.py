@@ -724,7 +724,9 @@ class Quantizer:
                                                                                scheme,
                                                                                axis) 
                 qlinear_node = make_quant_node(weight_name + "_QuantizeLinear",
-                        [weight_name, scale_name, zp_name], [weight_name + "_quantized"])
+                            [weight_name, scale_name, zp_name],
+                            [weight_name + "_quantized"],
+                            axis)
                 dequant_node = make_dquant_node(weight_name + "_DequantizeLinear",
                             [weight_name + "_quantized", scale_name, zp_name], 
                             [weight_name + "_dequantized"], axis)
