@@ -194,6 +194,7 @@ def quantize_data_with_scale_zero(data, qType, scheme, scale, zero_point):
     return quantized_data
 
 def calculate_scale_zp(rmin, rmax, quantize_range, qType, scheme):
+    """Calculate scale and zero point."""
     if scheme == 'sym':
         max_range = max(abs(rmin), abs(rmax))
         scale = (float(max_range) * 2) / quantize_range if max_range > 0 else 1
