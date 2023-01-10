@@ -50,6 +50,7 @@ class ONNXRTAugment:
                  black_nodes=[],
                  white_nodes=[],
                  iterations=[],
+                 device='cpu',
                  backend=['CPUExecutionProvider'],
                  reduce_range=False):
         '''
@@ -59,6 +60,7 @@ class ONNXRTAugment:
         :param black_nodes: operator names that should not be quantized, default = ''
         :param white_nodes: operator names that force to be quantized, default = ''
         :param iterations: tensor of which iteration will be collected.
+        :param backend: execution hardware
         :param backend: execution provider for onnxruntime
         :reduce_range: use 7 bit or not
         '''
@@ -73,6 +75,7 @@ class ONNXRTAugment:
         self.white_nodes = white_nodes
         self.augmented_model = None
         self.iterations = iterations
+        self.device = device
         self.backend = backend
         self.augment_nodes = []
         self.dequantized_output = {}
@@ -127,8 +130,6 @@ class ONNXRTAugment:
         node_outputs = []
         for node in model.graph.node: # pylint: disable=no-member
             node_outputs.extend(node.output)
-            if self.backend == ['TensorrtExecutionProvider'] and node.op_type == 'Dropout':
-                continue
             should_be_dump = ((node.op_type in self.dump_op_types) and
                                    (node.name not in self.black_nodes)) or \
                                    (node.name in self.white_nodes)
@@ -213,15 +214,15 @@ class ONNXRTAugment:
         if sys.version_info < (3,10) and find_spec('onnxruntime_extensions'): # pragma: no cover
             from onnxruntime_extensions import get_library_path
             so.register_custom_ops_library(get_library_path())
-
+        provider = ['CUDAExecutionProvider'] if 'gpu' in self.device else ['CPUExecutionProvider']
         session = onnxruntime.InferenceSession(
                     self.augmented_model.SerializeToString(),
                     so,
-                    providers=self.backend) if not self.model_wrapper.large_size else \
+                    providers=provider) if not self.model_wrapper.large_size else \
                   onnxruntime.InferenceSession(
                     self.model_wrapper.model_path  + '_augment.onnx',
                     so,
-                    providers=self.backend)
+                    providers=provider)
 
         intermediate_outputs = []
         len_inputs = len(session.get_inputs())
