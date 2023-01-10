@@ -16,12 +16,14 @@
 # limitations under the License.
 
 from neural_compressor.experimental.metric import METRICS
-from neural_compressor.experimental.data import Datasets, TRANSFORMS, FILTERS, DATALOADERS
+from neural_compressor.experimental.data import Datasets, FILTERS, DATALOADERS
 from neural_compressor.experimental.common import Optimizers, Criterions
+from neural_compressor.utils.utility import LazyImport
 from collections import OrderedDict
 import copy
 import gc
 
+TRANSFORMS = LazyImport('neural_compressor.data.transforms.transform.TRANSFORMS')
 DEFAULT_BATCH_SIZE = 64
 
 

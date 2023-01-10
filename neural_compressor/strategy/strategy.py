@@ -226,6 +226,7 @@ class TuneStrategy(object):
             logger.debug(tune_cfg)
 
             self.tuning_times += 1
+            os.environ['ORT_TENSORRT_INT8_ENABLE'] = '0'
             self.q_model = self.adaptor.quantize(
                 copy.deepcopy(tune_cfg), self.model, self.calib_dataloader, self.q_func)
             self.algo.calib_iter = tune_cfg['calib_iteration']

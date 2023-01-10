@@ -566,7 +566,7 @@ class ONNXRUNTIMEAdaptor(Adaptor):
         for node in model.nodes():
             if node.op_type == 'Constant':
                 data = onnx.numpy_helper.to_array(node.attribute[0].t)
-                init = onnx.numpy_helper.from_array(data, node.name)
+                init = onnx.numpy_helper.from_array(data, node.output[0])
                 inits.append(init)
                 nodes.append(node)
         model.add_initializers(inits)
