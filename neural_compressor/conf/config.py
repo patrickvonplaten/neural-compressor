@@ -796,7 +796,7 @@ schema = Schema({
                                              And(int, Use(input_int_to_float)),
                                              And(str, Use(input_int_to_float))),
                                           lambda s: s == float(__version__.split('.')[0])),
-    Optional('device', default='cpu'): And(str, lambda s: s in ['cpu', 'gpu']),
+    Optional('device', default='gpu'): And(str, lambda s: s in ['cpu', 'gpu']),
     Optional('quantization', default={'approach': 'post_training_static_quant', \
                                       'calibration': {'sampling_size': [100]}, \
                                       'recipes': {'scale_propagation_max_pooling': True,

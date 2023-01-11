@@ -925,6 +925,10 @@ class ONNXRUNTIMEAdaptor(Adaptor):
                             convert_attribute=False)
         sess_options = ort.SessionOptions()
         if self.backend == 'TensorrtExecutionProvider':
+            for node in input_graph.nodes():
+                if node.op_type == 'QuantizeLinear':
+                    os.environ['ORT_TENSORRT_INT8_ENABLE'] = '1'
+                    break
             sess_options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_DISABLE_ALL 
         if measurer:
             # https://github.com/microsoft/onnxruntime/issues/7347
