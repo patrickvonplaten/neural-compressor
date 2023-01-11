@@ -423,6 +423,14 @@ if __name__ == "__main__":
             hidden_size=args.hidden_size,
             optimization_options=opt_options)
         model = model_optimizer.model
+        info = {}
+        for node in model.graph.node:
+            if node.op_type not in info:
+                info[node.op_type] = 1
+            else:
+                info[node.op_type] += 1
+        print(info)
+        
         onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
 
         dr = ONNXRTBertDatasetForINC(data_dir=args.data_path, 
