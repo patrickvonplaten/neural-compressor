@@ -288,6 +288,14 @@ def main():
             hidden_size=768,
             optimization_options=opt_options)
         model = model_optimizer.model  
+        
+        info = {}
+        for node in model.graph.node:
+            if node.op_type not in info:
+                info[node.op_type] = 1
+            else:
+                info[node.op_type] += 1
+        print(info)
 
         onnx.save(model, 'gpt2-optimized.onnx')
 
