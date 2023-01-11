@@ -654,6 +654,13 @@ def main():
             hidden_size=model_args.hidden_size,
             optimization_options=opt_options)
         model = model_optimizer.model
+        info = {}
+        for node in model.graph.node:
+            if node.op_type not in info:
+                info[node.op_type] = 1
+            else:
+                info[node.op_type] += 1
+        print(info)
 
         if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
             if not os.path.exists('./' + model_args.model_name_or_path.split('/')[-1]):
