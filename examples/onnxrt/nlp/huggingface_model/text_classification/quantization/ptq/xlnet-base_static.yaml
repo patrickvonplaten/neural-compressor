@@ -41,6 +41,8 @@ quantization:
      '/transformer/layer.5/ff/layer_1/MatMul':{'activation':  {'dtype': ['fp32']}, 'weight': {'dtype': ['fp32']}},
      '/transformer/layer.0/ff/layer_2/MatMul':{'activation':  {'dtype': ['fp32']}, 'weight': {'dtype': ['fp32']}},
      '/transformer/layer.0/ff/layer_1/MatMul':{'activation':  {'dtype': ['fp32']}, 'weight': {'dtype': ['fp32']}},
+     '/transformer/word_embedding/Gather':{'activation':  {'dtype': ['fp32']}, 'weight': {'dtype': ['fp32']}},
+     
    }
   
 tuning:
