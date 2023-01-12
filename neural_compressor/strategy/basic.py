@@ -49,28 +49,38 @@ class BasicTuneStrategy(TuneStrategy):
             op_item_dtype_dict, quant_mode_wise_items, initial_op_tuning_cfg = self.initial_tuning_cfg()
             # Optype-wise tuning tuning items: the algorithm/scheme/granularity of activation(weight)
             early_stop_tuning = False
-            stage1_cnt = 0
+            
             quant_ops = quant_mode_wise_items['static'] if 'static' in quant_mode_wise_items else []
             quant_ops += quant_mode_wise_items['dynamic'] if 'dynamic' in quant_mode_wise_items else []
             stage1_max = 1e9  # TODO set a more appropriate value
             op_wise_tuning_sampler = OpTypeWiseTuningSampler(tuning_space, [], [], 
                                                              op_item_dtype_dict, initial_op_tuning_cfg)
-            for op_tuning_cfg in op_wise_tuning_sampler:
+            op_wise_tuning_iter = iter(op_wise_tuning_sampler)
+            
+            # The first trial: All int8
+            op_tuning_cfg = next(op_wise_tuning_iter)
+            op_tuning_cfg['calib_sampling_size'] = calib_sampling_size
+            yield op_tuning_cfg
+            
+            # Apply independent tuning recipe
+            logger.debug("Fallback recipe ops to fp32.")
+            recipe_sampler = RecipeTuningSampler(tuning_space, [], deepcopy(op_tuning_cfg),
+                                                 self.framework, self.capability['recipe_ops'], self.cfg)
+            self.enable_updating_best_cfg = False
+            for op_tuning_cfg in recipe_sampler:
+                op_tuning_cfg['calib_sampling_size'] = calib_sampling_size
+                yield op_tuning_cfg
+            self.enable_updating_best_cfg = True
+            
+            # Op-type-wise tuning
+            stage1_cnt = 1
+            for op_tuning_cfg in op_wise_tuning_iter:
                 stage1_cnt += 1
                 if early_stop_tuning and stage1_cnt > stage1_max:
                     logger.info("Early stopping the stage 1.")
                     break
                 op_tuning_cfg['calib_sampling_size'] = calib_sampling_size
-                yield op_tuning_cfg
-                
-                # Fallback all recipe ops
-                if stage1_cnt == 1:        
-                    logger.debug("Fallback recipe ops to fp32.")
-                    recipe_sampler = RecipeTuningSampler(tuning_space, [], deepcopy(op_tuning_cfg),
-                                                        self.framework, self.capability['recipe_ops'], self.cfg)
-                    for recipe_tuning_cfg in recipe_sampler:
-                        recipe_tuning_cfg['calib_sampling_size'] = calib_sampling_size
-                        yield recipe_tuning_cfg
+                yield op_tuning_cfg     
                         
             # Fallback the ops supported both static and dynamic from static to dynamic
             # Tuning items: None
