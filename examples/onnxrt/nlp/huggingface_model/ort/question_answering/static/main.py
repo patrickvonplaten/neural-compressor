@@ -278,14 +278,14 @@ class ONNXRTSquadDataset(CalibrationDataReader):
         self._process_dataset()
     
     def _process_dataset(self):
-        self.label = []
         self.onnx_inputs = []
         for inputs in self.dataset:
-            onnx_inputs = {key: np.array([inputs[key]]) for key in self.onnx_input_names if key in inputs}
-            self.onnx_inputs.append(onnx_inputs)
+            input_dict = {key: np.array([inputs[key]]) for key in self.onnx_input_names if key in inputs}
+            self.onnx_inputs.append(input_dict)
+        self.enum_data_dicts = iter(self.onnx_inputs)
 
     def get_next(self):
-        return next(self.onnx_inputs, None)
+        return next(self.enum_data_dicts, None)
 
 def main():
     # We now keep distinct sets of args, for a cleaner separation of concerns.
