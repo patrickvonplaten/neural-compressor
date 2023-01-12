@@ -11,17 +11,17 @@ function init_params {
   for var in "$@"
   do
     case $var in
-      --config=*)
-          config=$(echo $var |cut -f2 -d=)
-      ;;    
       --input_model=*)
           input_model=$(echo $var |cut -f2 -d=)
       ;;
       --output_model=*)
           output_model=$(echo $var |cut -f2 -d=)
       ;;
-      --data_path=*)
-          data_path=$(echo $var |cut -f2 -d=)
+      --dataset_location=*)
+          dataset_location=$(echo $var |cut -f2 -d=)
+      ;;
+      --quant_format=*)
+          quant_format=$(echo $var |cut -f2 -d=)
       ;;
     esac
   done
@@ -79,46 +79,16 @@ function run_tuning {
         num_heads=12
         hidden_size=384
     fi
-    if [[ "${input_model}" =~ "bert-base-cased" ]]; then
-        model_name_or_path="bert-base-cased-finetuned-mrpc"
-        TASK_NAME='mrpc'
-        num_heads=12
-        hidden_size=384
-    fi
-    if [[ "${input_model}" =~ "xlnet-base-cased" ]]; then
-        model_name_or_path="Intel/xlnet-base-cased-mrpc"
-        TASK_NAME='mrpc'
-        num_heads=12
-        hidden_size=768
-    fi
-    if [[ "${input_model}" =~ "bert-mini" ]]; then
-        model_name_or_path="M-FAC/bert-mini-finetuned-mrpc"
-        TASK_NAME='mrpc'
-        num_heads=4
-        hidden_size=256
-    fi
-    if [[ "${input_model}" =~ "electra-small-discriminator" ]]; then
-        model_name_or_path="Intel/electra-small-discriminator-mrpc"
-        TASK_NAME='mrpc'
-        num_heads=4
-        hidden_size=256
-    fi
-    if [[ "${input_model}" =~ "bart-large" ]]; then
-        model_name_or_path="Intel/bart-large-mrpc"
-        TASK_NAME='mrpc'
-        num_heads=16
-        hidden_size=4096
-    fi
 
     python main.py \
             --model_name_or_path ${model_name_or_path} \
             --model_path ${input_model} \
             --output_model ${output_model} \
-            --config ${config} \
-            --data_path ${data_path} \
+            --data_path ${dataset_location} \
             --task ${TASK_NAME} \
             --num_heads ${num_heads} \
             --hidden_size ${hidden_size} \
+            --quant_format ${quant_format} \
             --tune
 }
 
