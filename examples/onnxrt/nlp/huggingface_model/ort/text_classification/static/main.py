@@ -432,7 +432,8 @@ if __name__ == "__main__":
 
         dr = ONNXRTBertDatasetForINC(data_dir=args.data_path, 
                                      model_name_or_path=args.model_name_or_path, 
-                                     augmented_model_path=args.model_name_or_path.split('/')[-1] + '-optimized.onnx',) 
+                                     augmented_model_path=args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
+                                     task=args.task) 
         quantize_static(args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
                         args.output_model,
                         dr,

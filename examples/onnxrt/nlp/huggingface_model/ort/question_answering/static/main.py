@@ -497,6 +497,8 @@ def main():
             optimization_options=opt_options)
         model = model_optimizer.model
 
+        onnx.save(model, model_args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
+
         info = {}
         for node in model.graph.node:
             if node.op_type not in info:
