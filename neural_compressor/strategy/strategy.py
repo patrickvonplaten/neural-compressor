@@ -170,6 +170,8 @@ class TuneStrategy(object):
         self.best_qmodel = None
         self.cur_best_acc = self.initial_best_acc() # track the current best accuracy
         self.cur_best_tuning_cfg = {} # track tuning cfg with the current best accuracy
+        
+        self.enable_updating_best_cfg = True
 
         self.capability = self.adaptor.query_fw_capability(model)
         logger.debug(self.capability)
@@ -252,7 +254,8 @@ class TuneStrategy(object):
             self.last_qmodel = self.algo()
             assert self.last_qmodel
             self.last_tune_result = self._evaluate(self.last_qmodel)
-            self.cur_best_acc, self.cur_best_tuning_cfg = self.update_best_op_tuning_cfg(op_tuning_cfg)
+            if self.enable_updating_best_cfg:
+                self.cur_best_acc, self.cur_best_tuning_cfg = self.update_best_op_tuning_cfg(op_tuning_cfg)
             need_stop = self.stop(self.cfg.tuning.exit_policy.timeout, trials_count)
 
             # record the tuning history
