@@ -122,7 +122,7 @@ class BasicTuneStrategy(TuneStrategy):
             logger.debug("Fallback recipe ops to fp32.")
             recipe_sampler = RecipeTuningSampler(tuning_space, [], deepcopy(op_tuning_cfg),
                                                  self.framework, self.capability['recipe_ops'], self.cfg)
-            self.enable_updating_best_cfg = False
+            # self.enable_updating_best_cfg = False
             for op_tuning_cfg in recipe_sampler:
                 op_tuning_cfg['calib_sampling_size'] = calib_sampling_size
                 yield op_tuning_cfg
@@ -137,7 +137,7 @@ class BasicTuneStrategy(TuneStrategy):
                     break
                 op_tuning_cfg['calib_sampling_size'] = calib_sampling_size
                 yield op_tuning_cfg     
-                        
+ 
             # Fallback the ops supported both static and dynamic from static to dynamic
             # Tuning items: None
             if self.cfg.quantization.approach == 'post_training_auto_quant':
