@@ -409,24 +409,31 @@ if __name__ == "__main__":
             evaluator(args.mode)
 
     if args.tune:
-        from onnxruntime.transformers import optimizer
-        from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
-        opt_options = BertOptimizationOptions('bert')
-        opt_options.enable_embed_layer_norm = False
+        if args.model_name_or_path != 'Intel/bart-large-mrpc':
+            from onnxruntime.transformers import optimizer
+            from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
+            opt_options = BertOptimizationOptions('bert')
+            opt_options.enable_embed_layer_norm = False
 
-        model_optimizer = optimizer.optimize_model(
-            args.model_path,
-            'bert',
-            num_heads=args.num_heads,
-            hidden_size=args.hidden_size,
-            optimization_options=opt_options)
-        model = model_optimizer.model
-        onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
+            model_optimizer = optimizer.optimize_model(
+                args.model_path,
+                'bert',
+                num_heads=args.num_heads,
+                hidden_size=args.hidden_size,
+                optimization_options=opt_options)
+            model = model_optimizer.model
+            onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
 
-        ortq.quantize_dynamic(
-                args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
-                args.output_model,
-        )
+            ortq.quantize_dynamic(
+                    args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
+                    args.output_model,
+            )
+        else:
+            ortq.quantize_dynamic(
+                    args.model_path,
+                    args.output_model,
+            )
+            
         print('save ortq dynamic quantize model to', args.output_model)
         print('model which meet accuracy goal.')
         if os.path.exists(args.model_name_or_path.split('/')[-1] + '-optimized.onnx'):
