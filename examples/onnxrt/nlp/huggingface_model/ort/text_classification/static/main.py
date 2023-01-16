@@ -331,7 +331,8 @@ if __name__ == "__main__":
                 'distilbert-base-uncased-finetuned-sst-2-english',
                 'Alireza1044/albert-base-v2-sst2',
                 'philschmid/MiniLM-L6-H384-uncased-sst2',
-                'Intel/MiniLM-L12-H384-uncased-mrpc'],
+                'Intel/MiniLM-L12-H384-uncased-mrpc',
+                'Intel/bart-large-mrpc'],
         help="pretrained model name or path"
     )
     parser.add_argument(
@@ -392,7 +393,7 @@ if __name__ == "__main__":
             shape = []
             for i in range(len(input_tensors)):
                 shape.append((1, 128))
-            dummy_dataset = DummyDataset(shape=shape, low=1, high=1, dtype='int64', label=True)
+            dummy_dataset = DummyDataset(shape=shape, low=2, high=2, dtype='int64', label=True)
             dummy_dataloader = DefaultDataLoader(dummy_dataset, args.batch_size)
             
             from neural_compressor.benchmark import fit
@@ -410,31 +411,31 @@ if __name__ == "__main__":
         from onnxruntime.transformers import optimizer
         from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
         from static_dataloader import ONNXRTBertDatasetForINC
-        opt_options = BertOptimizationOptions('bert')
-        opt_options.enable_embed_layer_norm = False
+#         opt_options = BertOptimizationOptions('bert')
+#         opt_options.enable_embed_layer_norm = False
 
-        model_optimizer = optimizer.optimize_model(
-            args.model_path,
-            'bert',
-            num_heads=args.num_heads,
-            hidden_size=args.hidden_size,
-            optimization_options=opt_options)
-        model = model_optimizer.model
-        info = {}
-        for node in model.graph.node:
-            if node.op_type not in info:
-                info[node.op_type] = 1
-            else:
-                info[node.op_type] += 1
-        print(info)
+#         model_optimizer = optimizer.optimize_model(
+#             args.model_path,
+#             'bert',
+#             num_heads=args.num_heads,
+#             hidden_size=args.hidden_size,
+#             optimization_options=opt_options)
+#         model = model_optimizer.model
+#         info = {}
+#         for node in model.graph.node:
+#             if node.op_type not in info:
+#                 info[node.op_type] = 1
+#             else:
+#                 info[node.op_type] += 1
+#         print(info)
         
-        onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
+#         onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
 
         dr = ONNXRTBertDatasetForINC(data_dir=args.data_path, 
                                      model_name_or_path=args.model_name_or_path, 
-                                     augmented_model_path=args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
+                                     augmented_model_path=args.model_path,
                                      task=args.task) 
-        quantize_static(args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
+        quantize_static(args.model_path,
                         args.output_model,
                         dr,
                         quant_format=QuantFormat.QOperator,
