@@ -815,7 +815,14 @@
       "input_model": "/tf_dataset2/models/onnx/hf_bert-base-multilingual-cased_dynamic/bert-base-multilingual-cased-finetuned-squad.onnx",
       "main_script": "main.py",
       "batch_size": 1
-    }
+    },
+    "hf_bart-large_ort_static": {
+      "model_src_dir": "nlp/huggingface_model/ort/text_classification/static",
+      "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
+      "input_model": "/tf_dataset2/models/onnx/hf_bart-large_dynamic/bart_large.onnx",
+      "main_script": "main.py",
+      "batch_size": 8
+    },
   }
 }
 
