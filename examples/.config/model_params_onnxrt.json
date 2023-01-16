@@ -1193,7 +1193,7 @@
     "hf_bart-large_dynamic": {
       "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
       "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
-      "input_model": "/tf_dataset2/models/onnx/hf_bart-large_dynamic/bart-large-mrpc.onnx",
+      "input_model": "/tf_dataset2/models/onnx/hf_bart-large_dynamic/bart_large.onnx",
       "yaml": "glue_dynamic.yaml",
       "strategy": "basic",
       "batch_size": 1,
@@ -1202,7 +1202,7 @@
     "hf_bart-large_static": {
       "model_src_dir": "nlp/huggingface_model/text_classification/quantization/ptq",
       "dataset_location": "/tf_dataset/pytorch/glue_data/MRPC",
-      "input_model": "/tf_dataset2/models/onnx/hf_bart-large_dynamic/bart-large-mrpc.onnx",
+      "input_model": "/tf_dataset2/models/onnx/hf_bart-large_dynamic/bart_large.onnx",
       "yaml": "bart-large_static.yaml",
       "strategy": "basic",
       "batch_size": 1,
