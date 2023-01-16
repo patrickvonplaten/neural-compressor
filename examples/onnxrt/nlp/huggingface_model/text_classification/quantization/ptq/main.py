@@ -409,18 +409,21 @@ if __name__ == "__main__":
             evaluator(args.mode)
 
     if args.tune:
-        from onnxruntime.transformers import optimizer
-        from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
-        opt_options = BertOptimizationOptions('bert')
-        opt_options.enable_embed_layer_norm = False
+        if args.model_name_or_path != 'Intel/bart-large-mrpc':
+            from onnxruntime.transformers import optimizer
+            from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
+            opt_options = BertOptimizationOptions('bert')
+            opt_options.enable_embed_layer_norm = False
 
-        model_optimizer = optimizer.optimize_model(
-            args.model_path,
-            'bert',
-            num_heads=args.num_heads,
-            hidden_size=args.hidden_size,
-            optimization_options=opt_options)
-        model = model_optimizer.model
+            model_optimizer = optimizer.optimize_model(
+                args.model_path,
+                'bert',
+                num_heads=args.num_heads,
+                hidden_size=args.hidden_size,
+                optimization_options=opt_options)
+            model = model_optimizer.model
+        else:
+            model = onnx.load(args.model_path)
 
         from neural_compressor import options
         from neural_compressor.experimental import Quantization, common
@@ -431,3 +434,4 @@ if __name__ == "__main__":
         quantize.calib_dataloader = dataloader
         q_model = quantize()
         q_model.save(args.output_model)
+          
