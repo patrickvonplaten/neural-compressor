@@ -822,7 +822,7 @@
       "input_model": "/tf_dataset2/models/onnx/hf_bart-large_dynamic/bart_large.onnx",
       "main_script": "main.py",
       "batch_size": 8
-    },
+    }
   }
 }
 
