@@ -47,6 +47,7 @@ class BasicTuneStrategy(TuneStrategy):
         super().__init__(model, conf, q_dataloader, q_func, eval_dataloader, 
                          eval_func, dicts, q_hooks)
         self.acc_meet_flag = False
+        self.acc_direction = True
 
     def next_tune_cfg(self):
         """Generate and yield the next tuning config with below order.
@@ -83,6 +84,7 @@ class BasicTuneStrategy(TuneStrategy):
             yield op_tuning_cfg
             
         # conservative tuning
+        self.acc_direction = False
         tune_cfg = self._initialize_tune_cfg()
         tune_cfg['calib_sampling_size'] = calib_sampling_size
         op_type_priority = self._get_op_type_priority()
@@ -189,7 +191,7 @@ class BasicTuneStrategy(TuneStrategy):
             # Dump the current state to log
             self._dump_tuning_state(trials_count, self.last_tune_result, self.best_tune_result, self.baseline)
             # Judge stop or continue tuning
-            need_stop = self.stop(trials_count)
+            need_stop = self.stop(self.cfg.tuning.exit_policy.timeout, trials_count)
             # Record the tuning history
             saved_tune_cfg = copy.deepcopy(tune_cfg)
             saved_last_tune_result = copy.deepcopy(self.last_tune_result)
@@ -216,7 +218,7 @@ class BasicTuneStrategy(TuneStrategy):
                     self._dump_tuning_process_statistics()
                 break
 
-    def stop(self, trials_count):
+    def stop(self, timeout, trials_count):
         """Check whether needed to stop the traverse procedure.
 
         Args:
@@ -228,6 +230,11 @@ class BasicTuneStrategy(TuneStrategy):
         need_stop = False
         if trials_count >= self.cfg.tuning.exit_policy.max_trials:
             need_stop = True
+        elif timeout == 0:
+            if self.acc_direction and self.acc_meet_flag:
+                need_stop = True
+            elif not self.acc_direction and not self.acc_meet_flag:
+                need_stop = True
         return need_stop
             
     def _compare_performace(self, last_tune_result, best_tune_result): # pragma: no cover
