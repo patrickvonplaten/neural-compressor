@@ -81,7 +81,7 @@ function run_benchmark {
         model_name_or_path="Intel/electra-small-discriminator-mrpc"
         TASK_NAME='mrpc'
     fi
-    if [[ "${input_model}" =~ "bart-large" ]]; then
+    if [[ "${input_model}" =~ "bart_large" ]]; then
         model_name_or_path="Intel/bart-large-mrpc"
         TASK_NAME='mrpc'
     fi
