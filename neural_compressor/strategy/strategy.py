@@ -151,6 +151,8 @@ class TuneStrategy(object):
         self.re_quant = False
 
         self.capability = self.adaptor.query_fw_capability(model)
+        if 'recipe_ops' not in self.capability:
+            self.capability['recipe_ops'] = {}
         logger.debug(self.capability)
         self.set_tuning_space(conf)
 
