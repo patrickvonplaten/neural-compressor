@@ -233,8 +233,8 @@ class BasicTuneStrategy(TuneStrategy):
         elif timeout == 0:
             if self.acc_direction and self.acc_meet_flag:
                 need_stop = True
-            elif not self.acc_direction and not self.acc_meet_flag:
-                need_stop = True
+            # elif not self.acc_direction and not self.acc_meet_flag:
+            #     need_stop = True
         return need_stop
             
     def _compare_performace(self, last_tune_result, best_tune_result): # pragma: no cover
