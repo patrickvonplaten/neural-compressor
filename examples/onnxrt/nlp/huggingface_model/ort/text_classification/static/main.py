@@ -412,6 +412,7 @@ if __name__ == "__main__":
     if args.tune:
         from onnxruntime.transformers import optimizer
         from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
+        from onnxruntime.transformers.fusion_options import FusionOptions
         from static_dataloader import ONNXRTBertDatasetForINC
         
         if args.model_name_or_path != 'Intel/bart-large-mrpc':
@@ -444,10 +445,20 @@ if __name__ == "__main__":
                             quant_format=QuantFormat.QOperator,
                             )
         else:
+            opt_options = FusionOptions('bart')
+            opt_options.enable_embed_layer_norm = False
+            model_optimizer = optimizer.optimize_model(
+                args.model_path,
+                'bart',
+                num_heads=args.num_heads,
+                hidden_size=args.hidden_size,
+                optimization_options=opt_options)
+            model = model_optimizer.model
+            onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
             dr = ONNXRTBertDatasetForINC(data_dir=args.data_path, 
                                          model_name_or_path=args.model_name_or_path, 
-                                         augmented_model_path=args.model_path,) 
-            quantize_static(args.model_path,
+                                         augmented_model_path=args.model_name_or_path.split('/')[-1] + '-optimized.onnx',) 
+            quantize_static(args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
                             args.output_model,
                             dr,
                             quant_format=QuantFormat.QOperator,
