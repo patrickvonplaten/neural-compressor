@@ -578,17 +578,28 @@ def main():
     if model_args.tune:
         from onnxruntime.transformers import optimizer
         from onnxruntime.transformers.onnx_model_bert import BertOptimizationOptions
+        from onnxruntime.transformers.fusion_options import FusionOptions
         
-        opt_options = BertOptimizationOptions('bert')
-        opt_options.enable_embed_layer_norm = False
-
-        model_optimizer = optimizer.optimize_model(
-            model_args.model_path,
-            'bert',
-            num_heads=model_args.num_heads,
-            hidden_size=model_args.hidden_size,
-            optimization_options=opt_options)
-        model = model_optimizer.model
+        if model_args.model_name_or_path == 'Intel/bart-large-mrpc':
+            opt_options = FusionOptions('bart')
+            opt_options.enable_embed_layer_norm = False
+            model_optimizer = optimizer.optimize_model(
+                args.model_path,
+                'bart',
+                num_heads=args.num_heads,
+                hidden_size=args.hidden_size,
+                optimization_options=opt_options)
+            model = model_optimizer.model
+        else:
+            opt_options = BertOptimizationOptions('bert')
+            opt_options.enable_embed_layer_norm = False
+            model_optimizer = optimizer.optimize_model(
+                model_args.model_path,
+                'bert',
+                num_heads=model_args.num_heads,
+                hidden_size=model_args.hidden_size,
+                optimization_options=opt_options)
+            model = model_optimizer.model
 
         if model_args.model_name_or_path == 'deepset/xlm-roberta-large-squad2':
             os.mkdir('./' + model_args.model_name_or_path.split('/')[-1])
