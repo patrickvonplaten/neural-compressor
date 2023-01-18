@@ -429,8 +429,18 @@ if __name__ == "__main__":
                     args.output_model,
             )
         else:
+            opt_options = FusionOptions('bart')
+            opt_options.enable_embed_layer_norm = False
+            model_optimizer = optimizer.optimize_model(
+                args.model_path,
+                'bart',
+                num_heads=args.num_heads,
+                hidden_size=args.hidden_size,
+                optimization_options=opt_options)
+            model = model_optimizer.model
+            onnx.save(model, args.model_name_or_path.split('/')[-1] + '-optimized.onnx')
             ortq.quantize_dynamic(
-                    args.model_path,
+                    args.model_name_or_path.split('/')[-1] + '-optimized.onnx',
                     args.output_model,
             )
             
