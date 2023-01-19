@@ -152,6 +152,8 @@ class TuneStrategy(object):
 
         self.capability = self.adaptor.query_fw_capability(model)
         logger.debug(self.capability)
+        self._stats_ops_lst = ['matmul', 'conv', 'linear']
+        self._op_stats_helper()
         self.set_tuning_space(conf)
 
         self.algo = AlgorithmScheduler(self.cfg.quantization.recipes)
@@ -212,6 +214,8 @@ class TuneStrategy(object):
         trials_count = 0
         traverse_start_time = time()
         for op_tuning_cfg in self.next_tune_cfg():
+            self._quantized_op_stats_helper(op_tuning_cfg)
+            self._dump_op_stats()
             tuning_start_time = time()
             tune_cfg = self._tune_cfg_converter(op_tuning_cfg)
             trials_count += 1
@@ -494,6 +498,8 @@ class TuneStrategy(object):
                                for x in calib_sampling_size_lst]
         else:
             self.calib_iter = 1
+            
+        self._op_stats_helper()
         # create tuning space
         adaptor_cap = {
             'calib': {'calib_sampling_size': calib_sampling_size_lst},
@@ -502,6 +508,62 @@ class TuneStrategy(object):
         self.tuning_space = TuningSpace(adaptor_cap, conf=conf, framework=self.framework)
         logger.debug(self.tuning_space.root_item.get_details())
 
+    def _quantized_op_stats_helper(self, op_tuning_cfg):
+        """Quantized Op stats"""
+        self.quantized_op_stats_result = {}
+        for op_name in self._stats_ops_lst:
+            self.quantized_op_stats_result['quantized_' + op_name] = 0
+            self.quantized_op_stats_result['quantized_' + op_name + '_lst'] = []
+        for op_info, op_cfg in op_tuning_cfg.items():
+            if not isinstance(op_info, tuple):
+                continue
+            _, op_type = op_info
+            for target_op_type in self._stats_ops_lst:
+                if target_op_type in op_type.lower() and hasattr(op_cfg, 'op_quant_mode') \
+                    and op_cfg.op_quant_mode in ['static', 'dynamic']:
+                    key = 'quantized_' + target_op_type
+                    self.quantized_op_stats_result[key] += 1
+                    self.quantized_op_stats_result[key + '_lst'].append(op_info)
+        logger.debug("**** Quantized OP Stats ")
+        logger.debug(self.quantized_op_stats_result)
+        
+    def _op_stats_helper(self):
+        """Quantizable Op stats"""        
+        self.op_stats_result = {'quantizable_ops': 0, 'quantizable_ops_lst': []}
+        for op_name in self._stats_ops_lst:
+            self.op_stats_result[op_name] = 0
+            self.op_stats_result[op_name + "_lst"] = []
+        for op_info, op_cap_lst in self.capability['opwise'].items():
+            op_name, op_type = op_info
+            for op_cap in op_cap_lst:
+                if 'activation' in op_cap and op_cap['activation']['quant_mode'] in ['static', 'dynamic']:
+                    self.op_stats_result['quantizable_ops'] += 1
+                    self.op_stats_result['quantizable_ops_lst'].append(op_info)
+                    break
+            # For conv and matmul
+            for op_name in self._stats_ops_lst:
+                if op_name in op_type.lower():
+                    self.op_stats_result[op_name] += 1
+                    self.op_stats_result[op_name + '_lst'].append(op_info)
+        logger.debug("**** OP Stats ")
+        logger.debug(self.op_stats_result)
+        
+    def _dump_op_stats(self):
+        log_flag = '***_'
+        logger.debug(log_flag*5)
+        if not self.op_stats_result:
+            self.op_stats_result = OrderedDict()
+        if not self.quantized_op_stats_result:
+            self.quantized_op_stats_result = OrderedDict()
+        logger.debug(f"{log_flag}: total quantizable op number: {self.op_stats_result['quantizable_ops']}")
+        for op_name in self._stats_ops_lst:
+            logger.debug(f"{log_flag}: total {op_name} number: {self.op_stats_result[op_name]}")
+            logger.debug(f"{log_flag}: total quantized {op_name} number: {self.quantized_op_stats_result['quantized_' + op_name]}")
+        logger.debug("**** OP Stats ")
+        logger.debug(self.op_stats_result)
+        logger.debug("**** Quantized OP Stats ")
+        logger.debug(self.quantized_op_stats_result)
+        
     def setup_resume(self, resume):
         """Resume the best quantized model from tuning history.
 

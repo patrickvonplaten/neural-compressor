@@ -127,6 +127,8 @@ class ConservativeTuneStrategy(TuneStrategy):
         # Start tuning
         trials_count = 0
         for op_tuning_cfg in self.next_tune_cfg():
+            self._quantized_op_stats_helper(op_tuning_cfg)
+            self._dump_op_stats()
             tune_cfg = self._tune_cfg_converter(op_tuning_cfg)
             trials_count += 1
             tuning_history = self._find_tuning_history(tune_cfg)
