@@ -469,15 +469,23 @@ def main():
             optimization_options=opt_options)
         model = model_optimizer.model
 
-        from neural_compressor import quantization, PostTrainingQuantConfig
+        from neural_compressor import quantization
+        from neural_compressor.config import PostTrainingQuantConfig, TuningCriterion
         calib_dataset = SQuADDataset(eval_dataset, model, label_names=["start_positions", "end_positions"])
         fp32_op_names = None
         if model_args.model_name_or_path == 'mrm8488/spanbert-finetuned-squadv1':
             fp32_op_names = ['Gather_94', 'MatMul_660', 'MatMul_754', 'MatMul_848', 'MatMul_1036']
+            config = PostTrainingQuantConfig(approach='static',
+                                            op_name_list={op_name:FP32_CONFIG for op_name in fp32_op_names if fp32_op_names})
         elif model_args.model_name_or_path == 'salti/bert-base-multilingual-cased-finetuned-squad':
             fp32_op_names = ['MatMul_660', 'MatMul_566', 'Unsqueeze_91']
-        config = PostTrainingQuantConfig(approach='static',
-                                         op_name_list={op_name:FP32_CONFIG for op_name in fp32_op_names if fp32_op_names})
+            config = PostTrainingQuantConfig(approach='static',
+                                            op_name_list={op_name:FP32_CONFIG for op_name in fp32_op_names if fp32_op_names})
+        else:
+            tuning_criterion = TuningCriterion(max_trials=5000)
+            config = PostTrainingQuantConfig(approach='static',
+                                            quant_level=0,
+                                            tuning_criterion=tuning_criterion)
         q_model = quantization.fit(model, 
                                    config,
                                    eval_func=eval_func,
