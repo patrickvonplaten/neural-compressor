@@ -29,7 +29,7 @@ function run_tuning {
         model_name_or_path="mrm8488/spanbert-finetuned-squadv1"
         num_heads=12
         hidden_size=768
-    elif [[ "${input_model}" =~ "bert-base" ]]; then
+    elif [[ "${input_model}" =~ "bert-base-multilingual" ]]; then
         model_name_or_path="salti/bert-base-multilingual-cased-finetuned-squad"
         num_heads=12
         hidden_size=768
